@@ -1,0 +1,22 @@
+{
+  "activation_clip": 10.0,
+  "attention_gate": true,
+  "dim": 448,
+  "dropout": 0.0,
+  "ffn_dim": 1228,
+  "full_attention_every": 4,
+  "local_window": 256,
+  "max_seq_len": 2048,
+  "mtp_loss_weight": 0.0,
+  "mtp_offset": 2,
+  "n_heads": 7,
+  "n_kv_heads": 1,
+  "n_layers": 12,
+  "norm_eps": 1e-06,
+  "qk_norm": true,
+  "residual_select_every": 4,
+  "rope_fraction": 0.5,
+  "rope_theta": 10000.0,
+  "tie_embeddings": true,
+  "vocab_size": 16384
+}

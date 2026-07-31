@@ -1,0 +1,26 @@
+BarunLM-35M
+Copyright 2026 Harshal Singh
+
+The BarunLM source code and released model weights are licensed under the
+Apache License 2.0. Training datasets are not redistributed with this release
+and retain their own licenses and terms:
+
+- HuggingFaceTB/smollm-corpus (FineWeb-Edu and Cosmopedia v2), revision
+  3ba9d605774198c5868892d7a8deda78031a781f: ODC-By 1.0. FineWeb-derived
+  material is also subject to the applicable Common Crawl terms.
+- HuggingFaceTB/finemath (FineMath-4+), revision
+  e92b25a616738fe95dc186b64dfb19f9c8525594: ODC-By 1.0 and Common Crawl
+  terms of use.
+- mlfoundations/dclm-baseline-1.0-parquet, revision
+  817d6752765f6a41261085171dd546b104f60626: CC BY 4.0. The dataset card
+  describes DCLM-Baseline as a research baseline.
+- code-search-net/code_search_net (Python), revision
+  bd0cf261e357a3eb5c8fba490d23ec1a1cd59555: source repositories retain
+  their individual licenses.
+- codeparrot/codeparrot-clean, revision
+  35a59fb025bc0a102f7d96eac09d145b896d487b: source files retain the
+  repository-level licenses recorded by the dataset.
+
+Users are responsible for reviewing the upstream dataset cards and terms for
+their intended use. This notice is informational and does not replace those
+terms.

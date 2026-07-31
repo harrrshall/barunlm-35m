@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "model": {
+    "id": "harrrshall/BarunLM-35M",
+    "parameters": 35072768,
+    "training_tokens": 5699985408,
+    "checkpoint_sha256": "f2a7c88b9f2c2e3584809081407ab136795d82e30e89b730e007781c45d01447"
+  },
+  "protocol": {
+    "harness": "lm-eval==0.4.12",
+    "num_fewshot": 0,
+    "dtype": "bfloat16",
+    "seed": 1234,
+    "bootstrap_iterations": 10000,
+    "tasks": [
+      "arc_challenge",
+      "arc_easy",
+      "boolq",
+      "hellaswag",
+      "lambada_openai",
+      "openbookqa",
+      "piqa",
+      "sciq",
+      "winogrande"
+    ],
+    "decontamination": {
+      "method": "correctness-blind exact 13-token scan over the complete training history",
+      "training_tokens_scanned": 5700000000,
+      "excluded_samples": 1854
+    }
+  },
+  "results": {
+    "macro_accuracy": 0.4101019372910188,
+    "task_scores": {
+      "arc_challenge": 0.222990492653414,
+      "arc_easy": 0.38862761864044465,
+      "boolq": 0.5593303791235844,
+      "hellaswag": 0.2899662473151273,
+      "lambada_openai": 0.2450731707317073,
+      "openbookqa": 0.28,
+      "piqa": 0.5926950747094631,
+      "sciq": 0.5992115637319316,
+      "winogrande": 0.5130228887134964
+    }
+  },
+  "comparisons": [
+    {
+      "id": "LiquidAI/LFM2.5-230M-Base",
+      "revision": "9d2be5519834990d30996f878b6771cccbd24f2c",
+      "parameters": 229693184,
+      "macro_accuracy": 0.39197443061078113,
+      "barunlm_lead": 0.01812750668023767,
+      "barunlm_lead_ci95": [0.00919175854904696, 0.02710881312805468]
+    },
+    {
+      "id": "EleutherAI/pythia-160m-deduped",
+      "revision": "582159a2dfe3e712a8d47ae83dec95ae3bde8e7e",
+      "parameters": 162322944,
+      "macro_accuracy": 0.3734593023210671,
+      "barunlm_lead": 0.036642634969951675,
+      "barunlm_lead_ci95": [0.02735687681514485, 0.04598902006059502]
+    },
+    {
+      "id": "StentorLabs/Stentor-30M",
+      "revision": "6a69098f55961cc0df3a0751e44082616e4afdfa",
+      "parameters": 30419712,
+      "macro_accuracy": 0.3645857462123749,
+      "barunlm_lead": 0.045516191078643894,
+      "barunlm_lead_ci95": [0.03729788428965733, 0.05363598444691119]
+    },
+    {
+      "id": "roneneldan/TinyStories-33M",
+      "revision": "2ad0a164221b7c4d21cac7c46aec74f6f98dbfc8",
+      "parameters": 68514048,
+      "macro_accuracy": 0.33156687160177734,
+      "barunlm_lead": 0.07853506568924143,
+      "barunlm_lead_ci95": [0.0686233699582622, 0.08816152027826075],
+      "scope": "narrow-domain diagnostic"
+    },
+    {
+      "id": "EleutherAI/pythia-70m-deduped",
+      "revision": "e93a9faa9c77e5d09219f6c868bfc7a1bd65593c",
+      "parameters": 70426624,
+      "macro_accuracy": 0.3171108992671423,
+      "barunlm_lead": 0.09299103802387654,
+      "barunlm_lead_ci95": [0.08290362117614143, 0.10295299346141393]
+    }
+  ],
+  "evidence_sha256": {
+    "candidate_results": "0e0137bd990a6c0c0d8e12a53cd58dc7ab1faec928cecc5df630572deb13248e",
+    "peer_summary": "16ec0e53ac64e2bca9f4cf28be561ab8172d8a35bcc82cf6f810a288942054f4",
+    "lfm_pair_summary": "f3ba7d8c1ba50bc1fe34aaa546d3c4746a97f4526147a9d53127328fe2c60ee7"
+  }
+}
