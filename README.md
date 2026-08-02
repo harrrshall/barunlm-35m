@@ -1,5 +1,7 @@
 # BarunLM-35M
 
+> **[Read the whole training recipe](https://harrrshall.github.io/barunlm-35m/blog/)** — design rationale, architecture, data, and trade-offs, explained end to end.
+
 **The world's best language model under 100 million parameters**
 
 BarunLM-35M achieves **41.01%** on a fixed, decontaminated nine-task zero-shot benchmark at **35,072,768 parameters**. It outperforms **LFM2.5-230M-Base** by **1.81 percentage points** while using **6.55× fewer parameters**, leading every evaluated sub-100M base model under the same protocol.
