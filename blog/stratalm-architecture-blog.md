@@ -33,13 +33,21 @@ as the ones we chose to avoid.
 
 ![barunlm architecture](architecture.png)
 
-Twelve layers of width 448, grouped into three blocks of four. Every block
-repeats the same **3:1 rhythm**: three local-attention layers, then one
-full-attention anchor layer. A **residual selector** after each block decides
-how much of the output to keep. The skeleton is a familiar transformer: tokens
-embed, pass through attention and feed-forward blocks, and emerge as
-next-token probabilities. Everything interesting is in what barunlm changes
-about that skeleton.
+BarunLM consists of **12 transformer layers** with a hidden dimension of
+**448**, organized into **three blocks of four layers each**. Every block
+follows a consistent **3:1 attention pattern**: three local-attention layers
+followed by a single full-attention anchor layer. After each block, a
+**residual selector** adaptively determines how much of the block's output
+should be carried forward.
+
+At its core, the architecture remains a standard autoregressive transformer.
+Input tokens are embedded, processed through alternating attention and
+feed-forward layers, and finally projected into next-token probabilities.
+
+What makes BarunLM different is not the overall framework, but the refinements
+within it. The innovations lie in how attention is structured, how information
+flows between blocks, and the design choices that maximize capability while
+operating under a strict 35-million-parameter budget.
 
 
 
