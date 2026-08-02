@@ -113,15 +113,6 @@ body {
 
 .hero > * { position: relative; }
 
-.kicker {
-  font-family: var(--mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin: 0 0 1.5rem;
-}
-
 .hero h1 {
   font-family: var(--serif);
   font-weight: 500;
