@@ -7,18 +7,25 @@ transformers helps; nothing here requires research background.*
 
 ## Why build a 35M model?
 
-barunlm has exactly **35,072,768 parameters**. It trains on a single 24GB
-GPU with a 2,048-token context. On a frozen nine-task zero-shot suite, it
-scores **41.01%**, leading every other sub-100M base model we measured under
-the same protocol. The paired bootstrap interval for that lead lands entirely
-above zero, at **[+0.92, +2.71] points**.
+BarunLM has **35,072,768 parameters**. It is designed to train on a single
+**24 GB GPU** with a **2,048-token context window**. On a frozen nine-task
+zero-shot evaluation suite, it achieves **41.01% accuracy**, outperforming
+every other sub-100M base model we evaluated under the same protocol. The
+paired bootstrap confidence interval for this lead lies entirely above zero,
+at **+0.92 to +2.71 percentage points**, indicating a statistically
+significant improvement.
 
-Those numbers frame the question that drives this project: **how much
-capability can you squeeze out of almost no parameters?** At 35M, capability
-per parameter is the whole game, so every component has to earn its place,
-measured rather than assumed. What follows is what that discipline produced:
-the ideas that are genuinely different, the data that feeds them, and the
-trade-offs we made, along with the ones we didn't.
+These results motivate the central question behind BarunLM: **how much
+capability can be extracted from a model with only 35 million parameters?**
+
+At this scale, every parameter matters. There is no room for unnecessary
+complexity or architectural indulgence. Every design decision must justify
+its cost through measurable gains rather than intuition alone.
+
+The rest of this post explores the engineering decisions that made BarunLM
+possible: the architectural ideas that distinguish it, the data and training
+recipe that support them, and the trade-offs we intentionally made, as well
+as the ones we chose to avoid.
 
 
 
