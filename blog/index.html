@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A design deep-dive into the barunlm 35M-parameter architecture: the 3:1 attention rhythm, residual selection, data recipe, and inference trade-offs.">
+  <title>design of BarunLM</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <nav class="nav-inner" aria-label="Primary">
+      <a class="wordmark" href="#top">barunlm</a>
+      <div class="nav-links">
+        <a href="#why">Overview</a>
+        <a href="#architecture">Architecture</a>
+        <a href="#innovations">Innovations</a>
+        <a href="#data">Data</a>
+        <a href="#inference">Inference</a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="top">
+
+    <section class="hero">
+      <p class="kicker">Engineering note &nbsp;·&nbsp; Language models</p>
+      <h1>design of BarunLM</h1>
+      <p class="lede">A design deep-dive into a 35M-parameter architecture. Familiarity with transformers helps; nothing here requires research background.</p>
+      <p class="meta">
+        <span>August 2026</span>
+        <span>≈ 7 min read</span>
+        <span>Apache 2.0</span>
+      </p>
+
+      <svg class="layer-motif" viewBox="0 0 480 46" role="img" aria-label="Twelve layer bars; every fourth bar, the full-attention anchor layer, is highlighted." fill="none">
+        <line x1="0" y1="4" x2="480" y2="4"/>
+        <line x1="0" y1="7" x2="480" y2="7"/>
+        <line x1="0" y1="10" x2="480" y2="10"/>
+        <line class="anchor" x1="0" y1="13" x2="480" y2="13"/>
+        <line x1="0" y1="18" x2="480" y2="18"/>
+        <line x1="0" y1="21" x2="480" y2="21"/>
+        <line x1="0" y1="24" x2="480" y2="24"/>
+        <line class="anchor" x1="0" y1="27" x2="480" y2="27"/>
+        <line x1="0" y1="32" x2="480" y2="32"/>
+        <line x1="0" y1="35" x2="480" y2="35"/>
+        <line x1="0" y1="38" x2="480" y2="38"/>
+        <line class="anchor" x1="0" y1="41" x2="480" y2="41"/>
+      </svg>
+
+      <div class="stats">
+        <div class="stat">
+          <span class="num">35,072,768</span>
+          <span class="label">Parameters</span>
+        </div>
+        <div class="stat">
+          <span class="num">41.01%</span>
+          <span class="label">Zero-shot macro</span>
+        </div>
+        <div class="stat">
+          <span class="num">2,048</span>
+          <span class="label">Token context</span>
+        </div>
+        <div class="stat">
+          <span class="num">5.7B</span>
+          <span class="label">Training tokens</span>
+        </div>
+      </div>
+    </section>
+
+    <article class="article">
+
+      <section class="section" id="why">
+        <h2><span class="no">01</span>Why build a 35M model?</h2>
+
+        <p>barunlm has exactly <strong>35,072,768 parameters</strong>. It trains on a single 24GB GPU with a 2,048-token context. On a frozen nine-task zero-shot suite, it scores <strong>41.01%</strong>, leading every other sub-100M base model we measured under the same protocol. The paired bootstrap interval for that lead lands entirely above zero, at <strong>[+0.92, +2.71] points</strong>.</p>
+
+        <p>Those numbers frame the question that drives this project: <strong>how much capability can you squeeze out of almost no parameters?</strong> At 35M, capability per parameter is the whole game, so every component has to earn its place, measured rather than assumed. What follows is what that discipline produced: the ideas that are genuinely different, the data that feeds them, and the trade-offs we made, along with the ones we didn't.</p>
+      </section>
+
+      <section class="section" id="architecture">
+        <h2><span class="no">02</span>Architecture overview</h2>
+
+        <figure class="figure">
+          <img src="assets/architecture.png" alt="barunlm architecture diagram">
+        </figure>
+
+        <p>Twelve layers of width 448, grouped into three blocks of four. Every block repeats the same <strong>3:1 rhythm</strong>: three local-attention layers, then one full-attention anchor layer. A <strong>residual selector</strong> after each block decides how much of the output to keep. The skeleton is a familiar transformer: tokens embed, pass through attention and feed-forward blocks, and emerge as next-token probabilities. Everything interesting is in what barunlm changes about that skeleton.</p>
+      </section>
+
+      <section class="section" id="innovations">
+        <h2><span class="no">03</span>Key architectural innovations</h2>
+
+        <h3>1. The attention system: a 3:1 local/global rhythm</h3>
+
+        <p>Attention is where a token decides which other tokens matter to it. barunlm's central idea is a fixed <strong>3:1 rhythm</strong>: three local-attention layers that each see a 256-token window, then one full-attention layer that sees the entire sequence.</p>
+
+        <p>Most of what predicts the next token is nearby: syntax, morphology, adjacent lines of code. Local attention handles that cheaply and at a bounded cache size. But some things are not nearby. A pronoun refers to a name from the opening paragraph. An API definition lives much earlier in the file. With local attention alone, that information degrades through repeated local compression. The periodic full layer is the guaranteed "zoom out and check the whole map" moment, a scheduled global information exchange that prevents local-only information loss by construction.</p>
+
+        <p>Three supporting decisions keep the rhythm cheap. <strong>Grouped-query attention</strong> runs seven query heads against one shared key/value head, cutting the KV cache 7x. <strong>Partial RoPE</strong> rotates only half of each head's channels, keeping position and content in separate subspaces at zero parameter cost. Two stabilizers protect BF16 training. <strong>QK-norm</strong> pins query and key scale so attention doesn't saturate. An <strong>output gate</strong>, a sigmoid projection that scales the attention result channel by channel, lets a layer decline an irrelevant update. The gate is the one supporting decision we tested removing. It was 2.3% faster, but 17.6% worse in perplexity, so it stays.</p>
+
+        <h3>2. Bounded SwiGLU, and why no experts</h3>
+
+        <p>Feed-forward layers are where most of a transformer's computation happens. barunlm uses <strong>SwiGLU</strong> instead of a plain MLP: a multiplicative gate that buys more expressivity per parameter, at width 1,228. The distinctive part is the <strong>bound</strong>. Gate values are capped above 10, and the linear branch is clamped to [-10, 10]. BF16 training is wrecked by extreme outlier activations, so bounding preserves SwiGLU's expressivity while keeping training stable.</p>
+
+        <p>We also skipped <strong>Mixture-of-Experts</strong>. MoE routes tokens to subsets of experts, which at 35M parameters means most weights sit idle behind routes that never see enough training. A small model can't afford under-used weights. Dense layers mean every parameter sees every token, every time.</p>
+
+        <h3>3. The residual selector: a learned "skip if unhelpful" path</h3>
+
+        <p>After each four-layer block, the model RMS-normalizes the block's input and output, scores both with a tiny linear layer, softmaxes the two scores, and returns their convex combination. The model literally learns <strong>how much of each block to keep</strong>. It can bypass a block that didn't help and let the pre-block representation flow through.</p>
+
+        <p>This is a cheap safety valve for depth: a four-layer block is <em>allowed</em> to fail without corrupting the whole stack. It costs 1,344 parameters. Removing it sped training 5.3% under Muon but worsened perplexity by 1.2%, so it's kept in the quality reference model and disabled in the fast, slightly-lower-quality variant.</p>
+
+        <h3>4. The tokenizer</h3>
+
+        <p>Choosing the tokenizer turned out to be surprisingly important. We train a <strong>16,384-token byte-level BPE</strong> on the exact pretraining mixture. Byte-level means code, Unicode, and formulas never hit an unknown token. Small matters because a large vocabulary would outsize the network at width 448. Input and output embeddings are <strong>tied</strong>, sharing one table, which saves 7.3M parameters and regularizes rare tokens.</p>
+      </section>
+
+      <section class="section" id="data">
+        <h2><span class="no">04</span>Data and training philosophy</h2>
+
+        <p>A 35M model can't brute-force knowledge with width. It has to learn patterns efficiently, which makes <strong>data quality the highest-leverage decision in the project.</strong></p>
+
+        <h3>Capacity-aligned pretraining</h3>
+
+        <p>Training used <strong>5,699,985,408 tokens</strong>, or roughly <strong>162 tokens for every parameter</strong>. That ratio is deliberate. Small models are data-hungry: they lack the capacity to compress broad knowledge, so they need a lot of clean signal to learn structure. The token budget was matched to the model's capacity. Not more, which wastes compute. Not less, which underfits.</p>
+
+        <h3>The mixture</h3>
+
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Source</th>
+              <th>Share</th>
+              <th>What it is</th>
+              <th>Why it's there</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>FineWeb-Edu (deduplicated)</td>
+              <td>50%</td>
+              <td>High-quality educational web pages</td>
+              <td>Broad factual base</td>
+            </tr>
+            <tr>
+              <td>Cosmopedia v2</td>
+              <td>20%</td>
+              <td>Synthetic textbook-style text</td>
+              <td>Repairs web fragmentation; coherent exposition</td>
+            </tr>
+            <tr>
+              <td>FineMath-4+</td>
+              <td>20%</td>
+              <td>High-quality math with reasoning chains</td>
+              <td>Teaches long, step-by-step deduction</td>
+            </tr>
+            <tr>
+              <td>Documented Python (CodeSearchNet)</td>
+              <td>10%</td>
+              <td>Code paired with docstrings</td>
+              <td>Formal structure; intent matched to implementation</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>Data synthesis: why generate text you could just scrape?</h3>
+
+        <p>Web text is fragmented. Prose interleaves with boilerplate, navigation, and half-finished thoughts. A small model trained on that learns to reproduce the fragmentation: it starts sentences it doesn't finish.</p>
+
+        <p><strong>Cosmopedia v2 is the antidote.</strong> It's generated by prompting a much larger, capable model to write complete educational passages: textbooks, stories, explanations, quizzes, across thousands of topics and reading levels. The result is text with a beginning, middle, and end.</p>
+
+        <p>The reasoning is simple. A small model learns by imitation, so the teacher's writing quality is a ceiling on the student's. Synthesis lets us manufacture the coherent signal the web doesn't reliably provide, and tune its content deliberately instead of accepting whatever the web happens to contain.</p>
+
+        <h3>Cleaning before training</h3>
+
+        <p>Every token gets cleaned before admission: cross-stage deduplication, quality filtering, document-level held-out hashing so evaluation samples that leak into training can be detected, and tokenization on the exact mixture. The reported results excluded 1,854 samples found by a correctness-blind exact 13-token scan over the full training history. The model was evaluated on data it provably never saw.</p>
+
+        <h3>Optimization</h3>
+
+        <p>We ended up with a hybrid optimizer. <strong>Muon</strong> handles the large weight matrices, while <strong>AdamW</strong> updates embeddings and normalization parameters. We evaluated Muon honestly against a full-AdamW run at the same peak learning rate: it improved perplexity by 0.6% but reduced throughput by 5.0%. So it stays as the reference optimizer, since the quality gain matters at this scale, while AdamW remains the practical speed option. The learning rate follows 5% warmup, an 80% plateau, then 15% cosine decay to 10% of peak.</p>
+
+        <h3>The objective: next-token prediction, and the feature we rejected</h3>
+
+        <p>We kept pretraining deliberately simple: plain <strong>causal next-token cross-entropy</strong>. The interesting decision is what we tried and removed. An early candidate added a <strong>multi-token prediction (MTP)</strong> head that also predicted the token two positions ahead, weighted at 0.2. Removing it improved perplexity by <strong>3.0%</strong>, throughput by <strong>12.8%</strong>, and peak memory by <strong>11.2%</strong>. At this scale the extra head was wasted capacity; one clean objective trained better. MTP pays off at much larger scale, and the philosophy here is that every technique must earn its keep at 35M parameters, not at someone else's.</p>
+
+        <h3>Regularization</h3>
+
+        <p>Regularization comes from deduplication, tied embeddings, weight decay 0.1, gradient clipping at 1.0, and bounded activations. <strong>Dropout is zero on purpose</strong>: the 5.7B-token stream dwarfs the model, so the train/validation gap is small by construction, and dropout would only slow learning and muddy throughput. It stays configurable in case a longer run shows a real gap.</p>
+      </section>
+
+      <section class="section" id="inference">
+        <h2><span class="no">05</span>Inference trade-offs</h2>
+
+        <p>The 3:1 rhythm is a memory strategy as much as a quality one. The honest headline: it's a <em>memory</em> win, not yet a <em>speed</em> win.</p>
+
+        <p>During generation, a model has to remember previous tokens' keys and values, the KV cache. GQA already cuts it 7x. Nine of twelve layers retain at most 256 positions. Only the three anchor layers keep full history. At an 8,128-token prompt, the measured cache is <strong>6.83 MB</strong> versus <strong>24.97 MB</strong> for a dense GQA baseline, a <strong>3.7x reduction</strong>. That's exactly what long prompts and streaming inference need on a memory-limited GPU.</p>
+
+        <p>The speed side is less flattering. In median-of-three L4 timings, prefill was 6.9% slower and decode 32.8% slower than the dense baseline. The compiled attention dispatch, the three selector operations, and the output gate all carry fixed overhead, especially during one-token decode. Weights are BF16 in research; quantization is deferred until accuracy is established. Closing the wall-clock gap is ongoing work, and the gate and selector earn their quality costs, while MTP did not.</p>
+      </section>
+
+      <p class="closing">We are working on the post-training of this model to make it more useful. Stay tuned for more of these.</p>
+
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-mark">
+        <span class="wordmark">barunlm</span>
+        <span>Design note</span>
+      </div>
+      <p><em>barunlm is open-source (Apache 2.0). Weights, benchmark data, and code:
+      <a href="https://huggingface.co/harrrshall/BarunLM-35M">huggingface.co/harrrshall/BarunLM-35M</a> &middot; <a href="../benchmark_results.json">benchmark_results.json</a></em></p>
+    </div>
+  </footer>
+
+</body>
+</html>
