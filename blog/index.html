@@ -71,7 +71,7 @@
     <article class="article">
 
       <section class="section" id="why">
-        <h2><span class="no">01</span>Why build a 35M model?</h2>
+        <h2>Why build a 35M model?</h2>
 
         <p>barunlm has exactly <strong>35,072,768 parameters</strong>. It trains on a single 24GB GPU with a 2,048-token context. On a frozen nine-task zero-shot suite, it scores <strong>41.01%</strong>, leading every other sub-100M base model we measured under the same protocol. The paired bootstrap interval for that lead lands entirely above zero, at <strong>[+0.92, +2.71] points</strong>.</p>
 
@@ -79,7 +79,7 @@
       </section>
 
       <section class="section" id="architecture">
-        <h2><span class="no">02</span>Architecture overview</h2>
+        <h2>Architecture overview</h2>
 
         <figure class="figure">
           <img src="assets/architecture.png" alt="barunlm architecture diagram">
@@ -89,7 +89,7 @@
       </section>
 
       <section class="section" id="innovations">
-        <h2><span class="no">03</span>Key architectural innovations</h2>
+        <h2>Key architectural innovations</h2>
 
         <h3>1. The attention system: a 3:1 local/global rhythm</h3>
 
@@ -117,7 +117,7 @@
       </section>
 
       <section class="section" id="data">
-        <h2><span class="no">04</span>Data and training philosophy</h2>
+        <h2>Data and training philosophy</h2>
 
         <p>A 35M model can't brute-force knowledge with width. It has to learn patterns efficiently, which makes <strong>data quality the highest-leverage decision in the project.</strong></p>
 
@@ -190,7 +190,7 @@
       </section>
 
       <section class="section" id="inference">
-        <h2><span class="no">05</span>Inference trade-offs</h2>
+        <h2>Inference trade-offs</h2>
 
         <p>The 3:1 rhythm is a memory strategy as much as a quality one. The honest headline: it's a <em>memory</em> win, not yet a <em>speed</em> win.</p>
 
