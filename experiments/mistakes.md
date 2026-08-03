@@ -295,3 +295,22 @@ entries.
   and fails closed on any mismatch. The runner permits only the active non-symlink root `.venv`
   and still excludes it from the scientific tree; every other cache/environment directory remains
   forbidden. The full suite passes 423 tests before the new run is staged.
+
+## 2026-08-04 — Remote tests must not inherit a private workstation denylist implicitly
+
+- MBCF v2 attempt 1 correctly omitted the ignored private JarvisLabs denylist from its clean source
+  stage, but two tests called the production denylist loader without installing their existing
+  temporary fixture. The remote CPU gate therefore reported 146 passed, one skipped, and two
+  failed before parent-runner Torch import, model/CUDA access, or held-out reads. Production
+  remained correctly fail-closed; adding fallback resource IDs or uploading the private account
+  inventory would have weakened the safety boundary rather than fixed the tests.
+- Inject the temporary denylist only in tests that exercise later inventory behavior, and keep an
+  explicit regression proving the default production path raises when its private denylist is
+  unavailable. Before provisioning paid compute, execute the exact remote test allowlist from a
+  clean archive with the ignored private file absent; the corrected gate passes 150 tests with one
+  intentional skip.
+- A zero-signal failure does not by itself authorize a retry. V2 froze the complete source tree, so
+  changing `tests/test_jarvis_safe_run.py` invalidates its byte-identical ordinal-2 lane. Preserve
+  v2 as inconclusive infrastructure evidence and preregister v3 at ordinal 1 with a fresh config,
+  source snapshot, output directory, and H200. Never smuggle an undeclared environment dependency
+  into the old bytes to make a retry validator pass.

@@ -12,7 +12,7 @@ strict exact-match rate, but Qwen scored 663/756 and BarunAction scored 602/756,
 Qwen lead. Preserve candidate-v2 and its int8 derivative; do not tune this result away, relabel the
 SmolLM2 failure as a general win, or inspect the sealed 961-row Mobile evaluation population.
 
-## Execution status: v1 stopped before science; v2 is frozen
+## Execution status: v1 and v2 stopped before science; v3 is frozen
 
 The first Month-Boundary Counterfactual launch created fresh H200 **463786** and failed during
 JarvisLabs dependency resolution, before the experiment runner started. The PyTorch template
@@ -36,16 +36,34 @@ The probe script itself did not run because the deliberately minimal directory h
 metadata, so this proves only the provider runtime preamble. ID 463788 is pause-verified and
 protected.
 
-The current run is the new preregistration
-`20260804-0210-mobile-temporal-counterfactual-axolotl-s17`, not a v1 retry. Its frozen config is
-`configs/mobile_temporal_counterfactual_v2.json`, SHA-256
-`893a2e0ff59ccb98767af653d0f80745e32c05abc4620d3dfae3f277033f20b8`; its scientific
-projection is `d077effff172a4870ec1d8af2ee4e6b3b3fcf80a8b860eaf65eb5d0781942186`.
-The run binds Axolotl and CPython 3.11.10 before create, re-attests both on the fresh exact H200
-before upload, and permits only the active non-symlink repository-root `.venv` created by the
-provider. The provider environment stays outside the scientific tree. Hypothesis, data,
-materializations, arms, seeds, optimization, decoding, thresholds, gates, requirements, and the
-official-evaluation firewall are unchanged.
+Axolotl-bound v2 run `20260804-0210-mobile-temporal-counterfactual-axolotl-s17` then created fresh
+H200 **463793**. Exact H200, IN2, non-spot, Axolotl, and CPython 3.11.10 attestation passed before
+upload. The CPU-only validation stopped with 146 tests passed, one skipped, and two failed: both
+tests implicitly expected the private workstation denylist, which was intentionally absent from
+the clean source stage. Parent Torch was not imported; model/CUDA access, reused-756 reads/scores,
+and official-961 reads were zero; no held-out artifact exists. Managed run `r_2186968e` exited 1,
+and only exact ID 463793 was pause-verified at `2026-08-03T21:15:20.511416+00:00`.
+
+This is an inconclusive infrastructure failure with no scientific result. Raw lifecycle, remote
+log, bound attempt, source snapshot, validation log, launch receipt, and watchdog records are
+preserved in an ignored private subdirectory; the public run directory contains a redacted
+classification, pause proof, failure, validation receipt, and artifact manifest. The two affected
+tests now inject an explicit temporary denylist, while a new regression proves production still
+fails closed when the private denylist is absent. A clean no-private-denylist simulation passes
+150 remote tests with one intentional skip. Because the corrected test file changes the complete
+frozen source tree, v2 ordinal 2 is forbidden even though v2 had zero signal.
+
+The current run is the newly preregistered v3
+`20260804-0255-mobile-temporal-counterfactual-axolotl-hermetic-s17`, attempt ordinal 1. Its frozen
+config is `configs/mobile_temporal_counterfactual_v3.json`, SHA-256
+`e17f9ef0d755735ce14d66029706534a24145d51e89786aa92d3cd334760b22f`; its scientific projection
+is `f1705c38c064bef646a5814ee9f6cc6c652e9db3c6714e76ff65049fe65ed280`. Independent canonical
+comparison found that only `run_id` changed among all 32 scientific fields. V3 is a run revision;
+the wire/config schema intentionally remains `barun-mobile-temporal-counterfactual-v2`.
+Hypothesis, data, materializations, arms, seeds, optimization, decoding, thresholds, gates,
+requirements, Axolotl CPython 3.11.10 H200 compute contract, and official-evaluation firewall are
+unchanged. V3 requires a fresh clean source snapshot, output directory, and JarvisLabs instance;
+never resume or reuse 463793.
 
 ## Current release candidate
 
@@ -124,7 +142,7 @@ BarunAction misses 43 (72.9%) while Qwen misses seven (11.9%); all 43 BarunActio
 strong shortcut evidence, not causal proof. Map copying is lower priority: total query mismatches
 are nearly tied, 33 for BarunAction and 34 for Qwen.
 
-## Current experiment: Month-Boundary Counterfactual SFT v2
+## Current experiment: Month-Boundary Counterfactual SFT v3
 
 Do not launch generic hard-example oversampling, weighted-token loss, DPO, RL, distillation, or a
 learning-rate sweep. The previous calendar/map/multi-call hard mix fell to 566/756, while the new
@@ -153,9 +171,9 @@ calendar datetime by the same deterministic nonzero multiple of seven days. Reje
 ambiguous, numeric-date, same-day, multi-calendar, invalid, or overlength cases. No teacher output,
 paraphrase, outside text, reused 756 prompt, or official-evaluation material is allowed.
 
-The executable preregistration is `configs/mobile_temporal_counterfactual_v2.json`, full-file
-SHA-256 `893a2e0ff59ccb98767af653d0f80745e32c05abc4620d3dfae3f277033f20b8`; its separately checked
-scientific projection is `d077effff172a4870ec1d8af2ee4e6b3b3fcf80a8b860eaf65eb5d0781942186`.
+The executable preregistration is `configs/mobile_temporal_counterfactual_v3.json`, full-file
+SHA-256 `e17f9ef0d755735ce14d66029706534a24145d51e89786aa92d3cd334760b22f`; its separately checked
+scientific projection is `f1705c38c064bef646a5814ee9f6cc6c652e9db3c6714e76ff65049fe65ed280`.
 The frozen provider requirements remain byte-identical at
 `a037db0943d563ea04bcc45b963b5a27931e6f745a7f472c079bb9f9fa6df853`.
 Two independent local materializations were byte-identical. Construction produced 1,093 safe
@@ -207,9 +225,9 @@ reselection is allowed.
 1. W&B publication is complete: immutable float, Darwin ARM64 int8, and evidence `v0` artifacts,
    upload receipt, fresh 310-file redownload, and anonymous float-weight verification all passed.
    Finish the secret-scanned public source branch/release; do not include workspace data or weights.
-2. The Axolotl-bound v2 generator, duplicate firewall, evaluator, materialized hashes,
+2. The hermetic Axolotl-bound v3 generator, duplicate firewall, evaluator, materialized hashes,
    three-arm/three-seed budget, retry firewall, dependency-only environment, and exact-ID
-   lifecycle are frozen. The full repository suite passes 423 tests. The launch builder requires a
+   lifecycle are frozen. The full repository suite passes 425 tests. The launch builder requires a
    clean canonical Git HEAD, validates the complete staged preflight, permits only the six
    screening and two full-refit JSONLs plus the pinned reused-756 manifest and identical root
    requirements copy, and creates the source snapshot and attempt template without bytecode.
@@ -223,9 +241,10 @@ reselection is allowed.
 ## Resource and publication invariants
 
 Kroda 463058 is running and protected. Independently owned 463719 remains protected regardless of
-its observed lifecycle state. Qwen 463689, failed H200 evidence ID 463786, and L4 runtime probe ID
-463788 are paused and protected. Previously observed unrecognized ID 463697 remains protected even
-when absent from the latest listing. Do not access, resume, stop, rename, or delete any of them.
+its observed lifecycle state. Qwen 463689, failed H200 evidence IDs 463786 and 463793, and L4
+runtime probe ID 463788 are paused and protected. Previously observed unrecognized ID 463697
+remains protected even when absent from the latest listing. Do not access, resume, stop, rename, or
+delete any of them.
 Read the exact-ID lifecycle in `AGENTS.md` before creating a new resource. The
 current local orchestrator uses an open-lid `/usr/bin/caffeinate -i` assertion; it does not survive
 lid close, shutdown, power loss, or network loss.

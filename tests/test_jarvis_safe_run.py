@@ -167,6 +167,17 @@ def test_private_denylist_can_be_injected_and_fails_closed(
         module.permanent_protected_ids()
 
 
+def test_missing_default_private_denylist_fails_closed(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+) -> None:
+    module = load_safe_run()
+    monkeypatch.delenv(module.PROTECTED_RESOURCES_ENV, raising=False)
+    monkeypatch.setattr(module, "DEFAULT_PROTECTED_PATH", tmp_path / "missing-denylist.json")
+
+    with pytest.raises(module.SafetyError, match="denylist is unavailable"):
+        module.permanent_protected_ids()
+
+
 def test_attached_run_omits_fresh_instance_lifecycle_flags() -> None:
     module = load_safe_run()
     args = SimpleNamespace(
@@ -475,8 +486,11 @@ def test_attempt_inventory_binding_is_atomic_and_exact(
     assert module.load_json(record_path)["events"][-1]["event"] == "attempt_inventory_bound"
 
 
-def test_attempt_inventory_binding_rejects_denylist_drift(tmp_path: Path) -> None:
+def test_attempt_inventory_binding_rejects_denylist_drift(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
     module = load_safe_run()
+    inject_test_protected_resources(module, tmp_path, monkeypatch)
     target = tmp_path / "stage"
     target.mkdir()
     attempt_path = target / "attempt-preregistration.json"
@@ -1331,6 +1345,7 @@ def test_exact_axolotl_template_is_recorded_in_preupload_attestation(
     monkeypatch: pytest.MonkeyPatch, tmp_path: Path
 ) -> None:
     module = load_safe_run()
+    inject_test_protected_resources(module, tmp_path, monkeypatch)
     args = fresh_args(tmp_path)
     args.template = "axolotl"
     record = {**owned_record(), "events": []}

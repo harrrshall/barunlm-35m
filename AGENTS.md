@@ -65,19 +65,29 @@ hashes are `ae2739f5b8598a3382bf45908ee16c376f166940f0f181c84d7fa51adeac9982` an
 `54e5aaeaa6a321c53dd4c5c489e9af9738798a9c3651132f1860adef59431add`.
 Do not synthesize the missing remote essential artifact or call this a scientific rejection.
 
-The current preregistration is the new Axolotl-bound v2 run
-`20260804-0210-mobile-temporal-counterfactual-axolotl-s17`. Its executable config is
-`configs/mobile_temporal_counterfactual_v2.json`, full-file SHA-256
-`893a2e0ff59ccb98767af653d0f80745e32c05abc4620d3dfae3f277033f20b8`, with scientific-field
-projection `d077effff172a4870ec1d8af2ee4e6b3b3fcf80a8b860eaf65eb5d0781942186`.
-The hypothesis, data, A/B/C manifests, seeds 17/29/43, optimization, thresholds, gates,
-requirements hash `a037db0943d563ea04bcc45b963b5a27931e6f745a7f472c079bb9f9fa6df853`,
-and official firewall are unchanged. The run identity and compute contract changed: a fresh
-H200 must use exact template `axolotl` and CPython 3.11.10, both attested before upload. The
-provider-created root `.venv` is permitted only when it is the active, non-symlink interpreter
-environment and remains excluded from the scientific content tree. Compute, runtime, requirements,
-or attempt-contract mismatches must stop before upload. Source-tree or scientific-config mismatches
-must stop before model or CUDA access.
+Axolotl-bound v2 run `20260804-0210-mobile-temporal-counterfactual-axolotl-s17` created fresh
+H200 **463793** and passed exact hardware/runtime attestation, but its CPU-only gate stopped before
+parent-runner Torch import, model/CUDA, or held-out access: two tests implicitly depended on the
+intentionally private workstation denylist absent from the clean stage. The result was 146 passed,
+one skipped, and two failed. Exact ID 463793 was pause-verified; reused-756 and official-961 reads
+were zero. This is an inconclusive infrastructure failure, not a scientific rejection. Its raw evidence is
+preserved privately and its redacted classification and pause proof are under the v2 run directory.
+The corrected source cannot use v2 ordinal 2 because the frozen retry contract is byte-identical.
+
+The current preregistration is the new hermetic v3 run
+`20260804-0255-mobile-temporal-counterfactual-axolotl-hermetic-s17`. Its executable config is
+`configs/mobile_temporal_counterfactual_v3.json`, full-file SHA-256
+`e17f9ef0d755735ce14d66029706534a24145d51e89786aa92d3cd334760b22f`, with scientific-field
+projection `f1705c38c064bef646a5814ee9f6cc6c652e9db3c6714e76ff65049fe65ed280`.
+V3 is the run revision; its wire/config schema intentionally remains
+`barun-mobile-temporal-counterfactual-v2`.
+Only `run_id` changed among the 32 scientific fields; hypothesis, data, A/B/C manifests, seeds
+17/29/43, optimization, thresholds, gates, requirements hash
+`a037db0943d563ea04bcc45b963b5a27931e6f745a7f472c079bb9f9fa6df853`, compute contract, and
+official firewall are unchanged. Attempt ordinal is 1 on a fresh stage, output directory, and H200.
+Exact template `axolotl` and CPython 3.11.10 must be attested before upload. Compute, runtime,
+requirements, or attempt-contract mismatches stop before upload; source-tree or config mismatches
+stop before model or CUDA access.
 
 ## Decision order
 
@@ -139,11 +149,12 @@ The independently owned eight-H200 instance **463719**, named
 The previously observed unrecognized ID **463697** remains protected even when absent from a later
 live listing.
 
-Project evidence instances **463786** (the zero-signal H200 failure) and **463788** (the paused L4
-Axolotl runtime probe) are now durably protected too. Never resume, reuse, rename, stop, or delete
-either one. The L4 provider preamble proved Axolotl selected CPython 3.11.10, but the probe script
-itself did not run because the intentionally minimal directory had no project metadata; do not
-describe it as a successful model or scientific run.
+Project evidence instances **463689** (the paused Qwen comparison H200), **463786** (the v1
+zero-signal H200 failure), **463788** (the paused L4 Axolotl runtime probe), and **463793** (the v2
+pre-CUDA zero-signal H200 failure) are now durably protected too. Never resume, reuse, rename, stop,
+or delete any of them. The L4 provider preamble proved Axolotl selected CPython 3.11.10, but the
+probe script itself did not run because the intentionally minimal directory had no project
+metadata; do not describe it as a successful model or scientific run.
 
 ### Exact-ID lifecycle
 

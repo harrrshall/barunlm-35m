@@ -86,7 +86,7 @@ ATTEMPT_STATUS = (
     "scientific_fields_frozen_before_instance_creation_inventory_bound_after_fresh_creation_"
     "before_upload_and_model_or_cuda_loading"
 )
-KNOWN_PROTECTED_JARVIS_IDS = frozenset({463058, 463689, 463697, 463719, 463786, 463788})
+KNOWN_PROTECTED_JARVIS_IDS = frozenset({463058, 463689, 463697, 463719, 463786, 463788, 463793})
 FROZEN_TOKEN_LENGTH_AUDIT = {
     "schema_version": "barun-mobile-temporal-token-length-audit-v1",
     "tokenizer_sha256": "70ded9605fccd09c2340ca7e225361eab0ae8b4dbbb0d6e26343ab5183979db6",
@@ -269,7 +269,7 @@ SCIENTIFIC_CONTRACT_FIELDS = (
     "claim_limits",
 )
 EXPECTED_SCIENTIFIC_CONTRACT_SHA256 = (
-    "d077effff172a4870ec1d8af2ee4e6b3b3fcf80a8b860eaf65eb5d0781942186"
+    "f1705c38c064bef646a5814ee9f6cc6c652e9db3c6714e76ff65049fe65ed280"
 )
 
 

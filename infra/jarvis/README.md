@@ -22,10 +22,12 @@ recorded as created by a Barun experiment is also protected by default.
 The running CPU instance Kroda, ID 463058, must remain uninterrupted. No project job may execute
 on it. Do not start a paused pre-existing instance to save setup time.
 
-## Month-Boundary Counterfactual v2 launch contract
+## Month-Boundary Counterfactual v3 launch contract
 
-The BarunAction-35M Month-Boundary Counterfactual v2 run has an exact provider-runtime contract.
-Its `safe_run.py run` invocation must include
+The active BarunAction-35M Month-Boundary Counterfactual v3 run has an exact provider-runtime
+contract. V2 stopped in the CPU-only test gate with zero model, CUDA, held-out, or official data
+access; its exact H200 ID 463793 is paused and protected. V3 is a new attempt-1 run on a fresh
+instance, not a v2 retry or a reuse of 463793. Its `safe_run.py run` invocation must include
 `--template axolotl --python-implementation CPython --python-version 3.11.10` together with the
 GPU, count, region, spot policy, and maximum runtime frozen in the attempt preregistration. These
 values are not advisory and must not silently fall back to another template or Python runtime.

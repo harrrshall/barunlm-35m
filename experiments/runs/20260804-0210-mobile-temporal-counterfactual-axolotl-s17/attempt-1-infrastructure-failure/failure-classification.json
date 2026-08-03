@@ -1,0 +1,58 @@
+{
+  "schema_version": "barun-mobile-temporal-infrastructure-failure-classification-v1",
+  "run_id": "20260804-0210-mobile-temporal-counterfactual-axolotl-s17",
+  "attempt_id": "20260804-0210-mobile-temporal-counterfactual-axolotl-s17-attempt-1",
+  "attempt_ordinal": 1,
+  "jarvis_machine_id": 463793,
+  "jarvis_run_id": "r_2186968e",
+  "classification": "inconclusive_infrastructure_failure_no_scientific_result",
+  "phase": "stdlib_prebackend_cpu_only_validation",
+  "cause": {
+    "failed_tests": 2,
+    "passed_tests": 146,
+    "skipped_tests": 1,
+    "summary": "Two tests implicitly depended on the intentionally private workstation denylist that was correctly absent from the clean remote source stage.",
+    "production_safety_behavior": "Missing private denylist data remains fail-closed.",
+    "corrective_change": "Inject a temporary denylist only in the two affected tests and add an explicit regression proving the default production path still fails closed.",
+    "archived_test_sha256": "bca76bea4c30871798a263492ddc3eb4b9f60d99f1814e0d9c2669d33ff3a309",
+    "corrected_test_sha256": "d82a26866753b3f01582532caee718bb87751e088603b775377de094e8eb06a5"
+  },
+  "scientific_signal": {
+    "usable_held_out_signals": 0,
+    "parent_torch_imported": false,
+    "model_loaded": false,
+    "cuda_accessed": false,
+    "reused_756_rows_read": 0,
+    "reused_756_rows_scored": 0,
+    "official_961_rows_read": 0,
+    "usable_held_out_artifacts": [],
+    "scientific_result": null
+  },
+  "retry_adjudication": {
+    "current_ordinal_2_authorized": false,
+    "reason": "The frozen retry contract requires the complete scientific source tree to remain byte-identical. The narrow hermetic test correction changes tests/test_jarvis_safe_run.py, so a v2 ordinal-2 retry would be invalid.",
+    "decision": "Supersede with a newly preregistered v3 run, attempt ordinal 1, a fresh source snapshot, fresh output directory, and fresh JarvisLabs H200. Never resume or reuse machine 463793."
+  },
+  "integrity": {
+    "scientific_config_sha256": "893a2e0ff59ccb98767af653d0f80745e32c05abc4620d3dfae3f277033f20b8",
+    "scientific_content_tree_sha256": "9c190a79e3c45acdcb65509af196bb978e2b6068ca8d86b75cea820182397583",
+    "artifact_manifest_sha256": "15d33165ebe75f29c3c629e4e8695372f0e7afbdba8d1f85e3a3e74436a5f456",
+    "failure_sha256": "f79117f9d17e3432fbfcf598516492d886ac00383ac191e07aede46ac90fb580",
+    "bound_attempt_preregistration_sha256": "e8b17a73601fca0d16d340cda22f1c1b01a091ee150e1b0207446b0668bcb126",
+    "source_snapshot_sha256": "56a537189ddf3612f17b7547bb3cc7c76dffdc1a06d6994c37558d4fd784dd43",
+    "pre_cuda_validation_sha256": "3a3f6c13c077ed162d0ae5b6229c2ce68182c305c3105343c08d3ec29e0755c1",
+    "pre_cuda_validation_log_sha256": "14ad3537446895771778610427d5efdbea88a59cce4cd620b6b125e64bd2650d",
+    "raw_lifecycle_sha256": "9f764c9cfb354775a13f2b9400b9bd1553a1688be8f1e4a44aeca49da74b1510",
+    "remote_log_sha256": "68763a81a46350765744ff9bdfe6d2dd4da251accfb2ea87ae515d21b3fc6876",
+    "essential_files": 5,
+    "essential_bytes": 63626
+  },
+  "lifecycle": {
+    "remote_exit_code": 1,
+    "final_instance_status": "Paused",
+    "pause_verified": true,
+    "pause_verified_at": "2026-08-03T21:15:20.511416+00:00",
+    "watchdog_disarmed_after_pause": true,
+    "preexisting_instances_mutated": []
+  }
+}
