@@ -29,6 +29,15 @@ model-and-recipe-specific and cannot support a general larger-model claim. A sep
 Mobile-plus-PRESTO rescue also found no joint passer. The exact handoff and next experiment are
 documented in `docs/current-status-and-next-experiment.md`.
 
+A later, independently replayed Month-Boundary Counterfactual SFT experiment taught a real but
+localized repair: across three seeds, the 35M intervention improved cross-month calendar-datetime
+exact by 31.82 points over standard SFT and 51.52 points over an equal-budget repeat control. It
+was not promoted. Overall gains were only 1.60 and 2.44 points versus a frozen 3-point minimum,
+same-month accuracy regressed 2.49 points versus the repeat control, schema validity was one output
+short of 99%, and two of 3,072 outputs truncated. The gate stopped before confirmation, full
+refit, reused-756 scoring, or any official-961 access; no checkpoint was retained. This negative
+result is preserved because the targeted success does not override the complete product gate.
+
 The candidate-v2 float, Darwin ARM64 int8, and evidence bundles are publicly available as
 immutable W&B `v0` artifacts. For example:
 

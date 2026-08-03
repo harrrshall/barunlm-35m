@@ -33,6 +33,7 @@ jarvis.json
 infra/jarvis/protected-resources.json
 infra/jarvis/protected-resources.local.json
 experiments/runs/20260804-0210-mobile-temporal-counterfactual-axolotl-s17/attempt-1-infrastructure-failure/private/
+experiments/runs/20260804-0255-mobile-temporal-counterfactual-axolotl-hermetic-s17/attempt-1-selection-gate-failure/private/
 # Private operational evidence can contain unrelated JarvisLabs account inventory.
 experiments/runs/20260803-2353-mobile-temporal-counterfactual-s17/attempt-1-infrastructure-failure/bound-attempt-preregistration.json
 experiments/runs/20260803-2353-mobile-temporal-counterfactual-s17/attempt-1-infrastructure-failure/jarvis-lifecycle.json

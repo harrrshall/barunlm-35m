@@ -314,3 +314,25 @@ entries.
   v2 as inconclusive infrastructure evidence and preregister v3 at ordinal 1 with a fresh config,
   source snapshot, output directory, and H200. Never smuggle an undeclared environment dependency
   into the old bytes to make a retry validator pass.
+
+## 2026-08-04 — A strong targeted repair is not a product-gate pass
+
+- Hermetic MBCF v3 completed all nine screening fits and independently replayed exactly, so its
+  rejection cannot be attributed to infrastructure. Counterfactual arm C improved cross-month
+  calendar-datetime exact by 31.82 points versus standard A and 51.52 points versus repeat B, yet
+  its overall gains were only 1.60 and 2.44 points against a frozen 3-point requirement. It also
+  exceeded the same-month loss ceiling versus B. Localized causal evidence is valuable, but it may
+  not substitute for the preregistered whole-product conjunction.
+- Exact rational values in the gate JSON are reduced fractions. The truncation rate appears there
+  as `1/1536`, but the pooled C population contains 2 truncations in 3,072 predictions. Report raw
+  counts from the comparison aggregate, not a reduced numerator/denominator as though it were the
+  evaluated sample count. C had 3,058/3,072 parse-valid and 3,041/3,072 schema-valid outputs; the
+  schema gate missed by one valid output.
+- The zero-weight evidence policy worked as intended. Because selection failed, confirmation,
+  full refit, reused-756, and official-961 access stayed at zero, and no optimizer, screening, or
+  promoted weight file entered the essential bundle. Do not rerun the recipe to recover a favorable
+  seed or reconstruct discarded checkpoints.
+- Retire both v3 shadow populations from later selection, preserve candidate-v2, and require a
+  genuinely distinct hypothesis with fresh leakage-controlled populations. The proposed Grounded
+  PlanIR direction must first prove unambiguous coverage and exact deterministic round trips before
+  any GPU training; it is not a relabeled MBCF rescue.

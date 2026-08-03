@@ -1,0 +1,92 @@
+{
+  "schema_version": "barun-mobile-temporal-independent-verification-v1",
+  "verified_at": "2026-08-03T22:15:13Z",
+  "verdict": "pass_faithful_selection_gate_failure",
+  "source_commit": "46fa37229206c331d4b3824dfa667d875d96288f",
+  "identity": {
+    "run_id": "20260804-0255-mobile-temporal-counterfactual-axolotl-hermetic-s17",
+    "attempt_id": "20260804-0255-mobile-temporal-counterfactual-axolotl-hermetic-s17-attempt-1",
+    "config_sha256": "e17f9ef0d755735ce14d66029706534a24145d51e89786aa92d3cd334760b22f",
+    "scientific_contract_sha256": "f1705c38c064bef646a5814ee9f6cc6c652e9db3c6714e76ff65049fe65ed280",
+    "source_snapshot_sha256": "b9502d0f0692ced75710d91ba8e2dac108075b33357a29b97e7964f434b20bf9",
+    "scientific_content_tree_sha256": "ebf5dd4f2ec78dc3ede3c7a61b2cf4430da1bdee1ac16cbe4bc0bedaeeed9cfe",
+    "bound_attempt_preregistration_sha256": "1d56c108704d1a802b5602fd43b1dc2c3306564bcda7012a0839b3d6d3faf7d3"
+  },
+  "artifact_integrity": {
+    "manifest_sha256": "d071d528f3234678763f4ca23081c973f1f6324e082e534d7abb652cc04381d2",
+    "declared_files": 145,
+    "verified_files": 145,
+    "declared_bytes": 17231542,
+    "verified_bytes": 17231542,
+    "missing_files": 0,
+    "extra_files": 0,
+    "size_mismatches": 0,
+    "sha256_mismatches": 0,
+    "optimizer_files": 0,
+    "screening_model_weight_files": 0,
+    "promoted_model_weight_files": 0
+  },
+  "replay": {
+    "fits": 9,
+    "predictions_replayed": 9216,
+    "sample_scores_reproduced": 9216,
+    "aggregate_files_reproduced": 9,
+    "temporal_subset_files_reproduced": 9,
+    "seeded_comparisons_reproduced": 2,
+    "selection_gate_reproduced": true,
+    "training_steps_verified": 930,
+    "training_row_presentations_verified": 58263,
+    "rejected_training_rows": 0
+  },
+  "candidate_c": {
+    "overall_ast_exact": {
+      "correct": 2526,
+      "total": 3072
+    },
+    "cross_month_datetime_exact": {
+      "correct": 123,
+      "total": 198
+    },
+    "same_month_datetime_exact": {
+      "correct": 644,
+      "total": 882
+    },
+    "non_calendar_ast_exact": {
+      "correct": 1816,
+      "total": 1992
+    },
+    "parse_valid": {
+      "correct": 3058,
+      "total": 3072
+    },
+    "schema_valid": {
+      "correct": 3041,
+      "total": 3072
+    },
+    "truncations": 2,
+    "missing_predictions": 0,
+    "generation_failures": 0,
+    "catastrophic_unauthorized_actions": 0
+  },
+  "gate": {
+    "selection_passed": false,
+    "confirmation_reached": false,
+    "conditional_full_refit_reached": false,
+    "reused_756_rows_read": 0,
+    "official_961_rows_read": 0,
+    "result_sha256": "8d2f898e38d6dd5500c724a71a86da2aab6bbf0138a28ab68d7446bd039caa7c",
+    "selection_gate_sha256": "3594d8a0a9cfcb8bab68c3c348cb952e41900ca12b54aae7535d707803b355b3",
+    "selection_comparisons_sha256": "9fb60382cc900cb88ebbffe050487cbef420b66df61b0438418d31ada470547d"
+  },
+  "lifecycle": {
+    "machine_id": 463802,
+    "managed_run_id": "r_fe346e61",
+    "managed_run_exit_code": 0,
+    "final_machine_status": "Paused",
+    "artifact_collection_succeeded": true,
+    "log_collection_succeeded": true,
+    "pause_verified": true,
+    "raw_lifecycle_sha256": "9372997a377dd472569c5514a8ce45b06183e110d000b377dee2f0be07d95cc0",
+    "remote_log_sha256": "8ade82c84781323f670330dfc8279b4ab3cf6337ad440d3edbefbd3ef4e56565"
+  }
+}

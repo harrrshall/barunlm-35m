@@ -22,15 +22,20 @@ recorded as created by a Barun experiment is also protected by default.
 The running CPU instance Kroda, ID 463058, must remain uninterrupted. No project job may execute
 on it. Do not start a paused pre-existing instance to save setup time.
 
-## Month-Boundary Counterfactual v3 launch contract
+## Month-Boundary Counterfactual v3 completed record
 
-The active BarunAction-35M Month-Boundary Counterfactual v3 run has an exact provider-runtime
-contract. V2 stopped in the CPU-only test gate with zero model, CUDA, held-out, or official data
-access; its exact H200 ID 463793 is paused and protected. V3 is a new attempt-1 run on a fresh
-instance, not a v2 retry or a reuse of 463793. Its `safe_run.py run` invocation must include
-`--template axolotl --python-implementation CPython --python-version 3.11.10` together with the
-GPU, count, region, spot policy, and maximum runtime frozen in the attempt preregistration. These
-values are not advisory and must not silently fall back to another template or Python runtime.
+BarunAction-35M Month-Boundary Counterfactual v3 completed on fresh exact H200 ID **463802**. Its
+managed run `r_fe346e61` exited zero after all nine screening fits, evidence and logs were collected,
+and the exact ID was pause-verified. The scientific selection gate rejected the recipe, so no
+checkpoint was promoted or preserved and no confirmation, full-refit, reused-756, or official-961
+evaluation was performed. ID 463802 is permanently protected and must never be resumed or reused.
+V2 exact ID 463793 remains paused and protected as a distinct zero-signal pre-CUDA failure.
+
+The successful v3 launch used the frozen provider contract
+`--template axolotl --python-implementation CPython --python-version 3.11.10` together with one
+non-spot H200 in IN2. These controls remain the reference pattern for a later preregistered run,
+but there is no active training launch. Any next experiment requires a new hypothesis, config,
+source snapshot, output directory, and fresh instance; do not treat v3 as retryable.
 
 When `--bind-attempt-inventory` is used, the controller validates the still-unbound attempt JSON
 before the pre-creation inventory or any instance creation. Its `prelaunch_inventory` fields must

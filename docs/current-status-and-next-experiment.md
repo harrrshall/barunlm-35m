@@ -11,8 +11,12 @@ plainly that the present larger-model-outperformance hypothesis failed. Candidat
 strict exact-match rate, but Qwen scored 663/756 and BarunAction scored 602/756, an 8.07-point
 Qwen lead. Preserve candidate-v2 and its int8 derivative; do not tune this result away, relabel the
 SmolLM2 failure as a general win, or inspect the sealed 961-row Mobile evaluation population.
+The valid temporal v3 experiment strongly corrected its targeted month-copy shortcut but failed
+the complete frozen selection gate, so it produced no promotable checkpoint. That recipe is
+closed. There is no active training run until a distinct Grounded PlanIR hypothesis, fresh
+populations, implementation, and immutable preregistration pass pre-model review.
 
-## Execution status: v1 and v2 stopped before science; v3 is frozen
+## Execution status: v1 and v2 stopped before science; v3 completed and was rejected
 
 The first Month-Boundary Counterfactual launch created fresh H200 **463786** and failed during
 JarvisLabs dependency resolution, before the experiment runner started. The PyTorch template
@@ -53,17 +57,34 @@ fails closed when the private denylist is absent. A clean no-private-denylist si
 150 remote tests with one intentional skip. Because the corrected test file changes the complete
 frozen source tree, v2 ordinal 2 is forbidden even though v2 had zero signal.
 
-The current run is the newly preregistered v3
-`20260804-0255-mobile-temporal-counterfactual-axolotl-hermetic-s17`, attempt ordinal 1. Its frozen
-config is `configs/mobile_temporal_counterfactual_v3.json`, SHA-256
+Hermetic v3 run `20260804-0255-mobile-temporal-counterfactual-axolotl-hermetic-s17`, attempt
+ordinal 1, completed on fresh JarvisLabs H200 **463802**. Its immutable config remains
+`configs/mobile_temporal_counterfactual_v3.json`, SHA-256
 `e17f9ef0d755735ce14d66029706534a24145d51e89786aa92d3cd334760b22f`; its scientific projection
-is `f1705c38c064bef646a5814ee9f6cc6c652e9db3c6714e76ff65049fe65ed280`. Independent canonical
-comparison found that only `run_id` changed among all 32 scientific fields. V3 is a run revision;
-the wire/config schema intentionally remains `barun-mobile-temporal-counterfactual-v2`.
-Hypothesis, data, materializations, arms, seeds, optimization, decoding, thresholds, gates,
-requirements, Axolotl CPython 3.11.10 H200 compute contract, and official-evaluation firewall are
-unchanged. V3 requires a fresh clean source snapshot, output directory, and JarvisLabs instance;
-never resume or reuse 463793.
+is `f1705c38c064bef646a5814ee9f6cc6c652e9db3c6714e76ff65049fe65ed280`. Managed run
+`r_fe346e61` exited zero after all nine A/B/C screening fits. The recursive essential bundle and
+remote log were collected before exact ID 463802 was pause-verified at
+`2026-08-03T22:04:56.393070+00:00`. The controller observed one H200, IN2, non-spot, Axolotl,
+CPython 3.11.10, BF16, PyTorch 2.13.0+cu130, and CUDA 13.0 exactly as frozen.
+
+The scientific selection gate failed. Across three seeds, C achieved 2,526/3,072 overall AST
+exact, compared with 2,477 for standard A and 2,451 for equal-budget repeat B. Cross-month
+calendar-datetime exact was 123/198 for C, 60/198 for A, and 21/198 for B: C passed the targeted
+minimum with +31.82 and +51.52 percentage-point gains. The full conjunction rejected C because
+its overall gains were only +1.60 and +2.44 points versus the required +3.00; its same-month
+calendar loss versus B was 2.49 points, above the 2-point ceiling; schema validity was
+3,041/3,072, one valid output short of 99%; and two outputs truncated when zero were allowed.
+Parse validity passed at 3,058/3,072. Missing predictions, generation failures, and catastrophic
+unauthorized actions were all zero.
+
+Independent verification rehashed all 145 essential payloads and 17,231,542 bytes, replayed all
+9,216 predictions through the frozen scorer, reproduced every sample score, aggregate, temporal
+subset, comparison, and the failed gate, and verified all 930 optimizer steps. The result is a
+valid scientific rejection, not an infrastructure failure. Confirmation, conditional full refit,
+reused-756 compatibility scoring, and official-961 evaluation were not reached. The evidence
+bundle contains zero optimizer, screening-weight, or promoted-weight files. Candidate-v2 remains
+the release checkpoint. Never retry or rescue v3, change its thresholds, choose a favorable seed,
+modify its frozen config, resume 463802, or reuse that machine.
 
 ## Current release candidate
 
@@ -142,109 +163,96 @@ BarunAction misses 43 (72.9%) while Qwen misses seven (11.9%); all 43 BarunActio
 strong shortcut evidence, not causal proof. Map copying is lower priority: total query mismatches
 are nearly tied, 33 for BarunAction and 34 for Qwen.
 
-## Current experiment: Month-Boundary Counterfactual SFT v3
+## Completed experiment: Month-Boundary Counterfactual SFT v3
 
-Do not launch generic hard-example oversampling, weighted-token loss, DPO, RL, distillation, or a
-learning-rate sweep. The previous calendar/map/multi-call hard mix fell to 566/756, while the new
-paired analysis isolates missing temporal counterevidence. The current experiment asks:
+V3 answered its causal development question: repeating transformed temporal information, rather
+than merely repeating the same rows, produced a large and replicated cross-month improvement. It
+did not answer the product question because the gain was too localized and the hard conjunction
+failed.
 
-> Does teacher-free SFT that decorrelates `NOW`'s month from the requested calendar month remove
-> the month-copy shortcut, beyond the effect of merely repeating the same source rows?
+| Frozen selection measure | A: standard | B: repeat | C: MBCF | C difference |
+| --- | ---: | ---: | ---: | ---: |
+| Overall AST exact | 2,477/3,072 | 2,451/3,072 | 2,526/3,072 | +1.60 points vs A; +2.44 vs B |
+| Cross-month datetime exact | 60/198 | 21/198 | 123/198 | +31.82 points vs A; +51.52 vs B |
+| Same-month datetime exact | 651/882 | 666/882 | 644/882 | -0.79 points vs A; -2.49 vs B |
+| Non-calendar AST exact | 1,822/1,992 | 1,816/1,992 | 1,816/1,992 | -0.30 points vs A; tied with B |
 
-All screening arms start from canonical BarunLM-35M revision
-`ef3e483a9fd7d906ecf2a7929babeffaf82d1d16`, not candidate-v2: candidate-v2 has already seen all
-7,937 source rows and would contaminate the new shadow holdouts. Hash each existing connected
-component into 20 folds with `barun-mobile-temporal-shadow-split-v1`; folds 0--13 are construction,
-14--16 selection, and 17--19 confirmation. The frozen memberships are:
+C had the best pooled schema validity of the three arms, so the 99% miss does not show that MBCF
+uniquely damaged formatting. Twenty-six of C's 31 schema-invalid outputs were non-calendar. The
+two truncations were rare greedy runaways rather than evidence that ordinary gold outputs exceeded
+the 256-token generation allowance: frozen gold targets topped out at 195 tokens. These are useful
+diagnostics, but they do not change the rejection.
 
-| Role | Rows | Components | Calendar | Same month | Cross month | Membership SHA-256 |
-| --- | ---: | ---: | ---: | ---: | ---: | --- |
-| Construction | 5,745 | 3,722 | 2,070 | 1,686 | 384 | `b70f6dfe79cfe49792b6e6f5d414fd509c889d18101f75cd8df6d4e4f146c588` |
-| Selection | 1,024 | 752 | 360 | 294 | 66 | `b4191540878ec28c6819e08e0b390fbfd57eab836d3361727ad89862a46cf927` |
-| Confirmation | 1,168 | 831 | 450 | 377 | 73 | `519c22724873ee579d0f59be886cfc297088113bd1a297521b9ca280a79c35b9` |
+The v3 selection and confirmation memberships are retired from future model selection. Selection
+was observed; confirmation was not, but preserving it for another related variant would invite
+optional stopping. Any later analysis may describe v3; it may not authorize another v3 arm,
+threshold, seed, mixture, or checkpoint.
 
-Components are indivisible, so 72.4/12.9/14.7 is the deterministic result rather than a cosmetic
-70/15/15 row ratio. Generate at most one variant from each eligible same-month construction row:
-for explicit-only requests, move only `NOW` to the last day of the preceding month while leaving
-the request and target byte-identical; for pure-relative requests, shift `NOW` and the sole
-calendar datetime by the same deterministic nonzero multiple of seven days. Reject mixed,
-ambiguous, numeric-date, same-day, multi-calendar, invalid, or overlength cases. No teacher output,
-paraphrase, outside text, reused 756 prompt, or official-evaluation material is allowed.
+## Proposed next experiment: Grounded PlanIR
 
-The executable preregistration is `configs/mobile_temporal_counterfactual_v3.json`, full-file
-SHA-256 `e17f9ef0d755735ce14d66029706534a24145d51e89786aa92d3cd334760b22f`; its separately checked
-scientific projection is `f1705c38c064bef646a5814ee9f6cc6c652e9db3c6714e76ff65049fe65ed280`.
-The frozen provider requirements remain byte-identical at
-`a037db0943d563ea04bcc45b963b5a27931e6f745a7f472c079bb9f9fa6df853`.
-Two independent local materializations were byte-identical. Construction produced 1,093 safe
-pairs (748 explicit and 345 relative), so B and C each contain 6,838 rows and 109 batch-63
-optimizer steps. C contains
-1,477/3,163 cross-month calendar presentations (46.696%). The conditional full refit was also
-frozen in advance: 1,546 variants, 9,483 rows, 151 steps, and train SHA-256
-`0877a7db29989a2e824de907300aad63137c511b2c8fdaaa5597afe6f046b6fd`. Materialized data remain
-ignored local/remote experiment artifacts rather than source-release content.
+There is no active training experiment yet. The next recommended hypothesis changes the model's
+output decomposition rather than adjusting the failed temporal data mixture:
 
-Run exactly three arms at seeds 17, 29, and 43:
+> A 35M model will compile personal actions more accurately when it predicts a compact typed
+> semantic plan—tool, policy decision, input/context references, and symbolic temporal operators—
+> and a frozen deterministic compiler grounds that plan into canonical Action IR.
 
-- A, `standard`: the 5,745 construction rows once;
-- B, `repeat`: A plus unchanged repeats of every safely transformable source row; and
-- C, `mbcf`: A plus the paired month-boundary counterfactuals.
+The compiler must be fail-closed. It may use only the prompt, supplied context and tool schemas,
+reference timestamp/timezone, and the emitted plan. It may never inspect a gold label at runtime,
+guess an omitted semantic value, silently repair an invalid plan, or execute a real tool. The
+public API continues to return final Action IR plus validation evidence; PlanIR is an internal,
+versioned model/compiler contract.
 
-B and C must have identical source-ID sets, row counts, ordering policy, and optimizer steps. C
-versus B isolates new temporal information; C versus A measures practical gain. Freeze all
-materialized manifests, accepted/rejected receipts, tokenizer lengths, and hashes before CUDA or
-model loading. Preflight requires at least 1,000 safe variants and at least 45% cross-month calendar
-presentations. Use BF16, batch 63, one epoch, response-only cross-entropy, AdamW `1e-4`, betas
-0.9/0.95, epsilon `1e-8`, weight decay 0.1, clip 1.0, 12 warmup steps, cosine floor 0.1, maximum
-length 2,048, unconstrained greedy decoding, and final checkpoints only.
+Before any model or CUDA access:
 
-Selection is a hard conjunction. C must beat both A and B by at least 15 absolute points in mean
-cross-month calendar-datetime exact and three points in mean overall strict AST exact; at least two
-of three seed-matched comparisons must improve; same-month calendar and non-calendar exact may each
-lose at most two points; parse validity must be at least 99.5%, schema validity at least 99%, and
-failures, truncations, and catastrophic actions must be zero. Only then score confirmation once.
-Confirmation requires at least +10 cross-month points and +2 overall points versus both controls,
-the same regression/safety gates, and a one-sided 10,000-resample cluster-bootstrap fifth
-percentile above zero for the targeted endpoint.
+1. Derive a new component-disjoint train/selection/confirmation split only from the former v3
+   construction population, using a new frozen salt. The old selection, old confirmation,
+   reused-756, and official-961 populations remain forbidden.
+2. Freeze a PlanIR schema, grounding/reference-table format, compiler, evaluator, and duplicate
+   firewall. Require zero overlap by example, connected component, family, prompt-target pair,
+   entity source, and temporal construction.
+3. Require at least 95% of rows to be unambiguously representable and exact PlanIR-to-Action-IR
+   round trips for every included gold label. Exclusions are recorded, not coerced.
+4. Freeze three matched arms from canonical BarunLM-35M: A emits direct Action IR; B emits direct
+   Action IR with the same grounding table exposed to C; C emits typed PlanIR and uses the frozen
+   compiler. Use identical source IDs, presentations, seed set, optimization budget, and
+   unconstrained deterministic decoding.
 
-If confirmation passes, run one full-7,937-row C refit at predeclared seed 17. Score it once on the
-reused 756 only as a compatibility veto: at least 602 exact, 756 parse-valid, 755 schema-valid, zero
-failures/truncations/catastrophic actions, at least 25/59 cross-month datetimes correct versus the
-incumbent's 16/59, and no scenario more than two points below its candidate-v2 floor. No repair,
-retry, threshold change, seed choice, or arm switch may follow that score. Maximum budget is nine
-screening fits plus one final fit, with at most two byte-identical infrastructure retries and a
-30-GPU-minute job cap. If any gate fails, retain candidate-v2 and stop this recipe.
+The proposed selection conjunction is at least +3 points compiled AST exact versus A and B, at
+least +5 points row-level argument-value exact, positive seed-matched gains in at least two of
+three seeds, no action family or policy class more than two points worse, raw PlanIR parse validity
+at least 99.5%, emitted Action IR schema validity 100%, and zero truncations, missing outputs,
+generation failures, or catastrophic actions. Only a selection pass may read a once-only fresh
+confirmation, where the overall gain must remain at least +2 points versus both controls and the
+10,000-resample one-sided cluster-bootstrap fifth percentile must exceed zero.
 
-The 756-row result generated this hypothesis and cannot establish the new claim. The sealed 961
-rows remain unopened until weights, tokenizer, inference code, evaluator, and claims are frozen.
-If opened, it is a one-time final evaluation: no later training, threshold revision, arm switch, or
-reselection is allowed.
+Grounded PlanIR remains a proposal until the derivation code, round-trip audit, splits, exact
+budgets, thresholds, and immutable config are implemented, tested, and hash-frozen. A failed
+pre-model coverage/round-trip gate ends it without GPU spend. A failed model gate ends it without
+rescue. If it passes, compare it with a separately matched Qwen2.5-0.5B-Instruct PlanIR lane before
+any larger-model claim.
 
 ## Operational order from here
 
-1. W&B publication is complete: immutable float, Darwin ARM64 int8, and evidence `v0` artifacts,
-   upload receipt, fresh 310-file redownload, and anonymous float-weight verification all passed.
-   Finish the secret-scanned public source branch/release; do not include workspace data or weights.
-2. The hermetic Axolotl-bound v3 generator, duplicate firewall, evaluator, materialized hashes,
-   three-arm/three-seed budget, retry firewall, dependency-only environment, and exact-ID
-   lifecycle are frozen. The full repository suite passes 425 tests. The launch builder requires a
-   clean canonical Git HEAD, validates the complete staged preflight, permits only the six
-   screening and two full-refit JSONLs plus the pinned reused-756 manifest and identical root
-   requirements copy, and creates the source snapshot and attempt template without bytecode.
-3. Run the compute-heavy training and evaluation on one newly created, exact-ID-controlled,
-   non-spot JarvisLabs H200 using template `axolotl`. Safe-run must attest exact template and
-   CPython 3.11.10 before inventory binding or upload. Do not use or mutate any pre-existing
-   instance. Download the recursive `execution/essential` tree before pausing and verifying the
-   exact created ID.
-4. Preserve every outcome. Promote only through the frozen gate; otherwise keep candidate-v2.
+1. Keep candidate-v2 and its public W&B `v0` artifacts as the usable release. Import the verified
+   v3 negative result into public source evidence without predictions, private inventory, logs, or
+   credentials.
+2. Implement and test only the Grounded PlanIR representation, compiler, split firewall, oracle
+   round-trip audit, and matched-arm evaluator. Do not train while coverage or exact round-trip
+   correctness is unproven.
+3. Run the lightweight materialization and oracle audit on remote JarvisLabs compute after a clean
+   local source review. If the pre-model gate passes, preregister a new immutable run/config and
+   independently audit it before creating a fresh exact-ID-controlled instance.
+4. Use remote compute for model training and evaluation. Download evidence before pause-verifying
+   only the newly created ID. Preserve every outcome and promote only through the new frozen gate.
 
 ## Resource and publication invariants
 
 Kroda 463058 is running and protected. Independently owned 463719 remains protected regardless of
-its observed lifecycle state. Qwen 463689, failed H200 evidence IDs 463786 and 463793, and L4
-runtime probe ID 463788 are paused and protected. Previously observed unrecognized ID 463697
-remains protected even when absent from the latest listing. Do not access, resume, stop, rename, or
-delete any of them.
+its observed lifecycle state. Qwen 463689, failed H200 evidence IDs 463786 and 463793, completed
+v3 H200 evidence ID 463802, and L4 runtime probe ID 463788 are paused and protected. Previously
+observed unrecognized ID 463697 remains protected even when absent from the latest listing. Do not
+access, resume, stop, rename, or delete any of them.
 Read the exact-ID lifecycle in `AGENTS.md` before creating a new resource. The
 current local orchestrator uses an open-lid `/usr/bin/caffeinate -i` assertion; it does not survive
 lid close, shutdown, power loss, or network loss.

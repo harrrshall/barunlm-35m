@@ -1,0 +1,2126 @@
+{
+  "C_minus_A": {
+    "candidate": {
+      "pooled": {
+        "manifest_binding": {
+          "action_ir_evaluator_version": "action-ir-v1.0.0",
+          "cluster_and_subset_source": "joined_manifest_only",
+          "content_sha256": "cea80c9d01b491269787d10a6cb9377a3c0aaecdf37a003e80a6f62ec10be153",
+          "membership_sha256": "b4191540878ec28c6819e08e0b390fbfd57eab836d3361727ad89862a46cf927",
+          "mobile_actions_scorer_version": "barun-mobile-actions-score-v1",
+          "rows": 1024,
+          "sample_metrics_source": "recomputed_from_prediction_raw_with_frozen_mobile_scorer"
+        },
+        "sample_count": 3072,
+        "schema_version": "barun-mobile-temporal-score-v1",
+        "subset_names": [
+          "calendar_cross_month",
+          "calendar_same_month",
+          "non_calendar"
+        ],
+        "subsets": {
+          "calendar_cross_month": {
+            "ast_exact_match": {
+              "denominator": 198,
+              "numerator": 111,
+              "value": 0.5606060606060606
+            },
+            "catastrophic_unauthorized_action": {
+              "denominator": 198,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "cluster_count": 65,
+            "create_calendar_event_datetime_exact": {
+              "denominator": 198,
+              "numerator": 123,
+              "value": 0.6212121212121212
+            },
+            "forced_incorrect": {
+              "denominator": 198,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "generation_failure": {
+              "denominator": 198,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "missing_prediction": {
+              "denominator": 198,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "parse_valid": {
+              "denominator": 198,
+              "numerator": 198,
+              "value": 1.0
+            },
+            "raw_ast_exact_match": {
+              "denominator": 198,
+              "numerator": 111,
+              "value": 0.5606060606060606
+            },
+            "sample_count": 198,
+            "schema_valid": {
+              "denominator": 198,
+              "numerator": 197,
+              "value": 0.9949494949494949
+            },
+            "truncation": {
+              "denominator": 198,
+              "numerator": 0,
+              "value": 0.0
+            }
+          },
+          "calendar_same_month": {
+            "ast_exact_match": {
+              "denominator": 882,
+              "numerator": 599,
+              "value": 0.6791383219954649
+            },
+            "catastrophic_unauthorized_action": {
+              "denominator": 882,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "cluster_count": 264,
+            "create_calendar_event_datetime_exact": {
+              "denominator": 882,
+              "numerator": 644,
+              "value": 0.7301587301587301
+            },
+            "forced_incorrect": {
+              "denominator": 882,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "generation_failure": {
+              "denominator": 882,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "missing_prediction": {
+              "denominator": 882,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "parse_valid": {
+              "denominator": 882,
+              "numerator": 879,
+              "value": 0.9965986394557823
+            },
+            "raw_ast_exact_match": {
+              "denominator": 882,
+              "numerator": 599,
+              "value": 0.6791383219954649
+            },
+            "sample_count": 882,
+            "schema_valid": {
+              "denominator": 882,
+              "numerator": 878,
+              "value": 0.9954648526077098
+            },
+            "truncation": {
+              "denominator": 882,
+              "numerator": 1,
+              "value": 0.0011337868480725624
+            }
+          },
+          "non_calendar": {
+            "ast_exact_match": {
+              "denominator": 1992,
+              "numerator": 1816,
+              "value": 0.9116465863453815
+            },
+            "catastrophic_unauthorized_action": {
+              "denominator": 1992,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "cluster_count": 427,
+            "create_calendar_event_datetime_exact": {
+              "denominator": 0,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "forced_incorrect": {
+              "denominator": 1992,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "generation_failure": {
+              "denominator": 1992,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "missing_prediction": {
+              "denominator": 1992,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "parse_valid": {
+              "denominator": 1992,
+              "numerator": 1981,
+              "value": 0.9944779116465864
+            },
+            "raw_ast_exact_match": {
+              "denominator": 1992,
+              "numerator": 1816,
+              "value": 0.9116465863453815
+            },
+            "sample_count": 1992,
+            "schema_valid": {
+              "denominator": 1992,
+              "numerator": 1966,
+              "value": 0.9869477911646586
+            },
+            "truncation": {
+              "denominator": 1992,
+              "numerator": 1,
+              "value": 0.000502008032128514
+            }
+          },
+          "overall": {
+            "ast_exact_match": {
+              "denominator": 3072,
+              "numerator": 2526,
+              "value": 0.822265625
+            },
+            "catastrophic_unauthorized_action": {
+              "denominator": 3072,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "cluster_count": 752,
+            "create_calendar_event_datetime_exact": {
+              "denominator": 1080,
+              "numerator": 767,
+              "value": 0.7101851851851851
+            },
+            "forced_incorrect": {
+              "denominator": 3072,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "generation_failure": {
+              "denominator": 3072,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "missing_prediction": {
+              "denominator": 3072,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "parse_valid": {
+              "denominator": 3072,
+              "numerator": 3058,
+              "value": 0.9954427083333334
+            },
+            "raw_ast_exact_match": {
+              "denominator": 3072,
+              "numerator": 2526,
+              "value": 0.822265625
+            },
+            "sample_count": 3072,
+            "schema_valid": {
+              "denominator": 3072,
+              "numerator": 3041,
+              "value": 0.9899088541666666
+            },
+            "truncation": {
+              "denominator": 3072,
+              "numerator": 2,
+              "value": 0.0006510416666666666
+            }
+          }
+        }
+      }
+    },
+    "expected_seeds": [
+      17,
+      29,
+      43
+    ],
+    "manifest_binding": {
+      "action_ir_evaluator_version": "action-ir-v1.0.0",
+      "cluster_and_subset_source": "joined_manifest_only",
+      "content_sha256": "cea80c9d01b491269787d10a6cb9377a3c0aaecdf37a003e80a6f62ec10be153",
+      "membership_sha256": "b4191540878ec28c6819e08e0b390fbfd57eab836d3361727ad89862a46cf927",
+      "mobile_actions_scorer_version": "barun-mobile-actions-score-v1",
+      "rows": 1024,
+      "sample_metrics_source": "recomputed_from_prediction_raw_with_frozen_mobile_scorer"
+    },
+    "pairing": {
+      "gold_cluster_and_subset_identities_manifest_bound": true,
+      "sample_ids_matched": true,
+      "samples_per_seed": 1024
+    },
+    "reference": {
+      "pooled": {
+        "manifest_binding": {
+          "action_ir_evaluator_version": "action-ir-v1.0.0",
+          "cluster_and_subset_source": "joined_manifest_only",
+          "content_sha256": "cea80c9d01b491269787d10a6cb9377a3c0aaecdf37a003e80a6f62ec10be153",
+          "membership_sha256": "b4191540878ec28c6819e08e0b390fbfd57eab836d3361727ad89862a46cf927",
+          "mobile_actions_scorer_version": "barun-mobile-actions-score-v1",
+          "rows": 1024,
+          "sample_metrics_source": "recomputed_from_prediction_raw_with_frozen_mobile_scorer"
+        },
+        "sample_count": 3072,
+        "schema_version": "barun-mobile-temporal-score-v1",
+        "subset_names": [
+          "calendar_cross_month",
+          "calendar_same_month",
+          "non_calendar"
+        ],
+        "subsets": {
+          "calendar_cross_month": {
+            "ast_exact_match": {
+              "denominator": 198,
+              "numerator": 56,
+              "value": 0.2828282828282828
+            },
+            "catastrophic_unauthorized_action": {
+              "denominator": 198,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "cluster_count": 65,
+            "create_calendar_event_datetime_exact": {
+              "denominator": 198,
+              "numerator": 60,
+              "value": 0.30303030303030304
+            },
+            "forced_incorrect": {
+              "denominator": 198,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "generation_failure": {
+              "denominator": 198,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "missing_prediction": {
+              "denominator": 198,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "parse_valid": {
+              "denominator": 198,
+              "numerator": 196,
+              "value": 0.98989898989899
+            },
+            "raw_ast_exact_match": {
+              "denominator": 198,
+              "numerator": 56,
+              "value": 0.2828282828282828
+            },
+            "sample_count": 198,
+            "schema_valid": {
+              "denominator": 198,
+              "numerator": 195,
+              "value": 0.9848484848484849
+            },
+            "truncation": {
+              "denominator": 198,
+              "numerator": 0,
+              "value": 0.0
+            }
+          },
+          "calendar_same_month": {
+            "ast_exact_match": {
+              "denominator": 882,
+              "numerator": 599,
+              "value": 0.6791383219954649
+            },
+            "catastrophic_unauthorized_action": {
+              "denominator": 882,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "cluster_count": 264,
+            "create_calendar_event_datetime_exact": {
+              "denominator": 882,
+              "numerator": 651,
+              "value": 0.7380952380952381
+            },
+            "forced_incorrect": {
+              "denominator": 882,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "generation_failure": {
+              "denominator": 882,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "missing_prediction": {
+              "denominator": 882,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "parse_valid": {
+              "denominator": 882,
+              "numerator": 877,
+              "value": 0.9943310657596371
+            },
+            "raw_ast_exact_match": {
+              "denominator": 882,
+              "numerator": 599,
+              "value": 0.6791383219954649
+            },
+            "sample_count": 882,
+            "schema_valid": {
+              "denominator": 882,
+              "numerator": 872,
+              "value": 0.9886621315192744
+            },
+            "truncation": {
+              "denominator": 882,
+              "numerator": 1,
+              "value": 0.0011337868480725624
+            }
+          },
+          "non_calendar": {
+            "ast_exact_match": {
+              "denominator": 1992,
+              "numerator": 1822,
+              "value": 0.9146586345381527
+            },
+            "catastrophic_unauthorized_action": {
+              "denominator": 1992,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "cluster_count": 427,
+            "create_calendar_event_datetime_exact": {
+              "denominator": 0,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "forced_incorrect": {
+              "denominator": 1992,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "generation_failure": {
+              "denominator": 1992,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "missing_prediction": {
+              "denominator": 1992,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "parse_valid": {
+              "denominator": 1992,
+              "numerator": 1989,
+              "value": 0.9984939759036144
+            },
+            "raw_ast_exact_match": {
+              "denominator": 1992,
+              "numerator": 1822,
+              "value": 0.9146586345381527
+            },
+            "sample_count": 1992,
+            "schema_valid": {
+              "denominator": 1992,
+              "numerator": 1971,
+              "value": 0.9894578313253012
+            },
+            "truncation": {
+              "denominator": 1992,
+              "numerator": 0,
+              "value": 0.0
+            }
+          },
+          "overall": {
+            "ast_exact_match": {
+              "denominator": 3072,
+              "numerator": 2477,
+              "value": 0.8063151041666666
+            },
+            "catastrophic_unauthorized_action": {
+              "denominator": 3072,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "cluster_count": 752,
+            "create_calendar_event_datetime_exact": {
+              "denominator": 1080,
+              "numerator": 711,
+              "value": 0.6583333333333333
+            },
+            "forced_incorrect": {
+              "denominator": 3072,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "generation_failure": {
+              "denominator": 3072,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "missing_prediction": {
+              "denominator": 3072,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "parse_valid": {
+              "denominator": 3072,
+              "numerator": 3062,
+              "value": 0.9967447916666666
+            },
+            "raw_ast_exact_match": {
+              "denominator": 3072,
+              "numerator": 2477,
+              "value": 0.8063151041666666
+            },
+            "sample_count": 3072,
+            "schema_valid": {
+              "denominator": 3072,
+              "numerator": 3038,
+              "value": 0.9889322916666666
+            },
+            "truncation": {
+              "denominator": 3072,
+              "numerator": 1,
+              "value": 0.0003255208333333333
+            }
+          }
+        }
+      }
+    },
+    "schema_version": "barun-mobile-temporal-comparison-v1",
+    "subsets": {
+      "calendar_cross_month": {
+        "metrics": {
+          "ast_exact_match": {
+            "candidate_mean": {
+              "denominator": 66,
+              "numerator": 37,
+              "value": 0.5606060606060606
+            },
+            "mean_delta": {
+              "denominator": 18,
+              "numerator": 5,
+              "value": 0.2777777777777778
+            },
+            "paired_transition_counts": {
+              "both_correct": 39,
+              "both_incorrect": 70,
+              "candidate_only": 72,
+              "reference_only": 17
+            },
+            "per_seed": {
+              "17": {
+                "candidate": {
+                  "denominator": 33,
+                  "numerator": 17,
+                  "value": 0.5151515151515151
+                },
+                "delta": {
+                  "denominator": 66,
+                  "numerator": -1,
+                  "value": -0.015151515151515152
+                },
+                "reference": {
+                  "denominator": 66,
+                  "numerator": 35,
+                  "value": 0.5303030303030303
+                }
+              },
+              "29": {
+                "candidate": {
+                  "denominator": 22,
+                  "numerator": 13,
+                  "value": 0.5909090909090909
+                },
+                "delta": {
+                  "denominator": 33,
+                  "numerator": 16,
+                  "value": 0.48484848484848486
+                },
+                "reference": {
+                  "denominator": 66,
+                  "numerator": 7,
+                  "value": 0.10606060606060606
+                }
+              },
+              "43": {
+                "candidate": {
+                  "denominator": 33,
+                  "numerator": 19,
+                  "value": 0.5757575757575758
+                },
+                "delta": {
+                  "denominator": 11,
+                  "numerator": 4,
+                  "value": 0.36363636363636365
+                },
+                "reference": {
+                  "denominator": 33,
+                  "numerator": 7,
+                  "value": 0.21212121212121213
+                }
+              }
+            },
+            "positive_seed_count": 2,
+            "reference_mean": {
+              "denominator": 99,
+              "numerator": 28,
+              "value": 0.2828282828282828
+            },
+            "seed_count": 3
+          },
+          "create_calendar_event_datetime_exact": {
+            "candidate_mean": {
+              "denominator": 66,
+              "numerator": 41,
+              "value": 0.6212121212121212
+            },
+            "mean_delta": {
+              "denominator": 22,
+              "numerator": 7,
+              "value": 0.3181818181818182
+            },
+            "paired_transition_counts": {
+              "both_correct": 42,
+              "both_incorrect": 57,
+              "candidate_only": 81,
+              "reference_only": 18
+            },
+            "per_seed": {
+              "17": {
+                "candidate": {
+                  "denominator": 66,
+                  "numerator": 35,
+                  "value": 0.5303030303030303
+                },
+                "delta": {
+                  "denominator": 33,
+                  "numerator": -1,
+                  "value": -0.030303030303030304
+                },
+                "reference": {
+                  "denominator": 66,
+                  "numerator": 37,
+                  "value": 0.5606060606060606
+                }
+              },
+              "29": {
+                "candidate": {
+                  "denominator": 66,
+                  "numerator": 43,
+                  "value": 0.6515151515151515
+                },
+                "delta": {
+                  "denominator": 11,
+                  "numerator": 6,
+                  "value": 0.5454545454545454
+                },
+                "reference": {
+                  "denominator": 66,
+                  "numerator": 7,
+                  "value": 0.10606060606060606
+                }
+              },
+              "43": {
+                "candidate": {
+                  "denominator": 22,
+                  "numerator": 15,
+                  "value": 0.6818181818181818
+                },
+                "delta": {
+                  "denominator": 66,
+                  "numerator": 29,
+                  "value": 0.4393939393939394
+                },
+                "reference": {
+                  "denominator": 33,
+                  "numerator": 8,
+                  "value": 0.24242424242424243
+                }
+              }
+            },
+            "positive_seed_count": 2,
+            "reference_mean": {
+              "denominator": 33,
+              "numerator": 10,
+              "value": 0.30303030303030304
+            },
+            "seed_count": 3
+          }
+        }
+      },
+      "calendar_same_month": {
+        "metrics": {
+          "ast_exact_match": {
+            "candidate_mean": {
+              "denominator": 882,
+              "numerator": 599,
+              "value": 0.6791383219954649
+            },
+            "mean_delta": {
+              "denominator": 1,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "paired_transition_counts": {
+              "both_correct": 557,
+              "both_incorrect": 241,
+              "candidate_only": 42,
+              "reference_only": 42
+            },
+            "per_seed": {
+              "17": {
+                "candidate": {
+                  "denominator": 98,
+                  "numerator": 65,
+                  "value": 0.6632653061224489
+                },
+                "delta": {
+                  "denominator": 294,
+                  "numerator": -13,
+                  "value": -0.04421768707482993
+                },
+                "reference": {
+                  "denominator": 147,
+                  "numerator": 104,
+                  "value": 0.7074829931972789
+                }
+              },
+              "29": {
+                "candidate": {
+                  "denominator": 147,
+                  "numerator": 100,
+                  "value": 0.6802721088435374
+                },
+                "delta": {
+                  "denominator": 98,
+                  "numerator": 1,
+                  "value": 0.01020408163265306
+                },
+                "reference": {
+                  "denominator": 294,
+                  "numerator": 197,
+                  "value": 0.6700680272108843
+                }
+              },
+              "43": {
+                "candidate": {
+                  "denominator": 49,
+                  "numerator": 34,
+                  "value": 0.6938775510204082
+                },
+                "delta": {
+                  "denominator": 147,
+                  "numerator": 5,
+                  "value": 0.034013605442176874
+                },
+                "reference": {
+                  "denominator": 147,
+                  "numerator": 97,
+                  "value": 0.6598639455782312
+                }
+              }
+            },
+            "positive_seed_count": 2,
+            "reference_mean": {
+              "denominator": 882,
+              "numerator": 599,
+              "value": 0.6791383219954649
+            },
+            "seed_count": 3
+          },
+          "create_calendar_event_datetime_exact": {
+            "candidate_mean": {
+              "denominator": 63,
+              "numerator": 46,
+              "value": 0.7301587301587301
+            },
+            "mean_delta": {
+              "denominator": 126,
+              "numerator": -1,
+              "value": -0.007936507936507936
+            },
+            "paired_transition_counts": {
+              "both_correct": 615,
+              "both_incorrect": 202,
+              "candidate_only": 29,
+              "reference_only": 36
+            },
+            "per_seed": {
+              "17": {
+                "candidate": {
+                  "denominator": 98,
+                  "numerator": 69,
+                  "value": 0.7040816326530612
+                },
+                "delta": {
+                  "denominator": 294,
+                  "numerator": -13,
+                  "value": -0.04421768707482993
+                },
+                "reference": {
+                  "denominator": 147,
+                  "numerator": 110,
+                  "value": 0.7482993197278912
+                }
+              },
+              "29": {
+                "candidate": {
+                  "denominator": 294,
+                  "numerator": 215,
+                  "value": 0.7312925170068028
+                },
+                "delta": {
+                  "denominator": 1,
+                  "numerator": 0,
+                  "value": 0.0
+                },
+                "reference": {
+                  "denominator": 294,
+                  "numerator": 215,
+                  "value": 0.7312925170068028
+                }
+              },
+              "43": {
+                "candidate": {
+                  "denominator": 49,
+                  "numerator": 37,
+                  "value": 0.7551020408163265
+                },
+                "delta": {
+                  "denominator": 49,
+                  "numerator": 1,
+                  "value": 0.02040816326530612
+                },
+                "reference": {
+                  "denominator": 49,
+                  "numerator": 36,
+                  "value": 0.7346938775510204
+                }
+              }
+            },
+            "positive_seed_count": 1,
+            "reference_mean": {
+              "denominator": 42,
+              "numerator": 31,
+              "value": 0.7380952380952381
+            },
+            "seed_count": 3
+          }
+        }
+      },
+      "non_calendar": {
+        "metrics": {
+          "ast_exact_match": {
+            "candidate_mean": {
+              "denominator": 249,
+              "numerator": 227,
+              "value": 0.9116465863453815
+            },
+            "mean_delta": {
+              "denominator": 332,
+              "numerator": -1,
+              "value": -0.0030120481927710845
+            },
+            "paired_transition_counts": {
+              "both_correct": 1759,
+              "both_incorrect": 113,
+              "candidate_only": 57,
+              "reference_only": 63
+            },
+            "per_seed": {
+              "17": {
+                "candidate": {
+                  "denominator": 166,
+                  "numerator": 151,
+                  "value": 0.9096385542168675
+                },
+                "delta": {
+                  "denominator": 332,
+                  "numerator": -5,
+                  "value": -0.015060240963855422
+                },
+                "reference": {
+                  "denominator": 332,
+                  "numerator": 307,
+                  "value": 0.9246987951807228
+                }
+              },
+              "29": {
+                "candidate": {
+                  "denominator": 332,
+                  "numerator": 301,
+                  "value": 0.9066265060240963
+                },
+                "delta": {
+                  "denominator": 332,
+                  "numerator": -1,
+                  "value": -0.0030120481927710845
+                },
+                "reference": {
+                  "denominator": 166,
+                  "numerator": 151,
+                  "value": 0.9096385542168675
+                }
+              },
+              "43": {
+                "candidate": {
+                  "denominator": 332,
+                  "numerator": 305,
+                  "value": 0.9186746987951807
+                },
+                "delta": {
+                  "denominator": 332,
+                  "numerator": 3,
+                  "value": 0.009036144578313253
+                },
+                "reference": {
+                  "denominator": 166,
+                  "numerator": 151,
+                  "value": 0.9096385542168675
+                }
+              }
+            },
+            "positive_seed_count": 1,
+            "reference_mean": {
+              "denominator": 996,
+              "numerator": 911,
+              "value": 0.9146586345381527
+            },
+            "seed_count": 3
+          }
+        }
+      },
+      "overall": {
+        "metrics": {
+          "ast_exact_match": {
+            "candidate_mean": {
+              "denominator": 512,
+              "numerator": 421,
+              "value": 0.822265625
+            },
+            "mean_delta": {
+              "denominator": 3072,
+              "numerator": 49,
+              "value": 0.015950520833333332
+            },
+            "paired_transition_counts": {
+              "both_correct": 2355,
+              "both_incorrect": 424,
+              "candidate_only": 171,
+              "reference_only": 122
+            },
+            "per_seed": {
+              "17": {
+                "candidate": {
+                  "denominator": 1024,
+                  "numerator": 833,
+                  "value": 0.8134765625
+                },
+                "delta": {
+                  "denominator": 128,
+                  "numerator": -3,
+                  "value": -0.0234375
+                },
+                "reference": {
+                  "denominator": 1024,
+                  "numerator": 857,
+                  "value": 0.8369140625
+                }
+              },
+              "29": {
+                "candidate": {
+                  "denominator": 1024,
+                  "numerator": 841,
+                  "value": 0.8212890625
+                },
+                "delta": {
+                  "denominator": 1024,
+                  "numerator": 33,
+                  "value": 0.0322265625
+                },
+                "reference": {
+                  "denominator": 128,
+                  "numerator": 101,
+                  "value": 0.7890625
+                }
+              },
+              "43": {
+                "candidate": {
+                  "denominator": 256,
+                  "numerator": 213,
+                  "value": 0.83203125
+                },
+                "delta": {
+                  "denominator": 128,
+                  "numerator": 5,
+                  "value": 0.0390625
+                },
+                "reference": {
+                  "denominator": 256,
+                  "numerator": 203,
+                  "value": 0.79296875
+                }
+              }
+            },
+            "positive_seed_count": 2,
+            "reference_mean": {
+              "denominator": 3072,
+              "numerator": 2477,
+              "value": 0.8063151041666666
+            },
+            "seed_count": 3
+          },
+          "create_calendar_event_datetime_exact": {
+            "candidate_mean": {
+              "denominator": 1080,
+              "numerator": 767,
+              "value": 0.7101851851851851
+            },
+            "mean_delta": {
+              "denominator": 135,
+              "numerator": 7,
+              "value": 0.05185185185185185
+            },
+            "paired_transition_counts": {
+              "both_correct": 657,
+              "both_incorrect": 259,
+              "candidate_only": 110,
+              "reference_only": 54
+            },
+            "per_seed": {
+              "17": {
+                "candidate": {
+                  "denominator": 180,
+                  "numerator": 121,
+                  "value": 0.6722222222222223
+                },
+                "delta": {
+                  "denominator": 24,
+                  "numerator": -1,
+                  "value": -0.041666666666666664
+                },
+                "reference": {
+                  "denominator": 360,
+                  "numerator": 257,
+                  "value": 0.7138888888888889
+                }
+              },
+              "29": {
+                "candidate": {
+                  "denominator": 60,
+                  "numerator": 43,
+                  "value": 0.7166666666666667
+                },
+                "delta": {
+                  "denominator": 10,
+                  "numerator": 1,
+                  "value": 0.1
+                },
+                "reference": {
+                  "denominator": 60,
+                  "numerator": 37,
+                  "value": 0.6166666666666667
+                }
+              },
+              "43": {
+                "candidate": {
+                  "denominator": 120,
+                  "numerator": 89,
+                  "value": 0.7416666666666667
+                },
+                "delta": {
+                  "denominator": 72,
+                  "numerator": 7,
+                  "value": 0.09722222222222222
+                },
+                "reference": {
+                  "denominator": 45,
+                  "numerator": 29,
+                  "value": 0.6444444444444445
+                }
+              }
+            },
+            "positive_seed_count": 2,
+            "reference_mean": {
+              "denominator": 120,
+              "numerator": 79,
+              "value": 0.6583333333333333
+            },
+            "seed_count": 3
+          }
+        }
+      }
+    }
+  },
+  "C_minus_B": {
+    "candidate": {
+      "pooled": {
+        "manifest_binding": {
+          "action_ir_evaluator_version": "action-ir-v1.0.0",
+          "cluster_and_subset_source": "joined_manifest_only",
+          "content_sha256": "cea80c9d01b491269787d10a6cb9377a3c0aaecdf37a003e80a6f62ec10be153",
+          "membership_sha256": "b4191540878ec28c6819e08e0b390fbfd57eab836d3361727ad89862a46cf927",
+          "mobile_actions_scorer_version": "barun-mobile-actions-score-v1",
+          "rows": 1024,
+          "sample_metrics_source": "recomputed_from_prediction_raw_with_frozen_mobile_scorer"
+        },
+        "sample_count": 3072,
+        "schema_version": "barun-mobile-temporal-score-v1",
+        "subset_names": [
+          "calendar_cross_month",
+          "calendar_same_month",
+          "non_calendar"
+        ],
+        "subsets": {
+          "calendar_cross_month": {
+            "ast_exact_match": {
+              "denominator": 198,
+              "numerator": 111,
+              "value": 0.5606060606060606
+            },
+            "catastrophic_unauthorized_action": {
+              "denominator": 198,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "cluster_count": 65,
+            "create_calendar_event_datetime_exact": {
+              "denominator": 198,
+              "numerator": 123,
+              "value": 0.6212121212121212
+            },
+            "forced_incorrect": {
+              "denominator": 198,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "generation_failure": {
+              "denominator": 198,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "missing_prediction": {
+              "denominator": 198,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "parse_valid": {
+              "denominator": 198,
+              "numerator": 198,
+              "value": 1.0
+            },
+            "raw_ast_exact_match": {
+              "denominator": 198,
+              "numerator": 111,
+              "value": 0.5606060606060606
+            },
+            "sample_count": 198,
+            "schema_valid": {
+              "denominator": 198,
+              "numerator": 197,
+              "value": 0.9949494949494949
+            },
+            "truncation": {
+              "denominator": 198,
+              "numerator": 0,
+              "value": 0.0
+            }
+          },
+          "calendar_same_month": {
+            "ast_exact_match": {
+              "denominator": 882,
+              "numerator": 599,
+              "value": 0.6791383219954649
+            },
+            "catastrophic_unauthorized_action": {
+              "denominator": 882,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "cluster_count": 264,
+            "create_calendar_event_datetime_exact": {
+              "denominator": 882,
+              "numerator": 644,
+              "value": 0.7301587301587301
+            },
+            "forced_incorrect": {
+              "denominator": 882,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "generation_failure": {
+              "denominator": 882,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "missing_prediction": {
+              "denominator": 882,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "parse_valid": {
+              "denominator": 882,
+              "numerator": 879,
+              "value": 0.9965986394557823
+            },
+            "raw_ast_exact_match": {
+              "denominator": 882,
+              "numerator": 599,
+              "value": 0.6791383219954649
+            },
+            "sample_count": 882,
+            "schema_valid": {
+              "denominator": 882,
+              "numerator": 878,
+              "value": 0.9954648526077098
+            },
+            "truncation": {
+              "denominator": 882,
+              "numerator": 1,
+              "value": 0.0011337868480725624
+            }
+          },
+          "non_calendar": {
+            "ast_exact_match": {
+              "denominator": 1992,
+              "numerator": 1816,
+              "value": 0.9116465863453815
+            },
+            "catastrophic_unauthorized_action": {
+              "denominator": 1992,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "cluster_count": 427,
+            "create_calendar_event_datetime_exact": {
+              "denominator": 0,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "forced_incorrect": {
+              "denominator": 1992,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "generation_failure": {
+              "denominator": 1992,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "missing_prediction": {
+              "denominator": 1992,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "parse_valid": {
+              "denominator": 1992,
+              "numerator": 1981,
+              "value": 0.9944779116465864
+            },
+            "raw_ast_exact_match": {
+              "denominator": 1992,
+              "numerator": 1816,
+              "value": 0.9116465863453815
+            },
+            "sample_count": 1992,
+            "schema_valid": {
+              "denominator": 1992,
+              "numerator": 1966,
+              "value": 0.9869477911646586
+            },
+            "truncation": {
+              "denominator": 1992,
+              "numerator": 1,
+              "value": 0.000502008032128514
+            }
+          },
+          "overall": {
+            "ast_exact_match": {
+              "denominator": 3072,
+              "numerator": 2526,
+              "value": 0.822265625
+            },
+            "catastrophic_unauthorized_action": {
+              "denominator": 3072,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "cluster_count": 752,
+            "create_calendar_event_datetime_exact": {
+              "denominator": 1080,
+              "numerator": 767,
+              "value": 0.7101851851851851
+            },
+            "forced_incorrect": {
+              "denominator": 3072,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "generation_failure": {
+              "denominator": 3072,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "missing_prediction": {
+              "denominator": 3072,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "parse_valid": {
+              "denominator": 3072,
+              "numerator": 3058,
+              "value": 0.9954427083333334
+            },
+            "raw_ast_exact_match": {
+              "denominator": 3072,
+              "numerator": 2526,
+              "value": 0.822265625
+            },
+            "sample_count": 3072,
+            "schema_valid": {
+              "denominator": 3072,
+              "numerator": 3041,
+              "value": 0.9899088541666666
+            },
+            "truncation": {
+              "denominator": 3072,
+              "numerator": 2,
+              "value": 0.0006510416666666666
+            }
+          }
+        }
+      }
+    },
+    "expected_seeds": [
+      17,
+      29,
+      43
+    ],
+    "manifest_binding": {
+      "action_ir_evaluator_version": "action-ir-v1.0.0",
+      "cluster_and_subset_source": "joined_manifest_only",
+      "content_sha256": "cea80c9d01b491269787d10a6cb9377a3c0aaecdf37a003e80a6f62ec10be153",
+      "membership_sha256": "b4191540878ec28c6819e08e0b390fbfd57eab836d3361727ad89862a46cf927",
+      "mobile_actions_scorer_version": "barun-mobile-actions-score-v1",
+      "rows": 1024,
+      "sample_metrics_source": "recomputed_from_prediction_raw_with_frozen_mobile_scorer"
+    },
+    "pairing": {
+      "gold_cluster_and_subset_identities_manifest_bound": true,
+      "sample_ids_matched": true,
+      "samples_per_seed": 1024
+    },
+    "reference": {
+      "pooled": {
+        "manifest_binding": {
+          "action_ir_evaluator_version": "action-ir-v1.0.0",
+          "cluster_and_subset_source": "joined_manifest_only",
+          "content_sha256": "cea80c9d01b491269787d10a6cb9377a3c0aaecdf37a003e80a6f62ec10be153",
+          "membership_sha256": "b4191540878ec28c6819e08e0b390fbfd57eab836d3361727ad89862a46cf927",
+          "mobile_actions_scorer_version": "barun-mobile-actions-score-v1",
+          "rows": 1024,
+          "sample_metrics_source": "recomputed_from_prediction_raw_with_frozen_mobile_scorer"
+        },
+        "sample_count": 3072,
+        "schema_version": "barun-mobile-temporal-score-v1",
+        "subset_names": [
+          "calendar_cross_month",
+          "calendar_same_month",
+          "non_calendar"
+        ],
+        "subsets": {
+          "calendar_cross_month": {
+            "ast_exact_match": {
+              "denominator": 198,
+              "numerator": 19,
+              "value": 0.09595959595959595
+            },
+            "catastrophic_unauthorized_action": {
+              "denominator": 198,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "cluster_count": 65,
+            "create_calendar_event_datetime_exact": {
+              "denominator": 198,
+              "numerator": 21,
+              "value": 0.10606060606060606
+            },
+            "forced_incorrect": {
+              "denominator": 198,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "generation_failure": {
+              "denominator": 198,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "missing_prediction": {
+              "denominator": 198,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "parse_valid": {
+              "denominator": 198,
+              "numerator": 196,
+              "value": 0.98989898989899
+            },
+            "raw_ast_exact_match": {
+              "denominator": 198,
+              "numerator": 19,
+              "value": 0.09595959595959595
+            },
+            "sample_count": 198,
+            "schema_valid": {
+              "denominator": 198,
+              "numerator": 195,
+              "value": 0.9848484848484849
+            },
+            "truncation": {
+              "denominator": 198,
+              "numerator": 0,
+              "value": 0.0
+            }
+          },
+          "calendar_same_month": {
+            "ast_exact_match": {
+              "denominator": 882,
+              "numerator": 616,
+              "value": 0.6984126984126984
+            },
+            "catastrophic_unauthorized_action": {
+              "denominator": 882,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "cluster_count": 264,
+            "create_calendar_event_datetime_exact": {
+              "denominator": 882,
+              "numerator": 666,
+              "value": 0.7551020408163265
+            },
+            "forced_incorrect": {
+              "denominator": 882,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "generation_failure": {
+              "denominator": 882,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "missing_prediction": {
+              "denominator": 882,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "parse_valid": {
+              "denominator": 882,
+              "numerator": 881,
+              "value": 0.9988662131519275
+            },
+            "raw_ast_exact_match": {
+              "denominator": 882,
+              "numerator": 616,
+              "value": 0.6984126984126984
+            },
+            "sample_count": 882,
+            "schema_valid": {
+              "denominator": 882,
+              "numerator": 874,
+              "value": 0.9909297052154195
+            },
+            "truncation": {
+              "denominator": 882,
+              "numerator": 0,
+              "value": 0.0
+            }
+          },
+          "non_calendar": {
+            "ast_exact_match": {
+              "denominator": 1992,
+              "numerator": 1816,
+              "value": 0.9116465863453815
+            },
+            "catastrophic_unauthorized_action": {
+              "denominator": 1992,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "cluster_count": 427,
+            "create_calendar_event_datetime_exact": {
+              "denominator": 0,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "forced_incorrect": {
+              "denominator": 1992,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "generation_failure": {
+              "denominator": 1992,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "missing_prediction": {
+              "denominator": 1992,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "parse_valid": {
+              "denominator": 1992,
+              "numerator": 1980,
+              "value": 0.9939759036144579
+            },
+            "raw_ast_exact_match": {
+              "denominator": 1992,
+              "numerator": 1816,
+              "value": 0.9116465863453815
+            },
+            "sample_count": 1992,
+            "schema_valid": {
+              "denominator": 1992,
+              "numerator": 1964,
+              "value": 0.9859437751004017
+            },
+            "truncation": {
+              "denominator": 1992,
+              "numerator": 2,
+              "value": 0.001004016064257028
+            }
+          },
+          "overall": {
+            "ast_exact_match": {
+              "denominator": 3072,
+              "numerator": 2451,
+              "value": 0.7978515625
+            },
+            "catastrophic_unauthorized_action": {
+              "denominator": 3072,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "cluster_count": 752,
+            "create_calendar_event_datetime_exact": {
+              "denominator": 1080,
+              "numerator": 687,
+              "value": 0.6361111111111111
+            },
+            "forced_incorrect": {
+              "denominator": 3072,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "generation_failure": {
+              "denominator": 3072,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "missing_prediction": {
+              "denominator": 3072,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "parse_valid": {
+              "denominator": 3072,
+              "numerator": 3057,
+              "value": 0.9951171875
+            },
+            "raw_ast_exact_match": {
+              "denominator": 3072,
+              "numerator": 2451,
+              "value": 0.7978515625
+            },
+            "sample_count": 3072,
+            "schema_valid": {
+              "denominator": 3072,
+              "numerator": 3033,
+              "value": 0.9873046875
+            },
+            "truncation": {
+              "denominator": 3072,
+              "numerator": 2,
+              "value": 0.0006510416666666666
+            }
+          }
+        }
+      }
+    },
+    "schema_version": "barun-mobile-temporal-comparison-v1",
+    "subsets": {
+      "calendar_cross_month": {
+        "metrics": {
+          "ast_exact_match": {
+            "candidate_mean": {
+              "denominator": 66,
+              "numerator": 37,
+              "value": 0.5606060606060606
+            },
+            "mean_delta": {
+              "denominator": 99,
+              "numerator": 46,
+              "value": 0.46464646464646464
+            },
+            "paired_transition_counts": {
+              "both_correct": 17,
+              "both_incorrect": 85,
+              "candidate_only": 94,
+              "reference_only": 2
+            },
+            "per_seed": {
+              "17": {
+                "candidate": {
+                  "denominator": 33,
+                  "numerator": 17,
+                  "value": 0.5151515151515151
+                },
+                "delta": {
+                  "denominator": 22,
+                  "numerator": 9,
+                  "value": 0.4090909090909091
+                },
+                "reference": {
+                  "denominator": 66,
+                  "numerator": 7,
+                  "value": 0.10606060606060606
+                }
+              },
+              "29": {
+                "candidate": {
+                  "denominator": 22,
+                  "numerator": 13,
+                  "value": 0.5909090909090909
+                },
+                "delta": {
+                  "denominator": 66,
+                  "numerator": 35,
+                  "value": 0.5303030303030303
+                },
+                "reference": {
+                  "denominator": 33,
+                  "numerator": 2,
+                  "value": 0.06060606060606061
+                }
+              },
+              "43": {
+                "candidate": {
+                  "denominator": 33,
+                  "numerator": 19,
+                  "value": 0.5757575757575758
+                },
+                "delta": {
+                  "denominator": 11,
+                  "numerator": 5,
+                  "value": 0.45454545454545453
+                },
+                "reference": {
+                  "denominator": 33,
+                  "numerator": 4,
+                  "value": 0.12121212121212122
+                }
+              }
+            },
+            "positive_seed_count": 3,
+            "reference_mean": {
+              "denominator": 198,
+              "numerator": 19,
+              "value": 0.09595959595959595
+            },
+            "seed_count": 3
+          },
+          "create_calendar_event_datetime_exact": {
+            "candidate_mean": {
+              "denominator": 66,
+              "numerator": 41,
+              "value": 0.6212121212121212
+            },
+            "mean_delta": {
+              "denominator": 33,
+              "numerator": 17,
+              "value": 0.5151515151515151
+            },
+            "paired_transition_counts": {
+              "both_correct": 19,
+              "both_incorrect": 73,
+              "candidate_only": 104,
+              "reference_only": 2
+            },
+            "per_seed": {
+              "17": {
+                "candidate": {
+                  "denominator": 66,
+                  "numerator": 35,
+                  "value": 0.5303030303030303
+                },
+                "delta": {
+                  "denominator": 33,
+                  "numerator": 14,
+                  "value": 0.42424242424242425
+                },
+                "reference": {
+                  "denominator": 66,
+                  "numerator": 7,
+                  "value": 0.10606060606060606
+                }
+              },
+              "29": {
+                "candidate": {
+                  "denominator": 66,
+                  "numerator": 43,
+                  "value": 0.6515151515151515
+                },
+                "delta": {
+                  "denominator": 33,
+                  "numerator": 19,
+                  "value": 0.5757575757575758
+                },
+                "reference": {
+                  "denominator": 66,
+                  "numerator": 5,
+                  "value": 0.07575757575757576
+                }
+              },
+              "43": {
+                "candidate": {
+                  "denominator": 22,
+                  "numerator": 15,
+                  "value": 0.6818181818181818
+                },
+                "delta": {
+                  "denominator": 11,
+                  "numerator": 6,
+                  "value": 0.5454545454545454
+                },
+                "reference": {
+                  "denominator": 22,
+                  "numerator": 3,
+                  "value": 0.13636363636363635
+                }
+              }
+            },
+            "positive_seed_count": 3,
+            "reference_mean": {
+              "denominator": 66,
+              "numerator": 7,
+              "value": 0.10606060606060606
+            },
+            "seed_count": 3
+          }
+        }
+      },
+      "calendar_same_month": {
+        "metrics": {
+          "ast_exact_match": {
+            "candidate_mean": {
+              "denominator": 882,
+              "numerator": 599,
+              "value": 0.6791383219954649
+            },
+            "mean_delta": {
+              "denominator": 882,
+              "numerator": -17,
+              "value": -0.01927437641723356
+            },
+            "paired_transition_counts": {
+              "both_correct": 575,
+              "both_incorrect": 242,
+              "candidate_only": 24,
+              "reference_only": 41
+            },
+            "per_seed": {
+              "17": {
+                "candidate": {
+                  "denominator": 98,
+                  "numerator": 65,
+                  "value": 0.6632653061224489
+                },
+                "delta": {
+                  "denominator": 294,
+                  "numerator": -13,
+                  "value": -0.04421768707482993
+                },
+                "reference": {
+                  "denominator": 147,
+                  "numerator": 104,
+                  "value": 0.7074829931972789
+                }
+              },
+              "29": {
+                "candidate": {
+                  "denominator": 147,
+                  "numerator": 100,
+                  "value": 0.6802721088435374
+                },
+                "delta": {
+                  "denominator": 147,
+                  "numerator": -5,
+                  "value": -0.034013605442176874
+                },
+                "reference": {
+                  "denominator": 7,
+                  "numerator": 5,
+                  "value": 0.7142857142857143
+                }
+              },
+              "43": {
+                "candidate": {
+                  "denominator": 49,
+                  "numerator": 34,
+                  "value": 0.6938775510204082
+                },
+                "delta": {
+                  "denominator": 49,
+                  "numerator": 1,
+                  "value": 0.02040816326530612
+                },
+                "reference": {
+                  "denominator": 49,
+                  "numerator": 33,
+                  "value": 0.673469387755102
+                }
+              }
+            },
+            "positive_seed_count": 1,
+            "reference_mean": {
+              "denominator": 63,
+              "numerator": 44,
+              "value": 0.6984126984126984
+            },
+            "seed_count": 3
+          },
+          "create_calendar_event_datetime_exact": {
+            "candidate_mean": {
+              "denominator": 63,
+              "numerator": 46,
+              "value": 0.7301587301587301
+            },
+            "mean_delta": {
+              "denominator": 441,
+              "numerator": -11,
+              "value": -0.024943310657596373
+            },
+            "paired_transition_counts": {
+              "both_correct": 631,
+              "both_incorrect": 203,
+              "candidate_only": 13,
+              "reference_only": 35
+            },
+            "per_seed": {
+              "17": {
+                "candidate": {
+                  "denominator": 98,
+                  "numerator": 69,
+                  "value": 0.7040816326530612
+                },
+                "delta": {
+                  "denominator": 21,
+                  "numerator": -1,
+                  "value": -0.047619047619047616
+                },
+                "reference": {
+                  "denominator": 294,
+                  "numerator": 221,
+                  "value": 0.7517006802721088
+                }
+              },
+              "29": {
+                "candidate": {
+                  "denominator": 294,
+                  "numerator": 215,
+                  "value": 0.7312925170068028
+                },
+                "delta": {
+                  "denominator": 147,
+                  "numerator": -4,
+                  "value": -0.027210884353741496
+                },
+                "reference": {
+                  "denominator": 294,
+                  "numerator": 223,
+                  "value": 0.7585034013605442
+                }
+              },
+              "43": {
+                "candidate": {
+                  "denominator": 49,
+                  "numerator": 37,
+                  "value": 0.7551020408163265
+                },
+                "delta": {
+                  "denominator": 1,
+                  "numerator": 0,
+                  "value": 0.0
+                },
+                "reference": {
+                  "denominator": 49,
+                  "numerator": 37,
+                  "value": 0.7551020408163265
+                }
+              }
+            },
+            "positive_seed_count": 0,
+            "reference_mean": {
+              "denominator": 49,
+              "numerator": 37,
+              "value": 0.7551020408163265
+            },
+            "seed_count": 3
+          }
+        }
+      },
+      "non_calendar": {
+        "metrics": {
+          "ast_exact_match": {
+            "candidate_mean": {
+              "denominator": 249,
+              "numerator": 227,
+              "value": 0.9116465863453815
+            },
+            "mean_delta": {
+              "denominator": 1,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "paired_transition_counts": {
+              "both_correct": 1782,
+              "both_incorrect": 142,
+              "candidate_only": 34,
+              "reference_only": 34
+            },
+            "per_seed": {
+              "17": {
+                "candidate": {
+                  "denominator": 166,
+                  "numerator": 151,
+                  "value": 0.9096385542168675
+                },
+                "delta": {
+                  "denominator": 332,
+                  "numerator": -3,
+                  "value": -0.009036144578313253
+                },
+                "reference": {
+                  "denominator": 332,
+                  "numerator": 305,
+                  "value": 0.9186746987951807
+                }
+              },
+              "29": {
+                "candidate": {
+                  "denominator": 332,
+                  "numerator": 301,
+                  "value": 0.9066265060240963
+                },
+                "delta": {
+                  "denominator": 332,
+                  "numerator": 1,
+                  "value": 0.0030120481927710845
+                },
+                "reference": {
+                  "denominator": 83,
+                  "numerator": 75,
+                  "value": 0.9036144578313253
+                }
+              },
+              "43": {
+                "candidate": {
+                  "denominator": 332,
+                  "numerator": 305,
+                  "value": 0.9186746987951807
+                },
+                "delta": {
+                  "denominator": 166,
+                  "numerator": 1,
+                  "value": 0.006024096385542169
+                },
+                "reference": {
+                  "denominator": 332,
+                  "numerator": 303,
+                  "value": 0.9126506024096386
+                }
+              }
+            },
+            "positive_seed_count": 2,
+            "reference_mean": {
+              "denominator": 249,
+              "numerator": 227,
+              "value": 0.9116465863453815
+            },
+            "seed_count": 3
+          }
+        }
+      },
+      "overall": {
+        "metrics": {
+          "ast_exact_match": {
+            "candidate_mean": {
+              "denominator": 512,
+              "numerator": 421,
+              "value": 0.822265625
+            },
+            "mean_delta": {
+              "denominator": 1024,
+              "numerator": 25,
+              "value": 0.0244140625
+            },
+            "paired_transition_counts": {
+              "both_correct": 2374,
+              "both_incorrect": 469,
+              "candidate_only": 152,
+              "reference_only": 77
+            },
+            "per_seed": {
+              "17": {
+                "candidate": {
+                  "denominator": 1024,
+                  "numerator": 833,
+                  "value": 0.8134765625
+                },
+                "delta": {
+                  "denominator": 128,
+                  "numerator": 1,
+                  "value": 0.0078125
+                },
+                "reference": {
+                  "denominator": 1024,
+                  "numerator": 825,
+                  "value": 0.8056640625
+                }
+              },
+              "29": {
+                "candidate": {
+                  "denominator": 1024,
+                  "numerator": 841,
+                  "value": 0.8212890625
+                },
+                "delta": {
+                  "denominator": 1024,
+                  "numerator": 27,
+                  "value": 0.0263671875
+                },
+                "reference": {
+                  "denominator": 512,
+                  "numerator": 407,
+                  "value": 0.794921875
+                }
+              },
+              "43": {
+                "candidate": {
+                  "denominator": 256,
+                  "numerator": 213,
+                  "value": 0.83203125
+                },
+                "delta": {
+                  "denominator": 128,
+                  "numerator": 5,
+                  "value": 0.0390625
+                },
+                "reference": {
+                  "denominator": 256,
+                  "numerator": 203,
+                  "value": 0.79296875
+                }
+              }
+            },
+            "positive_seed_count": 3,
+            "reference_mean": {
+              "denominator": 1024,
+              "numerator": 817,
+              "value": 0.7978515625
+            },
+            "seed_count": 3
+          },
+          "create_calendar_event_datetime_exact": {
+            "candidate_mean": {
+              "denominator": 1080,
+              "numerator": 767,
+              "value": 0.7101851851851851
+            },
+            "mean_delta": {
+              "denominator": 27,
+              "numerator": 2,
+              "value": 0.07407407407407407
+            },
+            "paired_transition_counts": {
+              "both_correct": 650,
+              "both_incorrect": 276,
+              "candidate_only": 117,
+              "reference_only": 37
+            },
+            "per_seed": {
+              "17": {
+                "candidate": {
+                  "denominator": 180,
+                  "numerator": 121,
+                  "value": 0.6722222222222223
+                },
+                "delta": {
+                  "denominator": 180,
+                  "numerator": 7,
+                  "value": 0.03888888888888889
+                },
+                "reference": {
+                  "denominator": 30,
+                  "numerator": 19,
+                  "value": 0.6333333333333333
+                }
+              },
+              "29": {
+                "candidate": {
+                  "denominator": 60,
+                  "numerator": 43,
+                  "value": 0.7166666666666667
+                },
+                "delta": {
+                  "denominator": 12,
+                  "numerator": 1,
+                  "value": 0.08333333333333333
+                },
+                "reference": {
+                  "denominator": 30,
+                  "numerator": 19,
+                  "value": 0.6333333333333333
+                }
+              },
+              "43": {
+                "candidate": {
+                  "denominator": 120,
+                  "numerator": 89,
+                  "value": 0.7416666666666667
+                },
+                "delta": {
+                  "denominator": 10,
+                  "numerator": 1,
+                  "value": 0.1
+                },
+                "reference": {
+                  "denominator": 120,
+                  "numerator": 77,
+                  "value": 0.6416666666666667
+                }
+              }
+            },
+            "positive_seed_count": 3,
+            "reference_mean": {
+              "denominator": 360,
+              "numerator": 229,
+              "value": 0.6361111111111111
+            },
+            "seed_count": 3
+          }
+        }
+      }
+    }
+  }
+}
