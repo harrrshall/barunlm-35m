@@ -88,6 +88,7 @@ def _fixture(tmp_path: Path):
     config = {
         "schema_version": "test-config-v1",
         "run_id": "20260803-2353-mobile-temporal-counterfactual-s17",
+        "status": "frozen_before_model_or_cuda_access",
         "implementation_contract": {
             "files": {
                 "implementation.py": _sha256(implementation),
@@ -99,6 +100,18 @@ def _fixture(tmp_path: Path):
         "retry_policy": {
             "retry_after_any_held_out_signal": "forbidden",
             "retry_execution_policy": "fresh-only",
+        },
+        "compute": {
+            "provider": "JarvisLabs",
+            "template": "axolotl",
+            "python_implementation": "CPython",
+            "python_version": "3.11.10",
+            "hardware": "one newly created NVIDIA H200",
+            "gpu": "H200",
+            "num_gpus": 1,
+            "region": "IN2",
+            "is_spot": False,
+            "maximum_gpu_job_minutes": 30,
         },
     }
     config_path = source / "config.json"
@@ -141,6 +154,9 @@ def _fixture(tmp_path: Path):
         ATTEMPT_PREREGISTRATION_SCHEMA_VERSION="test-attempt-v1",
         ATTEMPT_STATUS="frozen-before-create",
         KNOWN_PROTECTED_JARVIS_IDS=frozenset({463058, 463689}),
+        EXPECTED_JARVIS_TEMPLATE="axolotl",
+        EXPECTED_PYTHON_IMPLEMENTATION="CPython",
+        EXPECTED_PYTHON_VERSION="3.11.10",
         SOURCE_TREE_ALGORITHM="test-tree-v1",
         SOURCE_TREE_EXCLUDED_DIRECTORY_NAMES=(".git", "__pycache__"),
         SOURCE_TREE_EXCLUDED_DIRECTORY_SUFFIXES=(".egg-info",),
@@ -184,6 +200,17 @@ def test_builds_idempotent_git_bound_attempt_with_safe_run_placeholders(tmp_path
     attempt = json.loads((stage / "attempt-preregistration.json").read_text())
     assert attempt["attempt_ordinal"] == 1
     assert attempt["prior_attempts"] == []
+    assert attempt["compute"] == {
+        "provider": "JarvisLabs",
+        "template": "axolotl",
+        "python_implementation": "CPython",
+        "python_version": "3.11.10",
+        "gpu": "H200",
+        "num_gpus": 1,
+        "region": "IN2",
+        "is_spot": False,
+        "max_gpu_job_minutes": 30,
+    }
     assert attempt["prelaunch_inventory"] == {
         "captured_before_project_instance_creation": True,
         "fresh_project_instance": True,
@@ -200,6 +227,7 @@ def test_builds_idempotent_git_bound_attempt_with_safe_run_placeholders(tmp_path
         "terminal.jsonl",
     ]
     assert first["inventory_binding"] == "pending_safe_run_after_fresh_instance_creation"
+    assert first["schema_version"] == "barun-mobile-temporal-launch-provenance-build-v2"
 
 
 def test_rejects_dependency_or_source_drift_and_unallowlisted_stage_file(tmp_path: Path) -> None:

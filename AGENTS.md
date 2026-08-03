@@ -37,9 +37,9 @@ that cannot be run by another person is not the target outcome.
   Markdown file must follow this distinction. Do not silently rewrite historical URLs or filesystem
   paths that would stop working.
 
-## Current handoff and next experiment
+## Current handoff and active experiment
 
-The authoritative 2026-08-03 state and recommended next experiment are in
+The authoritative 2026-08-04 state and active experiment are in
 `docs/current-status-and-next-experiment.md`. Read that file before launching training or changing
 release claims.
 
@@ -53,21 +53,31 @@ the Qwen counterexample.
 
 The candidate-v2 float checkpoint, Darwin ARM64 int8 derivative, and evidence bundle are published
 as immutable public W&B `v0` artifacts. Their upload, fresh 310-file redownload, and anonymous
-float-weight access checks passed. Public source publication is still pending and must use an
-explicit secret-scanned allowlist; never bulk-stage the workspace or experiment directories.
+float-weight access checks passed. The secret-scanned source branch is public in draft PR #2;
+never bulk-stage the workspace or experiment directories.
 
-The next recommended research lane is Month-Boundary Counterfactual SFT v1: a separately
-preregistered, teacher-free, three-arm causal experiment on a newly frozen component split. Compare
-standard SFT, unchanged repetition, and deterministic month-boundary counterfactuals across seeds
-17, 29, and 43. The reused 756 rows generated the hypothesis and are only a terminal compatibility
-veto; the 961 official Mobile rows remain sealed. Freeze generator, evaluator, materialized hashes,
-thresholds, and the exact JarvisLabs lifecycle record before loading a model or starting CUDA.
-The frozen executable config is `configs/mobile_temporal_counterfactual_v1.json`, full-file
-SHA-256 `8c31c4fee18bf4a19e8fa079eec5448c3b62118a13a3eef5a0ba924bb05d07da`; its scientific-field
-projection is `964a1a8f25a53f7d11280fb9e1d2cd1c8269bd4afc63078ce63bded02a6351a5`. It binds
-1,093 screening transform pairs, the A/B/C manifests, both shadow holdouts, a conditional
-1,546-variant full refit, and the audited implementation/dependency hashes. If either digest
-changes, stop before model or CUDA access and document a new preregistration.
+Month-Boundary Counterfactual SFT v1 did not reach the experiment runner. Fresh H200 ID **463786**
+failed during provider dependency resolution because the PyTorch template exposed CPython 3.10.20
+while frozen `numpy==2.4.6` requires Python 3.11 or newer. The exact ID was pause-verified. The
+runner never started: model/CUDA access, construction/selection/confirmation/terminal reads,
+predictions, scores, and official-961 access were all zero. Its raw lifecycle and remote-log
+hashes are `ae2739f5b8598a3382bf45908ee16c376f166940f0f181c84d7fa51adeac9982` and
+`54e5aaeaa6a321c53dd4c5c489e9af9738798a9c3651132f1860adef59431add`.
+Do not synthesize the missing remote essential artifact or call this a scientific rejection.
+
+The current preregistration is the new Axolotl-bound v2 run
+`20260804-0210-mobile-temporal-counterfactual-axolotl-s17`. Its executable config is
+`configs/mobile_temporal_counterfactual_v2.json`, full-file SHA-256
+`893a2e0ff59ccb98767af653d0f80745e32c05abc4620d3dfae3f277033f20b8`, with scientific-field
+projection `d077effff172a4870ec1d8af2ee4e6b3b3fcf80a8b860eaf65eb5d0781942186`.
+The hypothesis, data, A/B/C manifests, seeds 17/29/43, optimization, thresholds, gates,
+requirements hash `a037db0943d563ea04bcc45b963b5a27931e6f745a7f472c079bb9f9fa6df853`,
+and official firewall are unchanged. The run identity and compute contract changed: a fresh
+H200 must use exact template `axolotl` and CPython 3.11.10, both attested before upload. The
+provider-created root `.venv` is permitted only when it is the active, non-symlink interpreter
+environment and remains excluded from the scientific content tree. Compute, runtime, requirements,
+or attempt-contract mismatches must stop before upload. Source-tree or scientific-config mismatches
+must stop before model or CUDA access.
 
 ## Decision order
 
@@ -112,8 +122,9 @@ contents.
 
 Weights & Biases authentication is also configured outside the repository in the user's standard
 credential file with mode `0600`. Never sync that credential file to JarvisLabs or copy its token
-into source, config, CLI arguments, logs, or artifacts. Use W&B only where it adds durable experiment
-evidence; local immutable JSON/JSONL artifacts remain the source of truth if tracking is unavailable.
+into source, config, CLI arguments, logs, or artifacts. Use W&B only where it adds durable
+experiment evidence; local immutable JSON/JSONL artifacts remain the source of truth if tracking
+is unavailable.
 
 ### Protected resources
 
@@ -123,10 +134,16 @@ restarted, deleted, renamed, or used for this project. The spelling may be dicta
 "cruda"; treat it as the same protected instance. Discovery of another pre-existing or
 unrecognized resource makes it protected by default.
 
-The latest read-only inventory also found running eight-H200 instance **463719**, named
-`kimi-k3-jl-node-a-20260803-1724`. It belongs to an independent experiment and is protected. The
-previously observed unrecognized ID **463697** remains protected even when absent from a later live
-listing; disappearance does not transfer ownership. Never use or mutate either ID.
+The independently owned eight-H200 instance **463719**, named
+`kimi-k3-jl-node-a-20260803-1724`, remains protected regardless of its observed lifecycle state.
+The previously observed unrecognized ID **463697** remains protected even when absent from a later
+live listing.
+
+Project evidence instances **463786** (the zero-signal H200 failure) and **463788** (the paused L4
+Axolotl runtime probe) are now durably protected too. Never resume, reuse, rename, stop, or delete
+either one. The L4 provider preamble proved Axolotl selected CPython 3.11.10, but the probe script
+itself did not run because the intentionally minimal directory had no project metadata; do not
+describe it as a successful model or scientific run.
 
 ### Exact-ID lifecycle
 

@@ -44,6 +44,8 @@ def retry_args() -> SimpleNamespace:
         gpu="H200",
         num_gpus=1,
         template="pytorch",
+        python_implementation="CPython",
+        python_version="3.11.10",
         region="IN2",
         spot=False,
         storage=100,
@@ -70,6 +72,8 @@ def retry_record(machine_id: int = 999_001) -> dict[str, Any]:
             "gpu": args.gpu,
             "num_gpus": args.num_gpus,
             "template": args.template,
+            "python_implementation": args.python_implementation,
+            "python_version": args.python_version,
             "region": args.region,
             "spot": args.spot,
             "storage_gb": args.storage,
@@ -101,6 +105,8 @@ def fresh_args(tmp_path: Path, *, append_machine_id: bool = False) -> SimpleName
         gpu="H200",
         num_gpus=1,
         template="pytorch",
+        python_implementation="CPython",
+        python_version="3.11.10",
         storage=100,
         region="IN2",
         spot=False,
@@ -116,6 +122,18 @@ def fresh_args(tmp_path: Path, *, append_machine_id: bool = False) -> SimpleName
         retry_owned=False,
         remote_args=["--run-id", "unit-test"],
     )
+
+
+def unbound_attempt_payload(module: ModuleType, args: SimpleNamespace) -> dict[str, Any]:
+    return {
+        "compute": module.requested_attempt_compute(args),
+        "prelaunch_inventory": {
+            "captured_before_project_instance_creation": True,
+            "protected_machine_ids": module.PREEXISTING_IDS_PLACEHOLDER,
+            "project_machine_id": module.MACHINE_ID_PLACEHOLDER,
+            "fresh_project_instance": True,
+        },
+    }
 
 
 def test_name_and_credential_guards() -> None:
@@ -221,6 +239,29 @@ def test_create_command_preserves_fresh_instance_arguments() -> None:
     ]
 
 
+def test_run_parser_requires_and_preserves_exact_python_runtime_contract(tmp_path: Path) -> None:
+    module = load_safe_run()
+
+    args = module.build_parser().parse_args(
+        [
+            "run",
+            "--name",
+            "barun-parser-test-s0",
+            "--record",
+            str(tmp_path / "record.json"),
+            "--script",
+            "probe.py",
+            "--python-implementation",
+            "CPython",
+            "--python-version",
+            "3.11.10",
+        ]
+    )
+
+    assert args.python_implementation == "CPython"
+    assert args.python_version == "3.11.10"
+
+
 def test_attached_run_optionally_appends_captured_machine_id() -> None:
     module = load_safe_run()
     args = SimpleNamespace(
@@ -322,6 +363,34 @@ def test_attempt_bound_retry_is_rejected_before_record_or_inventory(
         match="--retry-owned is forbidden with a fresh-instance attempt binding",
     ):
         module.run_fresh(args)
+
+
+def test_attempt_compute_mismatch_is_rejected_before_inventory_or_create(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    module = load_safe_run()
+    args = fresh_args(tmp_path)
+    args.template = "axolotl"
+    args.bind_attempt_inventory = Path("attempt-preregistration.json")
+    attempt = unbound_attempt_payload(module, args)
+    attempt["compute"]["python_version"] = "3.10.20"
+    module.atomic_write_json(args.target / args.bind_attempt_inventory, attempt)
+    monkeypatch.setattr(
+        module,
+        "inventory",
+        lambda: (_ for _ in ()).throw(AssertionError("must fail before Jarvis inventory")),
+    )
+
+    with pytest.raises(module.SafetyError, match="compute contract"):
+        module.run_fresh(args)
+
+    assert not args.record.exists()
+    assert (
+        module.load_json(args.target / args.bind_attempt_inventory)["prelaunch_inventory"][
+            "project_machine_id"
+        ]
+        == module.MACHINE_ID_PLACEHOLDER
+    )
 
 
 def test_fresh_artifact_destination_must_not_exist_before_inventory(
@@ -573,18 +642,12 @@ def test_fresh_create_persists_id_before_wait_then_runs_attached(
 ) -> None:
     module = load_safe_run()
     args = fresh_args(tmp_path, append_machine_id=True)
+    args.template = "axolotl"
     args.bind_attempt_inventory = Path("attempt-preregistration.json")
     args.append_bound_attempt_sha256 = True
     module.atomic_write_json(
         args.target / args.bind_attempt_inventory,
-        {
-            "prelaunch_inventory": {
-                "captured_before_project_instance_creation": True,
-                "protected_machine_ids": module.PREEXISTING_IDS_PLACEHOLDER,
-                "project_machine_id": module.MACHINE_ID_PLACEHOLDER,
-                "fresh_project_instance": True,
-            }
-        },
+        unbound_attempt_payload(module, args),
     )
     operations: list[str] = []
 
@@ -604,8 +667,8 @@ def test_fresh_create_persists_id_before_wait_then_runs_attached(
             "prelaunch_inventory"
         ] == {
             "captured_before_project_instance_creation": True,
-            "protected_machine_ids": [463058],
-            "project_machine_id": 999_001,
+            "protected_machine_ids": module.PREEXISTING_IDS_PLACEHOLDER,
+            "project_machine_id": module.MACHINE_ID_PLACEHOLDER,
             "fresh_project_instance": True,
         }
         operations.append("wait")
@@ -622,6 +685,7 @@ def test_fresh_create_persists_id_before_wait_then_runs_attached(
                 "num_gpus": 1,
                 "region": "IN2",
                 "is_spot": False,
+                "template": "axolotl",
             }
         if command[:2] == ["jl", "get"]:
             operations.append("attest")
@@ -633,6 +697,22 @@ def test_fresh_create_persists_id_before_wait_then_runs_attached(
                 "num_gpus": 1,
                 "region": "IN2",
                 "is_spot": False,
+                "template": "axolotl",
+            }
+        if command[:2] == ["jl", "exec"]:
+            operations.append("python_attest")
+            assert command[2] == "999001"
+            assert (
+                module.load_json(args.target / args.bind_attempt_inventory)["prelaunch_inventory"][
+                    "project_machine_id"
+                ]
+                == module.MACHINE_ID_PLACEHOLDER
+            )
+            return {
+                "machine_id": 999_001,
+                "exit_code": 0,
+                "stdout": '{"implementation":"CPython","version":"3.11.10"}\n',
+                "stderr": "",
             }
         if command[:3] == ["jl", "run", "status"]:
             operations.append("status")
@@ -688,6 +768,7 @@ def test_fresh_create_persists_id_before_wait_then_runs_attached(
         "create",
         "wait",
         "attest",
+        "python_attest",
         "attached_run",
         "watchdog_armed",
         "status",
@@ -701,11 +782,24 @@ def test_fresh_create_persists_id_before_wait_then_runs_attached(
     assert saved["requested"]["append_jarvis_machine_id"] is True
     assert saved["requested"]["append_bound_attempt_sha256"] is True
     assert saved["requested"]["bind_attempt_inventory"] == "attempt-preregistration.json"
+    assert saved["hardware_attestation"]["observed"]["template"] == "axolotl"
+    assert saved["requested"]["python_implementation"] == "CPython"
+    assert saved["requested"]["python_version"] == "3.11.10"
+    assert saved["python_runtime_attestation"]["observed"] == {
+        "implementation": "CPython",
+        "version": "3.11.10",
+    }
     assert saved["final_instance"]["machine_id"] == 999_001
     events = [item["event"] for item in saved["events"]]
     assert events.index("machine_created") < events.index("machine_ssh_ready")
-    assert events.index("attempt_inventory_bound") < events.index("machine_ssh_ready")
-    assert events.index("machine_ssh_ready") < events.index("attached_run_requested")
+    assert events.index("machine_ssh_ready") < events.index("hardware_attested_before_upload")
+    assert events.index("hardware_attested_before_upload") < events.index(
+        "python_runtime_attested_before_inventory_binding_and_upload"
+    )
+    assert events.index("python_runtime_attested_before_inventory_binding_and_upload") < (
+        events.index("attempt_inventory_bound")
+    )
+    assert events.index("attempt_inventory_bound") < events.index("attached_run_requested")
     assert events[-1] == "pause_verified"
 
 
@@ -914,6 +1008,14 @@ def test_create_timeout_recovers_unique_new_id_and_finally_pauses_it(
                 "num_gpus": 1,
                 "region": "IN2",
                 "is_spot": False,
+                "template": "pytorch",
+            }
+        if command[:2] == ["jl", "exec"]:
+            return {
+                "machine_id": 999_002,
+                "exit_code": 0,
+                "stdout": '{"implementation":"CPython","version":"3.11.10"}\n',
+                "stderr": "",
             }
         if command[:2] == ["jl", "run"]:
             raise RuntimeError("attached launch failed")
@@ -1041,6 +1143,7 @@ def test_resume_cli_failure_recovers_unique_replacement_and_finally_pauses_it(
             "num_gpus": 1,
             "region": "IN2",
             "is_spot": False,
+            "template": "pytorch",
         },
     )
     monkeypatch.setattr(
@@ -1061,6 +1164,13 @@ def test_resume_cli_failure_recovers_unique_replacement_and_finally_pauses_it(
     def fake_run_json(command: list[str], *, timeout: float | None = None) -> dict[str, Any]:
         if command[:2] == ["jl", "resume"]:
             raise subprocess.TimeoutExpired(command, timeout or 300)
+        if command[:2] == ["jl", "exec"]:
+            return {
+                "machine_id": 999_002,
+                "exit_code": 0,
+                "stdout": '{"implementation":"CPython","version":"3.11.10"}\n',
+                "stderr": "",
+            }
         if command[:2] == ["jl", "run"]:
             raise RuntimeError("attached launch failed")
         raise AssertionError(f"unexpected command: {command}")
@@ -1193,6 +1303,7 @@ def test_hardware_mismatch_blocks_upload_but_not_exact_owned_pause(
         "num_gpus": 1,
         "region": "IN2",
         "is_spot": False,
+        "template": "pytorch",
     }
 
     module.assert_owned(record, live)
@@ -1214,6 +1325,199 @@ def test_hardware_mismatch_blocks_upload_but_not_exact_owned_pause(
 
     monkeypatch.setattr(module, "run_json", fake_pause)
     assert module.pause_owned(record, attempts=1)["status"] == "Paused"
+
+
+def test_exact_axolotl_template_is_recorded_in_preupload_attestation(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+) -> None:
+    module = load_safe_run()
+    args = fresh_args(tmp_path)
+    args.template = "axolotl"
+    record = {**owned_record(), "events": []}
+    record_path = tmp_path / "jarvis.json"
+    live = {
+        "machine_id": 999_001,
+        "name": "barun-unit-test-s0",
+        "status": "Running",
+        "gpu_type": "H200",
+        "num_gpus": 1,
+        "region": "IN2",
+        "is_spot": False,
+        "template": "axolotl",
+    }
+    monkeypatch.setattr(module, "instance_by_id", lambda _machine_id: live)
+
+    receipt = module.attest_live_hardware(record_path, record, args)
+
+    assert receipt["verified_before_upload"] is True
+    assert receipt["requested"]["template"] == "axolotl"
+    assert receipt["observed"]["template"] == "axolotl"
+    saved = module.load_json(record_path)
+    assert saved["hardware_attestation"] == receipt
+    assert saved["events"][-1]["event"] == "hardware_attested_before_upload"
+    assert saved["events"][-1]["template"] == "axolotl"
+
+
+def test_template_mismatch_blocks_upload_and_pauses_only_fresh_exact_id(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+) -> None:
+    module = load_safe_run()
+    inject_test_protected_resources(module, tmp_path, monkeypatch)
+    args = fresh_args(tmp_path)
+    args.template = "axolotl"
+    attached_run_requested = False
+    paused_ids: list[int] = []
+
+    monkeypatch.setattr(
+        module,
+        "inventory",
+        lambda: [{"machine_id": 463058, "name": "Kroda", "status": "Running"}],
+    )
+    monkeypatch.setattr(module, "permanent_protected_ids", lambda: {463058})
+    monkeypatch.setattr(module, "wait_for_ssh", lambda _record: None)
+
+    def fake_run_json(command: list[str], *, timeout: float | None = None) -> dict[str, Any]:
+        del timeout
+        nonlocal attached_run_requested
+        if command[:2] == ["jl", "create"]:
+            return {
+                "machine_id": 999_001,
+                "name": "barun-fresh-test-s0",
+                "status": "Running",
+                "gpu_type": "H200",
+                "num_gpus": 1,
+                "region": "IN2",
+                "is_spot": False,
+                "template": "axolotl",
+            }
+        if command[:2] == ["jl", "get"]:
+            return {
+                "machine_id": 999_001,
+                "name": "barun-fresh-test-s0",
+                "status": "Running",
+                "gpu_type": "H200",
+                "num_gpus": 1,
+                "region": "IN2",
+                "is_spot": False,
+                "template": "pytorch",
+            }
+        if command[:2] == ["jl", "run"]:
+            attached_run_requested = True
+            raise AssertionError("template mismatch must fail before upload")
+        raise AssertionError(f"unexpected command: {command}")
+
+    def fake_pause(record: dict[str, Any]) -> dict[str, Any]:
+        machine_id = int(record["machine_id"])
+        paused_ids.append(machine_id)
+        return {
+            "machine_id": machine_id,
+            "name": record["instance_name"],
+            "status": "Paused",
+        }
+
+    monkeypatch.setattr(module, "run_json", fake_run_json)
+    monkeypatch.setattr(module, "pause_owned", fake_pause)
+
+    with pytest.raises(module.SafetyError, match="template"):
+        module.run_fresh(args)
+
+    assert attached_run_requested is False
+    assert paused_ids == [999_001]
+    saved = module.load_json(args.record)
+    assert saved["machine_id"] == 999_001
+    assert saved["final_instance"]["machine_id"] == 999_001
+    assert saved["final_instance"]["status"] == "Paused"
+
+
+def test_python_runtime_mismatch_blocks_binding_upload_and_pauses_only_fresh_exact_id(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+) -> None:
+    module = load_safe_run()
+    inject_test_protected_resources(module, tmp_path, monkeypatch)
+    args = fresh_args(tmp_path)
+    args.template = "axolotl"
+    args.bind_attempt_inventory = Path("attempt-preregistration.json")
+    module.atomic_write_json(
+        args.target / args.bind_attempt_inventory,
+        unbound_attempt_payload(module, args),
+    )
+    attached_run_requested = False
+    paused_ids: list[int] = []
+
+    monkeypatch.setattr(
+        module,
+        "inventory",
+        lambda: [{"machine_id": 463058, "name": "Kroda", "status": "Running"}],
+    )
+    monkeypatch.setattr(module, "permanent_protected_ids", lambda: {463058})
+    monkeypatch.setattr(module, "wait_for_ssh", lambda _record: None)
+
+    def fake_run_json(command: list[str], *, timeout: float | None = None) -> dict[str, Any]:
+        del timeout
+        nonlocal attached_run_requested
+        if command[:2] == ["jl", "create"]:
+            return {
+                "machine_id": 999_001,
+                "name": "barun-fresh-test-s0",
+                "status": "Running",
+                "gpu_type": "H200",
+                "num_gpus": 1,
+                "region": "IN2",
+                "is_spot": False,
+                "template": "axolotl",
+            }
+        if command[:2] == ["jl", "get"]:
+            return {
+                "machine_id": 999_001,
+                "name": "barun-fresh-test-s0",
+                "status": "Running",
+                "gpu_type": "H200",
+                "num_gpus": 1,
+                "region": "IN2",
+                "is_spot": False,
+                "template": "axolotl",
+            }
+        if command[:2] == ["jl", "exec"]:
+            assert command[:7] == ["jl", "exec", "999001", "--json", "--", "python3", "-c"]
+            return {
+                "machine_id": 999_001,
+                "exit_code": 0,
+                "stdout": '{"implementation":"CPython","version":"3.10.20"}\n',
+                "stderr": "",
+            }
+        if command[:2] == ["jl", "run"]:
+            attached_run_requested = True
+            raise AssertionError("runtime mismatch must fail before upload")
+        raise AssertionError(f"unexpected command: {command}")
+
+    def fake_pause(record: dict[str, Any]) -> dict[str, Any]:
+        machine_id = int(record["machine_id"])
+        paused_ids.append(machine_id)
+        return {
+            "machine_id": machine_id,
+            "name": record["instance_name"],
+            "status": "Paused",
+        }
+
+    monkeypatch.setattr(module, "run_json", fake_run_json)
+    monkeypatch.setattr(module, "pause_owned", fake_pause)
+
+    with pytest.raises(module.SafetyError, match="live python runtime differs"):
+        module.run_fresh(args)
+
+    assert attached_run_requested is False
+    assert paused_ids == [999_001]
+    assert module.load_json(args.target / args.bind_attempt_inventory)["prelaunch_inventory"] == {
+        "captured_before_project_instance_creation": True,
+        "protected_machine_ids": module.PREEXISTING_IDS_PLACEHOLDER,
+        "project_machine_id": module.MACHINE_ID_PLACEHOLDER,
+        "fresh_project_instance": True,
+    }
+    saved = module.load_json(args.record)
+    assert "attempt_inventory_binding" not in saved
+    assert saved["hardware_attestation"]["observed"]["template"] == "axolotl"
+    assert saved["final_instance"]["machine_id"] == 999_001
+    assert saved["final_instance"]["status"] == "Paused"
 
 
 def test_artifact_collection_is_attempted_even_when_log_collection_fails(

@@ -1,0 +1,14 @@
+{
+  "schema_version": "barun-jarvis-pause-proof-v1",
+  "observed_at": "2026-08-03T20:31:50.971724+00:00",
+  "observation_source": "safe_run pause_verified event",
+  "machine_id": 463786,
+  "name": "barun-mbcf-v1-a1",
+  "status": "Paused",
+  "gpu_type": "H200",
+  "num_gpus": 1,
+  "region": "IN2",
+  "is_spot": false,
+  "template": "pytorch",
+  "exact_id_only": true
+}

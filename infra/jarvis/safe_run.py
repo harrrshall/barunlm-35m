@@ -53,6 +53,11 @@ SENSITIVE_FILE_SUFFIXES = {".key", ".pem", ".p12", ".pfx"}
 IGNORED_SCAN_DIRECTORIES = {".git", ".venv", "__pycache__"}
 MACHINE_ID_PLACEHOLDER = "__SAFE_RUN_MACHINE_ID__"
 PREEXISTING_IDS_PLACEHOLDER = "__SAFE_RUN_PREEXISTING_IDS__"
+PYTHON_RUNTIME_IDENTITY_CODE = (
+    "import json,platform;"
+    "print(json.dumps({'implementation':platform.python_implementation(),"
+    "'version':platform.python_version()},sort_keys=True,separators=(',',':')))"
+)
 
 
 class SafetyError(RuntimeError):
@@ -99,6 +104,71 @@ def requirements_receipt(path: Path | None) -> dict[str, str] | None:
     return {"path": str(path), "sha256": sha256_file(path.resolve())}
 
 
+def attempt_inventory_file(*, target: Path, relative_path: Path) -> Path:
+    """Resolve one regular target-relative attempt file without allowing path escape."""
+
+    if relative_path.is_absolute() or ".." in relative_path.parts:
+        fail("attempt-inventory binding path must be a safe target-relative path")
+    root = target.resolve()
+    candidate = root.joinpath(relative_path)
+    if candidate.is_symlink():
+        fail("attempt-inventory binding path must not be a symlink")
+    try:
+        path = candidate.resolve(strict=True)
+    except FileNotFoundError as error:
+        raise SafetyError("attempt-inventory binding file does not exist") from error
+    if root != path and root not in path.parents:
+        fail("attempt-inventory binding path escapes the run target")
+    if not path.is_file():
+        fail("attempt-inventory binding path must be a regular file")
+    return path
+
+
+def requested_attempt_compute(args: argparse.Namespace) -> dict[str, Any]:
+    """Return the exact operational contract that must be frozen before instance creation."""
+
+    return {
+        "provider": "JarvisLabs",
+        "template": str(args.template),
+        "python_implementation": str(args.python_implementation),
+        "python_version": str(args.python_version),
+        "gpu": str(args.gpu),
+        "num_gpus": int(args.num_gpus),
+        "region": args.region,
+        "is_spot": bool(args.spot),
+        "max_gpu_job_minutes": int(args.max_runtime_minutes),
+    }
+
+
+def validate_unbound_attempt_contract(
+    *, target: Path, relative_path: Path, args: argparse.Namespace
+) -> dict[str, Any]:
+    """Fail before creation unless the attempt is unbound and freezes the requested runtime."""
+
+    path = attempt_inventory_file(target=target, relative_path=relative_path)
+    payload = load_json(path)
+    if not isinstance(payload, dict):
+        fail("attempt-inventory binding file must contain a JSON object")
+    expected_inventory = {
+        "captured_before_project_instance_creation": True,
+        "protected_machine_ids": PREEXISTING_IDS_PLACEHOLDER,
+        "project_machine_id": MACHINE_ID_PLACEHOLDER,
+        "fresh_project_instance": True,
+    }
+    if payload.get("prelaunch_inventory") != expected_inventory:
+        fail("attempt preregistration must be unbound before fresh instance creation")
+    expected_compute = requested_attempt_compute(args)
+    if payload.get("compute") != expected_compute:
+        fail("attempt preregistration compute contract differs from the requested fresh run")
+    return {
+        "path": relative_path.as_posix(),
+        "sha256": sha256_file(path),
+        "compute": expected_compute,
+        "unbound_before_instance_creation": True,
+        "verified_at": utc_now(),
+    }
+
+
 def bind_attempt_inventory(
     *,
     target: Path,
@@ -115,20 +185,7 @@ def bind_attempt_inventory(
     artifact manifest.
     """
 
-    if relative_path.is_absolute() or ".." in relative_path.parts:
-        fail("attempt-inventory binding path must be a safe target-relative path")
-    root = target.resolve()
-    candidate = root.joinpath(relative_path)
-    if candidate.is_symlink():
-        fail("attempt-inventory binding path must not be a symlink")
-    try:
-        path = candidate.resolve(strict=True)
-    except FileNotFoundError as error:
-        raise SafetyError("attempt-inventory binding file does not exist") from error
-    if root != path and root not in path.parents:
-        fail("attempt-inventory binding path escapes the run target")
-    if not path.is_file():
-        fail("attempt-inventory binding path must be a regular file")
+    path = attempt_inventory_file(target=target, relative_path=relative_path)
 
     payload = load_json(path)
     if not isinstance(payload, dict):
@@ -207,6 +264,9 @@ def run_json(command: Sequence[str], *, timeout: float | None = None) -> Any:
 
 
 def filtered_instance(item: dict[str, Any]) -> dict[str, Any]:
+    template = item.get("template")
+    if template is None:
+        template = item.get("framework")
     return {
         "machine_id": int(item["machine_id"]),
         "name": item.get("name"),
@@ -215,6 +275,7 @@ def filtered_instance(item: dict[str, Any]) -> dict[str, Any]:
         "num_gpus": item.get("num_gpus"),
         "region": item.get("region"),
         "is_spot": item.get("is_spot"),
+        "template": template,
     }
 
 
@@ -336,12 +397,14 @@ def requested_hardware_attestation(
         "num_gpus": int(args.num_gpus),
         "region": args.region,
         "is_spot": bool(args.spot),
+        "template": str(args.template),
     }
     observed = {
         "gpu_type": live.get("gpu_type"),
         "num_gpus": live.get("num_gpus"),
         "region": live.get("region"),
         "is_spot": live.get("is_spot"),
+        "template": live.get("template"),
     }
     mismatches: list[str] = []
     if not isinstance(observed["gpu_type"], str) or (
@@ -363,6 +426,8 @@ def requested_hardware_attestation(
         mismatches.append("region")
     if type(observed["is_spot"]) is not bool or observed["is_spot"] is not expected["is_spot"]:
         mismatches.append("is_spot")
+    if observed["template"] != expected["template"]:
+        mismatches.append("template")
     if mismatches:
         fail("live instance differs from requested hardware: " + ", ".join(sorted(set(mismatches))))
     return {
@@ -392,6 +457,88 @@ def attest_live_hardware(
         num_gpus=live.get("num_gpus"),
         region=live.get("region"),
         is_spot=live.get("is_spot"),
+        template=live.get("template"),
+    )
+    return receipt
+
+
+def python_runtime_identity(machine_id: int) -> dict[str, str]:
+    """Read only the Python implementation/version from one exact instance ID."""
+
+    payload = run_json(
+        [
+            "jl",
+            "exec",
+            str(machine_id),
+            "--json",
+            "--",
+            "python3",
+            "-c",
+            PYTHON_RUNTIME_IDENTITY_CODE,
+        ],
+        timeout=60,
+    )
+    if not isinstance(payload, dict) or payload.get("machine_id") != machine_id:
+        fail("python runtime probe did not return the exact owned machine ID")
+    if type(payload.get("exit_code")) is not int or payload["exit_code"] != 0:
+        fail("python runtime probe did not exit successfully")
+    stdout = payload.get("stdout")
+    if not isinstance(stdout, str):
+        fail("python runtime probe did not return JSON stdout")
+    try:
+        identity = json.loads(stdout)
+    except json.JSONDecodeError as error:
+        raise SafetyError("python runtime probe stdout is not valid JSON") from error
+    if (
+        not isinstance(identity, dict)
+        or set(identity) != {"implementation", "version"}
+        or any(not isinstance(identity[name], str) for name in identity)
+    ):
+        fail("python runtime probe returned an invalid identity object")
+    return identity
+
+
+def attest_live_python_runtime(
+    record_path: Path,
+    record: dict[str, Any],
+    args: argparse.Namespace,
+) -> dict[str, Any]:
+    """Attest exact Python identity after hardware checks and before binding/upload."""
+
+    machine_id = int(record["machine_id"])
+    preexisting = {int(item["machine_id"]) for item in record["preexisting_resources"]}
+    if (
+        not record.get("created_by_safe_run")
+        or machine_id in preexisting
+        or machine_id in permanent_protected_ids()
+    ):
+        fail("python runtime attestation requires one fresh exact owned machine ID")
+    observed = python_runtime_identity(machine_id)
+    expected = {
+        "implementation": str(args.python_implementation),
+        "version": str(args.python_version),
+    }
+    if observed != expected:
+        fail(
+            "live python runtime differs from requested identity: "
+            f"observed {observed!r}, expected {expected!r}"
+        )
+    receipt = {
+        "verified_at": utc_now(),
+        "verified_before_inventory_binding": True,
+        "verified_before_upload": True,
+        "machine_id": machine_id,
+        "requested": expected,
+        "observed": observed,
+    }
+    record["python_runtime_attestation"] = receipt
+    persist_event(
+        record_path,
+        record,
+        "python_runtime_attested_before_inventory_binding_and_upload",
+        machine_id=machine_id,
+        implementation=observed["implementation"],
+        version=observed["version"],
     )
     return receipt
 
@@ -1043,6 +1190,8 @@ def run_owned_retry(args: argparse.Namespace, record_path: Path) -> int:
         "gpu": args.gpu,
         "num_gpus": args.num_gpus,
         "template": args.template,
+        "python_implementation": args.python_implementation,
+        "python_version": args.python_version,
         "region": args.region,
         "spot": args.spot,
         "storage_gb": args.storage,
@@ -1087,6 +1236,7 @@ def run_owned_retry(args: argparse.Namespace, record_path: Path) -> int:
         wait_for_ssh(record)
         persist_event(record_path, record, "owned_retry_ssh_ready", machine_id=machine_id)
         attest_live_hardware(record_path, record, args)
+        attest_live_python_runtime(record_path, record, args)
 
         if args.bind_attempt_inventory:
             bind_attempt_inventory(
@@ -1204,6 +1354,14 @@ def run_fresh(args: argparse.Namespace) -> int:
             return run_owned_retry(args, record_path)
         fail(f"refusing to overwrite existing run record: {record_path}")
 
+    attempt_contract = None
+    if args.bind_attempt_inventory:
+        attempt_contract = validate_unbound_attempt_contract(
+            target=args.target,
+            relative_path=args.bind_attempt_inventory,
+            args=args,
+        )
+
     preexisting = inventory()
     preexisting_ids = {int(item["machine_id"]) for item in preexisting}
     if not permanent_protected_ids().issubset(preexisting_ids):
@@ -1223,6 +1381,8 @@ def run_fresh(args: argparse.Namespace) -> int:
             "gpu": args.gpu,
             "num_gpus": args.num_gpus,
             "template": args.template,
+            "python_implementation": args.python_implementation,
+            "python_version": args.python_version,
             "region": args.region,
             "spot": args.spot,
             "storage_gb": args.storage,
@@ -1243,6 +1403,7 @@ def run_fresh(args: argparse.Namespace) -> int:
         },
         "preexisting_resources": preexisting,
         "protected_ids_missing_from_live_inventory": missing,
+        "attempt_contract_precreate_validation": attempt_contract,
         "events": [],
     }
     atomic_write_json(record_path, record)
@@ -1342,7 +1503,23 @@ def run_fresh(args: argparse.Namespace) -> int:
             machine_claimed = True
             persist_event(record_path, record, "machine_created", machine_id=machine_id)
 
+        wait_for_ssh(record)
+        persist_event(record_path, record, "machine_ssh_ready", machine_id=machine_id)
+        attest_live_hardware(record_path, record, args)
+        attest_live_python_runtime(record_path, record, args)
+
         if args.bind_attempt_inventory:
+            prebind_contract = validate_unbound_attempt_contract(
+                target=args.target,
+                relative_path=args.bind_attempt_inventory,
+                args=args,
+            )
+            if (
+                not isinstance(attempt_contract, dict)
+                or prebind_contract["sha256"] != attempt_contract["sha256"]
+            ):
+                fail("attempt preregistration changed after pre-create validation")
+            record["attempt_contract_prebind_validation"] = prebind_contract
             bind_attempt_inventory(
                 target=args.target,
                 relative_path=args.bind_attempt_inventory,
@@ -1350,10 +1527,6 @@ def run_fresh(args: argparse.Namespace) -> int:
                 record=record,
                 machine_id=machine_id,
             )
-
-        wait_for_ssh(record)
-        persist_event(record_path, record, "machine_ssh_ready", machine_id=machine_id)
-        attest_live_hardware(record_path, record, args)
 
         if requirements_receipt(args.requirements) != record["requested"]["requirements"]:
             fail("requirements bytes changed after inventory and before upload")
@@ -1491,6 +1664,8 @@ def build_parser() -> argparse.ArgumentParser:
     run_parser.add_argument("--gpu", default="L4")
     run_parser.add_argument("--num-gpus", type=int, default=1)
     run_parser.add_argument("--template", default="pytorch")
+    run_parser.add_argument("--python-implementation", choices=("CPython",), required=True)
+    run_parser.add_argument("--python-version", choices=("3.11.10",), required=True)
     run_parser.add_argument("--storage", type=int, default=100)
     run_parser.add_argument("--region", choices=("IN1", "IN2", "EU1"))
     run_parser.add_argument("--spot", action="store_true")

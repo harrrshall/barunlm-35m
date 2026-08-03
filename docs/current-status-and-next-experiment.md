@@ -12,6 +12,41 @@ strict exact-match rate, but Qwen scored 663/756 and BarunAction scored 602/756,
 Qwen lead. Preserve candidate-v2 and its int8 derivative; do not tune this result away, relabel the
 SmolLM2 failure as a general win, or inspect the sealed 961-row Mobile evaluation population.
 
+## Execution status: v1 stopped before science; v2 is frozen
+
+The first Month-Boundary Counterfactual launch created fresh H200 **463786** and failed during
+JarvisLabs dependency resolution, before the experiment runner started. The PyTorch template
+provided CPython 3.10.20, but frozen `numpy==2.4.6` requires Python 3.11 or newer. Safe-run
+pause-verified only that exact ID. Raw lifecycle SHA-256 is
+`ae2739f5b8598a3382bf45908ee16c376f166940f0f181c84d7fa51adeac9982`; remote-log SHA-256 is
+`54e5aaeaa6a321c53dd4c5c489e9af9738798a9c3651132f1860adef59431add`; and bound attempt SHA-256
+is `3168fdeffc039bdceae855c34bdf616c71f54ece0aa2b0a79a8bc3642cc64f90`.
+
+This is a blocked infrastructure attempt, not a failed model hypothesis. The runner never began,
+so model and CUDA access were false; construction, selection, confirmation, reused-756, and
+official-961 rows read were all zero; no prediction, loss, or score was produced. Because no remote
+`execution/essential` tree existed, artifact retrieval truthfully failed. No synthetic artifact
+or ordinal-2 authorization was created.
+
+A fresh L4 environment check then created exact ID **463788** with the Axolotl template. Its
+provider preamble selected CPython 3.11.10; lifecycle and remote-log SHA-256 are
+`c2727275ef97d4e3bb64d4fec67edbe245a04ac2b9f2df55057c5c6c1c88a828` and
+`9e8d0e1c559d8378f44f3dae919b020942a22069e2a11a888ffdde0374e293a0`.
+The probe script itself did not run because the deliberately minimal directory had no project
+metadata, so this proves only the provider runtime preamble. ID 463788 is pause-verified and
+protected.
+
+The current run is the new preregistration
+`20260804-0210-mobile-temporal-counterfactual-axolotl-s17`, not a v1 retry. Its frozen config is
+`configs/mobile_temporal_counterfactual_v2.json`, SHA-256
+`893a2e0ff59ccb98767af653d0f80745e32c05abc4620d3dfae3f277033f20b8`; its scientific
+projection is `d077effff172a4870ec1d8af2ee4e6b3b3fcf80a8b860eaf65eb5d0781942186`.
+The run binds Axolotl and CPython 3.11.10 before create, re-attests both on the fresh exact H200
+before upload, and permits only the active non-symlink repository-root `.venv` created by the
+provider. The provider environment stays outside the scientific tree. Hypothesis, data,
+materializations, arms, seeds, optimization, decoding, thresholds, gates, requirements, and the
+official-evaluation firewall are unchanged.
+
 ## Current release candidate
 
 | Item | Frozen result or identity |
@@ -89,11 +124,11 @@ BarunAction misses 43 (72.9%) while Qwen misses seven (11.9%); all 43 BarunActio
 strong shortcut evidence, not causal proof. Map copying is lower priority: total query mismatches
 are nearly tied, 33 for BarunAction and 34 for Qwen.
 
-## Next experiment: Month-Boundary Counterfactual SFT v1
+## Current experiment: Month-Boundary Counterfactual SFT v2
 
 Do not launch generic hard-example oversampling, weighted-token loss, DPO, RL, distillation, or a
 learning-rate sweep. The previous calendar/map/multi-call hard mix fell to 566/756, while the new
-paired analysis isolates missing temporal counterevidence. The next experiment asks:
+paired analysis isolates missing temporal counterevidence. The current experiment asks:
 
 > Does teacher-free SFT that decorrelates `NOW`'s month from the requested calendar month remove
 > the month-copy shortcut, beyond the effect of merely repeating the same source rows?
@@ -118,9 +153,11 @@ calendar datetime by the same deterministic nonzero multiple of seven days. Reje
 ambiguous, numeric-date, same-day, multi-calendar, invalid, or overlength cases. No teacher output,
 paraphrase, outside text, reused 756 prompt, or official-evaluation material is allowed.
 
-The executable preregistration is `configs/mobile_temporal_counterfactual_v1.json`, full-file
-SHA-256 `8c31c4fee18bf4a19e8fa079eec5448c3b62118a13a3eef5a0ba924bb05d07da`; its separately checked
-scientific projection is `964a1a8f25a53f7d11280fb9e1d2cd1c8269bd4afc63078ce63bded02a6351a5`.
+The executable preregistration is `configs/mobile_temporal_counterfactual_v2.json`, full-file
+SHA-256 `893a2e0ff59ccb98767af653d0f80745e32c05abc4620d3dfae3f277033f20b8`; its separately checked
+scientific projection is `d077effff172a4870ec1d8af2ee4e6b3b3fcf80a8b860eaf65eb5d0781942186`.
+The frozen provider requirements remain byte-identical at
+`a037db0943d563ea04bcc45b963b5a27931e6f745a7f472c079bb9f9fa6df853`.
 Two independent local materializations were byte-identical. Construction produced 1,093 safe
 pairs (748 explicit and 345 relative), so B and C each contain 6,838 rows and 109 batch-63
 optimizer steps. C contains
@@ -170,25 +207,28 @@ reselection is allowed.
 1. W&B publication is complete: immutable float, Darwin ARM64 int8, and evidence `v0` artifacts,
    upload receipt, fresh 310-file redownload, and anonymous float-weight verification all passed.
    Finish the secret-scanned public source branch/release; do not include workspace data or weights.
-2. The Month-Boundary Counterfactual generator, duplicate firewall, evaluator, tests, materialized
-   hashes, three-arm/three-seed budget, retry firewall, dependency-only environment, and exact-ID
-   lifecycle are frozen. The full repository suite passes 401 tests. The launch builder requires a
+2. The Axolotl-bound v2 generator, duplicate firewall, evaluator, materialized hashes,
+   three-arm/three-seed budget, retry firewall, dependency-only environment, and exact-ID
+   lifecycle are frozen. The full repository suite passes 423 tests. The launch builder requires a
    clean canonical Git HEAD, validates the complete staged preflight, permits only the six
    screening and two full-refit JSONLs plus the pinned reused-756 manifest and identical root
    requirements copy, and creates the source snapshot and attempt template without bytecode.
-3. Run the compute-heavy training and evaluation on one newly created, exact-ID-
-   controlled JarvisLabs H200. Do not use or mutate any pre-existing instance. Pause and verify the
-   exact created ID after artifact retrieval.
+3. Run the compute-heavy training and evaluation on one newly created, exact-ID-controlled,
+   non-spot JarvisLabs H200 using template `axolotl`. Safe-run must attest exact template and
+   CPython 3.11.10 before inventory binding or upload. Do not use or mutate any pre-existing
+   instance. Download the recursive `execution/essential` tree before pausing and verifying the
+   exact created ID.
 4. Preserve every outcome. Promote only through the frozen gate; otherwise keep candidate-v2.
 
 ## Resource and publication invariants
 
-Kroda 463058 is running and protected. The independently running eight-H200 instance 463719 is
-also protected. Qwen instance 463689 is paused and protected. Previously observed unrecognized ID
-463697 remains protected even though it is absent from the latest listing. Do not access, resume,
-stop, rename, or delete any of them. Read the exact-ID lifecycle in `AGENTS.md` before creating a
-new resource. The current local orchestrator uses an open-lid `/usr/bin/caffeinate -i` assertion;
-it does not survive lid close, shutdown, power loss, or network loss.
+Kroda 463058 is running and protected. Independently owned 463719 remains protected regardless of
+its observed lifecycle state. Qwen 463689, failed H200 evidence ID 463786, and L4 runtime probe ID
+463788 are paused and protected. Previously observed unrecognized ID 463697 remains protected even
+when absent from the latest listing. Do not access, resume, stop, rename, or delete any of them.
+Read the exact-ID lifecycle in `AGENTS.md` before creating a new resource. The
+current local orchestrator uses an open-lid `/usr/bin/caffeinate -i` assertion; it does not survive
+lid close, shutdown, power loss, or network loss.
 
 No credential belongs in the repository, artifacts, logs, documentation, or command arguments.
 The latest user direction authorizes a public BarunAction model/evidence release. Keep the score

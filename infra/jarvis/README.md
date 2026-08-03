@@ -22,6 +22,29 @@ recorded as created by a Barun experiment is also protected by default.
 The running CPU instance Kroda, ID 463058, must remain uninterrupted. No project job may execute
 on it. Do not start a paused pre-existing instance to save setup time.
 
+## Month-Boundary Counterfactual v2 launch contract
+
+The BarunAction-35M Month-Boundary Counterfactual v2 run has an exact provider-runtime contract.
+Its `safe_run.py run` invocation must include
+`--template axolotl --python-implementation CPython --python-version 3.11.10` together with the
+GPU, count, region, spot policy, and maximum runtime frozen in the attempt preregistration. These
+values are not advisory and must not silently fall back to another template or Python runtime.
+
+When `--bind-attempt-inventory` is used, the controller validates the still-unbound attempt JSON
+before the pre-creation inventory or any instance creation. Its `prelaunch_inventory` fields must
+still contain the two `__SAFE_RUN_*__` placeholders, and its compute object must exactly match the
+requested JarvisLabs provider, Axolotl template, CPython version, GPU, region, spot, and time
+contract. A mismatch stops before any resource is created.
+
+After a fresh `barun-*` ID is created and becomes SSH-ready, the controller first attests the
+requested hardware and the exact `axolotl` template from that ID's live record. It then runs a
+small, standard-library-only identity command through `jl exec <exact-id>` and requires `python3`
+to report exactly `CPython` and `3.11.10`. The runtime receipt is persisted before the controller
+binds the attempt's inventory placeholders or invokes the attached `jl run` upload. A missing,
+malformed, or mismatched template/runtime identity fails closed: no target is uploaded, and only
+the newly recorded exact ID is paused and queried for paused-state proof. Existing or protected
+resources remain out of scope even when an attestation fails.
+
 ## Remote run sequence
 
 1. Run `jl list --json` read-only and filter it to ID, name, state, GPU type, and GPU count. Compare
@@ -49,8 +72,9 @@ on it. Do not start a paused pre-existing instance to save setup time.
    If a preregistration must also contain the not-yet-known fresh ID, put
    `__SAFE_RUN_MACHINE_ID__` and `__SAFE_RUN_PREEXISTING_IDS__` in its strict
    `prelaunch_inventory` block and pass `--bind-attempt-inventory <target-relative-json>`. The
-   controller atomically replaces only those operational fields after creation and before target
-   upload, records both file hashes, and refuses denylist drift, symlinks, or path escape.
+   controller atomically replaces only those operational fields after the exact template and
+   Python runtime attestations and before target upload, records both file hashes, and refuses
+   denylist drift, symlinks, path escape, or compute-contract drift.
 7. Poll the run and instance by their exact IDs. Download logs, sample predictions, metrics,
    manifests, and checkpoints before cleanup. Hash transferred artifacts and record transfer
    failures.

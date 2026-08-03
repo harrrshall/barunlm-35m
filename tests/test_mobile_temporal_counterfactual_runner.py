@@ -423,13 +423,22 @@ def _build_frozen_fixture(tmp_path: Path, *, safe_variants: int = 1_000) -> Froz
                 "tests/test_jarvis_safe_run.py",
             ],
             "environment_overrides": {"CUDA_VISIBLE_DEVICES": "", "WANDB_MODE": "disabled"},
+            "provider_runtime": {
+                "template": runner.EXPECTED_JARVIS_TEMPLATE,
+                "python_implementation": runner.EXPECTED_PYTHON_IMPLEMENTATION,
+                "python_version": runner.EXPECTED_PYTHON_VERSION,
+                "repository_root_virtual_environment": ".venv",
+                "virtual_environment_must_be_active": True,
+                "virtual_environment_in_scientific_tree": False,
+                "preupload_runtime_attestation_required": True,
+            },
             "required_exit_code": 0,
             "parent_process_torch_imported_before_validation": False,
             "real_terminal_manifest_path_or_contents_passed_in_test_argv_or_environment": False,
             "test_file_allowlist_has_no_real_terminal_reference": True,
         },
         "run_id": "20260803-2350-mobile-temporal-counterfactual-s17",
-        "schema_version": "barun-mobile-temporal-counterfactual-v1",
+        "schema_version": runner.CONFIG_SCHEMA_VERSION,
         "screening_fit_budget": 9,
         "seeds": list(runner.EXPECTED_SEEDS),
         "thresholds": dict(runner.EXPECTED_THRESHOLDS),
@@ -529,6 +538,9 @@ def _write_bound_launch_provenance(
         },
         "compute": {
             "provider": "JarvisLabs",
+            "template": runner.EXPECTED_JARVIS_TEMPLATE,
+            "python_implementation": runner.EXPECTED_PYTHON_IMPLEMENTATION,
+            "python_version": runner.EXPECTED_PYTHON_VERSION,
             "gpu": "H200",
             "num_gpus": 1,
             "region": "IN2",
@@ -549,6 +561,29 @@ def _write_bound_launch_provenance(
     attempt_path = root / runner.ATTEMPT_PREREGISTRATION_RELATIVE_PATH
     attempt_sha256 = _write(attempt_path, _json_bytes(attempt))
     return attempt_path, attempt_sha256, terminal
+
+
+def _install_active_runtime_root_venv(root: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
+    venv = root / ".venv"
+    executable = venv / "bin" / "python"
+    executable.parent.mkdir(parents=True)
+    executable.write_bytes(b"test interpreter marker\n")
+    (venv / "pyvenv.cfg").write_text("include-system-site-packages = true\n", encoding="utf-8")
+    base_prefix = root.parent / f"{root.name}-base-python"
+    base_prefix.mkdir()
+    monkeypatch.setattr(runner.sys, "prefix", str(venv))
+    monkeypatch.setattr(runner.sys, "exec_prefix", str(venv))
+    monkeypatch.setattr(runner.sys, "base_prefix", str(base_prefix))
+    monkeypatch.setattr(runner.sys, "executable", str(executable))
+    monkeypatch.setenv("VIRTUAL_ENV", str(venv))
+    return venv
+
+
+def _patch_expected_runtime_identity(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setattr(
+        runner.platform, "python_implementation", lambda: runner.EXPECTED_PYTHON_IMPLEMENTATION
+    )
+    monkeypatch.setattr(runner.platform, "python_version", lambda: runner.EXPECTED_PYTHON_VERSION)
 
 
 def _write_retry_launch_provenance(
@@ -737,6 +772,7 @@ runner = runpy.run_path(
 )
 with open("configs/mobile_temporal_counterfactual_v1.json", encoding="utf-8") as handle:
     config = json.load(handle)
+config["schema_version"] = runner["CONFIG_SCHEMA_VERSION"]
 config["confirmation_gate"]["evaluator_thresholds"]["minimum_positive_seed_count"] = 0
 try:
     runner["_validate_config"](config)
@@ -746,6 +782,7 @@ else:
     raise AssertionError("mutated confirmation gate passed stdlib freeze")
 with open("configs/mobile_temporal_counterfactual_v1.json", encoding="utf-8") as handle:
     config = json.load(handle)
+config["schema_version"] = runner["CONFIG_SCHEMA_VERSION"]
 config["run_id"] = "20260803-2354-mobile-temporal-counterfactual-s17"
 try:
     runner["_validate_config"](config)
@@ -945,6 +982,123 @@ def test_execute_enters_lazy_backend_only_after_preflight_and_cublas_setup(
     assert (fixture.output_dir / "execution-plan.json").is_file()
 
 
+def test_runtime_source_validation_accepts_only_active_root_venv(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    fixture = _build_frozen_fixture(tmp_path)
+    _patch_shadow_contract(monkeypatch, fixture)
+    attempt_path, attempt_sha256, terminal_path = _write_bound_launch_provenance(fixture)
+    snapshot = json.loads((tmp_path / runner.SOURCE_SNAPSHOT_RELATIVE_PATH).read_text())
+    scientific_tree = {
+        name: snapshot["content_tree"][name]
+        for name in ("sha256", "file_count", "content_bytes", "files")
+    }
+    _install_active_runtime_root_venv(tmp_path, monkeypatch)
+    monkeypatch.setattr(runner, "REPOSITORY_ROOT", tmp_path)
+
+    result = runner._validate_attempt_preregistration(
+        attempt_path=attempt_path,
+        config_path=fixture.config_path,
+        config=json.loads(fixture.config_path.read_text(encoding="utf-8")),
+        materialization_receipt=fixture.view_audit_path,
+        terminal_binding={
+            "manifest": str(terminal_path.resolve()),
+            "manifest_sha256": runner.PINNED_REUSED_756_SHA256,
+        },
+        jarvis_resource_id="987654",
+        expected_attempt_sha256=attempt_sha256,
+    )
+
+    assert result["source_snapshot"]["content_tree"] == scientific_tree
+    assert all(not record["path"].startswith(".venv/") for record in scientific_tree["files"])
+
+
+def test_source_tree_builder_default_rejects_active_root_venv(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    (tmp_path / "source.txt").write_text("scientific source\n", encoding="utf-8")
+    _install_active_runtime_root_venv(tmp_path, monkeypatch)
+
+    with pytest.raises(
+        runner.TemporalPreflightError,
+        match=r"forbidden excluded directory: \.venv",
+    ):
+        runner._recompute_source_tree(tmp_path, excluded_exact_paths=[])
+
+
+def test_runtime_source_validation_rejects_inactive_root_venv(tmp_path: Path) -> None:
+    (tmp_path / "source.txt").write_text("scientific source\n", encoding="utf-8")
+    (tmp_path / ".venv").mkdir()
+
+    with pytest.raises(runner.TemporalPreflightError, match="not the active Python environment"):
+        runner._recompute_source_tree(
+            tmp_path,
+            excluded_exact_paths=[],
+            allow_active_runtime_root_venv=True,
+        )
+
+
+def test_runtime_source_validation_rejects_symlinked_root_venv(tmp_path: Path) -> None:
+    provider_venv = tmp_path.parent / f"{tmp_path.name}-provider-venv"
+    provider_venv.mkdir()
+    (tmp_path / ".venv").symlink_to(provider_venv, target_is_directory=True)
+
+    with pytest.raises(runner.TemporalPreflightError, match=r"symlink: \.venv"):
+        runner._recompute_source_tree(
+            tmp_path,
+            excluded_exact_paths=[],
+            allow_active_runtime_root_venv=True,
+        )
+
+
+@pytest.mark.parametrize("relative", [".cache", "venv", "nested/.venv", "nested/__pycache__"])
+def test_runtime_venv_exception_rejects_every_other_excluded_directory(
+    tmp_path: Path, relative: str
+) -> None:
+    (tmp_path / relative).mkdir(parents=True)
+
+    with pytest.raises(runner.TemporalPreflightError, match="forbidden excluded directory"):
+        runner._recompute_source_tree(
+            tmp_path,
+            excluded_exact_paths=[],
+            allow_active_runtime_root_venv=True,
+        )
+
+
+@pytest.mark.parametrize(
+    ("field", "changed"),
+    [
+        ("template", "pytorch"),
+        ("python_implementation", "PyPy"),
+        ("python_version", "3.11.9"),
+    ],
+)
+def test_attempt_rejects_unbound_compute_runtime(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    field: str,
+    changed: str,
+) -> None:
+    fixture = _build_frozen_fixture(tmp_path)
+    _patch_shadow_contract(monkeypatch, fixture)
+    attempt_path, _, terminal_path = _write_bound_launch_provenance(fixture)
+    attempt = json.loads(attempt_path.read_text(encoding="utf-8"))
+    attempt["compute"][field] = changed
+    attempt_sha256 = _write(attempt_path, _json_bytes(attempt))
+    monkeypatch.setattr(runner, "REPOSITORY_ROOT", tmp_path)
+
+    with pytest.raises(runner.TemporalPreflightError, match="compute contract changed"):
+        runner._validate_attempt_preregistration(
+            attempt_path=attempt_path,
+            config_path=fixture.config_path,
+            config=json.loads(fixture.config_path.read_text(encoding="utf-8")),
+            materialization_receipt=fixture.view_audit_path,
+            terminal_binding={"manifest": str(terminal_path.resolve())},
+            jarvis_resource_id="987654",
+            expected_attempt_sha256=attempt_sha256,
+        )
+
+
 @pytest.mark.parametrize("missing_id", sorted(runner.KNOWN_PROTECTED_JARVIS_IDS))
 def test_attempt_requires_every_durable_protected_machine_id(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch, missing_id: int
@@ -1070,6 +1224,7 @@ def test_cpu_gate_uses_only_exact_staged_src_on_pythonpath(
     monkeypatch.setattr(runner, "REPOSITORY_ROOT", tmp_path)
     monkeypatch.setattr(runner, "_torch_is_imported", lambda: False)
     monkeypatch.setattr(runner.subprocess, "run", fake_run)
+    _patch_expected_runtime_identity(monkeypatch)
     config = json.loads(fixture.config_path.read_text(encoding="utf-8"))
 
     receipt = runner._run_pre_cuda_validation(
@@ -1082,7 +1237,52 @@ def test_cpu_gate_uses_only_exact_staged_src_on_pythonpath(
     assert isinstance(environment, dict)
     assert environment["PYTHONPATH"] == str(staged_src)
     assert receipt["controller_safety_overrides"]["PYTHONPATH"] == str(staged_src)
+    assert receipt["runtime_identity"] == {
+        "status": "matched",
+        "expected": {
+            "python_implementation": "CPython",
+            "python_version": "3.11.10",
+            "sys_implementation_name": "cpython",
+        },
+        "observed": {
+            "python_implementation": "CPython",
+            "python_version": "3.11.10",
+            "sys_implementation_name": "cpython",
+        },
+    }
     assert not any(tmp_path.rglob("*.egg-info"))
+
+
+@pytest.mark.parametrize(
+    ("implementation", "version"),
+    [("PyPy", "3.11.10"), ("CPython", "3.11.9")],
+)
+def test_cpu_gate_rejects_runtime_identity_before_remote_tests(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    implementation: str,
+    version: str,
+) -> None:
+    fixture = _build_frozen_fixture(tmp_path)
+    (tmp_path / "src").mkdir()
+    terminal = tmp_path / "terminal.jsonl"
+    terminal.write_text("sealed\n", encoding="utf-8")
+
+    def forbidden_remote_test(*_args, **_kwargs):
+        raise AssertionError("remote tests ran with an unbound Python runtime")
+
+    monkeypatch.setattr(runner, "REPOSITORY_ROOT", tmp_path)
+    monkeypatch.setattr(runner, "_torch_is_imported", lambda: False)
+    monkeypatch.setattr(runner.platform, "python_implementation", lambda: implementation)
+    monkeypatch.setattr(runner.platform, "python_version", lambda: version)
+    monkeypatch.setattr(runner.subprocess, "run", forbidden_remote_test)
+
+    with pytest.raises(runner.TemporalPreflightError, match="runtime Python identity changed"):
+        runner._run_pre_cuda_validation(
+            config=json.loads(fixture.config_path.read_text(encoding="utf-8")),
+            output_dir=tmp_path / "cpu-identity-failure",
+            terminal_manifest=terminal,
+        )
 
 
 def test_cpu_gate_timeout_fails_closed_with_durable_receipt(
@@ -1100,6 +1300,7 @@ def test_cpu_gate_timeout_fails_closed_with_durable_receipt(
     monkeypatch.setattr(runner, "REPOSITORY_ROOT", tmp_path)
     monkeypatch.setattr(runner, "_torch_is_imported", lambda: False)
     monkeypatch.setattr(runner.subprocess, "run", timeout)
+    _patch_expected_runtime_identity(monkeypatch)
     config = json.loads(fixture.config_path.read_text(encoding="utf-8"))
     output = tmp_path / "cpu-timeout"
 

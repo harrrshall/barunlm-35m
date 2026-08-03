@@ -263,3 +263,35 @@ entries.
   JarvisLabs resource was created or mutated. After the corrections, 401 repository tests and the
   129-test frozen remote CPU gate pass. Preserve this distinction so infrastructure hardening is
   never counted as a scientific trial.
+
+## 2026-08-04 — Template Python and provider-created environments must be attested, not assumed
+
+- MBCF v1 attempt 1 created fresh H200 463786 but stopped in JarvisLabs dependency resolution.
+  The default PyTorch template exposed CPython 3.10.20, while the frozen
+  `numpy==2.4.6` pin requires Python 3.11 or newer. Safe-run paused and rechecked the exact ID.
+  The experiment entrypoint never began, so model/CUDA access, all held-out reads, predictions,
+  scores, and official-961 access remained zero. Record this as blocked infrastructure evidence,
+  not a scientific rejection and not an excuse to alter the recipe after seeing a score.
+- Recursive essential-artifact retrieval failed because the remote runner never created
+  `execution/essential`. The raw lifecycle truthfully records that failure. Do not synthesize a
+  remote artifact or adjudicated ordinal-2 receipt merely to satisfy the retry validator. The v1
+  byte-identical retry lane therefore remains unauthorized even though the substantive failure
+  contained no scientific signal.
+- A cheap fresh L4 Axolotl check, exact ID 463788, established from the provider preamble that the
+  template selects CPython 3.11.10. The probe script itself did not run: without an explicit
+  requirements file, the provider attempted an editable project install and rejected the minimal
+  directory because it had no `pyproject.toml` or `setup.py`. Preserve both facts; the Python
+  observation is useful operational evidence, but the run is not a successful probe workload or
+  model experiment.
+- The same provider workflow creates and activates a repository-root `.venv` for directory
+  targets. The v1 source validator would reject that directory even after dependency resolution
+  succeeded. A local `uv run --help` had already demonstrated the same trap and correctly
+  disqualified the first draft stage. Future launch validation must model provider setup
+  side-effects explicitly rather than assume uploaded bytes remain the entire runtime tree.
+- The replacement is a new v2 preregistration, not v1 attempt 2. It leaves the hypothesis, data,
+  materializations, requirements, training recipe, gates, and official firewall unchanged, while
+  binding Axolotl and CPython 3.11.10. Safe-run now validates the unbound compute contract before
+  create, attests template/hardware and exact Python through the fresh ID before binding or upload,
+  and fails closed on any mismatch. The runner permits only the active non-symlink root `.venv`
+  and still excludes it from the scientific tree; every other cache/environment directory remains
+  forbidden. The full suite passes 423 tests before the new run is staged.

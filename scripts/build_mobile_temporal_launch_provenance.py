@@ -1,4 +1,4 @@
-"""Build the immutable source snapshot and fresh-attempt template for MBCF v1.
+"""Build the immutable source snapshot and fresh-attempt template for MBCF v2.
 
 The staged directory must already contain the committed source, the two materialized
 view audits and their JSONL payloads, the dependency-only requirements file, and the
@@ -360,6 +360,10 @@ def build_launch_provenance(
     config = _load_json(config_path, label="scientific config")
     if config.get("schema_version") != runner.CONFIG_SCHEMA_VERSION:
         raise LaunchProvenanceError("scientific config schema differs from the staged runner")
+    if config.get("status") != "frozen_before_model_or_cuda_access":
+        raise LaunchProvenanceError(
+            "scientific config must be frozen before launch provenance is built"
+        )
     run_id = config.get("run_id")
     if not isinstance(run_id, str) or _RUN_ID_RE.fullmatch(run_id) is None:
         raise LaunchProvenanceError("scientific config has an invalid run_id")
@@ -446,6 +450,35 @@ def build_launch_provenance(
     retry_policy = config.get("retry_policy")
     if not isinstance(retry_policy, Mapping):
         raise LaunchProvenanceError("scientific config lacks retry_policy")
+    compute = config.get("compute")
+    if not isinstance(compute, Mapping):
+        raise LaunchProvenanceError("scientific config lacks compute")
+    attempt_compute = {
+        name: compute.get(name)
+        for name in (
+            "provider",
+            "template",
+            "python_implementation",
+            "python_version",
+            "gpu",
+            "num_gpus",
+            "region",
+            "is_spot",
+        )
+    }
+    attempt_compute["max_gpu_job_minutes"] = compute.get("maximum_gpu_job_minutes")
+    if attempt_compute != {
+        "provider": "JarvisLabs",
+        "template": runner.EXPECTED_JARVIS_TEMPLATE,
+        "python_implementation": runner.EXPECTED_PYTHON_IMPLEMENTATION,
+        "python_version": runner.EXPECTED_PYTHON_VERSION,
+        "gpu": "H200",
+        "num_gpus": 1,
+        "region": "IN2",
+        "is_spot": False,
+        "max_gpu_job_minutes": 30,
+    }:
+        raise LaunchProvenanceError("scientific config compute binding changed")
     attempt = {
         "schema_version": runner.ATTEMPT_PREREGISTRATION_SCHEMA_VERSION,
         "status": runner.ATTEMPT_STATUS,
@@ -477,14 +510,7 @@ def build_launch_provenance(
             "project_machine_id": MACHINE_ID_PLACEHOLDER,
             "fresh_project_instance": True,
         },
-        "compute": {
-            "provider": "JarvisLabs",
-            "gpu": "H200",
-            "num_gpus": 1,
-            "region": "IN2",
-            "is_spot": False,
-            "max_gpu_job_minutes": 30,
-        },
+        "compute": attempt_compute,
         "retry_lock": {
             name: retry_policy[name]
             for name in ("retry_after_any_held_out_signal", "retry_execution_policy")
@@ -501,7 +527,7 @@ def build_launch_provenance(
     if runner._recompute_source_tree(root, excluded_exact_paths=exact_exclusions) != tree:
         raise LaunchProvenanceError("writing excluded provenance changed the scientific tree")
     return {
-        "schema_version": "barun-mobile-temporal-launch-provenance-build-v1",
+        "schema_version": "barun-mobile-temporal-launch-provenance-build-v2",
         "run_id": run_id,
         "attempt_id": attempt["attempt_id"],
         "attempt_template_sha256": attempt_sha256,

@@ -1,0 +1,14 @@
+{
+  "schema_version": "barun-jarvis-pause-proof-v1",
+  "observed_at": "2026-08-03T20:34:36.093972+00:00",
+  "observation_source": "safe_run pause_verified event",
+  "machine_id": 463788,
+  "name": "barun-template-probe-axolotl",
+  "status": "Paused",
+  "gpu_type": "L4",
+  "num_gpus": 1,
+  "region": "IN2",
+  "is_spot": false,
+  "template": "axolotl",
+  "exact_id_only": true
+}

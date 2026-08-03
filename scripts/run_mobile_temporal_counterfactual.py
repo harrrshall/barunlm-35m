@@ -1,4 +1,4 @@
-"""Preflight or execute the frozen Month-Boundary Counterfactual SFT v1 experiment.
+"""Preflight or execute the frozen Month-Boundary Counterfactual SFT v2 experiment.
 
 This entrypoint is deliberately offline and standard-library-only.  It validates
 the materialized training and shadow manifests, writes deterministic execution
@@ -15,6 +15,7 @@ import importlib
 import json
 import math
 import os
+import platform
 import re
 import shutil
 import subprocess
@@ -26,7 +27,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 
-CONFIG_SCHEMA_VERSION = "barun-mobile-temporal-counterfactual-v1"
+CONFIG_SCHEMA_VERSION = "barun-mobile-temporal-counterfactual-v2"
 VIEW_AUDIT_SCHEMA_VERSION = "barun-mobile-temporal-view-audit-v1"
 SHADOW_AUDIT_SCHEMA_VERSION = "barun-mobile-temporal-shadow-audit-v1"
 FULL_VIEW_AUDIT_SCHEMA_VERSION = "barun-mobile-temporal-full-view-audit-v1"
@@ -34,11 +35,14 @@ TRANSFORM_RECEIPT_SCHEMA_VERSION = "barun-mobile-temporal-transform-receipt-v1"
 SFT_SCHEMA_VERSION = "barun-sft-example-v1"
 SHADOW_SPLIT_VERSION = "barun-mobile-temporal-shadow-split-v1"
 EXECUTION_BACKEND_VERSION = "barun-mobile-temporal-execution-v1"
-ATTEMPT_PREREGISTRATION_SCHEMA_VERSION = "barun-mobile-temporal-attempt-preregistration-v1"
+ATTEMPT_PREREGISTRATION_SCHEMA_VERSION = "barun-mobile-temporal-attempt-preregistration-v2"
 SOURCE_SNAPSHOT_SCHEMA_VERSION = "barun-mobile-temporal-source-snapshot-v1"
 SOURCE_TREE_ALGORITHM = "sha256_of_sorted_sha256_two_spaces_posix_path_newline"
 DETERMINISTIC_CUBLAS_WORKSPACE_CONFIG = ":4096:8"
 REMOTE_VALIDATION_TIMEOUT_SECONDS = 600
+EXPECTED_JARVIS_TEMPLATE = "axolotl"
+EXPECTED_PYTHON_IMPLEMENTATION = "CPython"
+EXPECTED_PYTHON_VERSION = "3.11.10"
 PINNED_REUSED_756_SHA256 = "988bdce5874d1f1a775feeb5ba2b58cd2bdc128f57e73cb9a63d535fae7c1d55"
 PINNED_REUSED_756_ROWS = 756
 FROZEN_TERMINAL_MAX_NEW_TOKENS = 192
@@ -82,7 +86,7 @@ ATTEMPT_STATUS = (
     "scientific_fields_frozen_before_instance_creation_inventory_bound_after_fresh_creation_"
     "before_upload_and_model_or_cuda_loading"
 )
-KNOWN_PROTECTED_JARVIS_IDS = frozenset({463058, 463689, 463697, 463719})
+KNOWN_PROTECTED_JARVIS_IDS = frozenset({463058, 463689, 463697, 463719, 463786, 463788})
 FROZEN_TOKEN_LENGTH_AUDIT = {
     "schema_version": "barun-mobile-temporal-token-length-audit-v1",
     "tokenizer_sha256": "70ded9605fccd09c2340ca7e225361eab0ae8b4dbbb0d6e26343ab5183979db6",
@@ -265,7 +269,7 @@ SCIENTIFIC_CONTRACT_FIELDS = (
     "claim_limits",
 )
 EXPECTED_SCIENTIFIC_CONTRACT_SHA256 = (
-    "964a1a8f25a53f7d11280fb9e1d2cd1c8269bd4afc63078ce63bded02a6351a5"
+    "d077effff172a4870ec1d8af2ee4e6b3b3fcf80a8b860eaf65eb5d0781942186"
 )
 
 
@@ -456,7 +460,54 @@ def _sensitive_source_file(name: str) -> bool:
     )
 
 
-def _recompute_source_tree(root: Path, *, excluded_exact_paths: Sequence[str]) -> dict[str, Any]:
+def _validate_active_runtime_root_venv(*, root: Path, candidate: Path) -> None:
+    expected = root / ".venv"
+    if candidate != expected or candidate.parent != root or candidate.name != ".venv":
+        raise TemporalPreflightError("runtime virtual environment is not repository-root .venv")
+    if candidate.is_symlink():
+        raise TemporalPreflightError("repository-root runtime .venv cannot be a symlink")
+    try:
+        resolved = candidate.resolve(strict=True)
+        prefix = Path(sys.prefix).resolve(strict=True)
+        exec_prefix = Path(sys.exec_prefix).resolve(strict=True)
+        base_prefix = Path(sys.base_prefix).resolve(strict=True)
+    except OSError as error:
+        raise TemporalPreflightError(
+            "runtime virtual-environment identity is not resolvable"
+        ) from error
+    if not candidate.is_dir() or resolved != expected:
+        raise TemporalPreflightError(
+            "runtime virtual environment is not exact repository-root .venv"
+        )
+    if prefix != expected or exec_prefix != expected or base_prefix == expected:
+        raise TemporalPreflightError("repository-root .venv is not the active Python environment")
+
+    virtual_env = os.environ.get("VIRTUAL_ENV")
+    if not virtual_env:
+        raise TemporalPreflightError("active repository-root .venv lacks VIRTUAL_ENV binding")
+    virtual_env_path = Path(virtual_env)
+    try:
+        resolved_virtual_env = virtual_env_path.resolve(strict=True)
+    except OSError as error:
+        raise TemporalPreflightError("VIRTUAL_ENV binding is not resolvable") from error
+    if not virtual_env_path.is_absolute() or resolved_virtual_env != expected:
+        raise TemporalPreflightError("VIRTUAL_ENV does not bind exact repository-root .venv")
+
+    executable = Path(sys.executable)
+    if (
+        not executable.is_absolute()
+        or executable.parent != expected / "bin"
+        or not executable.is_file()
+    ):
+        raise TemporalPreflightError("active Python executable is not repository-root .venv/bin")
+
+
+def _recompute_source_tree(
+    root: Path,
+    *,
+    excluded_exact_paths: Sequence[str],
+    allow_active_runtime_root_venv: bool = False,
+) -> dict[str, Any]:
     exact = set(excluded_exact_paths)
     records: list[tuple[str, str, int]] = []
     for current, directory_names, file_names in os.walk(root, topdown=True):
@@ -468,6 +519,9 @@ def _recompute_source_tree(root: Path, *, excluded_exact_paths: Sequence[str]) -
             if candidate.is_symlink():
                 raise TemporalPreflightError(f"staged source contains a symlink: {relative}")
             if _excluded_source_directory(name):
+                if allow_active_runtime_root_venv and relative == ".venv":
+                    _validate_active_runtime_root_venv(root=root, candidate=candidate)
+                    continue
                 raise TemporalPreflightError(
                     f"clean staged source contains a forbidden excluded directory: {relative}"
                 )
@@ -653,7 +707,11 @@ def _validate_source_snapshot(
         required_excluded_exact_paths=exact_exclusions,
         allowed_excluded_exact_paths=exact_exclusions,
     )
-    observed_tree = _recompute_source_tree(root, excluded_exact_paths=exact_exclusions)
+    observed_tree = _recompute_source_tree(
+        root,
+        excluded_exact_paths=exact_exclusions,
+        allow_active_runtime_root_venv=True,
+    )
     if any(tree[name] != observed_tree[name] for name in observed_tree):
         raise TemporalPreflightError("staged source content tree differs from source snapshot")
     if declared_projection != observed_tree:
@@ -1280,11 +1338,24 @@ def _validate_attempt_preregistration(
 
     compute = _exact_object(
         attempt["compute"],
-        {"provider", "gpu", "num_gpus", "region", "is_spot", "max_gpu_job_minutes"},
+        {
+            "provider",
+            "template",
+            "python_implementation",
+            "python_version",
+            "gpu",
+            "num_gpus",
+            "region",
+            "is_spot",
+            "max_gpu_job_minutes",
+        },
         label="attempt compute",
     )
     if compute != {
         "provider": "JarvisLabs",
+        "template": EXPECTED_JARVIS_TEMPLATE,
+        "python_implementation": EXPECTED_PYTHON_IMPLEMENTATION,
+        "python_version": EXPECTED_PYTHON_VERSION,
         "gpu": "H200",
         "num_gpus": 1,
         "region": "IN2",
@@ -2369,6 +2440,25 @@ def _activate_staged_source_import() -> Path:
     return staged_src
 
 
+def _validate_runtime_python_identity() -> dict[str, Any]:
+    expected = {
+        "python_implementation": EXPECTED_PYTHON_IMPLEMENTATION,
+        "python_version": EXPECTED_PYTHON_VERSION,
+        "sys_implementation_name": "cpython",
+    }
+    observed = {
+        "python_implementation": platform.python_implementation(),
+        "python_version": platform.python_version(),
+        "sys_implementation_name": getattr(sys.implementation, "name", None),
+    }
+    if observed != expected:
+        raise TemporalPreflightError(
+            "runtime Python identity changed before remote tests: "
+            f"observed {observed!r}, expected {expected!r}"
+        )
+    return {"status": "matched", "expected": expected, "observed": observed}
+
+
 def _run_pre_cuda_validation(
     *, config: Mapping[str, Any], output_dir: Path, terminal_manifest: Path
 ) -> dict[str, Any]:
@@ -2388,6 +2478,15 @@ def _run_pre_cuda_validation(
             "tests/test_jarvis_safe_run.py",
         ],
         "environment_overrides": {"CUDA_VISIBLE_DEVICES": "", "WANDB_MODE": "disabled"},
+        "provider_runtime": {
+            "template": EXPECTED_JARVIS_TEMPLATE,
+            "python_implementation": EXPECTED_PYTHON_IMPLEMENTATION,
+            "python_version": EXPECTED_PYTHON_VERSION,
+            "repository_root_virtual_environment": ".venv",
+            "virtual_environment_must_be_active": True,
+            "virtual_environment_in_scientific_tree": False,
+            "preupload_runtime_attestation_required": True,
+        },
         "required_exit_code": 0,
         "parent_process_torch_imported_before_validation": False,
         "real_terminal_manifest_path_or_contents_passed_in_test_argv_or_environment": False,
@@ -2397,6 +2496,7 @@ def _run_pre_cuda_validation(
         raise TemporalPreflightError("frozen remote-validation contract changed")
     if _torch_is_imported():
         raise TemporalPreflightError("torch was imported before CPU-only remote validation")
+    runtime_identity = _validate_runtime_python_identity()
     staged_src = _staged_source_directory()
     argv = [sys.executable, *expected["command"][1:]]
     terminal_text = str(terminal_manifest)
@@ -2442,6 +2542,7 @@ def _run_pre_cuda_validation(
         "required_exit_code": 0,
         "timeout_seconds": REMOTE_VALIDATION_TIMEOUT_SECONDS,
         "parent_process_torch_imported_before_validation": False,
+        "runtime_identity": runtime_identity,
         "real_terminal_manifest_referenced": False,
         "log_path": "pre-cuda-validation.log",
         "log_sha256": hashlib.sha256(log).hexdigest(),
