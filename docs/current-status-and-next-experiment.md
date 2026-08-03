@@ -205,9 +205,12 @@ versioned model/compiler contract.
 
 Before any model or CUDA access:
 
-1. Derive a new component-disjoint train/selection/confirmation split only from the former v3
-   construction population, using a new frozen salt. The old selection, old confirmation,
-   reused-756, and official-961 populations remain forbidden.
+1. Keep every old v3 row out of new selection and confirmation. Former v3 construction rows may
+   be used only as explicitly labeled training data; old selection, old confirmation, reused-756,
+   and official-961 populations remain forbidden during development. Acquire and freeze a genuinely
+   new post-v3 human-authored or independently sourced batch for component-disjoint selection and a
+   separate once-only confirmation population. If source provenance and licensing cannot support
+   that boundary, do not launch the experiment.
 2. Freeze a PlanIR schema, grounding/reference-table format, compiler, evaluator, and duplicate
    firewall. Require zero overlap by example, connected component, family, prompt-target pair,
    entity source, and temporal construction.
@@ -226,8 +229,8 @@ generation failures, or catastrophic actions. Only a selection pass may read a o
 confirmation, where the overall gain must remain at least +2 points versus both controls and the
 10,000-resample one-sided cluster-bootstrap fifth percentile must exceed zero.
 
-Grounded PlanIR remains a proposal until the derivation code, round-trip audit, splits, exact
-budgets, thresholds, and immutable config are implemented, tested, and hash-frozen. A failed
+Grounded PlanIR remains a proposal until the new source, derivation code, round-trip audit, splits,
+exact budgets, thresholds, and immutable config are implemented, tested, and hash-frozen. A failed
 pre-model coverage/round-trip gate ends it without GPU spend. A failed model gate ends it without
 rescue. If it passes, compare it with a separately matched Qwen2.5-0.5B-Instruct PlanIR lane before
 any larger-model claim.
@@ -237,9 +240,10 @@ any larger-model claim.
 1. Keep candidate-v2 and its public W&B `v0` artifacts as the usable release. Import the verified
    v3 negative result into public source evidence without predictions, private inventory, logs, or
    credentials.
-2. Implement and test only the Grounded PlanIR representation, compiler, split firewall, oracle
-   round-trip audit, and matched-arm evaluator. Do not train while coverage or exact round-trip
-   correctness is unproven.
+2. Select and provenance-audit a genuinely new post-v3 source for selection and confirmation;
+   old v3 rows remain training-only. In parallel, implement and test only the Grounded PlanIR
+   representation, compiler, split firewall, oracle round-trip audit, and matched-arm evaluator.
+   Do not train while source independence, coverage, or exact round-trip correctness is unproven.
 3. Run the lightweight materialization and oracle audit on remote JarvisLabs compute after a clean
    local source review. If the pre-model gate passes, preregister a new immutable run/config and
    independently audit it before creating a fresh exact-ID-controlled instance.

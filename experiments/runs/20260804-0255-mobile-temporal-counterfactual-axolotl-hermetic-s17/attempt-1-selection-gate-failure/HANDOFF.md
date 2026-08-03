@@ -48,15 +48,17 @@ PlanIR**: post-train BarunLM-35M to emit a compact typed semantic plan, then use
 fail-closed deterministic compiler to ground input/context references and temporal operators into
 the existing Action IR public contract.
 
-Before any GPU launch, derive a new component-disjoint train/selection/confirmation split from
-the former v3 construction pool with a new salt, prove at least 95% unambiguous PlanIR coverage,
-and prove exact PlanIR-to-Action-IR round trips on every included label. Preregister three matched
-arms: direct Action IR, direct Action IR with the same grounding table, and PlanIR plus compiler.
-The decisive selection requirement should be at least +3 points compiled AST exact versus both
-controls, at least +5 points argument-value exact, no family or policy regression over two points,
-raw PlanIR parse validity at least 99.5%, emitted Action IR schema validity 100%, and zero
-truncation, missing, generation-failure, or catastrophic-action events. Failure closes that new
-hypothesis without a rescue.
+Before any GPU launch, keep all v3 material out of new selection and confirmation. Former v3
+construction rows may be training-only; acquire a genuinely new, licensed, post-v3 human-authored
+or independently sourced batch for component-disjoint selection and a separate once-only
+confirmation population. Then prove at least 95% unambiguous PlanIR coverage and exact
+PlanIR-to-Action-IR round trips on every included label. Preregister three matched arms: direct
+Action IR, direct Action IR with the same grounding table, and PlanIR plus compiler. The decisive
+selection requirement should be at least +3 points compiled AST exact versus both controls, at
+least +5 points argument-value exact, no family or policy regression over two points, raw PlanIR
+parse validity at least 99.5%, emitted Action IR schema validity 100%, and zero truncation, missing,
+generation-failure, or catastrophic-action events. Failure closes that new hypothesis without a
+rescue. Missing source provenance or license permission is itself a pre-model stop.
 
 BarunLM-35M is the canonical 35,072,768-parameter base-model name; BarunAction-35M is the
 post-trained product name. The historical local directory name is not a model identity.

@@ -336,3 +336,15 @@ entries.
   genuinely distinct hypothesis with fresh leakage-controlled populations. The proposed Grounded
   PlanIR direction must first prove unambiguous coverage and exact deterministic round trips before
   any GPU training; it is not a relabeled MBCF rescue.
+
+### Same-day addendum — a new salt does not make an old population fresh
+
+- The first Grounded PlanIR handoff draft proposed repartitioning the 5,745 former v3 construction
+  rows into new train, selection, and confirmation roles. That would move data already used to fit
+  prior models into later evaluation roles and cannot supply genuinely new post-v3 evidence. It
+  also lacks author, entity-source, generator-template, and collection-batch provenance needed for
+  the strongest independence claims.
+- Keep former v3 construction rows training-only if they are used at all. New PlanIR selection and
+  once-only confirmation require a newly acquired, licensed, provenance-audited source batch.
+  Failing to establish that source boundary is a pre-model stop, not permission to weaken the word
+  “fresh” or spend the sealed official populations as iterative development sets.
