@@ -1,0 +1,5 @@
+# Frozen additions for the SmolLM2 matched-adaptation lane. The editable project
+# entry is required because passing --requirements overrides jl's pyproject install.
+-e .
+pytest==8.4.1
+transformers==4.48.3

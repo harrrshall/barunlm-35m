@@ -1,0 +1,128 @@
+{
+  "development_rows_read": 0,
+  "official_evaluation_rows_read": 0,
+  "overlap": {
+    "cluster_id": 0,
+    "exact_prompt_target": 0,
+    "example_id": 0,
+    "family_id": 0
+  },
+  "roles": {
+    "confirmation": {
+      "calendar": {
+        "cross_month": 73,
+        "rows": 450,
+        "same_month": 377
+      },
+      "call_count_counts": {
+        "1": 772,
+        "2": 396
+      },
+      "components": 831,
+      "families": 870,
+      "manifest_sha256": "9c6df5b4e40cbd985871f43c88da793ddd47a759f14ffe54768aaefe7af39f8b",
+      "membership_sha256": "519c22724873ee579d0f59be886cfc297088113bd1a297521b9ca280a79c35b9",
+      "rows": 1168,
+      "scenario_counts": {
+        "create_calendar_event": 292,
+        "create_contact": 165,
+        "open_wifi_settings": 152,
+        "send_email": 182,
+        "show_map": 165,
+        "turn_off_flashlight": 93,
+        "turn_on_flashlight": 119
+      }
+    },
+    "construction_train": {
+      "calendar": {
+        "cross_month": 384,
+        "rows": 2070,
+        "same_month": 1686
+      },
+      "call_count_counts": {
+        "1": 3907,
+        "2": 1830,
+        "3": 8
+      },
+      "components": 3722,
+      "families": 3931,
+      "manifest_sha256": "800a3ba0a7f0215e5cf95c77c32e47abed48b2f07f375954b0e0b08296a33d10",
+      "membership_sha256": "b70f6dfe79cfe49792b6e6f5d414fd509c889d18101f75cd8df6d4e4f146c588",
+      "rows": 5745,
+      "scenario_counts": {
+        "create_calendar_event": 1303,
+        "create_contact": 1212,
+        "open_wifi_settings": 679,
+        "send_email": 749,
+        "show_map": 878,
+        "turn_off_flashlight": 441,
+        "turn_on_flashlight": 483
+      }
+    },
+    "selection": {
+      "calendar": {
+        "cross_month": 66,
+        "rows": 360,
+        "same_month": 294
+      },
+      "call_count_counts": {
+        "1": 654,
+        "2": 369,
+        "3": 1
+      },
+      "components": 752,
+      "families": 779,
+      "manifest_sha256": "cea80c9d01b491269787d10a6cb9377a3c0aaecdf37a003e80a6f62ec10be153",
+      "membership_sha256": "b4191540878ec28c6819e08e0b390fbfd57eab836d3361727ad89862a46cf927",
+      "rows": 1024,
+      "scenario_counts": {
+        "create_calendar_event": 203,
+        "create_contact": 142,
+        "open_wifi_settings": 118,
+        "send_email": 241,
+        "show_map": 119,
+        "turn_off_flashlight": 87,
+        "turn_on_flashlight": 114
+      }
+    }
+  },
+  "schema_version": "barun-mobile-temporal-shadow-audit-v1",
+  "source": {
+    "filename": "train.jsonl",
+    "membership_sha256": "4cdfc3649c21a9f0d3dc4d8d9cffcae3cb5c6abc4414a9fb09636e9220afe96f",
+    "rows": 7937,
+    "sha256": "131473ccb5bfb51cac0439b42159e72ec4c598025e50364a52b122b056c2e84e"
+  },
+  "split_policy": {
+    "confirmation_folds": [
+      17,
+      18,
+      19
+    ],
+    "construction_folds": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13
+    ],
+    "fold_integer": "unsigned big-endian first eight SHA-256 bytes",
+    "folds": 20,
+    "hash_input": "{version}:{cluster_id}",
+    "selection_folds": [
+      14,
+      15,
+      16
+    ],
+    "version": "barun-mobile-temporal-shadow-split-v1"
+  }
+}

@@ -1,0 +1,412 @@
+{
+  "adapter": {
+    "prompt_contract_sha256": "3fd4fcfdecff4aff2a66558da04ca310bc684753da98368e07ecbb9f4e73dc36",
+    "prompt_contract_version": "barun-action-prompt-v1",
+    "schema_version": "barun-mobile-actions-adapter-v2"
+  },
+  "artifacts": {
+    "manifests": {
+      "dev": {
+        "filename": "dev.jsonl",
+        "membership_sha256": "31e0170c1de49d9c4591064587c405f0cb9f981e7026ac457f6fa2902b3647de",
+        "sha256": "988bdce5874d1f1a775feeb5ba2b58cd2bdc128f57e73cb9a63d535fae7c1d55"
+      },
+      "train": {
+        "filename": "train.jsonl",
+        "membership_sha256": "4cdfc3649c21a9f0d3dc4d8d9cffcae3cb5c6abc4414a9fb09636e9220afe96f",
+        "sha256": "131473ccb5bfb51cac0439b42159e72ec4c598025e50364a52b122b056c2e84e"
+      }
+    }
+  },
+  "counts": {
+    "derived": {
+      "dev": 756,
+      "train": 7937
+    },
+    "nfc_normalizations": 0,
+    "null_argument_fields_excluded": 0,
+    "records_dropped": 0,
+    "records_truncated": 0,
+    "source": {
+      "official_eval_opaque_unparsed": 961,
+      "total": 9654,
+      "train": 8693
+    }
+  },
+  "distributions": {
+    "dev": {
+      "argument_presence": {
+        "create_calendar_event.datetime": 299,
+        "create_calendar_event.title": 299,
+        "create_contact.email": 131,
+        "create_contact.first_name": 156,
+        "create_contact.last_name": 156,
+        "create_contact.phone_number": 156,
+        "send_email.body": 170,
+        "send_email.subject": 170,
+        "send_email.to": 170,
+        "show_map.query": 148
+      },
+      "call_count": {
+        "1": 461,
+        "2": 293,
+        "3": 2
+      },
+      "tool_calls": {
+        "create_calendar_event": 299,
+        "create_contact": 156,
+        "open_wifi_settings": 121,
+        "send_email": 170,
+        "show_map": 148,
+        "turn_off_flashlight": 77,
+        "turn_on_flashlight": 82
+      }
+    },
+    "train": {
+      "argument_presence": {
+        "create_calendar_event.datetime": 2880,
+        "create_calendar_event.title": 2880,
+        "create_contact.email": 1506,
+        "create_contact.first_name": 1753,
+        "create_contact.last_name": 1753,
+        "create_contact.phone_number": 1735,
+        "send_email.body": 1884,
+        "send_email.subject": 1884,
+        "send_email.to": 1884,
+        "show_map.query": 1662
+      },
+      "call_count": {
+        "1": 5333,
+        "2": 2595,
+        "3": 9
+      },
+      "tool_calls": {
+        "create_calendar_event": 2880,
+        "create_contact": 1753,
+        "open_wifi_settings": 996,
+        "send_email": 1884,
+        "show_map": 1662,
+        "turn_off_flashlight": 639,
+        "turn_on_flashlight": 736
+      }
+    }
+  },
+  "format_notes": {
+    "arguments": "Parsed internal-train rows contain JSON objects; the dataset card says stringified JSON. No coercion is performed. The official eval rows were not parsed, so this audit makes no claim about their argument encoding.",
+    "call_fields": "Parsed internal-train call rows contain only the function field; the dataset card also documents id and type. The official eval rows were not parsed.",
+    "multi_call_mode": "Mapped to SERIAL to preserve Google's ordered call-list target because the source has no dependency/parallel annotation.",
+    "official_metric": "Google's cookbook compares ordered function-name lists and per-call argument dictionaries after sorting dictionary keys; it does not execute calls or score Action IR policy decisions.",
+    "policy_decision": "Every parsed internal-train row is mapped to CALL because the internal-train population has no abstention, clarification, confirmation, or unsafe-request labels. It is not safety-policy training data.",
+    "timezone": "Source NOW timestamps are naive and provide no timezone. They are preserved without fabricating an offset."
+  },
+  "license": {
+    "id": "CC-BY-4.0",
+    "url": "https://creativecommons.org/licenses/by/4.0/"
+  },
+  "official_eval": {
+    "labels_parsed": false,
+    "lengths_computed": false,
+    "materialized": false,
+    "opaque_unparsed": true,
+    "overlaps_computed": false,
+    "prompts_parsed": false,
+    "rows": 961,
+    "source_sha256": "91d251ee958cfd295af6c4504c236a3a1ad19517de240c3bc680bacfcbf7e7d9",
+    "summaries_computed": false,
+    "targets_parsed": false,
+    "tool_schemas_parsed": false
+  },
+  "overlap": {
+    "barun_13_token": {
+      "cross_split": {
+        "train__dev": {
+          "left_rows_affected": 2338,
+          "right_rows_affected": 476,
+          "shared_unique_ngrams": 2791
+        }
+      },
+      "n": 13,
+      "short_rows": {
+        "dev": 22,
+        "train": 218
+      }
+    },
+    "char_5gram_minhash": {
+      "bands": 16,
+      "candidate_generation_exhaustive": false,
+      "character_ngram_size": 5,
+      "exact_jaccard_verification": true,
+      "jaccard_threshold": 0.8,
+      "lsh_false_negatives_possible": true,
+      "method": "64-permutation affine MinHash; 16x4 LSH candidates",
+      "pairs": {
+        "train__dev": {
+          "candidate_pairs": 30965,
+          "left_rows_affected": 0,
+          "near_duplicate_pairs": 0,
+          "right_rows_affected": 0,
+          "sample_pair_ids": []
+        }
+      },
+      "permutations": 64
+    },
+    "connected_component": {
+      "cross_split": {
+        "train__dev": {
+          "left_rows_affected": 0,
+          "matching_pairs": 0,
+          "right_rows_affected": 0,
+          "shared_unique_values": 0
+        }
+      },
+      "within_split": {
+        "dev": {
+          "duplicate_pairs": 368,
+          "duplicate_unique_values": 57,
+          "rows_affected": 194
+        },
+        "train": {
+          "duplicate_pairs": 108453,
+          "duplicate_unique_values": 494,
+          "rows_affected": 3126
+        }
+      }
+    },
+    "delexicalized_user": {
+      "cross_split": {
+        "train__dev": {
+          "left_rows_affected": 0,
+          "matching_pairs": 0,
+          "right_rows_affected": 0,
+          "shared_unique_values": 0
+        }
+      },
+      "within_split": {
+        "dev": {
+          "duplicate_pairs": 303,
+          "duplicate_unique_values": 46,
+          "rows_affected": 157
+        },
+        "train": {
+          "duplicate_pairs": 35650,
+          "duplicate_unique_values": 435,
+          "rows_affected": 2793
+        }
+      }
+    },
+    "exact_user": {
+      "cross_split": {
+        "train__dev": {
+          "left_rows_affected": 0,
+          "matching_pairs": 0,
+          "right_rows_affected": 0,
+          "shared_unique_values": 0
+        }
+      },
+      "within_split": {
+        "dev": {
+          "duplicate_pairs": 0,
+          "duplicate_unique_values": 0,
+          "rows_affected": 0
+        },
+        "train": {
+          "duplicate_pairs": 0,
+          "duplicate_unique_values": 0,
+          "rows_affected": 0
+        }
+      }
+    },
+    "family_template": {
+      "cross_split": {
+        "train__dev": {
+          "left_rows_affected": 0,
+          "matching_pairs": 0,
+          "right_rows_affected": 0,
+          "shared_unique_values": 0
+        }
+      },
+      "within_split": {
+        "dev": {
+          "duplicate_pairs": 303,
+          "duplicate_unique_values": 46,
+          "rows_affected": 157
+        },
+        "train": {
+          "duplicate_pairs": 35649,
+          "duplicate_unique_values": 434,
+          "rows_affected": 2791
+        }
+      }
+    },
+    "normalized_user": {
+      "cross_split": {
+        "train__dev": {
+          "left_rows_affected": 0,
+          "matching_pairs": 0,
+          "right_rows_affected": 0,
+          "shared_unique_values": 0
+        }
+      },
+      "within_split": {
+        "dev": {
+          "duplicate_pairs": 0,
+          "duplicate_unique_values": 0,
+          "rows_affected": 0
+        },
+        "train": {
+          "duplicate_pairs": 1,
+          "duplicate_unique_values": 1,
+          "rows_affected": 2
+        }
+      }
+    },
+    "schema_signature": {
+      "cross_split": {
+        "train__dev": {
+          "left_rows_affected": 7937,
+          "matching_pairs": 6000372,
+          "right_rows_affected": 756,
+          "shared_unique_values": 1
+        }
+      },
+      "within_split": {
+        "dev": {
+          "duplicate_pairs": 285390,
+          "duplicate_unique_values": 1,
+          "rows_affected": 756
+        },
+        "train": {
+          "duplicate_pairs": 31494016,
+          "duplicate_unique_values": 1,
+          "rows_affected": 7937
+        }
+      }
+    },
+    "whitespace_13_token": {
+      "cross_split": {
+        "train__dev": {
+          "left_rows_affected": 1004,
+          "right_rows_affected": 270,
+          "shared_unique_ngrams": 1074
+        }
+      },
+      "n": 13,
+      "short_rows": {
+        "dev": 31,
+        "train": 332
+      }
+    }
+  },
+  "overlap_scope": "Internal-train-derived train/dev only. Internal-train gold tool names and argument values are used for exact-family grouping and entity delexicalization; normalized internal-train user text is used for near-duplicate edges. Official eval rows are opaque and excluded from every overlap calculation.",
+  "schema_version": "barun-mobile-actions-audit-v2",
+  "source": {
+    "dataset_id": "google/mobile-actions",
+    "expected_sha256": "91d251ee958cfd295af6c4504c236a3a1ad19517de240c3bc680bacfcbf7e7d9",
+    "filename": "dataset.jsonl",
+    "revision": "e920309bc2acbc2e99a5e3201cf37df2b9fd9151",
+    "sha256": "91d251ee958cfd295af6c4504c236a3a1ad19517de240c3bc680bacfcbf7e7d9",
+    "url": "https://huggingface.co/datasets/google/mobile-actions/tree/e920309bc2acbc2e99a5e3201cf37df2b9fd9151"
+  },
+  "split_policy": {
+    "component_construction": {
+      "candidate_generation_exhaustive": false,
+      "character_ngram_size": 5,
+      "edge_rule": "exact Jaccard >= threshold after deterministic MinHash-LSH candidacy",
+      "family_rule": "ordered gold tool-name signature plus entity-delexicalized user template; delexicalization uses internal-train gold argument values",
+      "jaccard_threshold": 0.8,
+      "lsh_bands": 16,
+      "lsh_false_negatives_possible": true,
+      "minhash_permutations": 64,
+      "scope": "internal train only; official eval is never consulted",
+      "transitivity": "split groups are deterministic connected components, so bridge edges may connect rows whose direct Jaccard is below threshold"
+    },
+    "dev_fold": 0,
+    "dev_folds": 10,
+    "observed": {
+      "component_count": 5924,
+      "family_count": 6225,
+      "largest_component_rows": 254,
+      "near_duplicate_candidate_pairs": 222367,
+      "near_duplicate_verified_edges": 668,
+      "rows_in_components_larger_than_one": 3320,
+      "singleton_components": 5373
+    },
+    "source": "internal train only",
+    "version": "barun-mobile-actions-connected-components-v1"
+  },
+  "tokenization": {
+    "eos_tokens_assumed": 1,
+    "identity": {
+      "identifier": "harrrshall/BarunLM-35M",
+      "revision": "ef3e483a9fd7d906ecf2a7929babeffaf82d1d16",
+      "sha256": "70ded9605fccd09c2340ca7e225361eab0ae8b4dbbb0d6e26343ab5183979db6"
+    },
+    "max_seq_len": 2048,
+    "per_split": {
+      "dev": {
+        "overlength_count": 0,
+        "overlength_ids": [],
+        "prompt": {
+          "count": 756,
+          "max": 350,
+          "mean": 252.088624,
+          "min": 213,
+          "p50": 248,
+          "p95": 292,
+          "p99": 312
+        },
+        "target": {
+          "count": 756,
+          "max": 176,
+          "mean": 90.101852,
+          "min": 45,
+          "p50": 94,
+          "p95": 148,
+          "p99": 167
+        },
+        "total_with_eos": {
+          "count": 756,
+          "max": 496,
+          "mean": 343.190476,
+          "min": 259,
+          "p50": 341,
+          "p95": 438,
+          "p99": 480
+        }
+      },
+      "train": {
+        "overlength_count": 0,
+        "overlength_ids": [],
+        "prompt": {
+          "count": 7937,
+          "max": 487,
+          "mean": 251.717022,
+          "min": 213,
+          "p50": 248,
+          "p95": 293,
+          "p99": 310
+        },
+        "target": {
+          "count": 7937,
+          "max": 196,
+          "mean": 89.87237,
+          "min": 45,
+          "p50": 94,
+          "p95": 148,
+          "p99": 164
+        },
+        "total_with_eos": {
+          "count": 7937,
+          "max": 660,
+          "mean": 342.589391,
+          "min": 259,
+          "p50": 342,
+          "p95": 439,
+          "p99": 472
+        }
+      }
+    },
+    "policy": "audit only; manifests are never truncated or silently dropped",
+    "status": "computed"
+  }
+}

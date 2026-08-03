@@ -1,0 +1,47 @@
+{
+  "calendar_presentations": {
+    "added_cross_month": 1546,
+    "minimum_fraction": 0.45,
+    "original_cross_month": 523,
+    "original_same_month": 2357,
+    "post_cross_month": 2069,
+    "post_cross_month_fraction": 0.4674649796656123,
+    "post_total": 4426
+  },
+  "development_rows_read": 0,
+  "official_evaluation_rows_read": 0,
+  "output": {
+    "filename": "full-counterfactual-train.jsonl",
+    "optimizer_steps_at_batch_63": 151,
+    "rows": 9483,
+    "sha256": "0877a7db29989a2e824de907300aad63137c511b2c8fdaaa5597afe6f046b6fd"
+  },
+  "receipts": {
+    "filename": "full-transform-receipts.jsonl",
+    "rows": 1546,
+    "sha256": "a8c99c324677db02906997ff7c721e4c5e78ddbf548fb38e299c81541addd2bc"
+  },
+  "schema_version": "barun-mobile-temporal-full-view-audit-v1",
+  "source": {
+    "filename": "train.jsonl",
+    "membership_sha256": "4cdfc3649c21a9f0d3dc4d8d9cffcae3cb5c6abc4414a9fb09636e9220afe96f",
+    "rows": 7937,
+    "sha256": "131473ccb5bfb51cac0439b42159e72ec4c598025e50364a52b122b056c2e84e"
+  },
+  "tokenizer": {
+    "identifier": "harrrshall/BarunLM-35M",
+    "max_seq_len": 2048,
+    "revision": "ef3e483a9fd7d906ecf2a7929babeffaf82d1d16",
+    "sha256": "70ded9605fccd09c2340ca7e225361eab0ae8b4dbbb0d6e26343ab5183979db6"
+  },
+  "transform_version": "barun-mobile-month-boundary-counterfactual-v1",
+  "variants": {
+    "by_class": {
+      "absolute_explicit": 1039,
+      "pure_relative": 507
+    },
+    "minimum_required": 1400,
+    "rows": 1546,
+    "source_membership_sha256": "05d9fd21753e8a3e8740a900c6a0fca9435e80b27f7d43297eddd9aff3e1f32a"
+  }
+}

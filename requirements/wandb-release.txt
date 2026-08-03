@@ -1,0 +1,2 @@
+# Optional, upload-only dependency for the BarunAction release-evidence logger.
+wandb==0.28.1

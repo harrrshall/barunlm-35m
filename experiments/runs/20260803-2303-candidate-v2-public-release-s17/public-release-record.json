@@ -1,0 +1,97 @@
+{
+  "anonymous_access_verification": {
+    "artifacts": {
+      "evidence": {
+        "digest": "b5e2cb35698e36bc1a97095c6c2d8565",
+        "file_count": 296,
+        "state": "COMMITTED",
+        "total_bytes": 135926068,
+        "type": "evaluation",
+        "version_index": 0
+      },
+      "float": {
+        "digest": "09c2a608c6f3947854a0f55eafc56b8a",
+        "file_count": 7,
+        "state": "COMMITTED",
+        "total_bytes": 141468254,
+        "type": "model",
+        "version_index": 0
+      },
+      "int8_darwin_arm64_qnnpack": {
+        "digest": "8c3d8d30afc140e8c63461668ecb91a4",
+        "file_count": 7,
+        "state": "COMMITTED",
+        "total_bytes": 58646018,
+        "type": "model",
+        "version_index": 0
+      }
+    },
+    "credential_sent": false,
+    "endpoint": "https://api.wandb.ai/graphql",
+    "float_barun_config_sha256_streamed_without_authentication": "9b3a1d71baa95a198744d250f9629231738d942570b8685c44307fd83dd33565",
+    "float_model_bytes_streamed_without_authentication": 140304464,
+    "float_model_sha256_streamed_without_authentication": "fdb95ccf58a095e0d321be998924318b35ee59a334f6dd97d8726d2cf80021d3",
+    "project_access": "USER_READ",
+    "project_visible": true,
+    "verified_at": "2026-08-03T17:55:11Z"
+  },
+  "artifacts": {
+    "evidence": {
+      "digest": "b5e2cb35698e36bc1a97095c6c2d8565",
+      "qualified_name": "harshalsingh1223-gladium-ai/barunaction-35m/barunaction-35m-candidate-v2-evidence:v0",
+      "url": "https://wandb.ai/harshalsingh1223-gladium-ai/barunaction-35m/artifacts/evaluation/barunaction-35m-candidate-v2-evidence/v0"
+    },
+    "float": {
+      "digest": "09c2a608c6f3947854a0f55eafc56b8a",
+      "qualified_name": "harshalsingh1223-gladium-ai/barunaction-35m/barunaction-35m-candidate-v2-float:v0",
+      "url": "https://wandb.ai/harshalsingh1223-gladium-ai/barunaction-35m/artifacts/model/barunaction-35m-candidate-v2-float/v0"
+    },
+    "int8_darwin_arm64_qnnpack": {
+      "digest": "8c3d8d30afc140e8c63461668ecb91a4",
+      "qualified_name": "harshalsingh1223-gladium-ai/barunaction-35m/barunaction-35m-candidate-v2-int8-darwin-arm64-qnnpack:v0",
+      "url": "https://wandb.ai/harshalsingh1223-gladium-ai/barunaction-35m/artifacts/model/barunaction-35m-candidate-v2-int8-darwin-arm64-qnnpack/v0"
+    }
+  },
+  "candidate_id": "candidate-v2",
+  "local_authority": {
+    "release_manifest": {
+      "path": "experiments/runs/20260803-2303-candidate-v2-public-release-s17/release-manifest.json",
+      "sha256": "cbb29c4921855031bfeee1c1f5e9ed1a33a932b902a875c21f255fac793c2165"
+    },
+    "release_spec": {
+      "path": "experiments/runs/20260803-2303-candidate-v2-public-release-s17/release-spec.json",
+      "sha256": "017ba0ee2c2043ef78f619130c0479a0f00cfc90f46b65c2c4a21478fe923676"
+    },
+    "upload_receipt": {
+      "path": "experiments/runs/20260803-2303-candidate-v2-public-release-s17/wandb-receipt.json",
+      "sha256": "6ce9a6095a932195f2caf645993f75e507039e6910f63760326c2860ebe3238b"
+    },
+    "verified_redownload_receipt": {
+      "path": "experiments/runs/20260803-2303-candidate-v2-public-release-s17/wandb-redownload-verification.json",
+      "sha256": "2a3ea05fbcf6e3955f65f92d24816730d1bb6b130d3792983aa3cab0684dfcc4"
+    }
+  },
+  "project": {
+    "access": "USER_READ",
+    "entity": "harshalsingh1223-gladium-ai",
+    "name": "barunaction-35m",
+    "public_read_team_write_semantics": true,
+    "url": "https://wandb.ai/harshalsingh1223-gladium-ai/barunaction-35m"
+  },
+  "recorded_at": "2026-08-03T17:55:11Z",
+  "redownload_verification": {
+    "artifact_files": 310,
+    "artifact_total_bytes": 336040340,
+    "credentialed_sdk_download": true,
+    "every_expected_file_hash_matched": true,
+    "fresh_external_destination": true,
+    "manifest_sha256": "cbb29c4921855031bfeee1c1f5e9ed1a33a932b902a875c21f255fac793c2165",
+    "wandb_version": "0.28.1"
+  },
+  "release_id": "candidate-v2-20260803",
+  "run": {
+    "id": "msgofaqw",
+    "url": "https://wandb.ai/harshalsingh1223-gladium-ai/barunaction-35m/runs/msgofaqw"
+  },
+  "schema_version": "barunaction-public-release-record-v1"
+}

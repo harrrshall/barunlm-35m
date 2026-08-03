@@ -1,0 +1,69 @@
+{
+  "corrected_full_handoff_verification": {
+    "artifact_sha256_txt_bytes": 9230,
+    "artifact_sha256_txt_sha256": "0d434ab3378e396fb0a254d3cafae8ad0ba107336060f5ea9647526824869096",
+    "failures": 0,
+    "files_checked": 85,
+    "files_ok": 85,
+    "manifest_check_log_bytes": 3960,
+    "manifest_check_log_path": "experiments/runs/20260803-2122-mobile-qwen05b-matched-s17/full-handoff-sha256-check.log",
+    "manifest_check_log_sha256": "4aa9f179995fc4cab566f52671835353d1ca475cddbf34adeceb855c75df6c4c",
+    "manifest_entries": 85,
+    "manifest_self_excluded": true,
+    "manifested_payload_bytes": 1008829736,
+    "sha256_manifest_checked": true,
+    "source_regular_files_including_manifest": 86,
+    "source_tree_logical_bytes_including_manifest": 1008838966,
+    "unique_manifested_payload_sha256": 79
+  },
+  "correction_reason": "The immutable import receipt recorded files_checked=80, but the preserved sha256 check log contains 85 OK lines and zero failures, exactly matching all 85 entries in artifact-sha256.txt. The origin of 80 is an unknown clerical or counting error and must not be rationalized post hoc.",
+  "excluded_manifested_paths": {
+    "by_category": {
+      "applied_patch": {
+        "bytes": 168972,
+        "files": 1
+      },
+      "checkpoint_and_tokenizer": {
+        "bytes": 1003978008,
+        "files": 9
+      },
+      "duplicate_source_copies": {
+        "bytes": 162877,
+        "files": 10
+      },
+      "jarvis_inventory": {
+        "bytes": 12134,
+        "files": 1
+      },
+      "remote_log": {
+        "bytes": 13271,
+        "files": 1
+      }
+    },
+    "bytes": 1004335262,
+    "files": 22
+  },
+  "original_receipt": {
+    "immutable": true,
+    "path": "experiments/runs/20260803-2122-mobile-qwen05b-matched-s17/import-receipt.json",
+    "sha256": "35e13d6e677fd5d750b1dc74e1ed3b9302ce29f58f1cf273c75ccb78519af546"
+  },
+  "recorded_at": "2026-08-03T17:59:45Z",
+  "schema_version": "barun-qwen05b-import-receipt-correction-v1",
+  "selected_import_unchanged": {
+    "copied_manifested_payload_bytes": 4494474,
+    "copied_manifested_paths": 63,
+    "destination_byte_comparison_failures": 0,
+    "selected_manifest_bytes": 6713,
+    "selected_manifest_path": "experiments/runs/20260803-2122-mobile-qwen05b-matched-s17/selected-artifact-sha256.txt",
+    "selected_manifest_sha256": "0ca5c9458e8e2b3e2d2930f8d4ec21e29b0f4744e6c8057a2e1e76b9f5a424e0"
+  },
+  "size_wording": {
+    "allocated_size_du_sh": "965M",
+    "checkpoint_and_tokenizer_bytes": 1003978008,
+    "model_safetensors_bytes": 988097824,
+    "source_tree_logical_bytes": 1008838966,
+    "source_tree_logical_megabytes_decimal": 1008.839,
+    "source_tree_logical_mebibytes": 962.104
+  }
+}

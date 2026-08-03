@@ -1,0 +1,11 @@
+{
+  "schema_version": "barun-mobile-temporal-preflight-supersession-v1",
+  "status": "superseded_before_model_or_cuda_access",
+  "superseded_config_sha256": "2fd96598ae97e458204cc78a3d702ba92102fb67b4e8605d676f040c50d20fc2",
+  "reason": "The first offline preflight preceded exact-ratio gate encoding and hash-binding of the already materialized conditional full refit. No model, checkpoint, CUDA device, prediction, or score was accessed.",
+  "replacement": {
+    "directory": "preflight-plan-v2",
+    "preflight_receipt_sha256": "177b6fa65e976fda3f02d2cc255d848144516db97ef494c3fefee2c9438eba15",
+    "execution_plan_sha256": "10ddde089b8577e8dd43879d78bd3dc89375a93bee8515e918affde1239fa69a"
+  }
+}

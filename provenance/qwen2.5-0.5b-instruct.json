@@ -1,0 +1,68 @@
+{
+  "schema_version": "barun-model-provenance-v1",
+  "captured_at": "2026-08-03T21:22:00+05:30",
+  "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+  "revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+  "public": true,
+  "gated": false,
+  "license": "Apache-2.0",
+  "library": "transformers",
+  "auto_model": "AutoModelForCausalLM",
+  "architecture_class": "Qwen2ForCausalLM",
+  "trust_remote_code": false,
+  "exact_unique_parameters": 494032768,
+  "ratio_to_barunlm_35072768": 14.085936074392531,
+  "parameter_evidence": {
+    "publisher_card_rounded": "0.49B",
+    "hugging_face_safetensors_metadata": 494032768,
+    "range_only_safetensors_header": {
+      "header_bytes_read": 32280,
+      "tensor_count": 290,
+      "dtype": "BF16",
+      "summed_scalars": 494032768,
+      "separate_lm_head_weight_present": false
+    },
+    "config_formula": "151936*896 + 24*((896*896+896) + 2*(128*896+128) + 896*896 + 3*896*4864 + 2*896) + 896",
+    "config_formula_result": 494032768
+  },
+  "architecture": {
+    "vocab_size": 151936,
+    "hidden_size": 896,
+    "intermediate_size": 4864,
+    "num_hidden_layers": 24,
+    "num_attention_heads": 14,
+    "num_key_value_heads": 2,
+    "tie_word_embeddings": true,
+    "max_position_embeddings": 32768,
+    "torch_dtype": "bfloat16"
+  },
+  "compatibility": {
+    "minimum_transformers_from_publisher": "4.37.0",
+    "frozen_transformers": "4.48.3",
+    "causal_labels_supported": true,
+    "gradient_checkpointing_supported": true,
+    "native_chat_template_required": true,
+    "one_h200_static_assessment": "compatible; tokenizer-length and batch-21 runtime checks remain hard pretraining gates"
+  },
+  "pinned_file_sha256": {
+    "LICENSE": "832dd9e00a68dd83b3c3fb9f5588dad7dcf337a0db50f7d9483f310cd292e92e",
+    "README.md": "b19c806a904db6dc878a0462e70b551f6b7ac78dfbb88c2eb966ca2b9109ae15",
+    "config.json": "18e18afcaccafade98daf13a54092927904649e1dd4eba8299ab717d5d94ff45",
+    "generation_config.json": "e558847a8b4402616f1273797b015104dc266fe4b520056fca88823ba8f8ebe6",
+    "model.safetensors": "fdf756fa7fcbe7404d5c60e26bff1a0c8b8aa1f72ced49e7dd0210fe288fb7fe",
+    "tokenizer.json": "c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539",
+    "tokenizer_config.json": "5b5d4f65d0acd3b2d56a35b56d374a36cbc1c8fa5cf3b3febbbfabf22f359583"
+  },
+  "model_safetensors_bytes": 988097824,
+  "primary_sources": {
+    "hub_api": "https://huggingface.co/api/models/Qwen/Qwen2.5-0.5B-Instruct/revision/7ae557604adf67be50417f59c2c2f167def9a775",
+    "immutable_commit": "https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct/commit/7ae557604adf67be50417f59c2c2f167def9a775",
+    "model_card": "https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct/blob/7ae557604adf67be50417f59c2c2f167def9a775/README.md",
+    "config": "https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct/blob/7ae557604adf67be50417f59c2c2f167def9a775/config.json",
+    "license": "https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct/blob/7ae557604adf67be50417f59c2c2f167def9a775/LICENSE",
+    "file_metadata": "https://huggingface.co/api/models/Qwen/Qwen2.5-0.5B-Instruct/tree/7ae557604adf67be50417f59c2c2f167def9a775?recursive=true&expand=true",
+    "transformers_implementation": "https://github.com/huggingface/transformers/blob/v4.48.3/src/transformers/models/qwen2/modeling_qwen2.py"
+  },
+  "weights_downloaded_during_prelaunch_provenance_audit": false,
+  "project_data_scored_during_prelaunch_provenance_audit": false
+}

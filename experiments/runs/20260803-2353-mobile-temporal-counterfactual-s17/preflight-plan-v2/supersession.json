@@ -1,0 +1,11 @@
+{
+  "schema_version": "barun-mobile-temporal-preflight-supersession-v1",
+  "status": "superseded_before_model_or_cuda_access",
+  "superseded_config_sha256": "abc0a980ab85df2e9f7dd100f9e04e7e00fc17f99a6503c770faf6d3a45ec556",
+  "reason": "The second offline preflight preceded the final 18-file implementation freeze, dependency-only remote environment, exact staged-source import, attempt-scoped retry manifest proof, bounded failure recovery, and Git-bound launch builder. The scientific fields and materialized data stayed unchanged. No model, checkpoint, CUDA device, held-out prediction, or score was accessed.",
+  "replacement": {
+    "directory": "preflight-plan-v3",
+    "preflight_receipt_sha256": "ed9583a36595adfa3f867408cd4d6415247359cf4cfb06252e623c6b57470aab",
+    "execution_plan_sha256": "71527f1dcbbbd80493f4e5f827162e7c33a8524502ce0343125792217d27ec77"
+  }
+}

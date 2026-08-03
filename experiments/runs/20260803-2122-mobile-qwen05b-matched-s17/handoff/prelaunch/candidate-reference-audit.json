@@ -1,0 +1,35 @@
+{
+  "schema_version": "barun-candidate-v2-reference-audit-v1",
+  "audited_after_qwen_preregistration": true,
+  "candidate": "BarunAction-35M candidate-v2 batch63 final checkpoint",
+  "development_manifest_sha256": "988bdce5874d1f1a775feeb5ba2b58cd2bdc128f57e73cb9a63d535fae7c1d55",
+  "expected_unique_rows": 756,
+  "prediction_sha256": "e5aea59e5090e3aa7c9dbd6b1a810c753410a159ce18dc8bb889fde3a58b8665",
+  "frozen_sample_scores_sha256": "a29c4d5c83493ec437a9f0fee362ea54cf97c2219844e5b46ba60d0f759f556c",
+  "recomputed_sample_scores_sha256": "a29c4d5c83493ec437a9f0fee362ea54cf97c2219844e5b46ba60d0f759f556c",
+  "sample_scores_byte_identical": true,
+  "frozen_aggregate_sha256": "5d7244d2fa449a7ce4b2aa3a20fc095fb118a38920b1dd9181f56669a7ddfea1",
+  "recomputed_python_3_12_aggregate_sha256": "79a1203b4489e495548a055953e89afecb6993859686c16a5225aea52ddedbbc",
+  "aggregate_difference": {
+    "path": "argument_value_macro_f1",
+    "frozen_value": 0.9033383723859918,
+    "python_3_12_recomputed_value": 0.9033383723859914,
+    "absolute_difference": 4e-16,
+    "cause": "Python 3.12 changed built-in float summation; every sample record and all integer numerators are unchanged."
+  },
+  "strict_ast_exact": {
+    "numerator": 602,
+    "denominator": 756,
+    "value": 0.7962962962962963
+  },
+  "parse_valid": {
+    "numerator": 756,
+    "denominator": 756
+  },
+  "schema_valid": {
+    "numerator": 755,
+    "denominator": 756
+  },
+  "status": "verified_with_documented_cross_python_float_drift",
+  "official_mobile_evaluation_rows_read": 0
+}

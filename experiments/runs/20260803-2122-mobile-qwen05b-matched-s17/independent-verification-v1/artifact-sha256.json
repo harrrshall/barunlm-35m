@@ -1,0 +1,6 @@
+{
+  "baseline-aggregate.recomputed.json": "9391df9d7f8d78527b8a1077dc702b33d738053041eecd8331c7e2698d7f6756",
+  "candidate-aggregate.recomputed.json": "79a1203b4489e495548a055953e89afecb6993859686c16a5225aea52ddedbbc",
+  "independent-verification.json": "01bc02202cf44b7f971f465f3359817b52f66319a79e38b1a497b205438f5bc7",
+  "paired-samples.jsonl": "ad5d44e741f9b98a0a0ffaadfa147c142cdaf8fea8801a11b62b7d323e93730a"
+}

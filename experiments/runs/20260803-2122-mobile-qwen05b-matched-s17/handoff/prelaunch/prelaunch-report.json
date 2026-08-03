@@ -1,0 +1,91 @@
+{
+  "schema_version": "barun-qwen05b-prelaunch-report-v1",
+  "run_id": "20260803-2122-mobile-qwen05b-matched-s17",
+  "completed_at": "2026-08-03T21:53:04+05:30",
+  "shared_workspace_mutated": false,
+  "isolated_workspace": "/tmp/barun-qwen05b-matched-GCzPlATX",
+  "uniqueness": "passed: no prior Qwen run, ledger record, local process, W&B identity, or Jarvis resource",
+  "source_copy_manifest": {
+    "path": "source-copy-manifest.json",
+    "sha256": "b0c86bad1d6d0cd8a230c98a925b1041b3408de2ea35503c3192ce807e9b0b34",
+    "records": 120,
+    "same-path_copy_drift": 0
+  },
+  "source_snapshot": {
+    "path": "../work/source-snapshot.json",
+    "sha256": "f9c187539e097ac21bec8315daf75c48e74c6f3bcc8e9cfe969d3aaf568d9cb6",
+    "content_tree_sha256": "1a131cc8bc7a24c73c7c39cacc0c313f6ce7037ef5033077e0e8f4cfbbadeabb",
+    "file_count": 124,
+    "content_bytes": 21324978
+  },
+  "attempt_preregistration": {
+    "path": "../work/attempt-preregistration.json",
+    "pre_binding_sha256": "365d65f75c7c0695cddfd78c068a5e92ff7c6b94d6ebc42999ab73ada74df653"
+  },
+  "scientific_recipe_sha256": "6855eaf52c34089d802b8584c566b95619f9ff2780d4f130f333126bc33357e1",
+  "tests": {
+    "pytest": "96 passed",
+    "pytest_log_sha256": "93c6d5f9f2943e06a01d9d185269c5db46ec8cf4bb160d89380f39d101247236",
+    "ruff_check": "passed",
+    "ruff_check_log_sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+    "ruff_format_check": "passed",
+    "ruff_format_log_sha256": "ef7d13d02214e98ca902b05257cdbe6a8e84f3b4714508efdc19766460b54209"
+  },
+  "tokenizer_only_render_audit": {
+    "status": "passed",
+    "audit_sha256": "435d17ba43b956cbe1de5aa37964efc041fb3c3a50821becc11bb1f5ba5bf1db",
+    "model_weight_files_downloaded": 0,
+    "train_rows": 7937,
+    "train_max_full_tokens": 486,
+    "dev_rows": 756,
+    "dev_max_full_tokens": 390,
+    "overlength_or_dropped": 0,
+    "native_chat_template_sha256": "cd8e9439f0570856fd70470bf8889ebd8b5d1107207f67a5efb46e342330527f"
+  },
+  "candidate_reference": {
+    "status": "verified_with_documented_cross_python_float_drift",
+    "sample_records_byte_identical": true,
+    "strict_ast_exact": "602/756"
+  },
+  "stage_audit": {
+    "symlinks": 0,
+    "virtual_environments": 0,
+    "cache_directories": 0,
+    "secret_like_filenames": 0,
+    "secret_markers": 0,
+    "optimizer_states": 0,
+    "data_files": [
+      "data/audit.json",
+      "data/dev.jsonl",
+      "data/train.jsonl"
+    ],
+    "official_mobile_evaluation_rows_available": 0
+  },
+  "current_jarvis_inventory": {
+    "captured_read_only": true,
+    "resources": 34,
+    "paused": 31,
+    "running": 3,
+    "running_protected": [
+      {
+        "machine_id": 463686,
+        "name": "barun-continual-recovery-retry-2131-s17"
+      },
+      {
+        "machine_id": 463674,
+        "name": "barun-interpolation-rescue-2102-s17"
+      },
+      {
+        "machine_id": 463058,
+        "name": "Kroda"
+      }
+    ],
+    "qwen_resources": 0
+  },
+  "h200_capacity": {
+    "region": "IN2",
+    "on_demand_free_devices": 8,
+    "on_demand_price_inr_per_hour": 378.27
+  },
+  "blocker": null
+}

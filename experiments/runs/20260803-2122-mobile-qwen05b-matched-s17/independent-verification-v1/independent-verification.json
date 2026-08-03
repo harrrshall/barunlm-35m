@@ -1,0 +1,88 @@
+{
+  "baseline_metrics": {
+    "argument_key_micro": {
+      "f1": 0.996489332973265,
+      "false_negative": 10,
+      "false_positive": 3,
+      "precision": 0.9983766233766234,
+      "recall": 0.9946091644204852,
+      "true_positive": 1845
+    },
+    "argument_value_micro": {
+      "f1": 0.945179584120983,
+      "false_negative": 105,
+      "false_positive": 98,
+      "precision": 0.946969696969697,
+      "recall": 0.9433962264150944,
+      "true_positive": 1750
+    },
+    "catastrophic_unauthorized_actions": 0,
+    "false_action": {
+      "denominator": 0,
+      "numerator": 0,
+      "value": 0.0
+    },
+    "parse_valid": {
+      "denominator": 756,
+      "numerator": 755,
+      "value": 0.9986772486772487
+    },
+    "schema_valid": {
+      "denominator": 756,
+      "numerator": 754,
+      "value": 0.9973544973544973
+    },
+    "tool_macro_f1": 0.9984311382645951,
+    "truncation": {
+      "denominator": 756,
+      "numerator": 0,
+      "value": 0.0
+    }
+  },
+  "bundle": {
+    "artifact_files": 29,
+    "checkpoint_files": 9,
+    "checkpoint_model_sha256": "21f3f234ce9bfc2fa387cf396807fa35f5eb72e311f23a89cd98c98224c78793",
+    "config_derived_parameters": 494032768,
+    "serialized_parameters": 494032768,
+    "serialized_tensor_count": 290
+  },
+  "comparison": {
+    "baseline_exact": 663,
+    "baseline_only_win": 80,
+    "baseline_wins": 80,
+    "both_correct": 583,
+    "both_wrong": 74,
+    "candidate_exact": 602,
+    "candidate_minus_baseline_exact_matches": -61,
+    "candidate_minus_baseline_percentage_points": -8.068783068783068,
+    "candidate_only_win": 19,
+    "candidate_wins": 19,
+    "denominator": 756,
+    "ties": 657
+  },
+  "cross_python_float_reproducibility": {
+    "baseline_max_absolute_drift": 2.220446049250313e-16,
+    "candidate_max_absolute_drift": 4.440892098500626e-16,
+    "comparison_tolerance": 1e-12,
+    "reason": "Python 3.12 changed built-in float summation; only derived aggregate floats may differ within tolerance, while sample evidence and integer numerators stay exact.",
+    "sample_records_required_exact": true
+  },
+  "firewall_and_secret_audit": {
+    "official_eval_artifacts": 0,
+    "symlinks": 0,
+    "text_files_scanned": 29
+  },
+  "jarvis": {
+    "final_state": "Paused",
+    "instance_name": "barun-qwen05b-matched-2122-s17",
+    "lifecycle_seconds": 567.159668,
+    "machine_id": 463689,
+    "preexisting_machine_count": 34,
+    "run_id": "r_85efbb92"
+  },
+  "official_mobile_evaluation_rows_read": 0,
+  "paired_samples_sha256": "ad5d44e741f9b98a0a0ffaadfa147c142cdaf8fea8801a11b62b7d323e93730a",
+  "schema_version": "barun-qwen05b-independent-verification-v1",
+  "status": "verified"
+}

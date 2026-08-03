@@ -1,0 +1,74 @@
+{
+  "calendar_presentations": {
+    "added_cross_month": 1093,
+    "minimum_fraction": 0.45,
+    "original_cross_month": 384,
+    "original_same_month": 1686,
+    "post_cross_month": 1477,
+    "post_cross_month_fraction": 0.4669617451786279,
+    "post_total": 3163
+  },
+  "eligibility": {
+    "counts": {
+      "absolute_explicit": 748,
+      "already_cross_month": 384,
+      "mixed_ambiguous_or_unsupported": 581,
+      "no_calendar_call": 3675,
+      "pure_relative": 345,
+      "same_day_relative_cannot_cross": 12
+    },
+    "minimum_required": 1000,
+    "safe_source_membership_sha256": "3fcfd233e6c9e8cc7c552bb48a741ee075c90c43e23ac72c6f700a463f456a2a",
+    "safe_variant_rows": 1093
+  },
+  "leakage": {
+    "confirmation_source_rows_used_for_variants": 0,
+    "development_rows_read": 0,
+    "official_evaluation_rows_read": 0,
+    "selection_source_rows_used_for_variants": 0
+  },
+  "matched_control": {
+    "counterfactual_added_target_tokens": 108537,
+    "repeat_added_target_tokens": 108537,
+    "same_added_rows": true,
+    "same_optimizer_steps": true,
+    "same_source_ids": true,
+    "source_membership_sha256": "3fcfd233e6c9e8cc7c552bb48a741ee075c90c43e23ac72c6f700a463f456a2a",
+    "target_token_difference_fraction": 0.0
+  },
+  "receipts": {
+    "filename": "transform-receipts.jsonl",
+    "rows": 1093,
+    "sha256": "632310f5781bcb81362cf4ae4059d633cc250efbe4c9849b48d727af06b66a7c"
+  },
+  "schema_version": "barun-mobile-temporal-view-audit-v1",
+  "tokenizer": {
+    "identifier": "harrrshall/BarunLM-35M",
+    "max_seq_len": 2048,
+    "revision": "ef3e483a9fd7d906ecf2a7929babeffaf82d1d16",
+    "sha256": "70ded9605fccd09c2340ca7e225361eab0ae8b4dbbb0d6e26343ab5183979db6"
+  },
+  "transform_version": "barun-mobile-month-boundary-counterfactual-v1",
+  "views": {
+    "counterfactual": {
+      "added_rows": 1093,
+      "filename": "counterfactual-train.jsonl",
+      "optimizer_steps_at_batch_63": 109,
+      "rows": 6838,
+      "sha256": "9b90983693c3a4434e3626e9e5b72ae60ceb65c190260d07917fc83c16653472"
+    },
+    "repeat": {
+      "added_rows": 1093,
+      "filename": "repeat-train.jsonl",
+      "optimizer_steps_at_batch_63": 109,
+      "rows": 6838,
+      "sha256": "f0117ad9630605265fa2cdfafb3c9f13b995bb7cac7d445340d22c44e9b67120"
+    },
+    "standard": {
+      "filename": "construction-train.jsonl",
+      "optimizer_steps_at_batch_63": 92,
+      "rows": 5745,
+      "sha256": "800a3ba0a7f0215e5cf95c77c32e47abed48b2f07f375954b0e0b08296a33d10"
+    }
+  }
+}

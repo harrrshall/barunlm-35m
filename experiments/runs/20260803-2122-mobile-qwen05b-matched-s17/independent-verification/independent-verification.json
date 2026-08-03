@@ -1,0 +1,129 @@
+{
+  "baseline": "Qwen/Qwen2.5-0.5B-Instruct@7ae557604adf67be50417f59c2c2f167def9a775",
+  "baseline_metrics": {
+    "argument_key_micro": {
+      "f1": 0.996489332973265,
+      "false_negative": 10,
+      "false_positive": 3,
+      "precision": 0.9983766233766234,
+      "recall": 0.9946091644204852,
+      "true_positive": 1845
+    },
+    "argument_value_micro": {
+      "f1": 0.945179584120983,
+      "false_negative": 105,
+      "false_positive": 98,
+      "precision": 0.946969696969697,
+      "recall": 0.9433962264150944,
+      "true_positive": 1750
+    },
+    "catastrophic_unauthorized_actions": 0,
+    "false_action": {
+      "denominator": 0,
+      "numerator": 0,
+      "value": 0.0
+    },
+    "parse_valid": {
+      "denominator": 756,
+      "numerator": 755,
+      "value": 0.9986772486772487
+    },
+    "schema_valid": {
+      "denominator": 756,
+      "numerator": 754,
+      "value": 0.9973544973544973
+    },
+    "tool_macro_f1": 0.9984311382645951,
+    "truncation": {
+      "denominator": 756,
+      "numerator": 0,
+      "value": 0.0
+    }
+  },
+  "bundle": {
+    "artifact_files": 29,
+    "checkpoint_files": 9,
+    "checkpoint_header": {
+      "data_bytes": 988065536,
+      "json_bytes": 32280,
+      "json_sha256": "bd808652be103f0e4e29786b9aa8829e0f38607880486926c7246ee2de577a76"
+    },
+    "checkpoint_model_sha256": "21f3f234ce9bfc2fa387cf396807fa35f5eb72e311f23a89cd98c98224c78793",
+    "config_derived_parameters": 494032768,
+    "exact_tree_verified": true,
+    "serialized_dtype": "BF16",
+    "serialized_parameters": 494032768,
+    "serialized_tensor_count": 290
+  },
+  "candidate": "BarunAction-35M candidate-v2 batch63 final checkpoint",
+  "comparison": {
+    "baseline_exact": 663,
+    "baseline_only_win": 80,
+    "baseline_wins": 80,
+    "both_correct": 583,
+    "both_wrong": 74,
+    "candidate_exact": 602,
+    "candidate_minus_baseline_exact_matches": -61,
+    "candidate_minus_baseline_percentage_points": -8.068783068783068,
+    "candidate_only_win": 19,
+    "candidate_wins": 19,
+    "denominator": 756,
+    "ties": 657
+  },
+  "cross_python_float_reproducibility": {
+    "baseline_max_absolute_drift": 2.220446049250313e-16,
+    "candidate_max_absolute_drift": 4.440892098500626e-16,
+    "comparison_tolerance": 1e-12,
+    "reason": "Python 3.12 changed built-in float summation; only derived aggregate floats may differ within tolerance, while sample evidence and integer numerators stay exact.",
+    "sample_records_required_exact": true
+  },
+  "firewall_and_secret_audit": {
+    "official_eval_artifacts": 0,
+    "symlinks": 0,
+    "text_files_scanned": 29
+  },
+  "frozen_evidence": {
+    "code_sha256": {
+      "action_ir": "563d40afabd03bc81fdd4e2a0bf0224c5f6e9b686ee8f9f868611043d42642c8",
+      "evaluator": "36db751c9b4d791e45ebdd5b6338f3364789aefcd33ebed271c1023dcbf0d3a5",
+      "mobile_scorer": "4c7fc82d546996d5ba739a24ca59abf805acf44221f65edeccee1c095babb7ac",
+      "verifier": "355018916f839fdb0b6bfe4cc23b41381200cfa1bde59ed040bba513abdde064"
+    },
+    "development_unique_ids": 756,
+    "frozen_fields_cross_bound": true,
+    "input_sha256": {
+      "local-evidence/reference/candidate-v2/aggregate.json": "5d7244d2fa449a7ce4b2aa3a20fc095fb118a38920b1dd9181f56669a7ddfea1",
+      "local-evidence/reference/candidate-v2/predictions.jsonl": "e5aea59e5090e3aa7c9dbd6b1a810c753410a159ce18dc8bb889fde3a58b8665",
+      "local-evidence/reference/candidate-v2/predictions.jsonl.manifest.json": "badbb1dc91daa78a7807b998c7c3042a6b35523e4bd3024b7714ab6fdb69ba06",
+      "local-evidence/reference/candidate-v2/sample_scores.jsonl": "a29c4d5c83493ec437a9f0fee362ea54cf97c2219844e5b46ba60d0f759f556c",
+      "work/configs/mobile_qwen05b_matched_v1.json": "6855eaf52c34089d802b8584c566b95619f9ff2780d4f130f333126bc33357e1",
+      "work/data/audit.json": "dc756f97c0a7ef706ec8ffefe2d57cf7e16d75a6ccd932f906d16b6a6ee2f83c",
+      "work/data/dev.jsonl": "988bdce5874d1f1a775feeb5ba2b58cd2bdc128f57e73cb9a63d535fae7c1d55",
+      "work/data/train.jsonl": "131473ccb5bfb51cac0439b42159e72ec4c598025e50364a52b122b056c2e84e",
+      "work/provenance/qwen2.5-0.5b-instruct.json": "1a1c19cdfacaa25e296ab1c3f92a42ebc8c08802c0cec8047ab581d50669769e"
+    },
+    "official_mobile_evaluation_rows_read": 0,
+    "rendered_development_rows": 756,
+    "rendered_train_rows": 7937,
+    "train_dev_id_overlap": 0,
+    "train_unique_ids": 7937,
+    "training_metric_rows": 126
+  },
+  "jarvis": {
+    "artifact_download_exact": true,
+    "controller_record_sha256": "3bfa8f7f235e45a631f494dafee38aa2f6bf73ddfd0fa6a0416ed8077e4a7ea4",
+    "final_state": "Paused",
+    "instance_name": "barun-qwen05b-matched-2122-s17",
+    "lifecycle_seconds": 567.159668,
+    "machine_id": 463689,
+    "pause_proof_sha256": "9efc725130de593c3a0b720fbf78ecf00f0b46bf877f4a70424d8496adafb1d5",
+    "preexisting_machine_count": 34,
+    "protected_inventory_exact": true,
+    "run_id": "r_85efbb92"
+  },
+  "official_mobile_evaluation_rows_read": 0,
+  "paired_samples_sha256": "ad5d44e741f9b98a0a0ffaadfa147c142cdaf8fea8801a11b62b7d323e93730a",
+  "run_id": "20260803-2122-mobile-qwen05b-matched-s17",
+  "schema_version": "barun-qwen05b-independent-verification-v2",
+  "status": "verified"
+}

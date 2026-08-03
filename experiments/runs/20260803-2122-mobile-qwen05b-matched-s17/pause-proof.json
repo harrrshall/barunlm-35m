@@ -1,0 +1,14 @@
+{
+  "schema_version": "barun-jarvis-pause-proof-v1",
+  "queried_at_utc": "2026-08-03T16:34:29Z",
+  "query": "jl get 463689 --json",
+  "machine_id": 463689,
+  "name": "barun-qwen05b-matched-2122-s17",
+  "status": "Paused",
+  "gpu_type": "H200",
+  "num_gpus": 1,
+  "region": "IN2",
+  "is_spot": false,
+  "source": "fresh read-only exact-ID query after controller completion",
+  "filtered": true
+}

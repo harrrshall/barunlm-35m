@@ -1,0 +1,89 @@
+{
+  "schema_version": "barun-mobile-followup-sweep-v1",
+  "reference_trial": {
+    "run_id": "20260803-1810-mobile-blind-s17",
+    "checkpoint": "step-00000062",
+    "dev_manifest_sha256": "988bdce5874d1f1a775feeb5ba2b58cd2bdc128f57e73cb9a63d535fae7c1d55",
+    "train_manifest_sha256": "131473ccb5bfb51cac0439b42159e72ec4c598025e50364a52b122b056c2e84e",
+    "predictions_sha256": "6d52702a7d59693bbfde66570e7ac2ed775769d69b185cb9f963059fc8ef5a10",
+    "ast_exact_match": {
+      "numerator": 578,
+      "denominator": 756,
+      "value": 0.7645502645502645
+    }
+  },
+  "dev_trial_budget": {
+    "total": 3,
+    "consumed_by_reference": 1,
+    "remaining_arms": 2
+  },
+  "selection": {
+    "metric_path": "ast_exact_match.value",
+    "direction": "maximize",
+    "minimum_absolute_gain_over_reference": 0.01,
+    "tie_policy": "inconclusive_keep_reference",
+    "checkpoint_policy": "final_only",
+    "non_selection_metrics": "report_only"
+  },
+  "arms": [
+    {
+      "arm_id": "batch63",
+      "train_view": {
+        "kind": "uniform"
+      },
+      "hypothesis": "Doubling optimizer updates while eliminating the one-example tail batch will improve exact argument values without sacrificing Action IR validity.",
+      "decision": "Keep only if this final checkpoint is the unique AST-exact winner and clears the preregistered one-point practical margin over the reference.",
+      "optimization": {
+        "seed": 17,
+        "epochs": 1,
+        "batch_size": 63,
+        "eval_batch_size": 128,
+        "gradient_accumulation_steps": 1,
+        "learning_rate": 0.0001,
+        "min_learning_rate_ratio": 0.1,
+        "weight_decay": 0.1,
+        "beta1": 0.9,
+        "beta2": 0.95,
+        "adam_epsilon": 1e-8,
+        "warmup_steps": 12,
+        "max_steps": null,
+        "gradient_clip_norm": 1.0,
+        "eval_every_steps": 1000000,
+        "save_every_steps": 50,
+        "early_stopping_patience": 1000000,
+        "early_stopping_min_delta": 0.001
+      }
+    },
+    {
+      "arm_id": "hardmix70",
+      "train_view": {
+        "kind": "fixed_size_hard_mix",
+        "hard_fraction": 0.7,
+        "hard_predicate": "contains_create_calendar_event_or_show_map_or_is_multicall",
+        "selector_version": "barun-hard-mix-v1"
+      },
+      "hypothesis": "A fixed-budget curriculum emphasizing calendar, map, and multi-call rows will reduce the observed argument-value failures without buying gains through more examples.",
+      "decision": "Keep only if this final checkpoint is the unique AST-exact winner and clears the preregistered one-point practical margin over the reference.",
+      "optimization": {
+        "seed": 17,
+        "epochs": 1,
+        "batch_size": 127,
+        "eval_batch_size": 128,
+        "gradient_accumulation_steps": 1,
+        "learning_rate": 0.0001,
+        "min_learning_rate_ratio": 0.1,
+        "weight_decay": 0.1,
+        "beta1": 0.9,
+        "beta2": 0.95,
+        "adam_epsilon": 1e-8,
+        "warmup_steps": 6,
+        "max_steps": null,
+        "gradient_clip_norm": 1.0,
+        "eval_every_steps": 1000000,
+        "save_every_steps": 50,
+        "early_stopping_patience": 1000000,
+        "early_stopping_min_delta": 0.001
+      }
+    }
+  ]
+}

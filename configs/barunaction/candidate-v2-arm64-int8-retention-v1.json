@@ -1,0 +1,107 @@
+{
+  "schema_version": "barunaction-arm64-int8-retention-preregistration-v1",
+  "protocol_id": "candidate-v2-arm64-int8-retention-v1",
+  "status": "frozen_unrun",
+  "hypothesis": "The exact candidate-v2 dynamic-int8 artifact retains useful Mobile Actions development behavior on its version-bound Darwin ARM64 runtime.",
+  "decision": "Retain this int8 artifact as a release candidate only if it produces complete sample-level evidence, reaches at least 587/756 strict AST exact match, and loses no more than 15 correct rows relative to the frozen 602/756 candidate-v2 float reference.",
+  "candidate": {
+    "candidate_id": "candidate-v2",
+    "selection_run_id": "20260803-1845-mobile-followup-retry-s17",
+    "float_checkpoint_relative_path": "experiments/runs/20260803-1845-mobile-followup-retry-s17/essential/arms/batch63/checkpoint",
+    "float_checkpoint_manifest_sha256": "c743ab7c4d33ae75c6b0aa4547458a961b92766da8fcf85fd148fda2ebb5530a",
+    "float_checkpoint_file_sha256": {
+      "barun_config.json": "9b3a1d71baa95a198744d250f9629231738d942570b8685c44307fd83dd33565",
+      "model.safetensors": "fdb95ccf58a095e0d321be998924318b35ee59a334f6dd97d8726d2cf80021d3",
+      "tokenizer.json": "70ded9605fccd09c2340ca7e225361eab0ae8b4dbbb0d6e26343ab5183979db6"
+    }
+  },
+  "int8_checkpoint": {
+    "relative_path": "experiments/runs/20260803-1845-mobile-followup-retry-s17/essential/arms/batch63/int8-qnnpack",
+    "format_version": "barun-cpu-dynamic-int8-v1",
+    "manifest_sha256": "f45c391d18d78758b0d62eeb562d139d24cfe0be3c8a409e3b40c25945d95c6b",
+    "artifact_sha256": {
+      "barun_config.json": "9b3a1d71baa95a198744d250f9629231738d942570b8685c44307fd83dd33565",
+      "model.int8.pt": "18102649bb4f8507ee754ae0c298e20064580833f05ca515faf5e04eac6f4488",
+      "tokenizer.json": "70ded9605fccd09c2340ca7e225361eab0ae8b4dbbb0d6e26343ab5183979db6"
+    },
+    "source_checkpoint_file_sha256": {
+      "barun_config.json": "9b3a1d71baa95a198744d250f9629231738d942570b8685c44307fd83dd33565",
+      "model.safetensors": "fdb95ccf58a095e0d321be998924318b35ee59a334f6dd97d8726d2cf80021d3",
+      "tokenizer.json": "70ded9605fccd09c2340ca7e225361eab0ae8b4dbbb0d6e26343ab5183979db6"
+    },
+    "runtime": {
+      "platform_machine": "arm64",
+      "platform_system": "Darwin",
+      "torch_version": "2.13.0",
+      "qengine": "qnnpack"
+    }
+  },
+  "dataset": {
+    "dataset_id": "google/mobile-actions",
+    "revision": "e920309bc2acbc2e99a5e3201cf37df2b9fd9151",
+    "population": "derived_development_from_internal_train_rows_only",
+    "manifest": {
+      "relative_path": "experiments/runs/20260803-1810-mobile-blind-s17/remote/data/dev.jsonl",
+      "sha256": "988bdce5874d1f1a775feeb5ba2b58cd2bdc128f57e73cb9a63d535fae7c1d55",
+      "rows": 756
+    },
+    "audit": {
+      "relative_path": "experiments/runs/20260803-1810-mobile-blind-s17/remote/data/audit.json",
+      "sha256": "dc756f97c0a7ef706ec8ffefe2d57cf7e16d75a6ccd932f906d16b6a6ee2f83c"
+    },
+    "official_evaluation_firewall": {
+      "rows": 961,
+      "opaque_unparsed": true,
+      "accepted_input_paths": []
+    }
+  },
+  "source_float_reference": {
+    "checkpoint_format": "float",
+    "aggregate": {
+      "relative_path": "experiments/runs/20260803-1845-mobile-followup-retry-s17/essential/arms/batch63/final-eval/scores/aggregate.json",
+      "sha256": "5d7244d2fa449a7ce4b2aa3a20fc095fb118a38920b1dd9181f56669a7ddfea1",
+      "ast_exact_match": {
+        "numerator": 602,
+        "denominator": 756
+      }
+    },
+    "sample_scores": {
+      "relative_path": "experiments/runs/20260803-1845-mobile-followup-retry-s17/essential/arms/batch63/final-eval/scores/sample_scores.jsonl",
+      "sha256": "a29c4d5c83493ec437a9f0fee362ea54cf97c2219844e5b46ba60d0f759f556c",
+      "rows": 756
+    }
+  },
+  "evaluation": {
+    "generation_version_float": "barun-greedy-generation-v1",
+    "generation_version_int8": "barun-greedy-generation-int8-v1",
+    "scorer_version": "barun-mobile-actions-score-v1",
+    "evaluator_version": "action-ir-v1.0.0",
+    "checkpoint_format": "int8",
+    "device": "cpu",
+    "decoding": "unconstrained_deterministic_greedy",
+    "batch_size": 16,
+    "max_new_tokens": 192,
+    "no_checkpoint_format_fallback": true,
+    "missing_parse_truncation_and_generation_failures_count_as_wrong": true,
+    "sample_level_predictions_and_scores_required": true
+  },
+  "retention_gate": {
+    "metric": "ast_exact_match",
+    "minimum_int8_numerator": 587,
+    "required_denominator": 756,
+    "maximum_float_to_int8_correct_rows_lost": 15,
+    "require_complete_aligned_samples": true,
+    "require_same_sample_ids_scenarios_and_gold": true
+  },
+  "trial_accounting": {
+    "purpose": "post_selection_deployment_retention_diagnostic",
+    "new_mobile_candidate_selection_trial": false,
+    "official_evaluation_generations": 0
+  },
+  "claim_limits": {
+    "official_mobile_evaluation_result": false,
+    "sealed_safety_evidence": false,
+    "target_device_latency_or_energy_evidence": false,
+    "larger_model_superiority_claim": false
+  }
+}

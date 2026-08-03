@@ -1,0 +1,86 @@
+{
+  "schema_version": "barun-presto-taxonomy-posthoc-protocol-v2",
+  "correction_id": "presto-user-revision-family-v2",
+  "status": "post_hoc_after_original_result",
+  "supersedes": {
+    "path": "configs/presto_taxonomy_posthoc_v1.json",
+    "sha256": "64a02c519b259c76f3dcee00fef74c0221342797185773602cca72a7154e89d0",
+    "reason": "The v1 post-hoc protocol covered only within-turn-correction; the primary paper unambiguously defines four raw tags as the user-revision family. The v1 file remains immutable historical evidence."
+  },
+  "source": {
+    "run_id": "20260803-1920-presto-stage-s17",
+    "artifact_manifest_sha256": "6f7ae0b10337cf89ffe9cbecbc75ac32f69b96630a605a538cbfbf682b03bd7a",
+    "result_sha256": "b40d41cfb3d93cfab2af285e8780626402c6ad600e1698623dbc0f5ca6e162f2",
+    "base_sample_scores_sha256": "fdf6fa1dba73dbd64c4593b18b1d56602ef6d35ac7522d85cf6777af95a3608d",
+    "post_sample_scores_sha256": "d0127158399383d429f86e6d76c2d2c3efadf14a780f4625a92a0a88ab576335",
+    "recipe_sha256": "62c1222e8b9d348fa6b9aa9582001a5a06675f541e630a08b0d35f0efcd53cd9",
+    "output_model_sha256": "83c78952e719456574d2bb808fb486d0320519dd4f5df3c67736ae17931ee357"
+  },
+  "correction": {
+    "alias_set_version": "barun-presto-user-revision-raw-aliases-v2",
+    "raw_labels": [
+      "cancel-action",
+      "correct-action",
+      "correct-argument",
+      "within-turn-correction"
+    ],
+    "normalized_labels": [
+      "cancel_action",
+      "correct_action",
+      "correct_argument",
+      "within_turn_correction"
+    ],
+    "original_group": "other",
+    "corrected_group": "revision",
+    "original_scorer_version": "barun-presto-action-ir-score-v1",
+    "corrected_scorer_version": "barun-presto-action-ir-score-v2",
+    "corrected_taxonomy_version": "barun-presto-phenomenon-taxonomy-v2",
+    "all_other_raw_labels_unchanged": true
+  },
+  "primary_evidence": {
+    "paper": {
+      "title": "PRESTO: A Multilingual Dataset for Parsing Realistic Task-Oriented Dialogs",
+      "venue": "EMNLP 2023",
+      "url": "https://aclanthology.org/2023.emnlp-main.667/",
+      "location": "Section 2, User Revisions, page 2",
+      "finding": "The authors explicitly group correct-action, correct-argument, within-turn-correction, and cancel-action under the broader user-revision linguistic phenomenon."
+    },
+    "pinned_repository": {
+      "revision": "fa47167477453afebe698a287409514df5a7dadf",
+      "readme_url": "https://raw.githubusercontent.com/google-research-datasets/presto/fa47167477453afebe698a287409514df5a7dadf/README.md",
+      "finding": "The pinned README identifies revisions as a target phenomenon, documents the raw linguistic_phenomena field, and points to the primary paper for the taxonomy."
+    }
+  },
+  "observed_before_protocol": {
+    "english_development_rows": 14288,
+    "revision_raw_label_rows": {
+      "cancel-action": 454,
+      "correct-action": 230,
+      "correct-argument": 389,
+      "within-turn-correction": 3067
+    },
+    "revision_family_rows": 4140,
+    "original_revision_bucket_rows": 0,
+    "focus_revision_eligible_rows": 0,
+    "focus_revision_replay_rows": 0,
+    "original_gate_passed": false,
+    "original_failure": "revision bucket absent, so required hard-bucket representation and gap checks failed"
+  },
+  "procedure": {
+    "validate_original_bundle_with_legacy_v1_taxonomy_first": true,
+    "reclassify_only_existing_sample_evidence": true,
+    "require_per_raw_revision_tag_metrics": true,
+    "rerun_model_generation": false,
+    "rerun_training": false,
+    "read_official_test": false,
+    "rewrite_original_bundle_or_result": false,
+    "recompute_headline_buckets_and_gate": true
+  },
+  "claim_limits": [
+    "The original preregistered result remains a failed gate and is never rewritten.",
+    "The corrected gate is a post-hoc diagnostic, not a preregistered keep decision.",
+    "The completed training view replayed zero revision examples because the same v1 taxonomy was used during focus selection; post-hoc rescoring cannot repair that intervention.",
+    "The aggregate revision result must be accompanied by all four raw-tag metrics so strong subgroups cannot hide a weak subgroup.",
+    "No official PRESTO test, native PRESTO metric, Mobile Actions regression, hidden safety suite, seed replication, or larger-model comparison is evaluated."
+  ]
+}

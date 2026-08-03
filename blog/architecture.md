@@ -1,6 +1,12 @@
-# StrataLM-35M design rationale
+# BarunLM-35M design rationale
 
-StrataLM is a decoder-only model organized into three four-layer strata. It is designed for a single 24GB GPU, useful 2K-token training contexts, and eventual streaming inference. The selected configuration has exactly 35,072,768 physical parameters. It is `configs/strata_no_mtp_35m.json`; `configs/strata_no_mtp_no_selector_35m.json` is the faster, slightly lower-quality variant.
+BarunLM-35M, formerly developed under the working name StrataLM-35M, is a decoder-only
+model organized into three four-layer strata. BarunLM-35M is the released and canonical model
+name; the old name below survives only in historical pre-release config paths. The model is
+designed for a single 24GB GPU, useful 2K-token training contexts, and eventual streaming
+inference. The selected configuration has exactly 35,072,768 physical parameters. Its historical
+pre-release config was `configs/strata_no_mtp_35m.json`;
+`configs/strata_no_mtp_no_selector_35m.json` was the faster, slightly lower-quality variant.
 
 ## Decisions
 
@@ -30,7 +36,7 @@ StrataLM is a decoder-only model organized into three four-layer strata. It is d
 
 **Regularization.** Deduplication/quality filtering, document-level held-out hashing, tied embeddings, weight decay 0.1, gradient clipping at 1.0, and bounded activations. Dropout is initially zero because the token stream is much larger than the model and dropout confounds throughput; it remains configurable if longer runs show a train/validation gap.
 
-**Inference.** GQA reduces KV cache by 7× relative to seven independent KV heads. Nine of twelve layers retain at most 256 KV positions; only three anchor layers keep full history. Partial RoPE and gating add no cache. The implemented decode path maintains a separate cache per logical layer, truncates local caches after prefill and each token, and preserves absolute RoPE offsets. At an 8,128-token prompt, the measured cache is 6.83 MB versus 24.97 MB for the dense GQA baseline. Median-of-three L4 timing does not show a speed win: Strata prefill is 6.9% slower and decode is 32.8% slower. Weights are BF16 during research; weight-only INT8/INT4 export is deferred until accuracy is established.
+**Inference.** GQA reduces KV cache by 7× relative to seven independent KV heads. Nine of twelve layers retain at most 256 KV positions; only three anchor layers keep full history. Partial RoPE and gating add no cache. The implemented decode path maintains a separate cache per logical layer, truncates local caches after prefill and each token, and preserves absolute RoPE offsets. At an 8,128-token prompt, the measured cache is 6.83 MB versus 24.97 MB for the dense GQA baseline. Median-of-three L4 timing does not show a speed win: BarunLM prefill is 6.9% slower and decode is 32.8% slower. Weights are BF16 during research; weight-only INT8/INT4 export is deferred until accuracy is established.
 
 ## Expected trade-offs
 

@@ -1,0 +1,23 @@
+{
+  "schema_version": "barun-qwen05b-duration-cost-v1",
+  "run_id": "20260803-2122-mobile-qwen05b-matched-s17",
+  "currency": "INR",
+  "frozen_h200_rate_per_hour": 378.27,
+  "training_seconds": 73.12946654902771,
+  "terminal_generation_seconds": 18.84165497869253,
+  "scientific_runner_seconds": 117.76858996087685,
+  "scientific_runner_estimated_cost": 12.374534590139135,
+  "controller_started_at": "2026-08-03T16:24:45.382560+00:00",
+  "controller_finished_at": "2026-08-03T16:34:12.542228+00:00",
+  "full_lifecycle_seconds": 567.159668,
+  "full_lifecycle_estimated_cost": 59.59430211509999,
+  "full_lifecycle_includes": [
+    "fresh instance creation and SSH readiness",
+    "remote environment installation",
+    "pinned model snapshot download",
+    "repository tests and scientific runner",
+    "essential artifact download",
+    "exact-ID pause verification"
+  ],
+  "billing_note": "These are rate-times-wall-clock estimates, not a provider invoice. A later paused-instance query reported runtime '0 hours 30 minutes' and cost 0.0; those ambiguous fields are not used as historical billing evidence."
+}

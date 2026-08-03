@@ -1,0 +1,265 @@
+# Mistakes and lessons
+
+This is an append-only record. Add dated corrections instead of deleting or rewriting prior
+entries.
+
+## 2026-08-03 — Reproducibility gaps found before post-training
+
+- The release repository contains aggregate benchmark values but not the sample-level
+  predictions, exclusion masks, or executable benchmark command needed to reconstruct every
+  published number. Treat the existing benchmark as reported evidence, not a fully reproduced
+  result, until those artifacts are recovered or regenerated.
+- The native model loss originally required an objective-semantics audit before any new
+  training run. A same-position label convention could train token identity instead of
+  next-token prediction. Add an explicit regression test before using the trainer.
+- Cached attention masks were keyed too coarsely for multi-GPU devices and could retain
+  inference tensors across later gradient-enabled calls. Replace unsafe caching behavior and
+  test inference-to-training transitions before paid compute.
+- The initial CLI status summary and full instance listing did not present the running
+  resource inventory identically. The full read-only inventory is authoritative for safety;
+  all pre-existing IDs, including Kroda 463058, are protected.
+
+## 2026-08-03 — Cross-sample argument-score cancellation caught in review
+
+- The first Action IR evaluator draft aggregated argument facts without a sample namespace.
+  A wrong value predicted on one row could therefore cancel the corresponding miss on another
+  row and inflate micro-F1. Namespace facts by immutable sample ID before Counter intersection;
+  the regression test swaps values across two samples and requires argument-value micro-F1 zero.
+
+## 2026-08-03 — Fresh H200 launch raced SSH readiness
+
+- JarvisLabs created project-owned H200 instance 463544, but the initial managed-run command tried
+  SSH before the instance was ready and failed before project code executed. The controller found
+  the one exact new `barun-*` name, recorded its ID, paused only that ID, and verified `Paused`;
+  Kroda and all other pre-existing resources were unchanged. Retry the immutable command only by
+  resuming this proven-owned ID, waiting for an explicit SSH probe, and pausing it again in `finally`.
+
+## 2026-08-03 — Remote retry and data-firewall preflight corrections
+
+- Resuming a JarvisLabs container can replace its machine ID. The controller must capture the
+  explicit replacement ID, re-prove that it is neither protected nor pre-existing, and make that
+  exact ID the only cleanup target. The local OpenSSH identity initially matched none of the
+  account's registered public keys; a dedicated user-level identity is now registered outside the
+  repository, and its fingerprint must be verified before provisioning paid compute.
+- JarvisLabs rejects fresh-instance lifecycle flags such as `--keep` when `jl run` attaches with
+  `--on`. The first attached command therefore stopped before project code ran. Remove lifecycle
+  flags from attached commands and let the exact-ID controller perform the final pause; keep a
+  regression test for the generated command.
+- A stopped CUDA preflight proved the H200 environment and all repository tests, but it exposed two
+  issues before training. Deterministic cuBLAS configuration must be set before importing Torch or
+  initializing CUDA, and a public evaluation split is not "unmaterialized" if its labels are still
+  parsed for audit statistics. The official 961 Mobile Actions rows must remain opaque count/hash
+  evidence during train/development preparation, and near-duplicate grouping must use only the
+  internal training population. Project instance 463556 was verified `Paused` after stopping this
+  preflight; it produced no model checkpoint or score.
+
+## 2026-08-03 — Real-GPU test ordering and efficient artifact collection
+
+- Attempt `20260803-1800-mobile-blind-s17` exposed a GPU-only test-order bug: earlier tests could
+  initialize CUDA before a duplicate-run test reached the CUDA preflight. The attempt exited before
+  model download, data preparation, scoring, or training, and instance 463572 was pause-verified.
+  Claim the run root atomically before any CUDA inspection; the retry includes a regression test
+  that proves duplicate IDs fail without touching CUDA.
+- Attempt `20260803-1810-mobile-blind-s17` completed successfully, but the default recursive
+  download included three large optimizer states that were unnecessary for candidate inference.
+  A compact essential bundle was downloaded separately and every file was matched against the
+  remote artifact-tree hashes. Only after that proof was the redundant bulk transfer interrupted;
+  the successful run remained exit 0 and exact project instance 463575 was pause-verified. Future
+  runners should export inference/evidence bundles separately from resumable optimizer state.
+
+## 2026-08-03 — Clean source snapshots exposed a non-hermetic integration test
+
+- Attempt `20260803-1835-mobile-followup-s17` intentionally uploaded 5.3 MB of source instead of
+  the 1.4 GB workspace containing old environments and checkpoints. Repository tests stopped before
+  data preparation or model access because one candidate-identity test read a prior experiment's
+  local checkpoint manifest. Re-running the exact staged snapshot locally reproduced the sole
+  failure: 1 failed and 124 passed. Candidate provenance now lives in a small checked-in JSON
+  manifest, so source-only and wheel/clone test environments are hermetic.
+- The progressive essential bundle initially had environment evidence but not the captured test log
+  because the log copy occurred only after a successful test return. Test stdout/stderr now streams
+  to the managed-run log and the repository test log is copied into the progressive bundle before
+  checking its exit code. Fresh project instance 463594 was pause-verified; no development trial,
+  model score, training step, or official-evaluation read occurred.
+
+## 2026-08-03 — Bottleneck oversampling was worse than uniform extra updates
+
+- In the final frozen Mobile development sweep, uniform `batch63` training reached 602/756 strict
+  exact matches, a +3.17-point gain over the 578/756 reference. The fixed-size `hardmix70` arm
+  instead fell to 566/756 despite emphasizing the observed calendar/map/multicall bottlenecks; it
+  repeated 817 hard slots and omitted the same number of easy-source rows. A plausible error
+  taxonomy is not evidence that manual oversampling will help a 35M model. Keep the uniform arm,
+  reject the hard mix, and do not spend more Mobile development trials trying to rescue it.
+- The promoted 602/756 candidate clears the sweep's preregistered +1-point practical margin but is
+  three correct rows short of the separate 80% full-public-data target. Report 79.63% exactly and
+  move to contextual PRESTO/safety evidence; do not round it into a passed 80% gate or inspect the
+  sealed 961-row Mobile evaluation set.
+
+## 2026-08-03 — Text-only baseline inherited an incompatible vision package
+
+- The first matched SmolLM2 launch passed its repository and frozen-data checks and downloaded the
+  pinned public snapshot, but Transformers 4.48.3 discovered JarvisLabs' system `torchvision` while
+  importing Llama. That system build did not match the isolated Torch 2.13 runtime, so import failed
+  at the absent `torchvision::nms` operator before model construction, rendering, training, or
+  development scoring. Instance 463631 was pause-verified and the attempt consumed no development
+  trial. For the infrastructure-only retry, pin `torchvision==0.28.0`, the release paired by the
+  resolver with `torch==2.13.0`, so the isolated environment shadows the unrelated system package.
+  Keep this dependency correction separate from the frozen model/data/training recipe.
+
+## 2026-08-03 — A literal-string taxonomy dropped the entire PRESTO revision family
+
+- The frozen PRESTO scorer grouped a row as `revision` only when its raw label contained that
+  literal word. PRESTO instead records four subtype labels for the paper-defined user-revision
+  family, so the original evaluator exposed no revision bucket and the focus selector replayed
+  zero revision rows. The original preregistered gate correctly remains failed. Preserve its v1
+  semantics for artifact reproduction, version the complete primary-source taxonomy separately,
+  and report any rescored gate only as a post-hoc diagnostic with per-subtype evidence.
+
+## 2026-08-03 — PRESTO-only continuation catastrophically forgot Mobile Actions
+
+- Sharing Action IR syntax did not preserve the earlier task. The PRESTO checkpoint scored 0/756
+  on the frozen Mobile regression set versus candidate-v2's 602/756: all 602 formerly correct rows
+  regressed, with zero fixes or retained-correct rows. The mandatory regression gate prevented a
+  misleading broader-candidate promotion. Future continual stages must preregister retention
+  explicitly—through checkpoint interpolation or rehearsal/recovery—and must pass both task gates
+  before receiving a shared product identity. Do not infer retention from schema compatibility or
+  a low post-training loss.
+
+## 2026-08-03 — Jarvis requirements staging added an accounted root file
+
+- Continual-recovery launch `20260803-2106-continual-recovery-s17` stopped at the staged-tree
+  provenance check, before CUDA inspection, repository tests, checkpoint hashing, data preparation,
+  training, or scoring. Jarvis copied `requirements/continual-recovery.txt` to remote staged-root
+  `continual-recovery.txt` before invoking the runner. Virtually adding that one identical file to
+  the local 125-file receipt reproduces the observed remote SHA-256
+  `9eccac423a75b7aab1dde8db0b88d653ac7799ae626e5fd60834ea544da8d5ec` exactly, proving the
+  mismatch rather than guessing from it. The fail-closed guard worked, evidence was downloaded,
+  and exact owned H200 463675 was pause-verified. A fresh infrastructure retry may include this
+  deterministic provider-created file in its preregistered source tree; it does not authorize a
+  recipe change or another scientific trial.
+
+## 2026-08-03 — Checkpoint interpolation exposed a steep task tradeoff
+
+- The three frozen points on the candidate-v2-to-PRESTO trajectory did not contain a broadly useful
+  checkpoint. Alpha 0.25 retained Mobile at 598/756 but scored 0/14,288 PRESTO exact; alpha 0.50
+  fell to 452/756 Mobile and 961/14,288 PRESTO; alpha 0.75 reached 9,447/14,288 PRESTO but collapsed
+  Mobile to 8/756. Shared syntax and a continuous parameter path therefore did not imply a smooth
+  capability tradeoff. No arm passed the hard conjunction, so retain candidate-v2 and do not use
+  the negative result to justify another alpha after seeing the scores.
+- The H200 log emitted one allocator allocation-failure warning during each PRESTO pass. None raised
+  a measured generation exception: all three arms recorded zero generation failures and contain
+  every expected 756-row Mobile and 14,288-row PRESTO prediction and score. Preserve the warnings as
+  anomalies, but do not misreport them as dropped rows or silently remove affected evidence.
+
+## 2026-08-03 — Continual recovery was a 140-row PRESTO near-miss, not a promotion
+
+- The one-shot train-only rehearsal recipe restored Mobile to 642/756 and reached 9,862/14,288
+  PRESTO derived Action IR exact match. PRESTO required 10,002 correct rows, so 69.02% remains a
+  140-row miss rather than a rounded 70% pass. Schema validity (14,254/14,288), abstention F1
+  (0.97435), false calls (102/10,407), both hard-bucket gaps, all four revision subtypes, Mobile
+  safety, and Mobile exact match passed their frozen gates; cross-metric strength cannot compensate
+  for the one failed capability gate.
+- Keep checkpoint SHA-256
+  `744b640828122ea9805131671c9792af9acfbd748e3199bacc513dcd8799c4c9` as research-only evidence.
+  Candidate-v2 remains the current product/release-development checkpoint, not a demonstrated joint
+  passer. The outer four-trial selector found no eligible candidate and authorizes neither another
+  interpolation alpha nor a recipe retry. Both official test populations remained unread, so these
+  reused-development results support no blind-breakthrough, larger-model, or release claim.
+
+## 2026-08-03 — SmolLM2 collapse was model-and-recipe-specific, not a larger-model win
+
+- The adapted SmolLM2 checkpoint's 0/756 result looked like a dramatic parameter-efficiency win,
+  but one failed baseline cannot support a claim about larger models as a class. A user-supplied,
+  independently verified Qwen matched-baseline handoff reports 663/756 (87.70%) strict AST exact
+  against candidate-v2's 602/756 (79.63%) on the aligned reused development set. The paired result
+  is 80 Qwen-only wins, 19 Barun-only wins, and 657 ties; Qwen produced 755 parse-valid and 754
+  schema-valid outputs. All 961 official Mobile Actions rows remained untouched.
+- The Qwen checkpoint contains 494,032,768 BF16 parameters across 290 tensors—0.494B, not 500B.
+  BarunAction is 14.09 times smaller and retains 90.80% of Qwen's exact-match rate, but trails by
+  61 rows or 8.07 percentage points. Record the larger-model-outperformance hypothesis as failed,
+  retain only the honest size-versus-quality tradeoff, and never generalize the SmolLM2 failure.
+  The Qwen handoff remains pending local bundle import and hash verification; do not fabricate a
+  run ID, hash, or checked-in provenance claim before that evidence arrives.
+
+### Same-day addendum — Qwen handoff imported and hash-bound
+
+- The complete 965 MB handoff subsequently arrived at the supplied path and every entry in its
+  whole-bundle SHA-256 manifest passed. Source files were imported byte-identically from the
+  reviewed patch. A safe 63-file evidence subset was copied into run
+  `20260803-2122-mobile-qwen05b-matched-s17`; the comparison checkpoint, full Jarvis inventory,
+  remote log, and duplicate source copies were excluded. `import-receipt.json` and
+  `selected-artifact-sha256.txt` preserve the exact boundary. The earlier pending-status sentence
+  remains above as chronology, not current state.
+- Post-hoc paired inspection found that 76 of 80 Qwen-only wins include a BarunAction argument-
+  value mismatch. Calendar contributes the largest net gap. In 23 Qwen-only calendar rows, the
+  candidate preserved year/day/time but emitted the preceding month, usually matching the `NOW`
+  month. Preserve this as a dated diagnostic and preregister any counterfactual-time curriculum on
+  a fresh split; never tune repeatedly on the 756-row diagnostic population.
+
+### Same-day correction — the Qwen whole-handoff check covered 85 files, not 80
+
+- The immutable import receipt says `files_checked: 80`, but the preserved command output contains
+  85 `OK` lines and zero failures, exactly matching all 85 entries in `artifact-sha256.txt`. The
+  source tree has 86 regular files because a checksum manifest cannot list itself. The origin of
+  80 is unknown; it must not be explained away merely because other subsets happen to total 80.
+- The incorrect receipt was already bound into the public release manifest, so silently editing it
+  would destroy that provenance chain. Preserve it and use `import-receipt-correction-v1.json`
+  plus `full-handoff-sha256-check.log` as an immutable addendum. Future summaries must say the full
+  tree is 1,008,838,966 logical bytes (1008.839 MB or 962.104 MiB); `du -sh` reported `965M`
+  allocated size, which is not a precise logical-byte measurement.
+
+## 2026-08-03 — Release evidence filtering must permit legal notice files explicitly
+
+- The first candidate-v2 W&B dry run failed closed because the evidence allowlist permitted only
+  selected text/JSON suffixes and rejected the required no-suffix `LICENSE` and `NOTICE` files.
+  Add only those two exact names; do not weaken the extension filter generally. A regression test
+  now proves that both legal files pass while an arbitrary `weights.bin` evidence payload fails.
+- A second dry run passed, followed by immutable upload and a fresh 310-file redownload. The W&B
+  project initially inherited private visibility, so publication was not complete merely because
+  upload succeeded. It was changed to public-read/team-write (`USER_READ`) and then checked without
+  credentials, including a full 140,304,464-byte float-weight stream whose SHA-256 matched. Always
+  verify distribution visibility and bytes separately from the upload receipt.
+
+## 2026-08-03 — Temporal diagnostics must distinguish rows, calls, and argument occurrences
+
+- An intermediate summary understated one candidate detail as 97 datetime errors preserving the
+  correct time. Recomputing against the frozen 756-row manifest and both immutable sample-score
+  files gives 98 of 98 aligned datetime mismatches with the correct time, wrong date, and predicted
+  year-month copied from `NOW`. The added temporal-analysis receipt records its source hashes and
+  definitions; the original released post-hoc receipt remains unchanged.
+- The targeted cross-month population is 59 `create_calendar_event` call occurrences across all
+  single- and multi-call examples, not only the 21 sole-calendar rows or 43 rows whose first call
+  is calendar. BarunAction gets 16/59 datetime values exact versus Qwen's 52/59; 43 versus seven are
+  wrong. Evaluators for the next experiment must score the aligned calendar argument directly so
+  an unrelated call error cannot be mistaken for a temporal error.
+
+## 2026-08-04 — Pre-CUDA audit closed retry, source-install, and failure-evidence gaps
+
+- The first Month-Boundary Counterfactual launch draft allowed JarvisLabs requirements handling to
+  perform an editable project install. That could create `src/barunlm.egg-info` before the staged
+  source-tree check and make provenance depend on installer side effects. The frozen requirements
+  file now contains third-party pins only; the CPU test child and backend import BarunLM solely from
+  the exact staged `src` directory, and the controller performs no setup command when this explicit
+  requirements file is supplied.
+- Early retry validation proved only a few named hashes. Unlisted source could change, prior
+  evidence could collide with a scientific path, or a standalone zero-signal failure receipt could
+  conceal held-out artifacts present in the downloaded bundle. Retry evidence is now confined to
+  an attempt-scoped namespace, bound through the downloaded essential artifact manifest and
+  lifecycle receipt, and compared against the complete prior scientific content-tree projection.
+  Any held-out marker, prediction, score, or development metric forbids retry. Ordinal-two and
+  tampering regressions pass.
+- The outer failure wrapper could mask the original backend error or return a compact bundle that
+  omitted partial scores, the promoted full-refit weights, or the compact-export diagnosis. It now
+  preserves the original exception, validates an existing backend failure, and copies a bounded
+  fail-closed evidence set including the only promotable `model.safetensors`. Retrieval remains the
+  exact recursive `execution/essential` tree before the owned instance is paused.
+- The first launch-provenance builder design trusted caller-supplied Git identity and could write a
+  Python bytecode cache while importing the staged runner. It now derives identity from a clean
+  canonical repository HEAD, verifies every committed file plus an exact data-addition allowlist,
+  runs the real materialization preflight, rejects credential-like content, requires all critical
+  implementation hashes, and disables/restores bytecode writes during staged imports. A real-runner
+  regression proves no `__pycache__` is created.
+- These were pre-execution control failures, not failed model experiments: no model or CUDA was
+  loaded, no selection, confirmation, reused-756, or official-961 row was read or scored, and no
+  JarvisLabs resource was created or mutated. After the corrections, 401 repository tests and the
+  129-test frozen remote CPU gate pass. Preserve this distinction so infrastructure hardening is
+  never counted as a scientific trial.

@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "frozen_at": "2026-08-03T11:30:00Z",
+  "parameter_count_policy": "Load each pinned checkpoint, deduplicate tied tensors by storage, and record the measured count before comparison.",
+  "models": [
+    {
+      "id": "harrrshall/BarunLM-35M",
+      "revision": "ef3e483a9fd7d906ecf2a7929babeffaf82d1d16",
+      "role": [
+        "candidate_base"
+      ],
+      "license": "Apache-2.0",
+      "access": "public",
+      "expected_parameters": 35072768
+    },
+    {
+      "id": "google/functiongemma-270m-it",
+      "revision": "39eccb091651513a5dfb56892d3714c1b5b8276c",
+      "role": [
+        "larger_specialist",
+        "matched_adaptation",
+        "off_the_shelf"
+      ],
+      "license": "Gemma terms",
+      "access": "manual-gated; acceptance and an external Hugging Face token are required",
+      "expected_parameters": 270000000
+    },
+    {
+      "id": "HuggingFaceTB/SmolLM2-360M-Instruct",
+      "revision": "a10cc1512eabd3dde888204e902eca88bddb4951",
+      "role": [
+        "larger_generalist",
+        "matched_adaptation",
+        "off_the_shelf"
+      ],
+      "license": "Apache-2.0",
+      "access": "public",
+      "expected_parameters": 360000000
+    },
+    {
+      "id": "Qwen/Qwen2.5-0.5B-Instruct",
+      "revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+      "role": [
+        "larger_generalist",
+        "matched_adaptation",
+        "off_the_shelf"
+      ],
+      "license": "Apache-2.0",
+      "access": "public",
+      "expected_parameters": 494000000
+    },
+    {
+      "id": "Qwen/Qwen3-0.6B",
+      "revision": "c1899de289a04d12100db370d81485cdf75e47ca",
+      "role": [
+        "larger_tool_capable",
+        "matched_adaptation",
+        "off_the_shelf"
+      ],
+      "license": "Apache-2.0",
+      "access": "public",
+      "expected_parameters": 600000000
+    },
+    {
+      "id": "Cactus-Compute/needle",
+      "revision": "5f89b4307696d669c3df1d38ae057e6e1728b107",
+      "role": [
+        "smaller_specialist_control",
+        "off_the_shelf"
+      ],
+      "license": "MIT",
+      "access": "public",
+      "expected_parameters": null,
+      "note": "The project describes 26M parameters while the Hub has reported a larger count; use the measured loaded unique count."
+    },
+    {
+      "id": "google/mt5-base",
+      "revision": "2eb15465c5dd7f72a8f7984306ad05ebc3dd1e1f",
+      "role": [
+        "published_presto_anchor"
+      ],
+      "license": "Apache-2.0",
+      "access": "public",
+      "expected_parameters": 580000000
+    }
+  ]
+}

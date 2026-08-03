@@ -1,4 +1,4 @@
-BarunLM-35M
+BarunLM-35M and BarunAction-35M
 Copyright 2026 Harshal Singh
 
 The BarunLM source code and released model weights are licensed under the
@@ -20,6 +20,21 @@ and retain their own licenses and terms:
 - codeparrot/codeparrot-clean, revision
   35a59fb025bc0a102f7d96eac09d145b896d487b: source files retain the
   repository-level licenses recorded by the dataset.
+
+BarunAction-35M candidate-v2 was post-trained on the following additional
+dataset. Public evaluation evidence also uses the second dataset. Both remain
+under their upstream attribution terms:
+
+- google/mobile-actions, revision
+  e920309bc2acbc2e99a5e3201cf37df2b9fd9151: CC BY 4.0. Candidate-v2 was
+  supervised-fine-tuned on 7,937 grouped internal-training rows; its reported
+  756-row development population was derived only from source training rows.
+- Google Research PRESTO, revision
+  fa47167477453afebe698a287409514df5a7dadf: CC BY 4.0. PRESTO development
+  predictions are distributed as research evidence for a separate rejected
+  post-training checkpoint and rescue trials; PRESTO did not train the released
+  candidate-v2 weights. Cite: Goel et al., "PRESTO: A Multilingual Dataset for
+  Parsing Realistic Task-Oriented Dialogs," EMNLP 2023.
 
 Users are responsible for reviewing the upstream dataset cards and terms for
 their intended use. This notice is informational and does not replace those

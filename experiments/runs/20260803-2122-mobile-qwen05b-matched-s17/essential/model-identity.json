@@ -1,0 +1,21 @@
+{
+  "config_commit_hash": "7ae557604adf67be50417f59c2c2f167def9a775",
+  "eos_token_id": 151645,
+  "native_chat_template_sha256": "cd8e9439f0570856fd70470bf8889ebd8b5d1107207f67a5efb46e342330527f",
+  "pad_token_id": 151643,
+  "parameter_count_policy": "exact storage-view deduplication; tied embeddings counted once",
+  "trainable_unique_parameters": 494032768,
+  "unique_parameters": 494032768,
+  "vendor_generation_config": {
+    "do_sample": true,
+    "eos_token_id": [
+      151645,
+      151643
+    ],
+    "pad_token_id": 151643,
+    "repetition_penalty": 1.1,
+    "temperature": 0.7,
+    "top_k": 20,
+    "top_p": 0.8
+  }
+}

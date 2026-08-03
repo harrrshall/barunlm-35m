@@ -1,0 +1,36 @@
+{
+  "schema_version": "barun-qwen05b-failure-analysis-v1",
+  "run_id": "20260803-2122-mobile-qwen05b-matched-s17",
+  "population": 756,
+  "strict_exact_failures": 93,
+  "well_formed_ast_mismatches": 91,
+  "parse_failures": 1,
+  "schema_failures": 2,
+  "schema_only_failures": 1,
+  "truncations": 0,
+  "missing_predictions": 0,
+  "generation_failures": 0,
+  "ooms": 0,
+  "context_overflows": 0,
+  "nan_rows_dropped": 0,
+  "rows_dropped": 0,
+  "special_failures": [
+    {
+      "sample_id": "mobile-actions-05271-4fc1dbb7c3211ce8",
+      "scenario": "send_email",
+      "parse_valid": true,
+      "schema_valid": false,
+      "error_code": "unknown_field",
+      "explanation": "The generated first call placed subject at the call-object level instead of inside args and omitted the recipient field, so strict Action IR validation rejected it."
+    },
+    {
+      "sample_id": "mobile-actions-06953-0ee7b4f1d0cd1ca8",
+      "scenario": "send_email",
+      "parse_valid": false,
+      "schema_valid": false,
+      "error_code": "invalid_json",
+      "explanation": "The generated body introduced apostrophe-delimited fragments and commas outside a valid JSON string, so parsing failed closed."
+    }
+  ],
+  "source": "essential/evaluation/scores/sample_scores.jsonl; exact raw outputs remain in the immutable sample records"
+}

@@ -1,0 +1,26 @@
+{
+  "schema_version": "barun-qwen05b-non-interference-v1",
+  "run_id": "20260803-2122-mobile-qwen05b-matched-s17",
+  "shared_workspace_used_as_read_only_source": true,
+  "shared_workspace_files_created_edited_moved_or_deleted": 0,
+  "shared_git_mutations": 0,
+  "shared_tests_training_evaluation_or_package_installs": 0,
+  "active_recovery_or_interpolation_experiments_inspected_internally": false,
+  "active_recovery_or_interpolation_experiments_mutated": false,
+  "preexisting_local_processes_signaled_or_replaced": 0,
+  "preexisting_jarvis_resources_mutated": 0,
+  "protected_kroda_463058_mutated": false,
+  "project_created_jarvis_machine_ids": [
+    463689
+  ],
+  "project_machine_final_state": "Paused",
+  "official_mobile_evaluation_rows_read_or_materialized": 0,
+  "official_presto_test_rows_read_or_materialized": 0,
+  "credential_files_opened_printed_copied_or_hashed": 0,
+  "weights_and_biases_used": false,
+  "hugging_face_uploads": 0,
+  "github_pushes": 0,
+  "main_ledger_edits": 0,
+  "main_mistakes_log_edits": 0,
+  "evidence": "prelaunch/source-copy-manifest.json records the explicit read-only source copies; jarvis.json records the protected inventory and exact owned lifecycle; proposed additions remain isolated in this handoff."
+}

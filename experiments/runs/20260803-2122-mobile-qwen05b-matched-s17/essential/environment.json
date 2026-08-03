@@ -1,0 +1,48 @@
+{
+  "bf16_supported": true,
+  "captured_at": "2026-08-03T16:25:39.266807+00:00",
+  "command": [
+    "scripts/run_mobile_qwen05b_matched_baseline.py",
+    "--run-id",
+    "20260803-2122-mobile-qwen05b-matched-s17",
+    "--train-manifest",
+    "data/train.jsonl",
+    "--dev-manifest",
+    "data/dev.jsonl",
+    "--audit",
+    "data/audit.json",
+    "--config",
+    "configs/mobile_qwen05b_matched_v1.json",
+    "--attempt-preregistration",
+    "attempt-preregistration.json",
+    "--source-snapshot",
+    "source-snapshot.json",
+    "--hourly-cost-inr",
+    "378.27",
+    "--jarvis-machine-id",
+    "463689"
+  ],
+  "cuda_capability": [
+    9,
+    0
+  ],
+  "cuda_device_name": "NVIDIA H200",
+  "cuda_runtime": "13.0",
+  "determinism": {
+    "cublas_workspace_config": ":4096:8",
+    "cudnn_benchmark": false,
+    "deterministic_algorithms": true,
+    "seed": 17,
+    "tf32_cudnn": false,
+    "tf32_matmul": false
+  },
+  "packages": {
+    "huggingface-hub": "0.36.2",
+    "safetensors": "0.8.0",
+    "tokenizers": "0.21.4",
+    "transformers": "4.48.3"
+  },
+  "platform": "Linux-6.8.0-100-generic-x86_64-with-glibc2.35",
+  "python": "3.10.20 (main, Mar 11 2026, 17:46:40) [GCC 14.3.0]",
+  "torch": "2.13.0+cu130"
+}

@@ -1,0 +1,59 @@
+{
+  "assistant_output_only_labels": true,
+  "extra_semantic_instructions": false,
+  "mapping": "remove only frozen Barun role wrappers; pass identical system and user semantic content to tokenizer.apply_chat_template; append the unchanged Action IR target as the assistant message",
+  "native_chat_template_sha256": "cd8e9439f0570856fd70470bf8889ebd8b5d1107207f67a5efb46e342330527f",
+  "packing": false,
+  "sample_artifacts": {
+    "dev": {
+      "path": "rendered-dev.jsonl",
+      "sha256": "b1202ee151804982fea24126a9197410157f4c42cf9968a74af279aa6e88af7d"
+    },
+    "train": {
+      "path": "rendered-train.jsonl",
+      "sha256": "31d33028855b85baceb7d026cfe748fb6f56f0f74c9de9ad7bb243864d395c49"
+    }
+  },
+  "schema_version": "barun-native-chat-action-render-v1",
+  "splits": {
+    "dev": {
+      "full_tokens": {
+        "max": 390,
+        "min": 175,
+        "sum": 185279
+      },
+      "overlength_or_dropped": 0,
+      "prompt_tokens": {
+        "max": 292,
+        "min": 149,
+        "sum": 141254
+      },
+      "response_tokens": {
+        "max": 126,
+        "min": 25,
+        "sum": 44025
+      },
+      "rows": 756
+    },
+    "train": {
+      "full_tokens": {
+        "max": 486,
+        "min": 174,
+        "sum": 1946249
+      },
+      "overlength_or_dropped": 0,
+      "prompt_tokens": {
+        "max": 374,
+        "min": 149,
+        "sum": 1482358
+      },
+      "response_tokens": {
+        "max": 147,
+        "min": 25,
+        "sum": 463891
+      },
+      "rows": 7937
+    }
+  },
+  "truncation": false
+}

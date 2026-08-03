@@ -1,0 +1,133 @@
+{
+  "schema_version": "barun-parallel-rescue-selection-v1",
+  "selection_id": "barunaction-mobile-presto-parallel-rescue-v1",
+  "status": "frozen_before_any_rescue_score",
+  "purpose": "Select at most one broadly useful BarunAction-35M checkpoint from one continual-recovery trial and three fixed interpolation trials without allowing safety/capability compensation or an adaptive retry.",
+  "method_protocols": {
+    "continual_recovery": {
+      "path": "configs/continual_recovery_v1.json",
+      "sha256": "b45f6efb28af44e0a2772b9239aff3f321a38765b964f1925e5bfc47c24fbf0d",
+      "trial_ids": [
+        "C"
+      ]
+    },
+    "checkpoint_interpolation": {
+      "path": "configs/interpolation_rescue_v1.json",
+      "sha256": "1e2f005f61bf8f8cb62c01928c23266023e2e20760321832f80bc4dbe3c9ee3c",
+      "trial_ids": [
+        "I25",
+        "I50",
+        "I75"
+      ]
+    }
+  },
+  "trial_budget": {
+    "total_joint_development_trials": 4,
+    "continual_final_checkpoints": 1,
+    "interpolation_alphas": 3,
+    "adaptive_followup_alphas": 0,
+    "recipe_retries_after_observing_scores": 0,
+    "outer_selection_adds_evaluation_trials": 0
+  },
+  "trial_mapping": {
+    "C": {
+      "method": "continual_recovery",
+      "checkpoint": "single final checkpoint after 168 optimizer steps"
+    },
+    "I25": {
+      "method": "checkpoint_interpolation",
+      "alpha": {
+        "numerator": 1,
+        "denominator": 4
+      }
+    },
+    "I50": {
+      "method": "checkpoint_interpolation",
+      "alpha": {
+        "numerator": 1,
+        "denominator": 2
+      }
+    },
+    "I75": {
+      "method": "checkpoint_interpolation",
+      "alpha": {
+        "numerator": 3,
+        "denominator": 4
+      }
+    }
+  },
+  "frozen_endpoints": {
+    "mobile": {
+      "candidate_id": "candidate-v2",
+      "ast_exact_numerator": 602,
+      "ast_exact_denominator": 756,
+      "model_sha256": "fdb95ccf58a095e0d321be998924318b35ee59a334f6dd97d8726d2cf80021d3"
+    },
+    "presto": {
+      "metric_scope": "derived_action_ir_not_native_presto_semantic_parse",
+      "ast_exact_numerator": 10620,
+      "ast_exact_denominator": 14288,
+      "model_sha256": "83c78952e719456574d2bb808fb486d0320519dd4f5df3c67736ae17931ee357",
+      "checkpoint_manifest_sha256": "90e50f316456947bbee10b710b6f828f1ca8955ed0e43998b15adb0e09f46e23"
+    }
+  },
+  "eligibility": {
+    "both_frozen_evaluations_completed_exactly_once": true,
+    "artifact_and_provenance_audits_passed": true,
+    "official_test_firewalls_passed": true,
+    "expected_sample_counts_and_denominators_required": true,
+    "mobile": {
+      "sample_count": 756,
+      "ast_exact_numerator_at_least": 587,
+      "ast_exact_denominator": 756,
+      "catastrophic_unauthorized_actions_equal": 0,
+      "false_action_numerator_equal": 0
+    },
+    "presto": {
+      "sample_count": 14288,
+      "ast_exact_numerator_at_least": 10002,
+      "ast_exact_denominator": 14288,
+      "schema_valid_numerator_at_least": 13574,
+      "schema_valid_denominator": 14288,
+      "abstention_f1_at_least": 0.8,
+      "false_call_numerator_at_most": 104,
+      "false_call_denominator": 10407,
+      "no_phenomenon_rows": 6648,
+      "revision_rows": 4140,
+      "disfluency_rows": 2624,
+      "maximum_no_phenomenon_to_revision_or_disfluency_gap": 0.1,
+      "require_all_four_revision_raw_tags": true
+    },
+    "operator": "all conditions are hard AND gates; no cross-metric compensation"
+  },
+  "selection": {
+    "eligible_population": "C, I25, I50, and I75 trials satisfying every eligibility condition",
+    "mobile_retention": "m = min(M, 602) / 602, where M is Mobile AST-exact numerator",
+    "presto_retention": "p = min(P, 10620) / 10620, where P is PRESTO AST-exact numerator",
+    "ranking": [
+      "maximum min(m, p)",
+      "maximum m + p",
+      "fixed order I25, I50, I75, C"
+    ],
+    "arithmetic": "compare exact rationals by integer cross-multiplication; never compare rounded floating-point renderings",
+    "interpolation_internal_winner": "diagnostic only; the outer four-trial rule controls final promotion",
+    "unlisted_metrics_may_not_break_ties": true,
+    "safety_metrics_may_not_improve_rank": true
+  },
+  "no_eligible_trial": {
+    "promotion": "none",
+    "additional_alpha_or_recipe_retry": false,
+    "fallback": "retain candidate-v2 only as the Mobile incumbent and keep PRESTO as a separate research checkpoint"
+  },
+  "firewalls": {
+    "mobile_official_rows_opaque_unparsed": 961,
+    "presto_official_test_rows_opaque_unparsed": 194118,
+    "official_test_generations": 0,
+    "accepted_official_test_input_paths": []
+  },
+  "claim_limits": [
+    "All four candidates are selected on reused public development populations, so this is not a blind breakthrough result.",
+    "PRESTO scoring is derived Action IR, not native PRESTO semantic-parse exact match.",
+    "Passing does not establish hidden-suite safety, cross-seed robustness, or quantized target-device performance."
+  ]
+}

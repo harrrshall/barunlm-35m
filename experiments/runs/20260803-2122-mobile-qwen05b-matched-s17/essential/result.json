@@ -1,0 +1,391 @@
+{
+  "attempt_provenance": {
+    "attempt_sha256": "d569b463346304b00249588c9f42f6a784a2d7e8f55b1340d27b270603cac05c",
+    "content_tree_sha256": "1a131cc8bc7a24c73c7c39cacc0c313f6ce7037ef5033077e0e8f4cfbbadeabb",
+    "protected_machine_ids": [
+      438359,
+      455804,
+      456089,
+      456162,
+      456218,
+      456234,
+      456245,
+      456246,
+      456260,
+      456270,
+      456287,
+      456540,
+      456669,
+      458429,
+      458475,
+      458479,
+      458491,
+      458506,
+      458554,
+      460797,
+      461680,
+      463058,
+      463556,
+      463572,
+      463575,
+      463594,
+      463606,
+      463622,
+      463631,
+      463636,
+      463642,
+      463674,
+      463675,
+      463686
+    ],
+    "source_snapshot_sha256": "f9c187539e097ac21bec8315daf75c48e74c6f3bcc8e9cfe969d3aaf568d9cb6"
+  },
+  "claim_limit": "This one-seed, one-recipe public-development comparison is not a universal beats-larger-models result. It has no official Mobile Actions test score, no sealed safety suite, no matched multi-seed uncertainty interval, and less dev-tuning budget than BarunAction candidate-v2. It is useful as a second matched-adaptation architecture comparison only.",
+  "data": {
+    "dataset": "google/mobile-actions",
+    "dev_manifest_sha256": "988bdce5874d1f1a775feeb5ba2b58cd2bdc128f57e73cb9a63d535fae7c1d55",
+    "dev_membership_sha256": "31e0170c1de49d9c4591064587c405f0cb9f981e7026ac457f6fa2902b3647de",
+    "dev_rows": 756,
+    "official_eval_materialized": false,
+    "official_eval_rows": 961,
+    "official_eval_rows_available_to_runner": 0,
+    "revision": "e920309bc2acbc2e99a5e3201cf37df2b9fd9151",
+    "schema_version": "barun-mobile-matched-input-identity-v1",
+    "train_manifest_sha256": "131473ccb5bfb51cac0439b42159e72ec4c598025e50364a52b122b056c2e84e",
+    "train_membership_sha256": "4cdfc3649c21a9f0d3dc4d8d9cffcae3cb5c6abc4414a9fb09636e9220afe96f",
+    "train_rows": 7937
+  },
+  "elapsed_seconds": 117.76858996087685,
+  "estimated_cost_inr": 12.374534590139135,
+  "evaluation": {
+    "aggregate": {
+      "abstention": {
+        "f1": 0.0,
+        "false_negative": 0,
+        "false_positive": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "true_positive": 0
+      },
+      "argument_key_macro_f1": 0.9957912457912459,
+      "argument_key_micro": {
+        "f1": 0.996489332973265,
+        "false_negative": 10,
+        "false_positive": 3,
+        "precision": 0.9983766233766234,
+        "recall": 0.9946091644204852,
+        "true_positive": 1845
+      },
+      "argument_value_macro_f1": 0.927409010742344,
+      "argument_value_micro": {
+        "f1": 0.945179584120983,
+        "false_negative": 105,
+        "false_positive": 98,
+        "precision": 0.946969696969697,
+        "recall": 0.9433962264150944,
+        "true_positive": 1750
+      },
+      "ast_exact_match": {
+        "denominator": 756,
+        "numerator": 663,
+        "value": 0.876984126984127
+      },
+      "call_simulator_assessment": {
+        "denominator": 754,
+        "numerator": 754,
+        "value": 1.0
+      },
+      "catastrophic_unauthorized_actions": 0,
+      "clarification_accuracy": {
+        "denominator": 0,
+        "numerator": 0,
+        "value": 0.0
+      },
+      "confirmation_accuracy": {
+        "denominator": 0,
+        "numerator": 0,
+        "value": 0.0
+      },
+      "decision_accuracy": {
+        "denominator": 756,
+        "numerator": 754,
+        "value": 0.9973544973544973
+      },
+      "evaluator_version": "action-ir-v1.0.0",
+      "failure_counts": {
+        "ast_mismatch": 91,
+        "invalid_json": 1,
+        "mobile_actions_ast_mismatch": 91,
+        "parse_failure": 1,
+        "schema_failure": 1,
+        "simulator_failure": 91,
+        "unknown_field": 1
+      },
+      "false_action": {
+        "denominator": 0,
+        "numerator": 0,
+        "value": 0.0
+      },
+      "missing_prediction": {
+        "denominator": 756,
+        "numerator": 0,
+        "value": 0.0
+      },
+      "parse_failure": {
+        "denominator": 756,
+        "numerator": 1,
+        "value": 0.0013227513227513227
+      },
+      "parse_valid": {
+        "denominator": 756,
+        "numerator": 755,
+        "value": 0.9986772486772487
+      },
+      "per_gold_tool_success": {
+        "create_calendar_event": {
+          "denominator": 299,
+          "numerator": 239,
+          "value": 0.7993311036789298
+        },
+        "create_contact": {
+          "denominator": 156,
+          "numerator": 143,
+          "value": 0.9166666666666666
+        },
+        "open_wifi_settings": {
+          "denominator": 121,
+          "numerator": 118,
+          "value": 0.9752066115702479
+        },
+        "send_email": {
+          "denominator": 170,
+          "numerator": 157,
+          "value": 0.9235294117647059
+        },
+        "show_map": {
+          "denominator": 148,
+          "numerator": 108,
+          "value": 0.7297297297297297
+        },
+        "turn_off_flashlight": {
+          "denominator": 77,
+          "numerator": 75,
+          "value": 0.974025974025974
+        },
+        "turn_on_flashlight": {
+          "denominator": 82,
+          "numerator": 78,
+          "value": 0.9512195121951219
+        }
+      },
+      "per_scenario_success": {
+        "create_calendar_event": {
+          "denominator": 178,
+          "numerator": 143,
+          "value": 0.8033707865168539
+        },
+        "create_contact": {
+          "denominator": 128,
+          "numerator": 118,
+          "value": 0.921875
+        },
+        "open_wifi_settings": {
+          "denominator": 117,
+          "numerator": 114,
+          "value": 0.9743589743589743
+        },
+        "send_email": {
+          "denominator": 85,
+          "numerator": 78,
+          "value": 0.9176470588235294
+        },
+        "show_map": {
+          "denominator": 92,
+          "numerator": 60,
+          "value": 0.6521739130434783
+        },
+        "turn_off_flashlight": {
+          "denominator": 74,
+          "numerator": 72,
+          "value": 0.972972972972973
+        },
+        "turn_on_flashlight": {
+          "denominator": 82,
+          "numerator": 78,
+          "value": 0.9512195121951219
+        }
+      },
+      "per_tool": {
+        "create_calendar_event": {
+          "balanced_accuracy": 0.9983277591973244,
+          "f1": 0.998324958123953,
+          "false_negative": 1,
+          "false_positive": 0,
+          "precision": 1.0,
+          "recall": 0.9966555183946488,
+          "true_negative": 457,
+          "true_positive": 298
+        },
+        "create_contact": {
+          "balanced_accuracy": 1.0,
+          "f1": 1.0,
+          "false_negative": 0,
+          "false_positive": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "true_negative": 600,
+          "true_positive": 156
+        },
+        "open_wifi_settings": {
+          "balanced_accuracy": 1.0,
+          "f1": 1.0,
+          "false_negative": 0,
+          "false_positive": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "true_negative": 635,
+          "true_positive": 121
+        },
+        "send_email": {
+          "balanced_accuracy": 0.9941176470588236,
+          "f1": 0.9940828402366864,
+          "false_negative": 2,
+          "false_positive": 0,
+          "precision": 1.0,
+          "recall": 0.9882352941176471,
+          "true_negative": 586,
+          "true_positive": 168
+        },
+        "show_map": {
+          "balanced_accuracy": 0.9966216216216216,
+          "f1": 0.9966101694915254,
+          "false_negative": 1,
+          "false_positive": 0,
+          "precision": 1.0,
+          "recall": 0.9932432432432432,
+          "true_negative": 608,
+          "true_positive": 147
+        },
+        "turn_off_flashlight": {
+          "balanced_accuracy": 1.0,
+          "f1": 1.0,
+          "false_negative": 0,
+          "false_positive": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "true_negative": 679,
+          "true_positive": 77
+        },
+        "turn_on_flashlight": {
+          "balanced_accuracy": 1.0,
+          "f1": 1.0,
+          "false_negative": 0,
+          "false_positive": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "true_negative": 674,
+          "true_positive": 82
+        }
+      },
+      "policy_safe_executable_success": {
+        "denominator": 756,
+        "numerator": 663,
+        "value": 0.876984126984127
+      },
+      "risk_coverage": [],
+      "sample_count": 756,
+      "schema_valid": {
+        "denominator": 756,
+        "numerator": 754,
+        "value": 0.9973544973544973
+      },
+      "schema_version": "barun-mobile-actions-score-v1",
+      "tool_macro_balanced_accuracy": 0.9984381468396814,
+      "tool_macro_f1": 0.9984311382645948,
+      "truncation": {
+        "denominator": 756,
+        "numerator": 0,
+        "value": 0.0
+      }
+    },
+    "checkpoint_policy": "final_only",
+    "dev_trials_consumed": 1,
+    "sample_scores_sha256": "5ed69b469de56f8afd3b73dedf9bad2009a0fb21ce01ee91a346167ed0d47bda",
+    "scorer_version": "barun-mobile-actions-score-v1"
+  },
+  "generation": {
+    "batch_size": 64,
+    "decoding": "unconstrained_deterministic_greedy",
+    "elapsed_seconds": 18.84165497869253,
+    "examples": 756,
+    "failed": 0,
+    "generated": 756,
+    "generation_config_overrides": {
+      "do_sample": false,
+      "length_penalty": 1.0,
+      "no_repeat_ngram_size": 0,
+      "num_beams": 1,
+      "repetition_penalty": 1.0,
+      "temperature": null,
+      "top_k": null,
+      "top_p": null
+    },
+    "grammar_constrained": false,
+    "max_new_tokens": 192,
+    "predictions_sha256": "836788091d08b931bf37565d197c4053e6e6f4664d379c38e7668ae9b8739b08",
+    "schema_version": "barun-native-chat-generation-v1",
+    "truncated": 0
+  },
+  "jarvis_machine_id": 463689,
+  "model": {
+    "config_commit_hash": "7ae557604adf67be50417f59c2c2f167def9a775",
+    "eos_token_id": 151645,
+    "id": "Qwen/Qwen2.5-0.5B-Instruct",
+    "native_chat_template_sha256": "cd8e9439f0570856fd70470bf8889ebd8b5d1107207f67a5efb46e342330527f",
+    "pad_token_id": 151643,
+    "parameter_count_policy": "exact storage-view deduplication; tied embeddings counted once",
+    "revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+    "trainable_unique_parameters": 494032768,
+    "unique_parameters": 494032768,
+    "vendor_generation_config": {
+      "do_sample": true,
+      "eos_token_id": [
+        151645,
+        151643
+      ],
+      "pad_token_id": 151643,
+      "repetition_penalty": 1.1,
+      "temperature": 0.7,
+      "top_k": 20,
+      "top_p": 0.8
+    }
+  },
+  "preregistration_sha256": "6855eaf52c34089d802b8584c566b95619f9ff2780d4f130f333126bc33357e1",
+  "run_id": "20260803-2122-mobile-qwen05b-matched-s17",
+  "schema_version": "barun-mobile-matched-baseline-result-v1",
+  "status": "completed",
+  "training": {
+    "checkpoint_files_sha256": {
+      "added_tokens.json": "58b54bbe36fc752f79a24a271ef66a0a0830054b4dfad94bde757d851968060b",
+      "config.json": "ca17f5fb7fd1acdd0a7b4668680fc25ee73801c3e442e81b5e8217b5eb74ed24",
+      "generation_config.json": "0b69aa62af0e081a1a5ce1400b09f77603f56ed7250e0e1e160f33be1b555ea9",
+      "merges.txt": "8831e4f1a044471340f7c0a83d7bd71306a5b867e95fd870f74d0c5308a904d5",
+      "model.safetensors": "21f3f234ce9bfc2fa387cf396807fa35f5eb72e311f23a89cd98c98224c78793",
+      "special_tokens_map.json": "76862e765266b85aa9459767e33cbaf13970f327a0e88d1c65846c2ddd3a1ecd",
+      "tokenizer.json": "9c5ae00e602b8860cbd784ba82a8aa14e8feecec692e7076590d014d7b7fdafa",
+      "tokenizer_config.json": "57fea41fa99fce34f91450643e48b3bfbb078c32c6831a3c06834f122c200510",
+      "vocab.json": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910"
+    },
+    "elapsed_seconds": 73.12946654902771,
+    "epochs": 1,
+    "examples_presented": 7937,
+    "final_checkpoint": "/home/barun-artifacts/20260803-2122-mobile-qwen05b-matched-s17/export/training/checkpoint",
+    "final_checkpoint_policy": "final_only",
+    "method": "full_parameter_response_only_sft",
+    "optimizer_state_sha256": "bb7ee000818b4480844e4a6668b81d24f6f94fc800b873b1ab231241efdfc593",
+    "optimizer_steps": 126,
+    "presentation_order_sha256": "16dae07c21632aa1210c97274198ccf86a25484186530708335cd8878dbbb3d0",
+    "schema_version": "barun-mobile-matched-training-v1",
+    "unique_examples_presented": 7937
+  }
+}

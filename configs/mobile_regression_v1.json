@@ -1,0 +1,103 @@
+{
+  "schema_version": "barun-mobile-regression-preregistration-v1",
+  "protocol_id": "mobile-derived-dev-regression-v1",
+  "hypothesis": "A broader BarunAction-35M post-training stage can add capability without materially erasing the candidate-v2 Mobile Actions behavior.",
+  "decision": "The new checkpoint passes this regression gate only when strict AST exact match on the frozen 756-row derived development population is at least 587/756. This permits at most a two-percentage-point absolute drop from candidate-v2's 602/756 result. The score is a development regression diagnostic, not a new Mobile selection trial or an official-evaluation result.",
+  "dataset": {
+    "dataset_id": "google/mobile-actions",
+    "revision": "e920309bc2acbc2e99a5e3201cf37df2b9fd9151",
+    "population": "derived_development_from_internal_train_rows_only",
+    "manifest": {
+      "relative_path": "experiments/runs/20260803-1810-mobile-blind-s17/remote/data/dev.jsonl",
+      "sha256": "988bdce5874d1f1a775feeb5ba2b58cd2bdc128f57e73cb9a63d535fae7c1d55",
+      "rows": 756,
+      "required_source_split": "train",
+      "required_derived_split": "dev"
+    },
+    "audit": {
+      "relative_path": "experiments/runs/20260803-1810-mobile-blind-s17/remote/data/audit.json",
+      "sha256": "dc756f97c0a7ef706ec8ffefe2d57cf7e16d75a6ccd932f906d16b6a6ee2f83c"
+    },
+    "official_evaluation_firewall": {
+      "rows": 961,
+      "opaque_unparsed": true,
+      "materialized": false,
+      "labels_parsed": false,
+      "prompts_parsed": false,
+      "targets_parsed": false,
+      "tool_schemas_parsed": false,
+      "lengths_computed": false,
+      "summaries_computed": false,
+      "overlaps_computed": false,
+      "accepted_input_paths": []
+    }
+  },
+  "reference": {
+    "candidate_id": "candidate-v2",
+    "selection_run_id": "20260803-1845-mobile-followup-retry-s17",
+    "checkpoint_file_sha256": {
+      "barun_config.json": "9b3a1d71baa95a198744d250f9629231738d942570b8685c44307fd83dd33565",
+      "model.safetensors": "fdb95ccf58a095e0d321be998924318b35ee59a334f6dd97d8726d2cf80021d3",
+      "tokenizer.json": "70ded9605fccd09c2340ca7e225361eab0ae8b4dbbb0d6e26343ab5183979db6"
+    },
+    "aggregate": {
+      "relative_path": "experiments/runs/20260803-1845-mobile-followup-retry-s17/essential/arms/batch63/final-eval/scores/aggregate.json",
+      "sha256": "5d7244d2fa449a7ce4b2aa3a20fc095fb118a38920b1dd9181f56669a7ddfea1",
+      "ast_exact_match": {
+        "numerator": 602,
+        "denominator": 756
+      }
+    },
+    "sample_scores": {
+      "relative_path": "experiments/runs/20260803-1845-mobile-followup-retry-s17/essential/arms/batch63/final-eval/scores/sample_scores.jsonl",
+      "sha256": "a29c4d5c83493ec437a9f0fee362ea54cf97c2219844e5b46ba60d0f759f556c",
+      "rows": 756
+    },
+    "environment": {
+      "device": "cuda",
+      "dtype": "torch.bfloat16",
+      "cuda_device_name": "NVIDIA H200",
+      "cuda_capability": [
+        9,
+        0
+      ],
+      "torch": "2.13.0+cu130",
+      "cuda_runtime": "13.0",
+      "cublas_workspace_config": ":4096:8",
+      "sdpa_backends": {
+        "flash": false,
+        "memory_efficient": false,
+        "math": true,
+        "cudnn": false
+      }
+    }
+  },
+  "evaluation": {
+    "generation_version": "barun-greedy-generation-v1",
+    "scorer_version": "barun-mobile-actions-score-v1",
+    "evaluator_version": "action-ir-v1.0.0",
+    "decoding": "unconstrained_deterministic_greedy",
+    "batch_size": 128,
+    "max_new_tokens": 192,
+    "checkpoint_files": [
+      "barun_config.json",
+      "model.safetensors",
+      "tokenizer.json"
+    ],
+    "missing_parse_truncation_and_generation_failures_count_as_wrong": true,
+    "sample_level_predictions_and_scores_required": true
+  },
+  "regression_gate": {
+    "metric": "ast_exact_match",
+    "direction": "higher_is_better",
+    "maximum_absolute_drop": {
+      "numerator": 2,
+      "denominator": 100
+    },
+    "minimum_candidate_numerator": 587,
+    "required_denominator": 756,
+    "maximum_net_correct_rows_lost": 15,
+    "gate_only": true,
+    "does_not_consume_an_additional_mobile_development_selection_trial": true
+  }
+}

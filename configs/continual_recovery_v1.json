@@ -1,0 +1,196 @@
+{
+  "schema_version": "barun-continual-recovery-preregistration-v1",
+  "recipe_id": "barunaction-mobile-presto-recovery-v1",
+  "status": "preregistered_unlaunched",
+  "hypothesis": "One deterministic full-parameter rehearsal epoch from the exact PRESTO checkpoint, presenting every frozen Mobile Actions training row once and a bounded one-third PRESTO train replay selected without development correctness, will restore Mobile Actions exact execution while retaining corrected full-family PRESTO capability and safety.",
+  "decision": "Keep the final checkpoint only if its single terminal evaluation scores at least 587/756 strict AST exact on frozen Mobile development and simultaneously passes every corrected PRESTO capability, safety, representation, and hard-bucket gate. There is one recipe, one seed, no intermediate development evaluation, no checkpoint selection, no retry under this preregistration, and no official test access.",
+  "lineage": {
+    "input_run_id": "20260803-1920-presto-stage-s17",
+    "input_checkpoint_relative_path": "experiments/runs/20260803-1920-presto-stage-s17/essential/checkpoint",
+    "input_checkpoint_file_sha256": {
+      "barun_config.json": "9b3a1d71baa95a198744d250f9629231738d942570b8685c44307fd83dd33565",
+      "model.safetensors": "83c78952e719456574d2bb808fb486d0320519dd4f5df3c67736ae17931ee357",
+      "tokenizer.json": "70ded9605fccd09c2340ca7e225361eab0ae8b4dbbb0d6e26343ab5183979db6"
+    },
+    "input_checkpoint_parent": {
+      "run_id": "20260803-1845-mobile-followup-retry-s17",
+      "model_sha256": "fdb95ccf58a095e0d321be998924318b35ee59a334f6dd97d8726d2cf80021d3"
+    },
+    "known_input_evidence": {
+      "mobile_ast_exact": {
+        "denominator": 756,
+        "numerator": 0,
+        "run_id": "20260803-2005-mobile-presto-regression-s17"
+      },
+      "presto_corrected_posthoc_diagnostic": {
+        "derived_ast_exact": 0.7432810750279956,
+        "schema_valid": 0.9997900335946248,
+        "abstention_f1": 0.9795653584171261,
+        "false_call_on_gate": 0.008551936196790622,
+        "status": "post_hoc_diagnostic_not_retroactive_keep"
+      }
+    }
+  },
+  "data": {
+    "mobile": {
+      "dataset_id": "google/mobile-actions",
+      "revision": "e920309bc2acbc2e99a5e3201cf37df2b9fd9151",
+      "train": {
+        "relative_path": "experiments/runs/20260803-1810-mobile-blind-s17/remote/data/train.jsonl",
+        "rows": 7937,
+        "sha256": "131473ccb5bfb51cac0439b42159e72ec4c598025e50364a52b122b056c2e84e",
+        "membership_sha256": "4cdfc3649c21a9f0d3dc4d8d9cffcae3cb5c6abc4414a9fb09636e9220afe96f"
+      },
+      "development": {
+        "relative_path": "experiments/runs/20260803-1810-mobile-blind-s17/remote/data/dev.jsonl",
+        "rows": 756,
+        "sha256": "988bdce5874d1f1a775feeb5ba2b58cd2bdc128f57e73cb9a63d535fae7c1d55",
+        "membership_sha256": "31e0170c1de49d9c4591064587c405f0cb9f981e7026ac457f6fa2902b3647de"
+      },
+      "audit": {
+        "relative_path": "experiments/runs/20260803-1810-mobile-blind-s17/remote/data/audit.json",
+        "sha256": "dc756f97c0a7ef706ec8ffefe2d57cf7e16d75a6ccd932f906d16b6a6ee2f83c"
+      },
+      "official_evaluation_firewall": {
+        "rows": 961,
+        "opaque_unparsed": true,
+        "accepted_input_paths": []
+      }
+    },
+    "presto": {
+      "repository": "google-research-datasets/presto",
+      "revision": "fa47167477453afebe698a287409514df5a7dadf",
+      "locale": "en-US",
+      "archive_sha256": "1fc671692cceb31fbda17e351e47f2cc52ee8779042f92dc26674cc0cca2167f",
+      "train": {
+        "rows": 47806,
+        "sha256": "49a553ea37a981f2a8009ce8bc6575fd56182d8f959352c9815fcc463b832e06"
+      },
+      "development": {
+        "rows": 14288,
+        "sha256": "1e34c5554480f78e3c0616ef36207380f0973ab581f37a61ea33cb7122795c42"
+      },
+      "audit_sha256": "8e1f035809c14baf6f247f1bd8bf0f4b874ff4b117dc6dd217fbc732c1d8b7c4",
+      "official_test_firewall": {
+        "rows_opaque_unparsed": 194118,
+        "member_opened": false,
+        "labels_parsed": false,
+        "prompts_parsed": false,
+        "targets_parsed": false,
+        "materialized": false
+      }
+    }
+  },
+  "recovery_view": {
+    "selector_version": "barun-continual-recovery-replay-v1",
+    "mobile_policy": "present every pinned Mobile train ID exactly once",
+    "mobile_rows": 7937,
+    "presto_replay_rows": 2646,
+    "presto_replay_to_mobile_ratio": {
+      "numerator": 1,
+      "denominator": 3,
+      "rounding": "ceiling"
+    },
+    "combined_rows": 10583,
+    "presto_selection": {
+      "development_correctness_used": false,
+      "exact_prompt_target_dev_exclusion": true,
+      "ranking": "ascending SHA-256(seed:selector-version:stratum:source-example-id), then source-example-id",
+      "allocation": "proportional largest remainder after one-example coverage of each nonempty joint stratum",
+      "joint_strata": [
+        "policy_decision",
+        "corrected_phenomenon_family_or_exact_user_revision_raw_tag",
+        "contextual_boolean"
+      ],
+      "duplicate_source_rows": false,
+      "all_four_user_revision_raw_tags_required": [
+        "cancel-action",
+        "correct-action",
+        "correct-argument",
+        "within-turn-correction"
+      ]
+    },
+    "official_test_rows_read": 0
+  },
+  "optimization": {
+    "method": "full_parameter_response_only_sft",
+    "seed": 17,
+    "epochs": 1,
+    "max_seq_len": 2048,
+    "precision": "bfloat16",
+    "batch_size": 63,
+    "gradient_accumulation_steps": 1,
+    "expected_optimizer_steps": 168,
+    "optimizer": "AdamW",
+    "learning_rate": 0.00005,
+    "min_learning_rate_ratio": 0.1,
+    "warmup_steps": 16,
+    "weight_decay": 0.1,
+    "beta1": 0.9,
+    "beta2": 0.95,
+    "adam_epsilon": 1e-08,
+    "gradient_clip_norm": 1.0,
+    "checkpoint_policy": "final_only",
+    "development_loss_evaluation": false,
+    "early_stopping": false,
+    "overlength_policy": "error"
+  },
+  "terminal_evaluation": {
+    "checkpoint_evaluations": 1,
+    "checkpoint_policy": "final_only",
+    "decoding": "unconstrained_deterministic_greedy",
+    "sample_level_predictions_and_scores": true,
+    "mobile": {
+      "protocol_path": "configs/mobile_regression_v1.json",
+      "protocol_sha256": "96afa0ac407c53fd375ed0910a08ec66463718e3b826cf02b73f8bbc87a3c47e",
+      "rows": 756,
+      "batch_size": 128,
+      "max_new_tokens": 192,
+      "minimum_ast_exact_numerator": 587,
+      "required_denominator": 756
+    },
+    "presto": {
+      "rows": 14288,
+      "batch_size": 128,
+      "max_new_tokens": 287,
+      "metric_scope": "derived_action_ir_not_native_presto_semantic_parse",
+      "scorer_version": "barun-presto-action-ir-score-v2",
+      "taxonomy_version": "barun-presto-phenomenon-taxonomy-v2",
+      "revision_alias_set_version": "barun-presto-user-revision-raw-aliases-v2",
+      "require_all_revision_raw_tags_reported": true,
+      "gates": {
+        "derived_ast_exact_at_least": 0.7,
+        "schema_valid_at_least": 0.95,
+        "abstention_f1_at_least": 0.8,
+        "false_call_on_gate_at_most": 0.01,
+        "maximum_no_phenomenon_to_revision_or_disfluency_gap": 0.1,
+        "require_represented_gap_buckets": true
+      }
+    },
+    "combined_keep_rule": "mobile gate AND every PRESTO gate",
+    "official_mobile_evaluation_rows_read": 0,
+    "official_presto_test_rows_read": 0,
+    "no_retry_or_recipe_mutation_after_result": true
+  },
+  "execution_budget": {
+    "hardware": "one NVIDIA H200",
+    "expected_gpu_job_minutes": {
+      "minimum": 11,
+      "maximum": 18
+    },
+    "reference_hourly_rate_inr": 378.27,
+    "expected_gpu_job_cost_inr": {
+      "minimum": 69.35,
+      "maximum": 113.48
+    },
+    "safe_lifecycle_budget_minutes": 25,
+    "safe_lifecycle_budget_inr": 157.61,
+    "basis": "measured prior H200 generation and SFT throughput; includes pinned PRESTO preparation, repository tests, 168 training steps, and both terminal evaluations"
+  },
+  "claim_limits": [
+    "This is a one-seed development recovery decision, not a blind breakthrough result.",
+    "PRESTO development is derived Action IR and is not the native PRESTO semantic-parse metric.",
+    "Neither official Mobile evaluation nor official PRESTO test may be opened by this run.",
+    "Passing does not establish a larger-model comparison, hidden-suite safety, quantized deployment, or a usable release by itself."
+  ]
+}
