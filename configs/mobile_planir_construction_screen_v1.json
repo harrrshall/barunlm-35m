@@ -1,0 +1,240 @@
+{
+  "arms": [
+    {
+      "arm_id": "A",
+      "model_output": "ACTION_IR_V1",
+      "prompt_reference_table": false
+    },
+    {
+      "arm_id": "B",
+      "model_output": "ACTION_IR_V1",
+      "prompt_reference_table": true
+    },
+    {
+      "arm_id": "C",
+      "model_output": "PLAN_IR_V2",
+      "prompt_reference_table": true
+    }
+  ],
+  "base_checkpoint": {
+    "file_sha256": {
+      "barun_config.json": "9b3a1d71baa95a198744d250f9629231738d942570b8685c44307fd83dd33565",
+      "model.safetensors": "f2a7c88b9f2c2e3584809081407ab136795d82e30e89b730e007781c45d01447",
+      "tokenizer.json": "70ded9605fccd09c2340ca7e225361eab0ae8b4dbbb0d6e26343ab5183979db6"
+    },
+    "parameter_count": 35072768,
+    "repo_id": "harrrshall/BarunLM-35M",
+    "revision": "ef3e483a9fd7d906ecf2a7929babeffaf82d1d16"
+  },
+  "claims": {
+    "fresh_evidence": false,
+    "human_collection_unlocked": false,
+    "larger_model_comparison": "forbidden",
+    "maximum_positive_claim": "licenses_generalized_planir_development_only",
+    "model_promotion": "forbidden",
+    "release_result": false
+  },
+  "data": {
+    "artifact_sha256": {
+      "assignment": "13eaad3ba5cf9da6dfad3dc5a73300599bf79ad29697c7d576807fed00ea6c3f",
+      "audit": "646523ed299bb4b742c25c594aa08f4ecf79e3f2445db84fff9a6b6eead7d946",
+      "exclusion": "7593b556b9c096308ca1a9e9d9b89627ebf19710da930bd4dd5794c58879616a",
+      "screen_a": "08fd5e09bfda66b4b0cb31e7ef19bbb3a71a52e13f4fbe7c3b1dd3ea1cf402e7",
+      "screen_b": "81ab11b96a8330d19ebd41c6fcac5680f86a7652e721b495c1d24fc9f7a6c50d",
+      "screen_c": "c5c16ba5a785118dfdf8ca4665369ff375592c46ee8d066adbad9dcb0eff04ef",
+      "train_a": "702b6c0abd4c12d128b4e089cd8b2f7c57058fa7e50c5641978d225fb7529317",
+      "train_b": "30ccad10845196116c5205445b4b3e3aa2eb108434469e5fed3e27ae9d6fe3d2",
+      "train_c": "9aa0987b2b43af55e8dcbb1d6f921349282878ac58fe92d3ddadc953f97e51f5"
+    },
+    "forbidden_populations": {
+      "human_confirmation_rows_read": 0,
+      "human_selection_rows_read": 0,
+      "official_mobile_961_rows_read": 0,
+      "old_confirmation_rows_read": 0,
+      "old_selection_rows_read": 0,
+      "reused_mobile_756_rows_read": 0
+    },
+    "materialization_relative_path": "experiments/runs/20260804-0545-mobile-planir-construction-screen-s17/materialized-v1",
+    "screen_label_access": "only_after_all_nine_final_checkpoints_are_frozen",
+    "screen_rows_per_arm": 1148,
+    "source_provenance": {
+      "adapter_schema_version": "barun-mobile-actions-adapter-v2",
+      "construction_manifest_membership_sha256": "b70f6dfe79cfe49792b6e6f5d414fd509c889d18101f75cd8df6d4e4f146c588",
+      "construction_manifest_rows": 5745,
+      "construction_manifest_sha256": "800a3ba0a7f0215e5cf95c77c32e47abed48b2f07f375954b0e0b08296a33d10",
+      "dataset": "google/mobile-actions",
+      "dataset_revision": "e920309bc2acbc2e99a5e3201cf37df2b9fd9151",
+      "license": "CC BY 4.0",
+      "original_train_membership_sha256": "4cdfc3649c21a9f0d3dc4d8d9cffcae3cb5c6abc4414a9fb09636e9220afe96f",
+      "original_train_rows": 7937,
+      "original_train_sha256": "131473ccb5bfb51cac0439b42159e72ec4c598025e50364a52b122b056c2e84e",
+      "role": "former_v3_construction_rows_for_internal_mechanism_evidence_only",
+      "source_is_fresh_evaluation_evidence": false
+    },
+    "split_version": "barun-mobile-construction-component-screen-split-v1",
+    "train_rows_per_arm": 4596,
+    "training_labels": "arm_specific_construction_train_manifests_only"
+  },
+  "decision": "A failure closes narrow placeholder-v2 without rescue; a pass licenses only a generalized context, timezone, and arbitrary-schema compiler.",
+  "decoding": {
+    "algorithm": "unconstrained_greedy",
+    "batch_size": 128,
+    "max_new_tokens": 256,
+    "output_repair": false,
+    "runtime_gold_target_length_used": false,
+    "stop_on_eos": true,
+    "temperature": 0
+  },
+  "execution": {
+    "automatic_retry": false,
+    "backend": "barun-mobile-planir-construction-screen-execution-v1",
+    "base_reset_per_fit": true,
+    "checkpoint_policy": "unconditional_final_only",
+    "cuda_runtime": "13.0",
+    "device": "cuda",
+    "max_runtime_minutes": 45,
+    "phase_order": [
+      "complete_all_nine_completion_only_fits",
+      "freeze_all_nine_final_step_73_checkpoints",
+      "begin_construction_screen_access",
+      "generate_all_nine_raw_prediction_populations",
+      "freeze_all_nine_raw_prediction_populations",
+      "score_once_and_evaluate_the_frozen_gate"
+    ],
+    "precision": "bf16",
+    "provider_template": "axolotl",
+    "python_implementation": "CPython",
+    "python_version": "3.11.10",
+    "region": "IN2",
+    "required_gpu": "H200",
+    "requirements_sha256": "6db8f37c0c21aea4a4ad93d7193b82217e73d3090db6b8947a9a9321aefb21c9",
+    "screen_scoring_after_all_raw_predictions_frozen": true,
+    "spot": false,
+    "storage_gb": 40,
+    "torch_version": "2.13.0",
+    "visible_gpus": 1,
+    "wandb": "disabled"
+  },
+  "gate": {
+    "argument_value_margin_points_vs_each_control": 5,
+    "ast_margin_points_vs_each_control": 3,
+    "candidate_compiler_success_minimum_per_thousand": 995,
+    "candidate_conditional_schema_valid_per_thousand": 1000,
+    "candidate_raw_parse_minimum_per_thousand": 995,
+    "hard_conjunction": true,
+    "minimum_seed_wins_vs_both_controls": 2,
+    "subset_maximum_loss_points": 2,
+    "zero_failures": [
+      "truncation",
+      "missing",
+      "generation_failure",
+      "catastrophic_unauthorized_action"
+    ]
+  },
+  "hypothesis": "Compact placeholder-v2 PlanIR plus a frozen deterministic compiler improves construction-internal exact execution over both matched direct Action IR controls.",
+  "optimization": {
+    "adam_epsilon": 1e-08,
+    "batch_size": 63,
+    "beta1": 0.9,
+    "beta2": 0.95,
+    "early_stopping": false,
+    "effective_batch_size": 63,
+    "epochs": 1,
+    "expected_optimizer_steps": 73,
+    "gradient_accumulation_steps": 1,
+    "gradient_clip_norm": 1.0,
+    "learning_rate": 0.0001,
+    "loss": "response_only_cross_entropy",
+    "max_seq_len": 2048,
+    "min_learning_rate_ratio": 0.1,
+    "precision": "bf16",
+    "warmup_steps": 12,
+    "weight_decay": 0.1
+  },
+  "resource_policy": {
+    "fresh_instance_required": true,
+    "protected_resource_ids": [
+      463058,
+      463689,
+      463697,
+      463719,
+      463786,
+      463788,
+      463793,
+      463802
+    ],
+    "provider": "JarvisLabs"
+  },
+  "retry_policy": {
+    "any_new_attempt": "forbidden",
+    "rescue_or_threshold_change_after_result": "forbidden",
+    "same_attempt_automatic_retry": "forbidden"
+  },
+  "run_id": "20260804-0545-mobile-planir-construction-screen-s17",
+  "schema_version": "barun-mobile-planir-construction-screen-config-v1",
+  "seeds": [
+    17,
+    29,
+    43
+  ],
+  "token_compute_audit": {
+    "dense_training_flops_proxy": {
+      "A_per_fit": 330521416608768,
+      "B_per_fit": 349338868532736,
+      "C_per_fit": 347986392453120,
+      "formula": "6 * parameter_count * unpadded_full_sequence_tokens",
+      "nine_fit_total": 3083540032783872,
+      "scope": "proxy_excludes_attention_quadratic_padding_and_runtime_kernel_effects"
+    },
+    "screen": {
+      "A": {
+        "max_full_tokens": 591,
+        "max_prompt_tokens": 424,
+        "prompt_tokens": 289118,
+        "rows": 1148
+      },
+      "B": {
+        "max_full_tokens": 644,
+        "max_prompt_tokens": 477,
+        "prompt_tokens": 312161,
+        "rows": 1148
+      },
+      "C": {
+        "max_full_tokens": 644,
+        "max_prompt_tokens": 477,
+        "prompt_tokens": 312161,
+        "rows": 1148
+      },
+      "direct_gold_target_max_tokens": 196,
+      "rows_over_2048": 0
+    },
+    "tokenizer_sha256": "70ded9605fccd09c2340ca7e225361eab0ae8b4dbbb0d6e26343ab5183979db6",
+    "train": {
+      "A": {
+        "full_sequence_tokens": 1570646,
+        "max_full_tokens": 660,
+        "rows": 4596,
+        "target_tokens": 411783
+      },
+      "B": {
+        "full_sequence_tokens": 1660067,
+        "max_full_tokens": 689,
+        "rows": 4596,
+        "target_tokens": 411783
+      },
+      "C": {
+        "full_sequence_tokens": 1653640,
+        "max_full_tokens": 689,
+        "rows": 4596,
+        "target_tokens": 405356
+      },
+      "b_minus_c_relative_full_token_difference": {
+        "denominator": 1660067,
+        "numerator": 6427
+      },
+      "rows_over_2048": 0,
+      "token_matched_sensitivity_triggered": false
+    }
+  },
+  "use": "construction-internal-mechanism-screen-only"
+}

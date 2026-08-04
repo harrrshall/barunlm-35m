@@ -348,3 +348,78 @@ entries.
   once-only confirmation require a newly acquired, licensed, provenance-audited source batch.
   Failing to establish that source boundary is a pre-model stop, not permission to weaken the word
   “fresh” or spend the sealed official populations as iterative development sets.
+
+### Same-day addendum — semantic compactness does not imply token compactness
+
+- The first quote-based Grounded PlanIR design looked structurally simple but tokenized poorly. On
+  the 5,744 accepted construction-training rows it used 735,301 target tokens versus 514,097 for
+  direct Action IR, lengthening every target. This was caught before GPU training. Preserve
+  quote-v1 as feasibility evidence; do not call it compact or promote it to the primary treatment.
+- A target-independent input reference table plus a typed calendar placeholder is the selected
+  placeholder-v2 design. It uses 506,062 target tokens, shortens all 2,069 representable calendar
+  targets by 8,035 tokens total, and leaves non-calendar targets byte-identical. The matched direct
+  control must receive the exact same table so a table benefit cannot be credited to PlanIR.
+- Always audit the pinned tokenizer over both targets and complete prompt-plus-target sequences
+  before freezing a representation. A human-readable schema can still add a generation-length and
+  optimization confound; cheap token accounting should reject that confound before paid compute.
+
+### Same-day addendum — a narrow compiler is not a decisive general-purpose lane
+
+- Placeholder-v2 currently handles seven frozen Mobile tools, one calendar datetime argument,
+  empty context, and timezone-naive reference timestamps. That is sufficient to test a calendar
+  grounding mechanism, but not contextual revisions, timezone-aware behavior, renamed tools, or
+  unseen schemas. Do not spend the decisive human confirmation population on it or call a narrow
+  pass the project's breakthrough.
+- Screen the mechanism only on a preregistered internal split of former construction-training rows.
+  Preserve those scores as non-fresh mechanism evidence. A pass licenses a generalized
+  context/timezone/arbitrary-schema compiler and new fresh evaluation; a failure closes the compact
+  placeholder direction without further human-data or Qwen spend.
+- Scope review belongs before data commissioning. A component can be correct, efficient, and
+  well-tested while still being incapable of supporting the claim or population designed for the
+  final system.
+
+### Same-day addendum — validate and authorize from one immutable snapshot
+
+- An early human-firewall implementation validated receipt membership and ledger history, then
+  reused the caller's original generic `Sequence` for later membership and retirement checks. A
+  custom sequence could expose one value while validating and another later. Validators also
+  returned caller-owned dictionaries, leaving a checked value mutable during authorization.
+- Canonically snapshot every protocol object once into detached exact JSON, reject custom sequence
+  implementations, and reuse only that snapshot for hashes, membership, retirement, event
+  construction, and returned evidence. Regression tests must exercise the public disclosure path,
+  not merely the lower-level hash validator.
+- Do not trust a declared `cluster_id` as an independent-power counter. Count connected components
+  across author/source/batch, semantic/entity/temporal/schema lineage, and duplicate evidence so
+  aliases cannot inflate a one-shot confirmation suite. Enforce the full chronology: duplicate
+  scan, input-only eligibility, independent labels, envelope sealing, passing selection receipt,
+  then disclosure.
+
+### Same-day addendum — a minimal stage must reject pre-upload caches and bind the whole config
+
+- An early PlanIR launch builder excluded `__pycache__`, `.pytest_cache`, `.ruff_cache`, bytecode,
+  and `.DS_Store` entries from its scientific tree even before upload. Exclusion was unsafe at that
+  boundary because hidden credential or held-out bytes could still be transferred. The builder now
+  rejects every such entry before the snapshot; only the remote validator may ignore caches created
+  after safe-run has bound the fresh instance and uploaded the already-clean stage.
+- Validating selected config fields is not equivalent to freezing a preregistration. The builder
+  now pins the complete config bytes at SHA-256
+  `cca598e6f5a76a5e848a8b9a869cad779bbcbb17999217d2488111b22e2aa34c`, in addition to strict
+  structural checks, and pins the requirements bytes at
+  `6db8f37c0c21aea4a4ad93d7193b82217e73d3090db6b8947a9a9321aefb21c9`.
+- A hand-written “zero-signal” receipt is insufficient authority for another paid attempt. This
+  mechanism screen has exactly one attempt and every retry, resume, rescue, threshold change, and
+  new ordinal is forbidden, including after an infrastructure-only failure.
+
+### Same-day addendum — export integrity is part of the one-shot experiment
+
+- A correct training/scoring path can still lose its scientific value if its final export silently
+  omits replay data or preserves bytes that changed after preflight. The PlanIR essential exporter
+  now requires the config, requirements, source snapshot, and bound attempt; rehashes the config,
+  requirements, and all nine materialized manifests immediately before copying; includes all nine
+  manifests; preserves raw predictions, metrics, checkpoint manifests, gates, and receipts; and
+  derives a complete size/hash inventory.
+- Screening weights are deliberately not downloaded or promoted from this internal mechanism
+  screen, but the exporter now independently rejects any selected `.safetensors`, optimizer, or
+  other weight-like file. Dedicated temporary-tree tests cover successful replay export, mutated or
+  extra data, missing mandatory provenance, and accidental weight selection before a no-retry H200
+  launch is allowed.

@@ -13,8 +13,9 @@ Qwen lead. Preserve candidate-v2 and its int8 derivative; do not tune this resul
 SmolLM2 failure as a general win, or inspect the sealed 961-row Mobile evaluation population.
 The valid temporal v3 experiment strongly corrected its targeted month-copy shortcut but failed
 the complete frozen selection gate, so it produced no promotable checkpoint. That recipe is
-closed. There is no active training run until a distinct Grounded PlanIR hypothesis, fresh
-populations, implementation, and immutable preregistration pass pre-model review.
+closed. A distinct narrow Grounded PlanIR hypothesis has since passed pre-model review for one
+retrospective construction-internal attempt only; it is not fresh evaluation and cannot promote a
+checkpoint or support a larger-model claim.
 
 ## Execution status: v1 and v2 stopped before science; v3 completed and was rejected
 
@@ -188,67 +189,113 @@ was observed; confirmation was not, but preserving it for another related varian
 optional stopping. Any later analysis may describe v3; it may not authorize another v3 arm,
 threshold, seed, mixture, or checkpoint.
 
-## Proposed next experiment: Grounded PlanIR
+## Authorized next experiment: construction-internal Grounded PlanIR screen
 
-There is no active training experiment yet. The next recommended hypothesis changes the model's
-output decomposition rather than adjusting the failed temporal data mixture:
+The next and only authorized training experiment changes the model's output decomposition rather
+than adjusting the failed temporal data mixture:
 
-> A 35M model will compile personal actions more accurately when it predicts a compact typed
-> semantic plan—tool, policy decision, input/context references, and symbolic temporal operators—
-> and a frozen deterministic compiler grounds that plan into canonical Action IR.
+> A 35M model will compile personal actions more accurately when it preserves canonical Action IR
+> but predicts compact typed references and symbolic operators for calendar datetimes, which a
+> frozen deterministic compiler grounds into final values.
 
 The compiler must be fail-closed. It may use only the prompt, supplied context and tool schemas,
 reference timestamp/timezone, and the emitted plan. It may never inspect a gold label at runtime,
 guess an omitted semantic value, silently repair an invalid plan, or execute a real tool. The
 public API continues to return final Action IR plus validation evidence; PlanIR is an internal,
-versioned model/compiler contract.
+versioned model/compiler contract. Compiler success proves schema-valid lowering only; the
+separate BarunAction policy assessment still requires authorization/confirmation and never permits
+real execution.
 
-Before any model or CUDA access:
+The implemented placeholder-v2 compiler is a narrow seven-Mobile-tool, empty-context,
+timezone-naive calendar mechanism. It is not yet the generalized context/timezone/unseen-schema
+system required by the mission. Its next use is a construction-internal A/B/C mechanism screen
+only. Even a pass cannot be reported as fresh evidence, a Qwen win, or a breakthrough; it only
+licenses development of the generalized compiler.
 
-1. Keep every old v3 row out of new selection and confirmation. Former v3 construction rows may
-   be used only as explicitly labeled training data; old selection, old confirmation, reused-756,
-   and official-961 populations remain forbidden during development. Acquire and freeze a genuinely
-   new post-v3 human-authored or independently sourced batch for component-disjoint selection and a
-   separate once-only confirmation population. If source provenance and licensing cannot support
-   that boundary, do not launch the experiment.
-2. Freeze a PlanIR schema, grounding/reference-table format, compiler, evaluator, and duplicate
-   firewall. Require zero overlap by example, connected component, family, prompt-target pair,
-   entity source, and temporal construction.
+A construction-only schema audit now shows that this representation is implementable: a frozen
+four-operation date grammar plus prompt-grounded clocks represents 2,069/2,070 calendar calls and
+should byte-exactly round-trip 5,744/5,745 complete construction labels (99.98%). The sole reject
+is `mobile-actions-04894-6bd7643b1bc95697`, whose “next Tuesday” request is labeled as Wednesday;
+preserve it as `temporal_reference_mismatch` evidence. The first quote-based encoding was caught
+before training as a poor primary treatment: it used 735,301 target tokens versus 514,097 for
+direct Action IR and lengthened every accepted target. The selected placeholder-v2 encoding uses
+506,062 target tokens, shortens every representable calendar target, and leaves every non-calendar
+target byte-identical. B and C will receive the same target-independent reference table. These are
+feasibility and token facts only, not a model result or permission to treat old rows as new
+evaluation data. The exact schema, compiler, source-audit, and human-collection contract is in
+`docs/grounded-planir-and-human-evaluation.md`.
+
+The primary-source audit found no public dataset that can honestly supply the later decisive fresh
+selection and confirmation populations. xLAM-60K is conditionally suitable for licensed,
+verifier-audited training only after its gated terms and bytes are checked. BFCL, MASSIVE, TOPv2,
+and PRESTO remain public compatibility diagnostics: they are old/public, contamination is unknown,
+or their released metadata cannot enforce the required author/source/batch boundary. Do not call
+one of these populations fresh. A separately commissioned, model-independent human collection is
+therefore a pre-model requirement for the breakthrough claim.
+
+The construction-internal mechanism screen is frozen under these conditions before model or CUDA
+access:
+
+1. Use only former v3 construction rows for a clearly labeled internal train/screen split. Old
+   selection, old confirmation, reused-756, and official-961 populations remain forbidden. The
+   split and all scores are mechanism evidence only and may not be relabeled as fresh.
+2. Freeze the `PLAN_IR_V2` placeholder schema, target-independent grounding/reference-table format,
+   compiler, evaluator, full-prompt renderer and prediction-receipt hashes, and duplicate
+   firewall. Require zero overlap by example, the connected closure of the available source
+   `cluster_id` and `family_id`, and prompt-target content. This old manifest lacks independently
+   auditable author, entity-source, generator-template, and temporal-construction provenance; that
+   limitation is another reason the screen is internal-only and can never be called fresh.
 3. Require at least 95% of rows to be unambiguously representable and exact PlanIR-to-Action-IR
    round trips for every included gold label. Exclusions are recorded, not coerced.
 4. Freeze three matched arms from canonical BarunLM-35M: A emits direct Action IR; B emits direct
-   Action IR with the same grounding table exposed to C; C emits typed PlanIR and uses the frozen
-   compiler. Use identical source IDs, presentations, seed set, optimization budget, and
+   Action IR with the same grounding table exposed to C; C emits typed placeholder-v2 PlanIR and
+   uses the frozen compiler. Use identical source IDs, presentations, seed set, optimization budget, and
    unconstrained deterministic decoding.
 
-The proposed selection conjunction is at least +3 points compiled AST exact versus A and B, at
+The proposed internal screen conjunction is at least +3 points compiled AST exact versus A and B, at
 least +5 points row-level argument-value exact, positive seed-matched gains in at least two of
 three seeds, no action family or policy class more than two points worse, raw PlanIR parse validity
 at least 99.5%, emitted Action IR schema validity 100%, and zero truncations, missing outputs,
-generation failures, or catastrophic actions. Only a selection pass may read a once-only fresh
-confirmation, where the overall gain must remain at least +2 points versus both controls and the
-10,000-resample one-sided cluster-bootstrap fifth percentile must exceed zero.
+generation failures, or catastrophic actions. Passing licenses a generalized
+context/timezone/arbitrary-schema PlanIR implementation and fresh preregistration; it does not
+unlock human confirmation.
 
-Grounded PlanIR remains a proposal until the new source, derivation code, round-trip audit, splits,
-exact budgets, thresholds, and immutable config are implemented, tested, and hash-frozen. A failed
-pre-model coverage/round-trip gate ends it without GPU spend. A failed model gate ends it without
-rescue. If it passes, compare it with a separately matched Qwen2.5-0.5B-Instruct PlanIR lane before
-any larger-model claim.
+The narrow derivation/compiler layer has now passed an independent 258-test review, including the
+pinned 5,745-row oracle and tokenizer receipts; Ruff and format checks also pass. The source split
+is frozen before model output: 4,596 training rows and 1,149 screen rows across disjoint
+`cluster_id` components and nested families. The sole known oracle reject is a singleton screen
+component and is excluded symmetrically from A/B/C, so the scored population is 1,148 identical
+IDs per arm. The final independent audit authorizes exactly one attempt of run
+`20260804-0545-mobile-planir-construction-screen-s17`. The frozen config SHA-256 is
+`cca598e6f5a76a5e848a8b9a869cad779bbcbb17999217d2488111b22e2aa34c`; the requirements
+SHA-256 is `6db8f37c0c21aea4a4ad93d7193b82217e73d3090db6b8947a9a9321aefb21c9`. The exact remote
+gate passes 343 tests; the full repository passes 799 tests; Ruff and formatting pass. The runner
+enforces nine base-reset completion-only step-73 fits, frozen token totals, checkpoint-before-screen
+and raw-before-score barriers, an exact pinned scorer, export-time evidence hashes, one fresh
+H200/Axolotl/CPython 3.11.10/Torch 2.13.0/CUDA 13.0 environment, and no retry. A failed internal
+model gate or any operational failure ends this run and recipe without rescue. If it passes,
+generalize first; only a later fresh generalized pass may unlock matched
+Qwen2.5-0.5B-Instruct and larger-model claims.
 
 ## Operational order from here
 
 1. Keep candidate-v2 and its public W&B `v0` artifacts as the usable release. Import the verified
    v3 negative result into public source evidence without predictions, private inventory, logs, or
    credentials.
-2. Select and provenance-audit a genuinely new post-v3 source for selection and confirmation;
-   old v3 rows remain training-only. In parallel, implement and test only the Grounded PlanIR
-   representation, compiler, split firewall, oracle round-trip audit, and matched-arm evaluator.
-   Do not train while source independence, coverage, or exact round-trip correctness is unproven.
-3. Run the lightweight materialization and oracle audit on remote JarvisLabs compute after a clean
-   local source review. If the pre-model gate passes, preregister a new immutable run/config and
-   independently audit it before creating a fresh exact-ID-controlled instance.
-4. Use remote compute for model training and evaluation. Download evidence before pause-verifying
-   only the newly created ID. Preserve every outcome and promote only through the new frozen gate.
+2. The placeholder-v2 representation/compiler/oracle, human-data firewall, narrow A/B/C screen,
+   exact config, runner, launch provenance, and evidence exporter are implemented and independently
+   audited. Preserve their hashes; old v3 construction rows remain internal-ablation data and
+   public benchmarks remain compatibility evidence.
+3. Create a minimal allowlisted stage from the intentional clean commit, bind one fresh
+   exact-ID-controlled JarvisLabs H200 through `safe_run`, and do not retry for any reason. It must
+   never read human, old held-out, reused-756, or official-961 rows.
+4. Use that remote resource for mechanism training and evaluation. Download evidence before
+   pause-verifying only the newly created ID. Preserve every outcome and promote nothing from this
+   internal screen.
+5. If and only if it passes, generalize the compiler and then acquire separately commissioned human
+   selection and once-only confirmation collections under the frozen provenance contract. Do not
+   run decisive training while source independence, license/consent, coverage, exact round-trip
+   correctness, duplicate audits, or access controls are unproven.
 
 ## Resource and publication invariants
 

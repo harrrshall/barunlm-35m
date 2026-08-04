@@ -43,6 +43,55 @@ The authoritative 2026-08-04 state and experiment boundary are in
 `docs/current-status-and-next-experiment.md`. Read that file before launching training or changing
 release claims.
 
+The implementation and evaluation contract for the proposed next hypothesis is in
+`docs/grounded-planir-and-human-evaluation.md`. The narrow construction-internal Grounded PlanIR
+screen is authorized for exactly one attempt under run
+`20260804-0545-mobile-planir-construction-screen-s17`; generalized or decisive Grounded PlanIR is
+not launch-authorized. The config SHA-256 is
+`cca598e6f5a76a5e848a8b9a869cad779bbcbb17999217d2488111b22e2aa34c` and the requirements
+SHA-256 is `6db8f37c0c21aea4a4ad93d7193b82217e73d3090db6b8947a9a9321aefb21c9`. Every retry,
+rescue, refit, promotion, Qwen comparison, and human-label access is forbidden. Its
+construction-only schema audit predicts 5,744/5,745 exact round trips. Quote-v1 is retained only as
+feasibility evidence because it is about 43% longer than direct targets; compact placeholder-v2 is
+the selected treatment and is shorter than direct targets on the audited construction rows. Old
+construction rows remain training/internal-ablation data and public BFCL/xLAM/MASSIVE/PRESTO data
+cannot substitute for separately collected human selection and once-only confirmation
+populations. Read that contract before changing the PlanIR schema, compiler, oracle, data-source
+decision, or evaluation firewall.
+
+The narrow compiler/oracle layer passed an independent 258-test review with its pinned receipts
+unchanged. The frozen source split assigns 4,596 construction rows to training and 1,149 to screen
+by disjoint source components/families; the singleton known bad-label component is symmetrically
+excluded, leaving 1,148 identical screen IDs for A/B/C. This is retrospective internal evidence:
+the full construction labels already informed representation design, and the old manifest lacks
+decisive human-provenance fields. Do not describe the screen as fresh even after it runs.
+
+The final independent prelaunch audit passed the exact remote CPU gate (343 tests), the complete
+repository suite (799 tests), Ruff, formatting, config/data/token/runtime binding, phase-firewall
+review, raw-freeze revalidation, and compact-bundle failure-path tests. Launch only from an
+intentional clean commit and minimal allowlisted stage through `infra/jarvis/safe_run.py`, using one
+fresh H200, Axolotl, CPython 3.11.10, Torch 2.13.0/CUDA 13.0, IN2, non-spot, 40 GB storage, and a
+45-minute watchdog. Any operational or scientific failure is terminal for this run and recipe.
+
+Placeholder-v2 is only a narrow seven-Mobile-tool, empty-context, timezone-naive calendar
+mechanism. Its next allowed experiment is a construction-internal matched A/B/C screen, never a
+fresh, Qwen, release, or breakthrough result. A pass licenses a generalized
+context/timezone/arbitrary-schema compiler; the decisive human populations must not be commissioned
+or accessed until that generalized contract and its claims are frozen.
+
+The evaluation firewall uses label-free public prompt records and separate HMAC-authenticated
+private label envelopes. A pinned renderer and tokenizer recompute model-visible bytes and token
+counts. A signed exact-gate receipt binds selection/confirmation memberships, candidates, compiler,
+evaluator, source, and code; confirmation disclosure requires an atomic append to the global
+tamper-evident retirement ledger. The repository validates this protocol but does not provide
+secret storage, key custody, a single-use selection signer, or durable atomic persistence. Those
+external services are mandatory before any fresh human label is collected or scored.
+Validators must snapshot caller inputs once into detached exact JSON and reuse that snapshot for
+hashing, membership, retirement, and returned evidence. Effective human cluster counts are
+connected components over provenance/duplicate lineages, not untrusted `cluster_id` counts.
+Duplicate scans precede eligibility, labels precede envelope sealing, and a passing selection
+receipt may not predate the frozen confirmation envelopes it unlocks.
+
 Candidate-v2 is the current public-release checkpoint: 602/756 float and 607/756 retained ARM64
 int8 on the reused Mobile development probe. The independently verified Qwen2.5-0.5B comparison
 is now imported under `experiments/runs/20260803-2122-mobile-qwen05b-matched-s17/`: Qwen scored
@@ -90,10 +139,11 @@ compatibility scoring, and official-961 evaluation were never reached. No optimi
 screening checkpoint, or promoted weight is in the evidence bundle. Candidate-v2 remains the
 release checkpoint and the Month-Boundary Counterfactual SFT recipe is closed. Do not retry,
 rescue, alter thresholds, select a seed, or modify frozen
-`configs/mobile_temporal_counterfactual_v3.json`. There is no active training experiment until a
-genuinely distinct hypothesis, fresh leakage-controlled populations, immutable config, and new
-run ID are preregistered. The observed selection shadow must not be used to tune a variation for
-the untouched confirmation shadow.
+`configs/mobile_temporal_counterfactual_v3.json`. At that closure there was no active training
+experiment. The later narrow PlanIR mechanism screen above is a genuinely distinct,
+construction-internal hypothesis with a new immutable config and run ID; it does not reopen v3 or
+make its old populations fresh. The observed v3 selection shadow must not be used to tune a
+variation for the untouched confirmation shadow.
 
 ## Decision order
 

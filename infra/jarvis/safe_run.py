@@ -136,6 +136,7 @@ def requested_attempt_compute(args: argparse.Namespace) -> dict[str, Any]:
         "num_gpus": int(args.num_gpus),
         "region": args.region,
         "is_spot": bool(args.spot),
+        "storage_gb": int(args.storage),
         "max_gpu_job_minutes": int(args.max_runtime_minutes),
     }
 
