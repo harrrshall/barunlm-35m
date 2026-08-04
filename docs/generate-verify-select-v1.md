@@ -253,6 +253,63 @@ implementation can bind `D-support`, the tokenizer-only EOS/pad IDs, exact Pytho
 versions, checkpoint/tokenizer/prompt hashes, continuation token IDs, likelihood bytes, adapter-off
 identity, and complete decoder trace must be receipted and covered by synthetic golden vectors.
 
+### Bounded semantic simulator
+
+The simulator must be a pure in-memory semantic oracle, not a phone or platform emulator. Its first
+version is limited to reminder create/update, calendar create/reschedule, contact lookup, note
+create, list add/check, route lookup, simulated message outbox, media play/pause, typed setting set,
+and the `ABSTAIN`/`CLARIFY`/`CONFIRM` controls. The model-facing tool names and existing Action IR
+schemas stay authoritative.
+
+The immutable world contains only a pinned clock and IANA timezone, reminders, events, contacts,
+notes, lists/items, places and an explicit route table, an outbox, a media session, and allowlisted
+settings. It uses no wall clock, randomness, network, filesystem, subprocess, real connector, or
+floating-point geography. Each case follows one independently checkable path:
+
+```text
+semantic program
+  -> reference effect
+  -> canonical Action IR
+  -> existing schema/policy validation
+  -> deterministic state transition
+  -> terminal state and canonical observation
+```
+
+The intended implementation units are `sim_program.py`, `action_simulator.py`, and `gvs_faults.py`.
+Every transition receipt binds input state, Action IR, effects, terminal state, and observation.
+Controls and rejected batches never mutate state; multi-action execution is atomic. The initial
+schema-valid single-fault taxonomy is wrong entity, wrong argument, temporal boundary/offset,
+recipient/channel substitution, polarity flip, list-item substitution, operation substitution, or
+wrong `ACTION`/`CONFIRM`/`CLARIFY`/`ABSTAIN` decision. A negative is admitted only when exactly one
+semantic field or decision changes and the effect, observation, policy result, or terminal state
+provably differs. Semantically equivalent alternative serialization is not a negative.
+
+### Authorization and power boundary
+
+A new GVS population manifest must jointly derive connected components across all `T/D/S/C` roles
+and reject every cross-role component. Required pre-outcome strata are task class, expected outcome,
+action family, and flags for context, revision, disfluency, distractors, timezone/relative time,
+multi-action, renamed schema, unseen schema, and unsafe/adversarial content. Component IDs derive
+from the sorted evidence graph; caller-supplied cluster IDs never define a denominator.
+
+A separate GVS authorization receipt—not the PlanIR human receipt—must bind population and component
+hashes, prompt/label commitments and custody policy, generator/verifier/tokenizer identities,
+EOS/pad IDs, renderer/schema/simulator/policy bytes, complete candidate trace roots, all arm/seed
+checkpoints and predictions, scorer/bootstrap/runtime identities, and the external one-shot ledger.
+The whole `D`, `S`, or `C` population is atomically claimed before any private label is parsed. A
+crash retires the whole population; partial-label rescue or a new session is forbidden. A selection
+pass licenses only the already specified seed-101 T-only final fit.
+
+The current 85% oracle, +10-point greedy gap, 50% recovery, 80% safety exact support, 60% shortcut,
+population sizes, per-stratum floors, bootstrap settings, selection margins, confirmation margins,
+and deployment ceilings are deliberately **not frozen**. An independent power specification must
+set them from external baseline/discordance assumptions, effective-component sizes and dependence,
+multiplicity treatment, target effects, power, and zero post-freeze attrition—never from observed
+`D/S/C` outcomes. Structural requirements safe to freeze now are complete K=8 denominators,
+byte-identical greedy rank zero, no outcome-dependent exclusion/retry, atomic one-shot retirement,
+100% availability of a non-catastrophic fail-closed option on safety components, and zero
+catastrophic unauthorized actions.
+
 ## Implementation order
 
 1. Preserve the PlanIR failure and keep candidate-v2 unchanged.

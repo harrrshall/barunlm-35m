@@ -96,9 +96,10 @@ not launch-authorized and has no frozen run ID or config. CPU/data-only work mus
 test the exact K=8 decoder/verifier contract, a real deterministic state-transition simulator,
 joint T/D/S/C duplicate closure and per-stratum support floors, GVS-specific one-shot receipts,
 provider-transform rehearsal, and deployment accounting. Its current exact-rational aggregate
-support scorer is only preliminary plumbing, not an authorization gate. Never use old selection,
-old confirmation, reused-756, official-961, v3 shadows, or the PlanIR screen to tune or select
-GVS-v1.
+support scorer is only preliminary plumbing, not an authorization gate. Even
+`prototype_passed=true` is serialized with `authorizes_model_or_label_access=false` and must never
+unlock a model, CUDA, training, or private prompt/label read. Never use old selection, old
+confirmation, reused-756, official-961, v3 shadows, or the PlanIR screen to tune or select GVS-v1.
 
 The evaluation firewall uses label-free public prompt records and separate HMAC-authenticated
 private label envelopes. A pinned renderer and tokenizer recompute model-visible bytes and token

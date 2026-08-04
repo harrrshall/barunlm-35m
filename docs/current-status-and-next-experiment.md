@@ -349,6 +349,15 @@ existing deployed greedy result fixed at rank zero, rather than adding Transform
 not frozen: tokenizer EOS/pad receipts, deterministic likelihood/tie rules, decoder trace hashes,
 and adapter-off identity tests remain prerequisites.
 
+The bounded simulator design is also fixed at the planning level: a pure in-memory state oracle for
+reminders, calendars, contacts, notes/lists, routes, a simulated outbox, media, settings, and policy
+controls, with atomic transitions and schema-valid single-fault certificates. It must not become a
+phone emulator or real connector. The GVS authorization design requires derived connected-component
+closure across all T/D/S/C roles, mandatory pre-outcome strata, whole-population one-shot claims,
+and receipts binding prompts, labels, candidate traces, checkpoints, tokenizer, simulator, scorer,
+seeds, and final-fit lineage. Numerical support/selection/confirmation thresholds remain
+provisional until an independent power analysis; observing D/S/C may never choose them.
+
 ## Resource and publication invariants
 
 Kroda 463058 is running and protected. Independently owned 463719 remains protected regardless of

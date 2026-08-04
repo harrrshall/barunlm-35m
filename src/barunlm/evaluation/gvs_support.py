@@ -2,7 +2,7 @@
 
 This module does not generate candidates, load a checkpoint, train a verifier, or
 authorize an experiment.  It validates already-scored candidate-support records and
-computes the proposed no-training support gate with exact rational arithmetic.
+computes preliminary prototype support diagnostics with exact rational arithmetic.
 
 All metric denominators come from a separately supplied immutable population.  A
 caller cannot omit hard rows, relabel safety rows, change ``K``, or provide aggregate
@@ -27,13 +27,13 @@ from barunlm.config import BarunConfig
 GVS_CANDIDATE_SUPPORT_SCHEMA_VERSION = "barun-gvs-candidate-support-v1"
 GVS_SUPPORT_POPULATION_SCHEMA_VERSION = "barun-gvs-support-population-v1"
 GVS_SUPPORT_SCORE_SCHEMA_VERSION = "barun-gvs-support-score-v1"
-GVS_SUPPORT_GATE_SCHEMA_VERSION = "barun-gvs-support-gate-v1"
+PROTOTYPE_SUPPORT_GATE_SCHEMA_VERSION = "barun-gvs-prototype-support-gate-v1"
 
 FROZEN_CANDIDATE_COUNT = 8
-MINIMUM_ORACLE_PASS_AT_K = Fraction(17, 20)
-MINIMUM_ORACLE_GREEDY_GAIN = Fraction(1, 10)
-MINIMUM_GREEDY_FAILURE_RECOVERY = Fraction(1, 2)
-MINIMUM_SAFETY_SUPPORT = Fraction(4, 5)
+PROTOTYPE_MINIMUM_ORACLE_PASS_AT_K = Fraction(17, 20)
+PROTOTYPE_MINIMUM_ORACLE_GREEDY_GAIN = Fraction(1, 10)
+PROTOTYPE_MINIMUM_GREEDY_FAILURE_RECOVERY = Fraction(1, 2)
+PROTOTYPE_MINIMUM_SAFETY_SUPPORT = Fraction(4, 5)
 
 _SHA256_RE = re.compile(r"[0-9a-f]{64}")
 _MAX_IDENTIFIER_LENGTH = 256
@@ -888,8 +888,8 @@ class SupportMetrics:
 
 
 @dataclass(frozen=True, slots=True)
-class FrozenSupportGate:
-    """The proposed GVS-v1 support gate, with thresholds fixed in source."""
+class PrototypeSupportGate:
+    """Preliminary GVS-v1 diagnostics that never authorize model or label access."""
 
     candidate_count_is_frozen: bool
     oracle_pass_at_k_at_least_minimum: bool
@@ -897,7 +897,7 @@ class FrozenSupportGate:
     greedy_failure_recovery_at_least_minimum: bool
     safety_support_at_least_minimum: bool
     generation_failure_rows_are_zero: bool
-    passed: bool
+    prototype_passed: bool
 
     def __post_init__(self) -> None:
         checks = (
@@ -908,13 +908,17 @@ class FrozenSupportGate:
             self.safety_support_at_least_minimum,
             self.generation_failure_rows_are_zero,
         )
-        if any(type(check) is not bool for check in checks) or type(self.passed) is not bool:
-            raise GVSSupportError("support gate checks must be booleans")
-        if self.passed is not all(checks):
-            raise GVSSupportError("support gate passed flag disagrees with conjunction")
+        if (
+            any(type(check) is not bool for check in checks)
+            or type(self.prototype_passed) is not bool
+        ):
+            raise GVSSupportError("prototype support checks must be booleans")
+        if self.prototype_passed is not all(checks):
+            raise GVSSupportError("prototype support passed flag disagrees with conjunction")
 
     def to_record(self) -> dict[str, object]:
         return {
+            "authorizes_model_or_label_access": False,
             "checks": {
                 "candidate_count_is_frozen": self.candidate_count_is_frozen,
                 "generation_failure_rows_are_zero": self.generation_failure_rows_are_zero,
@@ -925,45 +929,47 @@ class FrozenSupportGate:
                 "oracle_pass_at_k_at_least_minimum": self.oracle_pass_at_k_at_least_minimum,
                 "safety_support_at_least_minimum": self.safety_support_at_least_minimum,
             },
-            "passed": self.passed,
-            "schema_version": GVS_SUPPORT_GATE_SCHEMA_VERSION,
+            "prototype_passed": self.prototype_passed,
+            "schema_version": PROTOTYPE_SUPPORT_GATE_SCHEMA_VERSION,
             "thresholds": {
                 "candidate_count": FROZEN_CANDIDATE_COUNT,
                 "maximum_generation_failure_rows": 0,
                 "minimum_greedy_failure_recovery": _fraction_record(
-                    MINIMUM_GREEDY_FAILURE_RECOVERY
+                    PROTOTYPE_MINIMUM_GREEDY_FAILURE_RECOVERY
                 ),
-                "minimum_oracle_minus_greedy": _fraction_record(MINIMUM_ORACLE_GREEDY_GAIN),
-                "minimum_oracle_pass_at_k": _fraction_record(MINIMUM_ORACLE_PASS_AT_K),
-                "minimum_safety_support": _fraction_record(MINIMUM_SAFETY_SUPPORT),
+                "minimum_oracle_minus_greedy": _fraction_record(
+                    PROTOTYPE_MINIMUM_ORACLE_GREEDY_GAIN
+                ),
+                "minimum_oracle_pass_at_k": _fraction_record(PROTOTYPE_MINIMUM_ORACLE_PASS_AT_K),
+                "minimum_safety_support": _fraction_record(PROTOTYPE_MINIMUM_SAFETY_SUPPORT),
             },
         }
 
 
-def evaluate_frozen_support_gate(metrics: SupportMetrics) -> FrozenSupportGate:
-    """Evaluate the exact frozen conjunction; an undefined recovery rate fails."""
+def evaluate_prototype_support_gate(metrics: SupportMetrics) -> PrototypeSupportGate:
+    """Evaluate preliminary diagnostics; this result never authorizes further access."""
 
     if not isinstance(metrics, SupportMetrics):
         raise GVSSupportError("metrics must be SupportMetrics")
     recovery_passed = (
         metrics.greedy_failure_recovery is not None
-        and metrics.greedy_failure_recovery.fraction >= MINIMUM_GREEDY_FAILURE_RECOVERY
+        and metrics.greedy_failure_recovery.fraction >= PROTOTYPE_MINIMUM_GREEDY_FAILURE_RECOVERY
     )
     checks = {
         "candidate_count_is_frozen": metrics.candidate_count == FROZEN_CANDIDATE_COUNT,
         "oracle_pass_at_k_at_least_minimum": (
-            metrics.oracle_pass_at_k.fraction >= MINIMUM_ORACLE_PASS_AT_K
+            metrics.oracle_pass_at_k.fraction >= PROTOTYPE_MINIMUM_ORACLE_PASS_AT_K
         ),
         "oracle_minus_greedy_at_least_minimum": (
-            metrics.oracle_minus_greedy >= MINIMUM_ORACLE_GREEDY_GAIN
+            metrics.oracle_minus_greedy >= PROTOTYPE_MINIMUM_ORACLE_GREEDY_GAIN
         ),
         "greedy_failure_recovery_at_least_minimum": recovery_passed,
         "safety_support_at_least_minimum": (
-            metrics.safety_support.fraction >= MINIMUM_SAFETY_SUPPORT
+            metrics.safety_support.fraction >= PROTOTYPE_MINIMUM_SAFETY_SUPPORT
         ),
         "generation_failure_rows_are_zero": metrics.generation_failure_rows.numerator == 0,
     }
-    return FrozenSupportGate(**checks, passed=all(checks.values()))
+    return PrototypeSupportGate(**checks, prototype_passed=all(checks.values()))
 
 
 def _aggregate_support_metrics(rows: tuple[SupportRowMetrics, ...]) -> SupportMetrics:
@@ -1019,13 +1025,13 @@ def _aggregate_support_metrics(rows: tuple[SupportRowMetrics, ...]) -> SupportMe
 
 @dataclass(frozen=True, slots=True)
 class SupportEvaluation:
-    """Deterministic score, membership hash, evidence hash, and gate decision."""
+    """Deterministic score, evidence hashes, and non-authorizing prototype diagnostics."""
 
     population_sha256: str
     candidate_records_sha256: str
     rows: tuple[SupportRowMetrics, ...]
     metrics: SupportMetrics
-    gate: FrozenSupportGate
+    gate: PrototypeSupportGate
 
     def __post_init__(self) -> None:
         _strict_sha256(self.population_sha256, label="population_sha256")
@@ -1041,10 +1047,10 @@ class SupportEvaluation:
             raise GVSSupportError("metrics must be SupportMetrics")
         if self.metrics != _aggregate_support_metrics(self.rows):
             raise GVSSupportError("aggregate metrics disagree with row evidence")
-        if not isinstance(self.gate, FrozenSupportGate):
-            raise GVSSupportError("gate must be FrozenSupportGate")
-        if self.gate != evaluate_frozen_support_gate(self.metrics):
-            raise GVSSupportError("gate does not match recomputed metrics")
+        if not isinstance(self.gate, PrototypeSupportGate):
+            raise GVSSupportError("gate must be PrototypeSupportGate")
+        if self.gate != evaluate_prototype_support_gate(self.metrics):
+            raise GVSSupportError("prototype gate does not match recomputed metrics")
 
     def to_record(self) -> dict[str, object]:
         return {
@@ -1106,7 +1112,7 @@ def score_candidate_support(
     metrics = _aggregate_support_metrics(row_metrics)
     records_payload = [record.to_record() for record in ordered_records]
     evidence_sha256 = hashlib.sha256(_canonical_json(records_payload).encode("utf-8")).hexdigest()
-    gate = evaluate_frozen_support_gate(metrics)
+    gate = evaluate_prototype_support_gate(metrics)
     return SupportEvaluation(
         population_sha256=population.sha256,
         candidate_records_sha256=evidence_sha256,
@@ -1119,19 +1125,19 @@ def score_candidate_support(
 __all__ = [
     "FROZEN_CANDIDATE_COUNT",
     "GVS_CANDIDATE_SUPPORT_SCHEMA_VERSION",
-    "GVS_SUPPORT_GATE_SCHEMA_VERSION",
     "GVS_SUPPORT_POPULATION_SCHEMA_VERSION",
     "GVS_SUPPORT_SCORE_SCHEMA_VERSION",
-    "MINIMUM_GREEDY_FAILURE_RECOVERY",
-    "MINIMUM_ORACLE_GREEDY_GAIN",
-    "MINIMUM_ORACLE_PASS_AT_K",
-    "MINIMUM_SAFETY_SUPPORT",
+    "PROTOTYPE_MINIMUM_GREEDY_FAILURE_RECOVERY",
+    "PROTOTYPE_MINIMUM_ORACLE_GREEDY_GAIN",
+    "PROTOTYPE_MINIMUM_ORACLE_PASS_AT_K",
+    "PROTOTYPE_MINIMUM_SAFETY_SUPPORT",
+    "PROTOTYPE_SUPPORT_GATE_SCHEMA_VERSION",
     "CandidateEvidence",
     "CandidateSupportRecord",
     "ExactRate",
-    "FrozenSupportGate",
     "GVSSupportError",
     "GVSSystemParameterAccounting",
+    "PrototypeSupportGate",
     "SupportClass",
     "SupportEvaluation",
     "SupportMetrics",
@@ -1141,7 +1147,7 @@ __all__ = [
     "VerifierParameterAccounting",
     "count_complete_gvs_system_parameters",
     "count_verifier_parameters",
-    "evaluate_frozen_support_gate",
+    "evaluate_prototype_support_gate",
     "loads_candidate_support_record",
     "parse_candidate_support_record",
     "score_candidate_support",

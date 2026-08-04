@@ -434,7 +434,7 @@ def test_population_rejects_duplicate_ids_and_empty_support_classes() -> None:
         )
 
 
-def test_exact_support_metrics_and_boundary_gate_pass() -> None:
+def test_exact_support_metrics_and_boundary_prototype_pass() -> None:
     population, records = _population_and_records()
 
     evaluation = score_candidate_support(population, records)
@@ -455,8 +455,12 @@ def test_exact_support_metrics_and_boundary_gate_pass() -> None:
     assert evaluation.metrics.generation_failure_rows == ExactRate(0, 20)
     assert evaluation.rows[16].effective_k == 8
     assert not evaluation.rows[16].generation_failure
-    assert evaluation.gate.passed
-    assert all(evaluation.gate.to_record()["checks"].values())  # type: ignore[union-attr]
+    assert evaluation.gate.prototype_passed
+    prototype_gate = evaluation.gate.to_record()
+    assert prototype_gate["authorizes_model_or_label_access"] is False
+    assert prototype_gate["prototype_passed"] is True
+    assert "passed" not in prototype_gate
+    assert all(prototype_gate["checks"].values())  # type: ignore[union-attr]
     assert evaluation.to_record()["population_sha256"] == population.sha256
     _assert_no_float(evaluation.to_record())
 
@@ -480,7 +484,7 @@ def test_duplicate_outputs_reduce_effective_k_without_dropping_slots() -> None:
     assert evaluation.metrics.effective_k_distribution[8] == 19
     assert evaluation.rows[19].effective_k == 7
     assert not evaluation.rows[19].generation_failure
-    assert evaluation.gate.passed
+    assert evaluation.gate.prototype_passed
 
 
 def test_parse_invalid_slot_is_measured_but_is_not_a_generation_failure() -> None:
@@ -502,7 +506,7 @@ def test_parse_invalid_slot_is_measured_but_is_not_a_generation_failure() -> Non
     assert evaluation.metrics.candidate_schema_valid == ExactRate(159, 160)
     assert evaluation.metrics.generation_failure_rows == ExactRate(0, 20)
     assert evaluation.rows[19].generation_failure_reasons == ()
-    assert evaluation.gate.passed
+    assert evaluation.gate.prototype_passed
 
 
 @pytest.mark.parametrize(
@@ -513,7 +517,7 @@ def test_parse_invalid_slot_is_measured_but_is_not_a_generation_failure() -> Non
         ("truncation", ("truncation",)),
     ],
 )
-def test_only_frozen_row_generation_failures_fail_the_gate(
+def test_only_frozen_row_generation_failures_fail_the_prototype_gate(
     failure_kind: str, expected_reasons: tuple[str, ...]
 ) -> None:
     population, records = _population_and_records()
@@ -547,7 +551,7 @@ def test_only_frozen_row_generation_failures_fail_the_gate(
     assert row_metrics.generation_failure_reasons == expected_reasons
     assert evaluation.metrics.generation_failure_rows == ExactRate(1, 20)
     assert not evaluation.gate.generation_failure_rows_are_zero
-    assert not evaluation.gate.passed
+    assert not evaluation.gate.prototype_passed
     reason_counts = evaluation.metrics.to_record()["generation_failure"]["reason_rows"]  # type: ignore[index]
     assert reason_counts[failure_kind] == 1
 
@@ -606,7 +610,7 @@ def test_support_score_rejects_globally_duplicate_candidate_ids() -> None:
         score_candidate_support(population, records)
 
 
-def test_undefined_recovery_is_explicit_and_fails_gate() -> None:
+def test_undefined_recovery_is_explicit_and_fails_prototype_gate() -> None:
     population, records = _population_and_records()
     all_greedy: list[CandidateSupportRecord] = []
     for record in records:
@@ -620,7 +624,7 @@ def test_undefined_recovery_is_explicit_and_fails_gate() -> None:
     recovery = evaluation.metrics.to_record()["greedy_failure_recovery"]
     assert recovery == {"defined": False, "denominator": 0, "exact": None, "numerator": 0}
     assert not evaluation.gate.greedy_failure_recovery_at_least_minimum
-    assert not evaluation.gate.passed
+    assert not evaluation.gate.prototype_passed
 
 
 def test_denominators_cannot_be_supplied_or_rewritten() -> None:
@@ -634,7 +638,7 @@ def test_denominators_cannot_be_supplied_or_rewritten() -> None:
         replace(metrics, candidate_schema_valid=ExactRate(159, 159))
 
 
-def test_safety_support_below_threshold_fails_closed() -> None:
+def test_safety_support_below_threshold_fails_prototype_gate() -> None:
     population, records = _population_and_records()
     poisoned = copy.deepcopy(records)
     safety_exact = poisoned[2]
@@ -646,7 +650,7 @@ def test_safety_support_below_threshold_fails_closed() -> None:
 
     assert evaluation.metrics.safety_support == ExactRate(3, 5)
     assert not evaluation.gate.safety_support_at_least_minimum
-    assert not evaluation.gate.passed
+    assert not evaluation.gate.prototype_passed
 
 
 def test_record_json_round_trip_is_stable() -> None:
