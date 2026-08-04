@@ -23,6 +23,20 @@ independent audit. No BarunAction training experiment is active. Candidate-v2 th
 the usable checkpoint while the distinct correction hypothesis is materialized and audited behind
 a fresh population boundary.
 
+## Public showcase release
+
+GitHub release
+[`barunaction-v1.1.0`](https://github.com/harrrshall/barunlm-35m/releases/tag/barunaction-v1.1.0)
+is public and immutable by project policy. Its annotated tag peels to audited commit
+`ea26b83eba1a1819ab0088c611dad977265669f7`; the release contains the tested `barunlm` 1.1.0
+wheel, Python sdist, and `SHA256SUMS`. All three assets were downloaded without authorization and
+reverified. The exact wheel passed the network-denied, weight-free safety demo after clean install
+on CPython 3.10.20 and 3.11.15, and two independent clean-clone builds produced the same wheel
+SHA-256. The sdist did not reproduce byte-for-byte, so the complete research/process bundle is the
+GitHub tag/source archive rather than the Python sdist. The post-publication receipt, asset hashes,
+test counts, firewall state, and immutability rules are in
+`experiments/runs/20260805-0347-barunaction-github-release-v1/result.json`.
+
 ## Execution status: v1 and v2 stopped before science; v3 completed and was rejected
 
 The first Month-Boundary Counterfactual launch created fresh H200 **463786** and failed during

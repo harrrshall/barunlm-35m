@@ -244,6 +244,20 @@ Closure verification SHA-256
 and internal executors reject remote modes before path validation and that the upload mutation and
 download implementations were removed; only local dry-run validation remains.
 
+The public GitHub showcase release is
+[`barunaction-v1.1.0`](https://github.com/harrrshall/barunlm-35m/releases/tag/barunaction-v1.1.0).
+Its annotated tag object `cd1c102c04ed30db08c5694dfede047a834b8b32` peels locally and remotely
+to audited commit `ea26b83eba1a1819ab0088c611dad977265669f7`. The attached wheel, Python
+sdist, and `SHA256SUMS` have SHA-256 values `43c6f420f87f41e1f438217578cadaaf13de7f8797a35f28f4a43b33a3bdf970`,
+`156ed7b9571129a47bd38ab55cd08e771961f78dc392c4e356aef27523d14eed`, and
+`f6cdcdb23c39abffddbf054904203811abeeeb53c0936119688c2c631cf5e1f4`. Fresh anonymous downloads
+matched them; the exact wheel passed the network-denied safe demo on CPython 3.10.20 and 3.11.15
+and reproduced byte-for-byte across two clean clones. The sdist did not reproduce byte-for-byte,
+so make no such claim: the immutable Git tag/source archive is the complete research bundle, while
+the sdist is only the installable Python package. The post-publication receipt is
+`experiments/runs/20260805-0347-barunaction-github-release-v1/result.json`. Never move or replace
+the tag or its assets; any change requires a new versioned release.
+
 Month-Boundary Counterfactual SFT v1 did not reach the experiment runner. Fresh H200 ID **463786**
 failed during provider dependency resolution because the PyTorch template exposed CPython 3.10.20
 while frozen `numpy==2.4.6` requires Python 3.11 or newer. The exact ID was pause-verified. The
