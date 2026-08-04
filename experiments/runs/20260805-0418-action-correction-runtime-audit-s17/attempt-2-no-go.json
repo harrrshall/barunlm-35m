@@ -1,0 +1,59 @@
+{
+  "schema_version": "barun-action-correction-runtime-adversarial-audit-v1",
+  "run_id": "20260805-0418-action-correction-runtime-audit-s17",
+  "attempt": 2,
+  "recorded_at": "2026-08-05T04:45:36+05:30",
+  "conclusion": "no_go",
+  "scope": "Independent read-only audit of the first integrity-hardened CPU raw-draft runtime",
+  "audited": {
+    "runtime_sha256": "4beecc1ceed3a1b2f1dcb8a12c10802e7f609d64458603e877d9d9d0d2f73b06",
+    "test_sha256": "7773cd2c99cb614694a87b00210eec49c8c4b5658be1e9cdb91f7ab584acc8d4",
+    "sim_program_sha256": "9dca211ef1a4e76e76f58abefe6cd12cebd296fc24f71cd3ba4582c65fd6a910"
+  },
+  "blocking_findings": {
+    "public_CorrectionPrompt_constructor_forged_audit_evidence": true,
+    "audit_record_rederived_prompt_and_hash_fields": false,
+    "forged_original_shape": "FORGED-SHAPE",
+    "forged_draft_utf8_bytes": 999999,
+    "forged_draft_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "forged_state_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+    "dependency_export_tamper_failed_before_output": true,
+    "dependency_export_tamper_used_stable_runtime_identity_error": false,
+    "observed_unstable_error": "AttributeError"
+  },
+  "passed_findings": {
+    "focused_tests_passed": 40,
+    "adjacent_tests_passed": 147,
+    "persistent_attack_matrix_rejections": 120,
+    "persistent_attack_matrix_total": 120,
+    "return_time_tamper_rejections": 5,
+    "return_time_tamper_total": 5,
+    "raw_transport_state_diagnostics_and_fallback_passed": true,
+    "fresh_import_socket_http_subprocess_model_or_jarvis_modules": 0,
+    "fresh_import_socket_audit_events": 0,
+    "allowed_pathlib_transitives": [
+      "urllib",
+      "urllib.parse"
+    ],
+    "ruff_passed": true,
+    "format_check_passed": true
+  },
+  "declared_limit": "Same-UID tracing can make a transient mutation and restore it before the exit check; this runtime is tamper evidence for an ordinary isolated worker, not an authorization or hostile-process security boundary.",
+  "access": {
+    "population_or_dataset_read": false,
+    "model_or_tokenizer_loaded": false,
+    "cuda_accessed": false,
+    "jarvislabs_accessed": false,
+    "network_request_made": false,
+    "mobile_reused_development_756_rows_read": 0,
+    "mobile_official_evaluation_961_rows_read": 0,
+    "private_labels_read": 0,
+    "protected_resources_mutated": []
+  },
+  "authorization": {
+    "audited_runtime_hashes_accepted": false,
+    "population_or_model_access": false,
+    "cuda_or_jarvislabs": false,
+    "constructor_rederivation_and_third_independent_audit_required": true
+  }
+}

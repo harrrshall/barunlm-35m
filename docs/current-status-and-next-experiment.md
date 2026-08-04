@@ -17,11 +17,11 @@ closed. A distinct narrow Grounded PlanIR hypothesis then passed pre-model revie
 remote attempt failed closed during launch provenance before model or row access; its run and
 placeholder-v2 recipe are closed without a scientific result. GVS-v1 was then closed before
 population collection or model access because its requested effective-component counts were
-incompatible with its honest lineage rule. The active Generate-Correct SFT v1 work is CPU-only:
-its proposal is nonauthorizing, and only the 5,744-row training replay primitive has passed an
-independent audit. No BarunAction training experiment is active. Candidate-v2 therefore remains
-the usable checkpoint while the distinct correction hypothesis is materialized and audited behind
-a fresh population boundary.
+incompatible with its honest lineage rule. Generate-Correct SFT v1 was then closed before
+population or model access: its frozen hash-bit rule produced 8,076 fault and 8,308 clean rows
+instead of 8,192/8,192, and its parsed draft object could not carry arbitrary raw model output.
+No BarunAction training experiment is active. Candidate-v2 therefore remains the usable checkpoint
+while the versioned v2 correction contract is built and audited behind a fresh population boundary.
 
 ## Public showcase release
 
@@ -318,16 +318,36 @@ run and recipe. The conditional generalized and matched-Qwen lanes were never un
    upload after an adversarial prelaunch no-go; never retry that run or invoke its upload path.
 3. Preserve GVS-v1 as closed CPU research evidence. Do not collect its populations, run candidate
    support, train its rankers, deploy its custody rehearsal, or create compute for that contract.
-4. Develop Generate-Correct SFT v1 only through its CPU gates. The present v1 proposal and direct
-   replay receipt authorize neither full synthetic materialization nor model access. A distinct
-   materialized config and run ID are required after the renderer, lineage, duplicate, token,
-   diagnostic, scorer, phase-firewall, and provider-transform audits pass.
-5. If and only if that later config receives an independent go decision, create one fresh
-   exact-ID-controlled H200 for the nine frozen A/B/C fits. Download evidence and checkpoints before
-   pausing that exact ID. Never touch Kroda, Kimi, Kriti, or any protected evidence instance.
-6. Apply the frozen hierarchy without seed selection, threshold edits, rescue data, or a tenth fit.
+4. Preserve Generate-Correct SFT v1 as closed feasibility evidence. Develop only the versioned v2
+   CPU-prefreeze successor; neither v1 nor v2 currently authorizes population rendering, tokenizer
+   or model access, CUDA, JarvisLabs, or training.
+5. Freeze and independently audit exact raw-draft transport, the balanced T/P/D roster, real source
+   semantics, duplicate closure, token/runtime/scorer gates, phase firewall, and provider transform.
+   A later model-run config must bind the completed receipt and issue a separate go decision.
+6. If and only if that later config authorizes it, create one fresh exact-ID-controlled H200. Train
+   the reusable full-budget C seed-17 fit first and open only the disconnected 1,024-row futility
+   probe. Train the remaining eight fits only after its immutable conjunction passes. Download all
+   evidence before pausing the exact ID. Never touch Kroda, Kimi, Kriti, or a protected instance.
+7. Apply the frozen hierarchy without seed selection, threshold edits, rescue data, or a tenth fit.
    Candidate-v2 remains the public incumbent unless a later checkpoint satisfies every applicable
    quality, safety, efficiency, compatibility, packaging, and fresh-evaluation requirement.
+
+As of 2026-08-05 05:00 Asia/Kolkata, only the narrow exact-string runtime item has passed a final
+independent audit. Its attempt-3 receipt SHA-256 is
+`3d50e9eb0029fefb86301c8aefa08e679ecabea78d648ab503beff1e7b18a6ae`; it supports the existing
+T and D prompt shapes and preserves invalid, duplicate-key, suffix-bearing, truncated,
+noncanonical, and Unicode `draft_raw` evidence. It explicitly does not provide P rendering,
+accepted pass-assessment receipts, tokenizer caps, provenance, scoring, or launch authority.
+
+The first phase/scoring revision failed because forged check receipts and caller validity/safety
+booleans could advance the state machine or hide a raw catastrophe. Its immutable P0 no-go is
+`experiments/runs/20260805-0450-action-correction-phase-scoring-audit-s17/attempt-1-no-go.json`,
+SHA-256 `533d4bd41e3cd6f40cdff50edd92359e3f5915cff0ad29b4f91ae35e9a257c17`. The first duplicate
+firewall revision also failed as a scientific boundary because its receipt/runtime could be forged
+and its duplicate/provenance views were caller-authored rather than derived from frozen raw rows.
+Its no-go SHA-256 is `e178edaba63fa33dfcdade3b4bf7c92f7ed7d7c35dfac9debeb1465f3786568c`.
+Both are being replaced under new schema revisions; neither failure opened population or model
+access. The balanced roster successor and real per-candidate semantic catalog remain outstanding.
 
 ## Closed CPU proposal: Generate-Verify-Select v1
 
@@ -356,9 +376,9 @@ A future verifier experiment would need a new hierarchical contamination and inf
 nullable inapplicable axes, role-blind family allocation, an explicit identity-compatibility lane,
 annotator dependence, and reserve collection. That would be a new experiment, not a GVS-v1 retry.
 
-## Active CPU proposal: Generate-Correct SFT v1
+## Closed CPU proposal: Generate-Correct SFT v1
 
-The next distinct generator-side hypothesis is documented in
+The now-closed generator-side v1 hypothesis is documented in
 `docs/generate-correct-sft-v1.md`. CPU-prefreeze run
 `20260805-0230-action-correction-forge-screen-s17` asks whether the same
 35,072,768-parameter BarunAction-35M weights can learn to inspect one draft and repair argument
@@ -454,20 +474,25 @@ that passes the hierarchy. Seed 17 must independently pass every applicable qual
 safety, and efficiency gate; seeds 29 and 43 are replication only. Best-seed selection, averaging,
 post-screen refit, and a tenth fit are forbidden.
 
-The current config deliberately remains nonauthorizing because the synthetic rows, lineages,
-duplicate closure, target/token budgets, runtime diagnostic proof, scorer, provider transform, and
-phase firewall are not frozen. The standing synthetic-tranche retention half is also unevaluable
-while the reused 756 and official 961 remain inaccessible. Therefore this v1 proposal cannot
-authorize an H200 or replace the public release. A later materialized run needs a new immutable
-config, run ID, exact hashes, independent prelaunch audit, and an explicitly preregistered terminal
-compatibility rule.
+The config remains nonauthorizing and is now terminally closed. Feasibility run
+`20260805-0406-action-correction-v1-feasibility-audit-s17` reproduced 8,076 single-fault and 8,308
+exact training assignments instead of the registered 8,192/8,192. It also proved that v1's parsed
+`draft` object cannot represent arbitrary exact pass-1 bytes. Its immutable result SHA-256 is
+`eec225c1f0e9a88c58446db638b89fa30fb0429ed222c1265e6e6fb225b8a13e`. The audit read no
+population, tokenizer, model, reused-756 row, official-961 row, private label, CUDA device, network,
+or JarvisLabs resource. Never patch or retry v1. Any successor must use a new config and run ID,
+pass the complete CPU population/runtime audit, and receive a separate prelaunch authorization.
+
 ## Resource and publication invariants
 
 Kroda 463058 is running and protected. Independently owned 463719 remains protected regardless of
 its observed lifecycle state. The adjacent Kimi owner has repeatedly recreated its job under the
-same display name. Structured machine IDs 463912, 463936, 463964, 464346, and 464367, plus the
+same display name. Structured machine IDs 463912, 463936, 463964, 464346, 464367, 464377, 464378,
+and 464382, plus the
 endpoint-derived historical misidentification 463904, are all durably denylisted regardless of
-their observed lifecycle state. Never infer a lifecycle target from the stable display name, and
+their observed lifecycle state. The last three came from a local adjacent-controller process
+observation, not a JarvisLabs query; do not inspect them to refine their state. Never infer a
+lifecycle target from the stable display name, and
 do not inspect, connect to, rename, pause, resume, reuse, or delete any of those resources. Qwen
 463689, failed H200 evidence IDs 463786, 463793, and 463843, completed v3 H200 evidence ID 463802,
 and L4 runtime probe ID 463788 are paused and protected. Previously observed unrecognized ID

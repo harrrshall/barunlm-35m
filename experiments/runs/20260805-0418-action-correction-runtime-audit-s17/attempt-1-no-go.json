@@ -1,0 +1,59 @@
+{
+  "schema_version": "barun-action-correction-runtime-adversarial-audit-v1",
+  "run_id": "20260805-0418-action-correction-runtime-audit-s17",
+  "attempt": 1,
+  "recorded_at": "2026-08-05T04:27:16+05:30",
+  "conclusion": "no_go",
+  "scope": "CPU-only raw-draft runtime import and integrity boundary; no model-quality result",
+  "audited": {
+    "runtime_path": "src/barunlm/evaluation/action_correction_runtime.py",
+    "runtime_sha256": "99ec89d23fa992daae76aa07656c50428a7ff4c82e3451000846f941069406e3",
+    "test_path": "tests/test_action_correction_runtime.py",
+    "test_sha256": "a0aaf0f6cc490ddeca4988b4a8e4f7a810e6678f411696e0c7a0d6d69578f2c9",
+    "sim_program_sha256": "751f77c098e98c6c94a07435fa8f8696cad03de2a1362154086e19951aa75399"
+  },
+  "blocking_findings": {
+    "runtime_flags_global_rebinding_changed_reported_authorization": true,
+    "derive_draft_global_rebinding_forged_eligibility": true,
+    "selector_global_rebinding_forged_fallback_output": true,
+    "entry_and_exit_runtime_integrity_guard_present": false,
+    "fresh_import_loaded_socket": true,
+    "fresh_import_loaded__socket": true,
+    "fresh_import_loaded_urllib": true,
+    "fresh_import_loaded_urllib_parse": true,
+    "transitive_import_cause": "action_simulator -> sim_program -> eager importlib.metadata",
+    "network_connection_attempted": false
+  },
+  "passed_findings": {
+    "exact_raw_utf8_transport": true,
+    "randomized_round_trips": 500,
+    "duplicate_suffix_malformed_deep_surrogate_and_size_cases_fail_closed": true,
+    "T_and_D_prompt_state_extraction_verified": true,
+    "diagnostics_exactly_five_draft_only_fields": true,
+    "all_32_bounded_forge_gold_cases_eligible_and_simulator_accepted": true,
+    "normal_missing_failure_truncation_and_fallback_behavior_passed": true,
+    "normal_authorization_values_all_false": true,
+    "network_or_subprocess_events_during_runtime_calls": 0,
+    "focused_tests_passed": 28,
+    "adjacent_tests_passed": 172,
+    "ruff_passed": true,
+    "format_check_passed": true
+  },
+  "access": {
+    "population_or_dataset_read": false,
+    "model_or_tokenizer_loaded": false,
+    "cuda_accessed": false,
+    "jarvislabs_accessed": false,
+    "network_request_made": false,
+    "private_labels_read": 0,
+    "mobile_reused_development_756_rows_read": 0,
+    "mobile_official_evaluation_961_rows_read": 0,
+    "protected_resources_mutated": []
+  },
+  "authorization": {
+    "runtime_hashes_accepted": false,
+    "population_or_model_access": false,
+    "cuda_or_jarvislabs": false,
+    "patch_and_independent_reaudit_required": true
+  }
+}

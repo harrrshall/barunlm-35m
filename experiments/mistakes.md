@@ -640,3 +640,112 @@ official-961 row was accessed while finding or fixing these issues.
 - Future audit claims must distinguish representation/compiler access, label/population access,
   and ordinary source-module dependencies. “No PlanIR targets or compiler” was supported; “no
   PlanIR module import” was not supported by the audited bytes.
+
+### 2026-08-05 addendum — a hash bit does not guarantee a balanced experimental arm
+
+- Generate-Correct SFT v1 assigned clean versus single-fault drafts from one SHA-256 bit and then
+  registered an exact 8,192/8,192 split. Expanding the frozen source-ID rule over the intended
+  16 x 1,024 slots produced 8,076 faults and 8,308 clean drafts. Per-stratum fault counts ranged
+  from 475 to 530 instead of the required 512. Random-looking assignment is not a quota proof.
+- The same v1 correction view parsed the draft into a JSON object. That discarded exact lexical
+  bytes and made invalid JSON, duplicate keys, suffix-bearing output, truncation, and noncanonical
+  valid JSON unrepresentable even though those are precisely the runtime failures a corrector must
+  receive and diagnose.
+- Run `20260805-0406-action-correction-v1-feasibility-audit-s17` therefore rejected v1 before
+  population, tokenizer, model, CUDA, JarvisLabs, network, or private-label access. Never backfill
+  failed rows or repair v1 in place. A successor must freeze a finite roster and rank exactly half
+  of each role/stratum to each arm before rendering, fail the whole population on a selected-row
+  failure, and transport one snapshotted exact `draft_raw` value through self-derived diagnostics.
+- This audit also found that importing a CPU-only submodule eagerly imported Torch-backed package
+  initializers. The package and evaluation exports are now lazy, with isolated-process tests proving
+  CPU contract discovery does not import Torch, model, or quantization code.
+
+### 2026-08-05 addendum — direct-import scans do not prove a network-free runtime
+
+- The first raw-draft runtime test parsed only that module's import syntax. A fresh-process audit
+  showed that its simulator dependency imported `sim_program`, whose eager package-metadata import
+  loaded `_socket`, `socket`, `urllib`, and `urllib.parse`. No connection occurred, but the strict
+  network-free import claim failed and the test had measured the wrong boundary.
+- The same audit rebound three ordinary module globals. Replacing the authorization mapping changed
+  the reported launch flag; replacing the draft derivation made malformed text eligible; replacing
+  the fallback selector returned attacker-chosen text. A read-only mapping protects its contents,
+  not the module name that points to it.
+- Attempt 1 is preserved at
+  `experiments/runs/20260805-0418-action-correction-runtime-audit-s17/attempt-1-no-go.json`,
+  SHA-256 `028d773144378c799fb899b928b86c6578fe5a41ad9f59adfb384a0897c61f8a`.
+  Its runtime hashes are rejected. The corrective requirement is lazy transitive imports plus a
+  closure-captured entry/exit integrity guard over every evidence-producing public API, followed by
+  a new independent audit. This still does not make same-UID Python a security boundary.
+
+- The first integrity patch closed those global-rebinding attacks, but an independent second audit
+  constructed `CorrectionPrompt` directly and made `audit_record()` return arbitrary shape, byte
+  count, draft hash, and state hash claims. An evidence method must rederive its fields even when its
+  dataclass constructor is public; guarding dependencies does not validate caller-created state.
+  Attempt 2 is preserved under the same run directory, SHA-256
+  `17dc9532a253c09f1aea32088682c41757bf00c4fb843ba26b099e67ecdd5079`, and its runtime hashes
+  remain rejected.
+
+- The second correction now fully rederives `CorrectionPrompt` from its exact canonical transport
+  both at construction and at `audit_record()`. A third read-only audit rejected direct-constructor,
+  low-level object, post-call, dependency-export, authorization, deriver, selector, source, and
+  constant tampering and passed 45 focused plus 126 adjacent tests. Its narrow go receipt is
+  `experiments/runs/20260805-0418-action-correction-runtime-audit-s17/attempt-3-go.json`, SHA-256
+  `3d50e9eb0029fefb86301c8aefa08e679ecabea78d648ab503beff1e7b18a6ae`.
+- This is a go only for exact T/D raw-draft transport. `PassAssessment` and `TwoPassSelection` are
+  deliberately not accepted receipts; P has no renderer; token caps remain unresolved; and the
+  runtime proves internal derivation, not external population provenance. It still authorizes no
+  population, model, tokenizer, training, network, CUDA, JarvisLabs, phase transition, or launch.
+
+### 2026-08-05 addendum — selected rows alone are not a frozen roster
+
+- The first v2 roster prototype correctly ranked 43,008 candidate metadata slots and selected an
+  exactly balanced 21,504. Its receipt serialized only selected rows, however. It did not bind all
+  candidate slot/rank pairs or the 21,504 discarded candidates, and `reserve_slot_count=0` obscured
+  the difference between “not authorized for replacement” and “not present in the evidence.”
+- A single placeholder catalog coordinate was also reused for every candidate. Role, stratum, and
+  ordinal make hashes unique, but they do not commit actual per-candidate request semantics. Three
+  namespace rebindings changed membership or assignment under the same plan hash; helper rebinding
+  also forged selected slots and true authorization claims.
+- The exact no-go is preserved at
+  `experiments/runs/20260805-0440-action-correction-roster-audit-s17/attempt-1-no-go.json`, SHA-256
+  `745116fc2919e10ea50bc3959e94da44328ab01ff03098df5fd7b73026ffc26c`.
+  The arithmetic remains useful prototype evidence only. A scientific successor must bind the
+  complete universe, selected/assignment/discarded partitions, actual per-candidate semantics,
+  source/runtime identity, immutable false claims, and a strict independently recomputing loader.
+
+### 2026-08-05 addendum — correct gate arithmetic is not an authorization boundary
+
+- The first Generate-Correct v2 phase/scoring revision computed its registered rational margins
+  correctly on honest `score_run` outputs, but the phase firewall accepted a hand-written P receipt
+  whose check booleans were all true without parsing the run reports or recomputing the gate. A
+  direct constructor could also claim `P_PASS` or open and close D with zero checkpoints.
+- `RunScore` accepted caller-supplied schema, policy, false-action, and catastrophic flags without
+  a pinned raw-runtime assessment receipt. Its raw catastrophic count was not rederived or included
+  in the receipt, so a catastrophic pass 1 followed by a safe pass 2 could be reported as zero raw
+  catastrophes. Frozen dataclasses and module constants were also mutable or rebindable at the
+  consumer boundary.
+- The independent P0 no-go is preserved at
+  `experiments/runs/20260805-0450-action-correction-phase-scoring-audit-s17/attempt-1-no-go.json`,
+  SHA-256 `533d4bd41e3cd6f40cdff50edd92359e3f5915cff0ad29b4f91ae35e9a257c17`.
+  No population, model, tokenizer, network, CUDA, JarvisLabs, reused-756, official-961, or private
+  label access occurred. A successor must recompute every transition from exact runtime-bound run
+  evidence and independently validate source, constants, authorization flags, receipts, roles,
+  manifests, checkpoint lineage, and raw failure counts.
+
+### 2026-08-05 addendum — a structural duplicate graph cannot authenticate its inputs
+
+- The first correction duplicate firewall correctly closed all submitted lineage, exact,
+  normalized, delexicalized, and verified-near edges under an honest runtime. Its public receipt
+  could nevertheless be forged or mutated after construction, and rebinding loaders, role/axis
+  constants, or authorization helpers could reduce enforcement or emit a true launch flag.
+- More fundamentally, the exact/normalized/delexicalized strings, semantic-family payloads, and
+  near-edge evidence were caller-authored. Internal hashes proved only self-consistency; they did
+  not prove that views were derived from a frozen raw row, that the near-pair scan was complete, or
+  that dependency contents and the exact T/P/D roster were the intended ones.
+- The independent no-go is preserved at
+  `experiments/runs/20260805-0500-action-correction-duplicate-firewall-audit-s17/attempt-1-no-go.json`,
+  SHA-256 `e178edaba63fa33dfcdade3b4bf7c92f7ed7d7c35dfac9debeb1465f3786568c`.
+  The revision remains honest-input structural plumbing only and authorizes no population, model,
+  tokenizer, network, CUDA, JarvisLabs, or launch action. A successor must derive every view from
+  bound raw records, bind complete scan coverage and source/runtime identity, rederive receipts at
+  consumption, and fail closed on constructor, mutation, omission, and rebinding attacks.

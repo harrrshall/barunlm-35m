@@ -1,0 +1,62 @@
+{
+  "schema_version": "barun-action-correction-phase-scoring-adversarial-audit-v1",
+  "run_id": "20260805-0450-action-correction-phase-scoring-audit-s17",
+  "attempt": 1,
+  "recorded_at": "2026-08-05T04:56:35+05:30",
+  "conclusion": "no_go_p0_authorization_and_evidence_boundary",
+  "scope": "Independent read-only audit of the first CPU phase-firewall and exact-rational scoring revision",
+  "audited": {
+    "phase_source_path": "src/barunlm/evaluation/action_correction_phase_firewall.py",
+    "phase_source_sha256": "fb4d4f6715714908386d9638be6e7b3a090b034cf484b8afb442fbe2226586d6",
+    "scoring_source_path": "src/barunlm/evaluation/action_correction_scoring.py",
+    "scoring_source_sha256": "d6b6627fae71f65cd0a92151dc2f04a402dee35e1004505dbaf60da7d7a6bf35",
+    "phase_test_path": "tests/test_action_correction_phase_firewall.py",
+    "phase_test_sha256": "0d4cce0c5a8e661686fe7a11f89a43d30e6cde89c03b8e76c9fafd33573907fb",
+    "scoring_test_path": "tests/test_action_correction_scoring.py",
+    "scoring_test_sha256": "343394f50e776c7b0d05ac5a9987d624585adbef5e89a61040287f7605ff1c9d"
+  },
+  "blocking_findings": {
+    "forged_all_true_P_receipt_advanced_to_P_PASS": true,
+    "P_gate_recomputed_from_exact_run_evidence": false,
+    "phase_receipt_fields_bound_to_canonical_json": false,
+    "direct_P_PASS_constructor_accepted": true,
+    "direct_D_OPENED_with_zero_checkpoints_accepted": true,
+    "D_role_config_population_manifest_and_checkpoint_joined": false,
+    "run_score_pass2_schema_evidence_rederived": false,
+    "raw_catastrophic_count_rederived_and_receipt_bound": false,
+    "PGateResult_receipt_and_fields_cross_validated": false,
+    "DDescription_receipt_and_fields_cross_validated": false,
+    "caller_schema_policy_false_action_and_catastrophic_assertions_bound_to_runtime_receipt": false,
+    "unknown_DELETE_BANK_ACCOUNT_caller_assertion_counted_schema_valid": true,
+    "object_setattr_tamper_rejected_by_consumers": false,
+    "module_global_rebinding_guarded": false,
+    "authorization_flag_rebinding_emitted_true_launch_claim": true,
+    "D_ROWS_rebinding_permitted_one_row_description": true
+  },
+  "honest_path_findings": {
+    "exact_rational_threshold_arithmetic_correct": true,
+    "missing_failure_and_truncation_rows_retained": true,
+    "P_manifest_config_and_sample_rosters_match_on_legitimate_path": true,
+    "focused_tests_passed": 24,
+    "adjacent_tests_passed": 101,
+    "ruff_passed": true,
+    "format_check_passed": true
+  },
+  "access": {
+    "population_or_dataset_read": false,
+    "model_or_tokenizer_loaded": false,
+    "cuda_accessed": false,
+    "jarvislabs_accessed": false,
+    "network_request_made": false,
+    "mobile_reused_development_756_rows_read": 0,
+    "mobile_official_evaluation_961_rows_read": 0,
+    "private_labels_read": 0,
+    "protected_resources_mutated": []
+  },
+  "authorization": {
+    "audited_phase_or_scoring_hashes_accepted": false,
+    "population_or_model_access": false,
+    "cuda_or_jarvislabs": false,
+    "full_rederivation_runtime_join_and_new_independent_audit_required": true
+  }
+}

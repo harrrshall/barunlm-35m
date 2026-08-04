@@ -10,8 +10,6 @@ what makes timestamp semantics portable and auditable instead of trusting an OS 
 from __future__ import annotations
 
 import hashlib
-import importlib.metadata
-import importlib.resources
 import io
 import json
 import os
@@ -595,13 +593,20 @@ def _read_tzif_bytes(name: str) -> tuple[bytes, str, str | None]:
             ) from exc
         return payload, "system_tzpath", None
 
+    # Keep package-discovery imports inside the fallback.  ``importlib.metadata`` pulls
+    # in ``email.utils`` and therefore the socket module on CPython 3.11 even though it
+    # performs no network I/O.  Ordinary system-TZPATH use must retain a smaller,
+    # capability-free import boundary.
     try:
-        resource = importlib.resources.files("tzdata.zoneinfo").joinpath(*parts)
+        import importlib.metadata as importlib_metadata
+        import importlib.resources as importlib_resources
+
+        resource = importlib_resources.files("tzdata.zoneinfo").joinpath(*parts)
         with resource.open("rb") as handle:
             payload = handle.read(MAX_TZIF_BYTES + 1)
         try:
-            tzdata_version = importlib.metadata.version("tzdata")
-        except importlib.metadata.PackageNotFoundError:
+            tzdata_version = importlib_metadata.version("tzdata")
+        except importlib_metadata.PackageNotFoundError:
             tzdata_version = None
     except (FileNotFoundError, ModuleNotFoundError, ImportError, OSError) as exc:
         raise SimProgramError(
@@ -1464,7 +1469,6 @@ def sim_program_runtime_sha256() -> str:
         for name, value in (
             ("datetime.fromisoformat", datetime.fromisoformat),
             ("hashlib.sha256", hashlib.sha256),
-            ("importlib.resources.files", importlib.resources.files),
             ("json.dumps", json.dumps),
             ("json.loads", json.loads),
             ("os.fstat", os.fstat),

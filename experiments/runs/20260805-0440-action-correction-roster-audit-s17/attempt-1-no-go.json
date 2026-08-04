@@ -1,0 +1,63 @@
+{
+  "schema_version": "barun-action-correction-roster-adversarial-audit-v1",
+  "run_id": "20260805-0440-action-correction-roster-audit-s17",
+  "attempt": 1,
+  "recorded_at": "2026-08-05T04:45:36+05:30",
+  "conclusion": "no_go_scientific_receipt_keep_allocation_prototype_only",
+  "audited": {
+    "source_path": "src/barunlm/datasets/action_correction_population.py",
+    "source_sha256": "9c2351a09acf79d06b482bcdb4a482c56c6e6f003d41e9838dc5a640e9a3145b",
+    "test_path": "tests/test_action_correction_population.py",
+    "test_sha256": "f70c7ada8bcfc79e0098a657a5ed569818eaae638cd2875f26d3cb0ce2db0ac8",
+    "default_plan_sha256": "d5e72bb3a82f9f8b75b1a059bf2745c700dd594a1beeca960ab106292d8c0a4b",
+    "prototype_receipt_sha256": "dbb3d807fae194b8a11f659653fb32849268f5487af9254019046616951f6e29"
+  },
+  "honest_recomputation": {
+    "candidate_count": 43008,
+    "selected_count": 21504,
+    "discarded_count": 21504,
+    "exact_assignment_count": 10752,
+    "single_fault_assignment_count": 10752,
+    "formula_or_selection_mismatches": 0,
+    "adjacent_tests_passed": 155,
+    "ruff_and_format_passed": true
+  },
+  "blocking_findings": {
+    "complete_ordered_candidate_universe_bound": false,
+    "every_candidate_slot_and_rank_bound": false,
+    "discarded_membership_and_ranks_bound": false,
+    "selected_order_and_membership_explicitly_bound": false,
+    "assignment_membership_explicitly_bound": false,
+    "reported_authorized_reserve_count": 0,
+    "reported_discarded_candidate_count": null,
+    "actual_discarded_candidate_count": 21504,
+    "per_candidate_semantic_coordinates_bound": false,
+    "one_global_placeholder_coordinate_reused_for_all_candidates": true,
+    "source_runtime_dependencies_bound": false,
+    "strict_receipt_loader_and_independent_recomputation_exists": false,
+    "namespace_rebinding_changed_roster_under_same_plan_sha": true,
+    "selected_group_rebinding_accepted_forged_slot": true,
+    "claims_rebinding_emitted_true_authorization": true,
+    "example_namespace_rebound_receipt_sha256": "789bc1ec034b43bbc02454aa956e0f96b253676b08aa6a121862d89d2aeed864",
+    "example_all_true_claims_receipt_sha256": "a664c41b4fc4f5c4027f7237e20d0912a0db26a3cf6547cbc6b6b98eed213433",
+    "example_forged_selected_slot_receipt_sha256": "2b86ea28751e6df1ecf7f9114ecb7a8dfc5b7112f202f66c4bfc7e146b81a6ee"
+  },
+  "access": {
+    "population_rows_rendered_or_read": 0,
+    "model_or_tokenizer_loaded": false,
+    "cuda_accessed": false,
+    "jarvislabs_accessed": false,
+    "network_accessed": false,
+    "mobile_reused_development_756_rows_read": 0,
+    "mobile_official_evaluation_961_rows_read": 0,
+    "private_labels_read": 0,
+    "protected_resources_mutated": []
+  },
+  "authorization": {
+    "prototype_allocation_math_retained": true,
+    "scientific_roster_receipt_accepted": false,
+    "population_materialization": false,
+    "model_or_cuda": false,
+    "successor_complete_roster_and_semantic_catalog_required": true
+  }
+}

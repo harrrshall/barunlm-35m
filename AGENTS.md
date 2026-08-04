@@ -164,19 +164,42 @@ deploy custody, create compute, or run candidate support for GVS-v1. A future ve
 genuinely versioned hierarchical contamination/inference contract; the active next hypothesis must
 otherwise be a distinct generator-side intervention with a fresh internal boundary.
 
-The active CPU-only next proposal is **Generate-Correct SFT v1**, documented in
-`docs/generate-correct-sft-v1.md` with typed proposal config
-`configs/action_correction_forge_screen_v1.json`, SHA-256
-`3f1862a403dcf76edb82268f46688f44ce33027904dc11357b1c9cfc4b68931a`. It asks whether the
-same 35,072,768-parameter candidate-v2 weights can correct one draft's argument bindings in a
-bounded second pass. The proposal is explicitly nonauthorizing: synthetic train/screen rows,
-lineage closure, token budgets, runtime diagnostics, scorer, provider transform, and phase
-firewall are not frozen, and the standing synthetic-tranche retention gate is not currently
-evaluable without violating the reused-756/official-961 firewall. The independently audited
-5,744-row direct replay primitive is training-only; its result SHA-256 is
-`2e7c2ed74088fc3a130b6c6c0bbb9628154dd2295cc7912f2970ff0d756652fa`. Do not create a GPU,
-load a model, materialize the full population, or treat this proposal as a result. Any authorized
-model run requires a distinct immutable materialized config and run ID after independent audit.
+**Generate-Correct SFT v1 is closed before population materialization or model access.** Its
+feasibility audit is
+`experiments/runs/20260805-0406-action-correction-v1-feasibility-audit-s17/result.json`, SHA-256
+`eec225c1f0e9a88c58446db638b89fa30fb0429ed222c1265e6e6fb225b8a13e`. Recomputing the frozen
+low-bit assignment over the registered 16 x 1,024 training slots produced 8,076 single-fault and
+8,308 exact rows, not the required 8,192/8,192, with every per-stratum count required to be
+512/512. The v1 correction view also stores a parsed JSON object, so it cannot transport exact raw
+model output containing invalid JSON, duplicate keys, suffix text, truncation, or noncanonical
+valid JSON. Do not repair, retry, expand, materialize, or train v1. It produced no model-quality
+result and authorizes no population, tokenizer, model, CUDA, JarvisLabs, or private-label access.
+
+A successor must be a new immutable v2 CPU-prefreeze contract. It must bind exact `draft_raw`
+transport; a finite pre-render roster with exact per-role/per-stratum rank allocation and no
+backfill; jointly frozen T/P/D membership; role-stripped semantic lineage and transitive duplicate
+closure; a real request-plan renderer and simulator; token/runtime/scorer/provider gates; and the
+one-full-C17 futility ladder. Until that contract, its population, and an independent prelaunch
+audit all pass under a separate model-run config, there is no active training experiment and no GPU
+may be created.
+
+Generate-Correct v2 CPU checkpoint, 2026-08-05 05:00 Asia/Kolkata: the corrected exact-string
+runtime passed its third independent audit for the narrow T/D `draft_raw` transport only. The go
+receipt is
+`experiments/runs/20260805-0418-action-correction-runtime-audit-s17/attempt-3-go.json`, SHA-256
+`3d50e9eb0029fefb86301c8aefa08e679ecabea78d648ab503beff1e7b18a6ae`; runtime source SHA-256
+is `8cad30fc58a9e67ab83cf9a845b7811f5a088a60abdefed8ab4b15d901f59e86`. This does not cover P,
+accepted pass-assessment receipts, tokenizer caps, population provenance, scoring, or launch.
+The first phase/scoring and duplicate-firewall revisions independently failed P0 audits because
+their public receipts, constructors, raw metric inputs, or runtime bindings were forgeable. Their
+immutable no-go SHA-256 values are
+`533d4bd41e3cd6f40cdff50edd92359e3f5915cff0ad29b4f91ae35e9a257c17` and
+`e178edaba63fa33dfcdade3b4bf7c92f7ed7d7c35dfac9debeb1465f3786568c`. Correct successor
+implementations and new independent audits remain mandatory. These results authorize no model,
+tokenizer, population, network, CUDA, JarvisLabs, training, phase transition, or launch action.
+
+The independently audited 5,744-row direct replay primitive remains training-only; its result
+SHA-256 is `2e7c2ed74088fc3a130b6c6c0bbb9628154dd2295cc7912f2970ff0d756652fa`.
 The result's phrase “without importing PlanIR ... targets” is narrowed by append-only correction
 SHA-256 `4b06a63570bce9e746f4aef83bdb7ba9ea38495111aa0133ad96dbb2c18372ea`: no PlanIR
 representation, compiler, target, or screen row was read, but the audited implementation imported
@@ -374,7 +397,11 @@ protected historical evidence rather than erasing them. At 22:29, a later safe i
 463936 paused and discovered the separate paused opt128 resource under `machine_id` **463964**.
 At 02:14 on 2026-08-05, another safe projected inventory showed newly recreated resources with the
 same two names under structured `machine_id` values **464346** (`opt`) and **464367** (`opt128`).
-**464367**, **464346**, **463964**, **463936**, **463912**, and **463904** are all durably
+At 04:31, a local process-only observation (not a JarvisLabs query) showed the independently owned
+Kimi controller referencing **464377** and **464378** and running its optimization session against
+active node **464382**. Treat all three as protected; do not query them to refine their state.
+**464382**, **464378**, **464377**, **464367**, **464346**, **463964**, **463936**, **463912**,
+and **463904** are all durably
 denylisted; never infer that a stable display name means a stable machine ID or that a paused or
 pausing adjacent resource is available.
 

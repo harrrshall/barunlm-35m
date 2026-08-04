@@ -1,0 +1,64 @@
+{
+  "schema_version": "barun-action-correction-duplicate-firewall-adversarial-audit-v1",
+  "run_id": "20260805-0500-action-correction-duplicate-firewall-audit-s17",
+  "attempt": 1,
+  "recorded_at": "2026-08-05T05:00:04+05:30",
+  "conclusion": "no_go_for_population_launch_or_authorization_boundary",
+  "scope": "Independent read-only audit of the first structural duplicate/component firewall revision",
+  "audited": {
+    "source_path": "src/barunlm/evaluation/action_correction_duplicate_firewall.py",
+    "source_sha256": "03d455ea44ffffde5a177d95b5aff0f9030bbafa7a6b745211b8c4b706a124f7",
+    "test_path": "tests/test_action_correction_duplicate_firewall.py",
+    "test_sha256": "36df01a186d17f4780157c58bd081d1b991d8ac7f2289c4fd7bcd8865fdcd25d"
+  },
+  "blocking_findings": {
+    "public_receipt_constructor_accepts_forged_counts_and_commitments": true,
+    "forged_receipt_sha256": "0d98da0fad95bc6ecaab958c0f6903708c359a00973f8047e79f176a9090bb3e",
+    "post_build_object_setattr_tamper_retains_pass": true,
+    "tampered_receipt_sha256": "aaf179cd18ba9ef003dcc64ee027717856ae6669faa656bc83fb531d0613ea52",
+    "loaded_record_role_tamper_revalidated": false,
+    "loader_rebinding_can_produce_pass": true,
+    "authorization_rebinding_can_emit_true_launch": true,
+    "role_roster_rebinding_can_omit_D": true,
+    "lineage_and_duplicate_axis_rebinding_can_reduce_enforcement": true,
+    "source_identity_bound": false,
+    "duplicate_views_derived_from_bound_raw_records": false,
+    "near_edge_truth_independently_computed": false,
+    "near_pair_scan_completeness_bound": false,
+    "dependency_contents_verified": false,
+    "exact_T_P_D_roster_or_quota_bound": false,
+    "embedded_or_suffix_role_markers_stripped": false,
+    "caller_authored_three_role_records_passed_with_zero_near_edges": true
+  },
+  "honest_input_findings": {
+    "strict_canonical_byte_loading_and_hash_validation_work": true,
+    "all_eight_lineage_axes_close_transitively": true,
+    "all_three_duplicate_axes_close_transitively": true,
+    "submitted_near_edges_close_transitively": true,
+    "T_P_D_nonempty_required": true,
+    "receipt_truthfully_declares_structural_only": true,
+    "receipt_truthfully_disclaims_external_semantic_truth": true,
+    "focused_tests_passed": 39,
+    "adjacent_tests_passed": 173,
+    "ruff_passed": true,
+    "format_check_passed": true
+  },
+  "access": {
+    "population_rows_rendered_or_read": 0,
+    "model_or_tokenizer_loaded": false,
+    "cuda_accessed": false,
+    "jarvislabs_accessed": false,
+    "network_accessed": false,
+    "mobile_reused_development_756_rows_read": 0,
+    "mobile_official_evaluation_961_rows_read": 0,
+    "private_labels_read": 0,
+    "protected_resources_mutated": []
+  },
+  "authorization": {
+    "structural_honest_input_prototype_retained": true,
+    "scientific_duplicate_or_provenance_receipt_accepted": false,
+    "population_materialization": false,
+    "model_or_cuda": false,
+    "source_bound_rederiving_successor_and_independent_reaudit_required": true
+  }
+}
