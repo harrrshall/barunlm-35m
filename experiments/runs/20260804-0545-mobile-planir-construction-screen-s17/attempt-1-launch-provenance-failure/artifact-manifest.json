@@ -1,0 +1,74 @@
+{
+  "checkpoint_manifest_files_in_bundle": 0,
+  "file_count_excluding_manifest": 14,
+  "files": {
+    "controller-failure.json": {
+      "bytes": 472,
+      "sha256": "bc95353228f93976c13adc18350c425b40651bb83a84d515834746011de7dee1"
+    },
+    "controller/attempt-preregistration.json": {
+      "bytes": 3140,
+      "sha256": "dd69923ce26b49567daa687805588a6b79438ea9f80e357c5598d88ae6d24eff"
+    },
+    "controller/configs/mobile_planir_construction_screen_v1.json": {
+      "bytes": 8467,
+      "sha256": "cca598e6f5a76a5e848a8b9a869cad779bbcbb17999217d2488111b22e2aa34c"
+    },
+    "controller/requirements/mobile-planir-screen.txt": {
+      "bytes": 291,
+      "sha256": "6db8f37c0c21aea4a4ad93d7193b82217e73d3090db6b8947a9a9321aefb21c9"
+    },
+    "controller/source-snapshot.json": {
+      "bytes": 17271,
+      "sha256": "ca090cdaf88555fb0255dd3e7cc5a77ae8f78a51579281805540c9fe1986b5d7"
+    },
+    "data/materialized-v1/assignment.jsonl": {
+      "bytes": 2327873,
+      "sha256": "13eaad3ba5cf9da6dfad3dc5a73300599bf79ad29697c7d576807fed00ea6c3f"
+    },
+    "data/materialized-v1/audit.json": {
+      "bytes": 6854,
+      "sha256": "646523ed299bb4b742c25c594aa08f4ecf79e3f2445db84fff9a6b6eead7d946"
+    },
+    "data/materialized-v1/exclusion.jsonl": {
+      "bytes": 758,
+      "sha256": "7593b556b9c096308ca1a9e9d9b89627ebf19710da930bd4dd5794c58879616a"
+    },
+    "data/materialized-v1/screen-a.jsonl": {
+      "bytes": 3911700,
+      "sha256": "08fd5e09bfda66b4b0cb31e7ef19bbb3a71a52e13f4fbe7c3b1dd3ea1cf402e7"
+    },
+    "data/materialized-v1/screen-b.jsonl": {
+      "bytes": 3958515,
+      "sha256": "81ab11b96a8330d19ebd41c6fcac5680f86a7652e721b495c1d24fc9f7a6c50d"
+    },
+    "data/materialized-v1/screen-c.jsonl": {
+      "bytes": 3953923,
+      "sha256": "c5c16ba5a785118dfdf8ca4665369ff375592c46ee8d066adbad9dcb0eff04ef"
+    },
+    "data/materialized-v1/train-a.jsonl": {
+      "bytes": 15658095,
+      "sha256": "702b6c0abd4c12d128b4e089cd8b2f7c57058fa7e50c5641978d225fb7529317"
+    },
+    "data/materialized-v1/train-b.jsonl": {
+      "bytes": 15839029,
+      "sha256": "30ccad10845196116c5205445b4b3e3aa2eb108434469e5fed3e27ae9d6fe3d2"
+    },
+    "data/materialized-v1/train-c.jsonl": {
+      "bytes": 15805943,
+      "sha256": "9aa0987b2b43af55e8dcbb1d6f921349282878ac58fe92d3ddadc953f97e51f5"
+    }
+  },
+  "human_confirmation_rows_read": 0,
+  "human_selection_rows_read": 0,
+  "materialized_construction_artifacts_in_bundle": 9,
+  "official_mobile_961_rows_read": 0,
+  "reused_mobile_756_rows_read": 0,
+  "run_id": "20260804-0545-mobile-planir-construction-screen-s17",
+  "schema_version": "barun-mobile-planir-essential-v1",
+  "screening_weight_files_present_in_remote_execution_tree": 0,
+  "screening_weights_in_bundle": false,
+  "status": "failed_closed",
+  "total_bytes_excluding_manifest": 61492331,
+  "weight_like_files_in_bundle": []
+}

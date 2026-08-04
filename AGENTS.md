@@ -43,11 +43,15 @@ The authoritative 2026-08-04 state and experiment boundary are in
 `docs/current-status-and-next-experiment.md`. Read that file before launching training or changing
 release claims.
 
-The implementation and evaluation contract for the proposed next hypothesis is in
+The implementation and evaluation contract for the latest closed hypothesis is in
 `docs/grounded-planir-and-human-evaluation.md`. The narrow construction-internal Grounded PlanIR
-screen is authorized for exactly one attempt under run
-`20260804-0545-mobile-planir-construction-screen-s17`; generalized or decisive Grounded PlanIR is
-not launch-authorized. The config SHA-256 is
+screen was authorized for exactly one attempt under run
+`20260804-0545-mobile-planir-construction-screen-s17`. Attempt 1 failed closed in the first remote
+launch-provenance validation because the JarvisLabs dependency preamble copied
+`mobile-planir-screen.txt` into the stage root outside the frozen allowlist. It failed before
+config decode, CPU validation, Torch/CUDA/model access, construction-row reads, or model output.
+The run and placeholder-v2 recipe are now closed; generalized or decisive Grounded PlanIR is not
+launch-authorized. The config SHA-256 is
 `cca598e6f5a76a5e848a8b9a869cad779bbcbb17999217d2488111b22e2aa34c` and the requirements
 SHA-256 is `6db8f37c0c21aea4a4ad93d7193b82217e73d3090db6b8947a9a9321aefb21c9`. Every retry,
 rescue, refit, promotion, Qwen comparison, and human-label access is forbidden. Its
@@ -68,16 +72,19 @@ decisive human-provenance fields. Do not describe the screen as fresh even after
 
 The final independent prelaunch audit passed the exact remote CPU gate (343 tests), the complete
 repository suite (799 tests), Ruff, formatting, config/data/token/runtime binding, phase-firewall
-review, raw-freeze revalidation, and compact-bundle failure-path tests. Launch only from an
-intentional clean commit and minimal allowlisted stage through `infra/jarvis/safe_run.py`, using one
-fresh H200, Axolotl, CPython 3.11.10, Torch 2.13.0/CUDA 13.0, IN2, non-spot, 40 GB storage, and a
-45-minute watchdog. Any operational or scientific failure is terminal for this run and recipe.
+review, raw-freeze revalidation, and compact-bundle failure-path tests. The sole launch used clean
+commit `d2f434a`, source snapshot
+`ca090cdaf88555fb0255dd3e7cc5a77ae8f78a51579281805540c9fe1986b5d7`, and bound attempt
+`dd69923ce26b49567daa687805588a6b79438ea9f80e357c5598d88ae6d24eff`. Its terminal failure is
+documented under the run's `attempt-1-launch-provenance-failure/` directory. The no-retry clause is
+now spent: never patch and relaunch this run or recipe.
 
 Placeholder-v2 is only a narrow seven-Mobile-tool, empty-context, timezone-naive calendar
-mechanism. Its next allowed experiment is a construction-internal matched A/B/C screen, never a
-fresh, Qwen, release, or breakthrough result. A pass licenses a generalized
-context/timezone/arbitrary-schema compiler; the decisive human populations must not be commissioned
-or accessed until that generalized contract and its claims are frozen.
+mechanism, and its one allowed construction-internal attempt is over without a model result. It may
+remain as CPU-only representation/compiler evidence, but no further placeholder-v2 training,
+screen, Qwen comparison, release, rescue, or breakthrough claim is authorized. A genuinely
+distinct next hypothesis and fresh leakage-controlled population boundary must be preregistered
+before any new model or CUDA access.
 
 The evaluation firewall uses label-free public prompt records and separate HMAC-authenticated
 private label envelopes. A pinned renderer and tokenizer recompute model-visible bytes and token
@@ -139,11 +146,11 @@ compatibility scoring, and official-961 evaluation were never reached. No optimi
 screening checkpoint, or promoted weight is in the evidence bundle. Candidate-v2 remains the
 release checkpoint and the Month-Boundary Counterfactual SFT recipe is closed. Do not retry,
 rescue, alter thresholds, select a seed, or modify frozen
-`configs/mobile_temporal_counterfactual_v3.json`. At that closure there was no active training
-experiment. The later narrow PlanIR mechanism screen above is a genuinely distinct,
-construction-internal hypothesis with a new immutable config and run ID; it does not reopen v3 or
-make its old populations fresh. The observed v3 selection shadow must not be used to tune a
-variation for the untouched confirmation shadow.
+`configs/mobile_temporal_counterfactual_v3.json`. The later narrow PlanIR mechanism screen above
+was a genuinely distinct, construction-internal hypothesis with a new immutable config and run ID;
+its sole attempt also closed before model access. There is now no active training experiment.
+Neither PlanIR nor any future direction reopens v3 or makes its old populations fresh. The observed
+v3 selection shadow must not be used to tune a variation for the untouched confirmation shadow.
 
 ## Decision order
 
@@ -207,8 +214,9 @@ live listing.
 
 Project evidence instances **463689** (the paused Qwen comparison H200), **463786** (the v1
 zero-signal H200 failure), **463788** (the paused L4 Axolotl runtime probe), **463793** (the v2
-pre-CUDA zero-signal H200 failure), and **463802** (the completed v3 selection-gate failure) are
-now durably protected too. Never resume, reuse, rename, stop, or delete any of them. The L4
+pre-CUDA zero-signal H200 failure), **463802** (the completed v3 selection-gate failure), and
+**463843** (the terminal pre-model PlanIR launch-provenance failure) are now durably protected too.
+Never resume, reuse, rename, stop, or delete any of them. The L4
 provider preamble proved Axolotl selected CPython 3.11.10, but the probe script itself did not run
 because the intentionally minimal directory had no project metadata; do not describe it as a
 successful model or scientific run.

@@ -13,9 +13,11 @@ Qwen lead. Preserve candidate-v2 and its int8 derivative; do not tune this resul
 SmolLM2 failure as a general win, or inspect the sealed 961-row Mobile evaluation population.
 The valid temporal v3 experiment strongly corrected its targeted month-copy shortcut but failed
 the complete frozen selection gate, so it produced no promotable checkpoint. That recipe is
-closed. A distinct narrow Grounded PlanIR hypothesis has since passed pre-model review for one
-retrospective construction-internal attempt only; it is not fresh evaluation and cannot promote a
-checkpoint or support a larger-model claim.
+closed. A distinct narrow Grounded PlanIR hypothesis then passed pre-model review, but its sole
+remote attempt failed closed during launch provenance before model or row access; its run and
+placeholder-v2 recipe are closed without a scientific result. Candidate-v2 therefore remains the
+usable checkpoint while a genuinely distinct hypothesis and fresh population boundary are
+researched.
 
 ## Execution status: v1 and v2 stopped before science; v3 completed and was rejected
 
@@ -189,10 +191,10 @@ was observed; confirmation was not, but preserving it for another related varian
 optional stopping. Any later analysis may describe v3; it may not authorize another v3 arm,
 threshold, seed, mixture, or checkpoint.
 
-## Authorized next experiment: construction-internal Grounded PlanIR screen
+## Closed experiment: construction-internal Grounded PlanIR screen
 
-The next and only authorized training experiment changes the model's output decomposition rather
-than adjusting the failed temporal data mixture:
+The next authorized training experiment changed the model's output decomposition rather than
+adjusting the failed temporal data mixture:
 
 > A 35M model will compile personal actions more accurately when it preserves canonical Action IR
 > but predicts compact typed references and symbolic operators for calendar datetimes, which a
@@ -206,11 +208,24 @@ versioned model/compiler contract. Compiler success proves schema-valid lowering
 separate BarunAction policy assessment still requires authorization/confirmation and never permits
 real execution.
 
+Its one allowed remote attempt is now over without a model result. On clean commit `d2f434a`,
+JarvisLabs' managed dependency preamble copied `mobile-planir-screen.txt` into the uploaded stage
+root. The first stdlib launch-provenance check rejected that unexpected file before config decode,
+the CPU gate, Torch/CUDA/model access, any construction-row read, or any output. Machine `463843`
+was pause-verified and protected after the fail-closed bundle was downloaded. The bound attempt is
+`dd69923ce26b49567daa687805588a6b79438ea9f80e357c5598d88ae6d24eff`; the remote log is
+`80c28afb9c8cb5b717653207e9bfc330c81cd545f1a1630c9750f46855a58461`. The frozen contract
+makes every operational failure terminal, so this run and placeholder-v2 recipe are closed with no
+retry, rescue, or relaunch. This is operational evidence, not evidence for or against PlanIR model
+quality.
+
 The implemented placeholder-v2 compiler is a narrow seven-Mobile-tool, empty-context,
 timezone-naive calendar mechanism. It is not yet the generalized context/timezone/unseen-schema
-system required by the mission. Its next use is a construction-internal A/B/C mechanism screen
-only. Even a pass cannot be reported as fresh evidence, a Qwen win, or a breakthrough; it only
-licenses development of the generalized compiler.
+system required by the mission. Its sole authorized use was a construction-internal A/B/C
+mechanism screen. That use ended at launch provenance before model access, so no further
+placeholder-v2 use is authorized. Under the frozen counterfactual, even a pass could not have been
+reported as fresh evidence, a Qwen win, or a breakthrough; it would only have licensed
+generalized-compiler development.
 
 A construction-only schema audit now shows that this representation is implementable: a frozen
 four-operation date grammar plus prompt-grounded clocks represents 2,069/2,070 calendar calls and
@@ -265,43 +280,40 @@ pinned 5,745-row oracle and tokenizer receipts; Ruff and format checks also pass
 is frozen before model output: 4,596 training rows and 1,149 screen rows across disjoint
 `cluster_id` components and nested families. The sole known oracle reject is a singleton screen
 component and is excluded symmetrically from A/B/C, so the scored population is 1,148 identical
-IDs per arm. The final independent audit authorizes exactly one attempt of run
+IDs per arm. The final independent audit authorized exactly one attempt of run
 `20260804-0545-mobile-planir-construction-screen-s17`. The frozen config SHA-256 is
 `cca598e6f5a76a5e848a8b9a869cad779bbcbb17999217d2488111b22e2aa34c`; the requirements
 SHA-256 is `6db8f37c0c21aea4a4ad93d7193b82217e73d3090db6b8947a9a9321aefb21c9`. The exact remote
 gate passes 343 tests; the full repository passes 799 tests; Ruff and formatting pass. The runner
 enforces nine base-reset completion-only step-73 fits, frozen token totals, checkpoint-before-screen
 and raw-before-score barriers, an exact pinned scorer, export-time evidence hashes, one fresh
-H200/Axolotl/CPython 3.11.10/Torch 2.13.0/CUDA 13.0 environment, and no retry. A failed internal
-model gate or any operational failure ends this run and recipe without rescue. If it passes,
-generalize first; only a later fresh generalized pass may unlock matched
-Qwen2.5-0.5B-Instruct and larger-model claims.
+H200/Axolotl/CPython 3.11.10/Torch 2.13.0/CUDA 13.0 environment, and no retry. The attempt then
+failed operationally at the first provenance check, so the preregistered terminal rule closed the
+run and recipe. The conditional generalized and matched-Qwen lanes were never unlocked.
 
 ## Operational order from here
 
 1. Keep candidate-v2 and its public W&B `v0` artifacts as the usable release. Import the verified
    v3 negative result into public source evidence without predictions, private inventory, logs, or
    credentials.
-2. The placeholder-v2 representation/compiler/oracle, human-data firewall, narrow A/B/C screen,
-   exact config, runner, launch provenance, and evidence exporter are implemented and independently
-   audited. Preserve their hashes; old v3 construction rows remain internal-ablation data and
-   public benchmarks remain compatibility evidence.
-3. Create a minimal allowlisted stage from the intentional clean commit, bind one fresh
-   exact-ID-controlled JarvisLabs H200 through `safe_run`, and do not retry for any reason. It must
-   never read human, old held-out, reused-756, or official-961 rows.
-4. Use that remote resource for mechanism training and evaluation. Download evidence before
-   pause-verifying only the newly created ID. Preserve every outcome and promote nothing from this
-   internal screen.
-5. If and only if it passes, generalize the compiler and then acquire separately commissioned human
-   selection and once-only confirmation collections under the frozen provenance contract. Do not
-   run decisive training while source independence, license/consent, coverage, exact round-trip
-   correctness, duplicate audits, or access controls are unproven.
+2. Preserve the terminal placeholder-v2 attempt, its fail-closed hashes, and its provider-transform
+   lesson. Do not alter its allowlist and retry; no training or screen row was read, and no PlanIR
+   quality conclusion exists.
+3. Keep the generic human-data firewall implementation, but do not commission or open human labels
+   for this closed recipe. A later distinct hypothesis still needs external key custody, atomic
+   retirement storage, licensed data, and independently frozen selection/confirmation membership.
+4. Research and preregister a genuinely distinct intervention with a new leakage-controlled
+   population boundary. Require cheap CPU/data/token/coverage checks and a byte-exact simulation of
+   the provider-managed launch transformation before authorizing a new H200.
+5. Use a fresh exact-ID-controlled JarvisLabs resource only after that new contract passes
+   independent review. Candidate-v2 remains the product checkpoint until a later experiment passes
+   its own fresh gate.
 
 ## Resource and publication invariants
 
 Kroda 463058 is running and protected. Independently owned 463719 remains protected regardless of
-its observed lifecycle state. Qwen 463689, failed H200 evidence IDs 463786 and 463793, completed
-v3 H200 evidence ID 463802, and L4 runtime probe ID 463788 are paused and protected. Previously
+its observed lifecycle state. Qwen 463689, failed H200 evidence IDs 463786, 463793, and 463843,
+completed v3 H200 evidence ID 463802, and L4 runtime probe ID 463788 are paused and protected. Previously
 observed unrecognized ID 463697 remains protected even when absent from the latest listing. Do not
 access, resume, stop, rename, or delete any of them.
 Read the exact-ID lifecycle in `AGENTS.md` before creating a new resource. The

@@ -1,0 +1,11 @@
+{
+  "artifacts_preserved": true,
+  "automatic_retry_attempted": false,
+  "error_type": "LaunchProvenanceError",
+  "failed_at": "2026-08-04T01:22:05+00:00",
+  "message": "unexpected file outside the stage allowlist: mobile-planir-screen.txt",
+  "model_output_rows": "derive_from_preserved_execution_artifacts",
+  "retry_authorized": false,
+  "schema_version": "barun-mobile-planir-controller-failure-v1",
+  "screen_rows_read": "derive_from_preserved_execution_artifacts"
+}

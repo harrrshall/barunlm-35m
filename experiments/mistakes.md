@@ -423,3 +423,24 @@ entries.
   other weight-like file. Dedicated temporary-tree tests cover successful replay export, mutated or
   extra data, missing mandatory provenance, and accidental weight selection before a no-retry H200
   launch is allowed.
+
+### Same-day addendum — freeze the provider transformation, not only the uploaded directory
+
+- The sole placeholder-v2 attempt uploaded the exact validated 47-file scientific stage, but the
+  JarvisLabs managed `--requirements` preamble then copied the requirements file into the remote
+  target root as `mobile-planir-screen.txt`. The first stdlib provenance walk correctly rejected
+  that unbound extra file. This was a terminal operational failure before the CPU gate, Torch/CUDA,
+  model access, row decoding, training, or scoring.
+- A clean local stage and mocked runtime-cache tests do not reproduce a provider-managed launch.
+  Before authorizing a future run, capture and simulate the provider's exact target transformation:
+  copied requirement basenames, generated virtual environments, launch wrapper, working directory,
+  and argument ordering. Validate the post-transformation tree locally with the same runtime mode
+  that will execute remotely.
+- Keep scientific fail-closed behavior. The lesson is not to broadly ignore root files; it is to
+  separate provider-owned runtime inputs from the immutable scientific target or bind every
+  provider-created path explicitly. Tests must reject an unknown neighboring file while accepting
+  only the exact provider transform that the next new contract freezes.
+- Run `20260804-0545-mobile-planir-construction-screen-s17` allowed one attempt and declared every
+  operational failure terminal. Machine 463843 is paused and protected, the evidence is preserved,
+  and no retry, rescue, relaunch, or new ordinal is authorized. A reusable orchestration fix belongs
+  to a genuinely distinct future hypothesis, never retroactive permission to rerun placeholder-v2.

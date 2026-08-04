@@ -1,20 +1,27 @@
 # Grounded PlanIR and human-evaluation contract
 
-Status: the narrow construction-internal mechanism screen is independently authorized for exactly
-one attempt as of 2026-08-04. This does not authorize a fresh/decisive experiment, retry, promoted
-checkpoint, release change, human-label access, or larger-model-outperformance claim. The exact
-run is `20260804-0545-mobile-planir-construction-screen-s17`, with config SHA-256
+Status: **closed without a model result**. The narrow construction-internal mechanism screen was
+independently authorized for exactly one attempt on 2026-08-04. Attempt 1 failed closed during its
+first remote launch-provenance validation because the JarvisLabs dependency preamble copied
+`mobile-planir-screen.txt` into the frozen stage root. The error preceded config decode, the CPU
+gate, Torch/CUDA/model access, construction-row reads, and model output. The exact run is
+`20260804-0545-mobile-planir-construction-screen-s17`, with config SHA-256
 `cca598e6f5a76a5e848a8b9a869cad779bbcbb17999217d2488111b22e2aa34c`. BarunLM-35M is the
 canonical 35,072,768-parameter base model; BarunAction-35M candidate-v2 remains the current
-post-trained release.
+post-trained release. No retry, promoted checkpoint, release change, human-label access, or
+larger-model-outperformance claim is authorized.
 
-## Decision
+## Frozen hypothesis and terminal decision
 
-The next distinct hypothesis is **Grounded PlanIR**: ask BarunLM-35M to predict Action IR with a
+The tested proposal was **Grounded PlanIR**: ask BarunLM-35M to predict Action IR with a
 compact typed placeholder for calendar datetimes, then compile that placeholder into the unchanged
 Action IR contract with a frozen, deterministic, fail-closed compiler. The public product continues
 to return Action IR. Any reported result is a model-plus-compiler system result and must separately
 disclose compiler coverage, failures, cost, and the direct-Action-IR control.
+
+The attempt produced no such model-plus-compiler result. Under the preregistered rule that any
+operational failure ended the run and recipe, placeholder-v2 is closed. Keep the implementation as
+CPU-only feasibility evidence and preserve the failure; do not patch the allowlist and relaunch it.
 
 Do not launch the decisive experiment on the former temporal shadows or on a newly salted split
 of them. Old construction rows may support training and a labeled internal mechanism ablation
@@ -23,10 +30,11 @@ only. They cannot become fresh evaluation evidence by being repartitioned.
 Placeholder-v2 is intentionally narrow: its current compiler recognizes the seven frozen Mobile
 tools, changes only `create_calendar_event.datetime`, requires empty context, and uses a
 timezone-naive reference timestamp. It does not test contextual revisions, timezone-aware
-resolution, renamed tools, or unseen schemas. It may support an internal calendar mechanism screen,
-but it cannot consume the decisive human confirmation suite or support the project's broad
-breakthrough claim. A passing mechanism screen licenses work on a generalized
-context/timezone/arbitrary-schema PlanIR contract; it does not promote a model.
+resolution, renamed tools, or unseen schemas. It was eligible only for an internal calendar
+mechanism screen, and its one permitted attempt is now spent and closed. It cannot consume the
+decisive human confirmation suite or support the project's broad breakthrough claim. Under the frozen
+counterfactual, a passing mechanism screen would have licensed work on a generalized
+context/timezone/arbitrary-schema PlanIR contract; it would not have promoted a model.
 
 ## Why this hypothesis comes before more SFT or distillation
 
@@ -310,23 +318,22 @@ compiler opportunity, teacher information, seed set, and selection budget. Publi
 diagnostics and the sealed Mobile final evaluation follow candidate freeze; they do not select the
 candidate.
 
-## Immediate execution order
+## Closure and next execution order
 
-1. Preserve quote-v1 as an oracle/feasibility baseline. The CPU-testable placeholder-v2 table
-   builder, parser, compiler, oracle, failure taxonomy, token audit, and construction-only receipt
-   are implemented and passed independent review with their pinned receipts unchanged.
-2. The matched construction-internal screen, exact config/requirements, phase-firewalled runner,
-   pinned scorer, launch provenance, and evidence exporter passed the exact 343-test remote gate,
-   the 799-test full suite, and independent review. Freeze an intentional clean commit/source
-   snapshot, then run its sole allowed attempt on one fresh isolated JarvisLabs H200. A failure
-   closes placeholder-v2; a pass licenses generalized-compiler work, not a release or larger-model
-   claim. Every retry is forbidden.
-3. The machine-readable human prompt/envelope schemas, signed receipt, and access-ledger protocol
-   are implemented and must pass review. Provisioning an external isolated label store, key
-   custody, single-use selection scorer, and durable atomic ledger remains a Stage 2 pre-model
-   requirement.
-4. Generalize and freeze context/timezone/arbitrary-schema PlanIR before acquiring the two human
-   populations through that service. A missing licensed/provenance-complete population is a
-   pre-model stop, not permission to relabel public data as fresh.
-5. Only then preregister the fresh matched arms and create new, isolated JarvisLabs resources. Never
-   resume or reuse a protected instance.
+1. Preserve quote-v1 and placeholder-v2 only as oracle, token, compiler, and failure evidence. The
+   sole remote attempt is documented under
+   `experiments/runs/20260804-0545-mobile-planir-construction-screen-s17/attempt-1-launch-provenance-failure/`.
+2. Treat the operational outcome as terminal for this run and recipe. Machine `463843` is paused
+   and protected. Never retry, resume, rescue, alter the allowlist for a second attempt, or call the
+   absence of a score evidence for or against PlanIR quality.
+3. Retain BarunAction-35M candidate-v2 as the usable release. There is no active training
+   experiment until a genuinely distinct hypothesis and new leakage-controlled population boundary
+   pass research, cheap pre-model tests, immutable preregistration, and independent review.
+4. Preserve the human prompt/envelope, signed-receipt, and access-ledger implementation as generic
+   evaluation infrastructure. External key custody, isolated label storage, single-use scoring,
+   and durable atomic persistence remain mandatory before any future fresh human population is
+   acquired or disclosed.
+5. Every future Jarvis launch rehearsal must simulate provider-side transformations exactly,
+   including the managed requirements-file copy into the remote target, before attempt
+   authorization. Operational lessons may transfer to a new hypothesis; this recipe and screen may
+   not.
