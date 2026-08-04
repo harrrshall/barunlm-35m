@@ -1,6 +1,6 @@
 # BarunAction-35M current status and next experiment
 
-Status: authoritative handoff as of 2026-08-04. Read this before changing weights, launching a
+Status: authoritative handoff as of 2026-08-05. Read this before changing weights, launching a
 JarvisLabs resource, publishing artifacts, or interpreting the larger-model comparisons.
 
 ## Decision in one paragraph
@@ -15,9 +15,13 @@ The valid temporal v3 experiment strongly corrected its targeted month-copy shor
 the complete frozen selection gate, so it produced no promotable checkpoint. That recipe is
 closed. A distinct narrow Grounded PlanIR hypothesis then passed pre-model review, but its sole
 remote attempt failed closed during launch provenance before model or row access; its run and
-placeholder-v2 recipe are closed without a scientific result. Candidate-v2 therefore remains the
-usable checkpoint while a genuinely distinct hypothesis and fresh population boundary are
-researched.
+placeholder-v2 recipe are closed without a scientific result. GVS-v1 was then closed before
+population collection or model access because its requested effective-component counts were
+incompatible with its honest lineage rule. The active Generate-Correct SFT v1 work is CPU-only:
+its proposal is nonauthorizing, and only the 5,744-row training replay primitive has passed an
+independent audit. No BarunAction training experiment is active. Candidate-v2 therefore remains
+the usable checkpoint while the distinct correction hypothesis is materialized and audited behind
+a fresh population boundary.
 
 ## Execution status: v1 and v2 stopped before science; v3 completed and was rejected
 
@@ -293,78 +297,175 @@ run and recipe. The conditional generalized and matched-Qwen lanes were never un
 
 ## Operational order from here
 
-1. Keep candidate-v2 and its public W&B `v0` artifacts as the usable release. Import the verified
-   v3 negative result into public source evidence without predictions, private inventory, logs, or
-   credentials.
-2. Preserve the terminal placeholder-v2 attempt, its fail-closed hashes, and its provider-transform
-   lesson. Do not alter its allowlist and retry; no training or screen row was read, and no PlanIR
-   quality conclusion exists.
-3. Keep the generic human-data firewall implementation, but do not commission or open human labels
-   for this closed recipe. A later distinct hypothesis still needs external key custody, atomic
-   retirement storage, licensed data, and independently frozen selection/confirmation membership.
-4. Research and preregister a genuinely distinct intervention with a new leakage-controlled
-   population boundary. Require cheap CPU/data/token/coverage checks and a byte-exact simulation of
-   the provider-managed launch transformation before authorizing a new H200.
-5. Use a fresh exact-ID-controlled JarvisLabs resource only after that new contract passes
-   independent review. Candidate-v2 remains the product checkpoint until a later experiment passes
-   its own fresh gate.
+1. Keep candidate-v2 and its Darwin ARM64 int8 derivative as the usable public release. Preserve
+   the Qwen loss, the v3 rejection, and the terminal PlanIR failure without rescue or relabeling.
+2. Preserve immutable W&B evidence `v0` as the authoritative scientific mirror and keep its
+   corrected privacy statement visible. The proposed redacted `v1` publication is closed without
+   upload after an adversarial prelaunch no-go; never retry that run or invoke its upload path.
+3. Preserve GVS-v1 as closed CPU research evidence. Do not collect its populations, run candidate
+   support, train its rankers, deploy its custody rehearsal, or create compute for that contract.
+4. Develop Generate-Correct SFT v1 only through its CPU gates. The present v1 proposal and direct
+   replay receipt authorize neither full synthetic materialization nor model access. A distinct
+   materialized config and run ID are required after the renderer, lineage, duplicate, token,
+   diagnostic, scorer, phase-firewall, and provider-transform audits pass.
+5. If and only if that later config receives an independent go decision, create one fresh
+   exact-ID-controlled H200 for the nine frozen A/B/C fits. Download evidence and checkpoints before
+   pausing that exact ID. Never touch Kroda, Kimi, Kriti, or any protected evidence instance.
+6. Apply the frozen hierarchy without seed selection, threshold edits, rescue data, or a tenth fit.
+   Candidate-v2 remains the public incumbent unless a later checkpoint satisfies every applicable
+   quality, safety, efficiency, compatibility, packaging, and fresh-evaluation requirement.
 
-## Preferred next research proposal: Generate-Verify-Select v1
+## Closed CPU proposal: Generate-Verify-Select v1
 
-The best current proposal is GVS-v1, detailed in `docs/generate-verify-select-v1.md`. Keep
-candidate-v2 frozen, generate eight Action IR candidates, and train only a 135,617-parameter
-shared-backbone verifier to choose among them. The complete unique parameter count would be
-35,208,385. This directly tests whether candidate ranking, rather than candidate support, explains
-the known value-only errors and avoids another uninformative full-generator SFT variation.
+GVS-v1 is closed before population collection, candidate generation, model loading, CUDA, training,
+or human-label access. Its CPU implementation remains useful for simulator, candidate-decoder,
+ranker, custody-rehearsal, and inferential-design research, but it is not launchable and produced no
+verifier or model-quality result.
 
-GVS-v1 is not an active or launch-authorized experiment. Its decisive cheap stop comes first: on a
-new 2,000-cluster program-first support population, frozen candidate-v2 must reach at least 85%
-oracle pass@8, at least ten points above greedy, and place the correct action among eight candidates
-for at least half of its greedy failures. If that fails, do not train a verifier. If it passes, the
-next work is fresh population/service provisioning, hard-negative and shortcut audits, immutable
-causal-arm preregistration, and independent review—not immediate GPU training.
+The decisive feasibility audit found that the frozen joint-lineage rule unions every shared author,
+source, batch, schema, template, paraphrase, entity, temporal, content, and duplicate ancestry.
+Under that rule, the proposed eight schema families cannot support 2,000 effective D components,
+the identity schema cannot honestly span roles, one alias macro is not thousands of independent
+schema sources, and required nonapplicable fields collapse rows. Reaching the requested counts
+would require identifier laundering. The full result is
+`experiments/runs/20260805-0205-gvs-v1-contract-feasibility-audit-s17/result.json`, SHA-256
+`27a1f8a536b2c2193091428d13e8b6bd543587fbdb56e48d21d2e76c82105dac`.
 
-An independent scientific audit passed the proposal's distinctness and exact static parameter
-arithmetic, but returned no-go for model loading, CUDA, training, or human-label access. The current
-CPU-only support scorer binds K=8 sample-level evidence and exact denominators, but it is only
-preliminary plumbing: it still needs per-stratum floors and cluster intervals, an exact decoder and
-verifier contract, a deterministic semantic state-transition simulator, joint T/D/S/C duplicate
-closure, a GVS-specific one-shot receipt, and a frozen deployment/quantization budget. The existing
-simulator only blocks or logs calls, and the existing human receipt is PlanIR-specific. Frozen
-candidate-v2 greedy must be an explicit comparator; selection cannot be licensed merely by beating
-K=8 likelihood ranking.
+The preceding real-roster reproduction produced eight components from 16 otherwise unique rows and
+failed a floor of nine exactly; a shared batch collapsed the same population to one component.
+That record is
+`experiments/runs/20260805-0140-gvs-effective-component-audit-s17/result.json`, SHA-256
+`f5285533105ccd867076d344955b10e9160200472bf0f41be5fe0ead127a0ba2`.
+Never patch GVS-v1 identifiers, weaken closure, or reinterpret nominal rows as effective evidence.
 
-The safe next action is therefore CPU/data implementation and another prefreeze audit. A generic
-provider-transform rehearsal now models the observed JarvisLabs managed copy of an explicitly
-pinned requirements file into the upload root and rejects every unexpected neighbor. Its receipt
-binds the caller-supplied observed CLI version and implementation-contract hash, which a future
-preregistration must obtain and verify independently. This addresses the exact operational mismatch
-that ended PlanIR without changing or retrying that closed recipe. No new JarvisLabs resource should
-be created until the remaining GVS contracts pass.
+A future verifier experiment would need a new hierarchical contamination and inference contract,
+nullable inapplicable axes, role-blind family allocation, an explicit identity-compatibility lane,
+annotator dependence, and reserve collection. That would be a new experiment, not a GVS-v1 retry.
 
-Current validation: 57 GVS support tests, 53 provider-controller tests, and the 145-test combined
-GVS/provenance slice pass. The complete repository passes 863 tests; Ruff and formatting pass. A
-read-only decoder audit recommends a native one-group ordinary Torch beam implementation with the
-existing deployed greedy result fixed at rank zero, rather than adding Transformers. That design is
-not frozen: tokenizer EOS/pad receipts, deterministic likelihood/tie rules, decoder trace hashes,
-and adapter-off identity tests remain prerequisites.
+## Active CPU proposal: Generate-Correct SFT v1
 
-The bounded simulator design is also fixed at the planning level: a pure in-memory state oracle for
-reminders, calendars, contacts, notes/lists, routes, a simulated outbox, media, settings, and policy
-controls, with atomic transitions and schema-valid single-fault certificates. It must not become a
-phone emulator or real connector. The GVS authorization design requires derived connected-component
-closure across all T/D/S/C roles, mandatory pre-outcome strata, whole-population one-shot claims,
-and receipts binding prompts, labels, candidate traces, checkpoints, tokenizer, simulator, scorer,
-seeds, and final-fit lineage. Numerical support/selection/confirmation thresholds remain
-provisional until an independent power analysis; observing D/S/C may never choose them.
+The next distinct generator-side hypothesis is documented in
+`docs/generate-correct-sft-v1.md`. CPU-prefreeze run
+`20260805-0230-action-correction-forge-screen-s17` asks whether the same
+35,072,768-parameter BarunAction-35M weights can learn to inspect one draft and repair argument
+bindings in one correction pass. The typed config is
+`configs/action_correction_forge_screen_v1.json`, SHA-256
+`3f1862a403dcf76edb82268f46688f44ce33027904dc11357b1c9cfc4b68931a`.
 
+This direction is motivated by the observed failure shape—149 of candidate-v2's 154 reused-Mobile
+misses were value-only—but it may use that result only as aggregate motivation. It may not train on
+the 756 prompts, targets, paired Qwen wins, v3 selection or confirmation shadows, the PlanIR screen,
+PRESTO development, GVS populations, or the official 961 rows.
+
+### Frozen causal design
+
+Every trained fit starts from exact candidate-v2 and preserves the 35,072,768-parameter
+architecture. Arms A, B, and C use seeds 17, 29, and 43, for exactly nine fits:
+
+- A repeats direct `prompt -> complete Action IR` supervision.
+- B masks one semantic field and reconstructs the complete Action IR.
+- C receives either an exact draft or one simulator-certified semantic fault, exactly 8,192 of
+  each, and returns the complete corrected Action IR.
+
+No-fit modes include canonical BarunLM-35M base B0, frozen candidate-v2 G0 and two-pass G02,
+two-pass A2, and arm-C one-pass C1 versus intended two-pass C2. Pass 2 may see only the original
+model-visible input, the pass-1 draft, and draft-derived parse/schema/policy/simulator diagnostics.
+No gold value, fault type, oracle, label, or reference answer may be visible. A policy-conformant
+proposal is still only a proposal: `execution_permitted` remains false and no real tool runs.
+
+The fallback is deterministic: return a valid, schema-valid, policy-conformant pass 2; otherwise a
+conformant pass 1; otherwise canonical `ABSTAIN`. There is no retry loop. Pass-1 and pass-2 token
+caps are explicit unresolved blockers and must be frozen before any model access.
+
+Each fit is planned for 38,512 rows and 602 optimizer updates: 5,744 shared replay rows, 16,384
+shared direct synthetic rows, and 16,384 arm-specific rows. The recipe proposes one full-parameter
+BF16 epoch, batch 64, AdamW at 5e-5, exact 18-step warmup, cosine decay, response-only loss, no
+packing, no truncation, no early stopping, and final checkpoint only. Equal source IDs, complete
+targets, supervised target-token totals, example counts, and update counts remain requirements to
+verify after materialization; input tokens and FLOPs are deliberately not claimed matched.
+
+### Data boundary and first verified primitive
+
+`ActionCorrection-Forge-v1` plans 16,384 deterministic program-first training rows and 4,096
+nominal hypothesis-fresh internal synthetic screen rows across thirteen action families plus
+`ABSTAIN`, `CLARIFY`, and `CONFIRM`. The screen is not human-fresh, decisive, powered, or a
+breakthrough benchmark. Its 4,096 rows are not claimed as 4,096 independent components. Role
+assignment must precede rendering, and honest semantic/template/schema/entity/temporal/context
+ancestry plus exact, normalized, delexicalized, and near-duplicate closure must determine the
+effective grouping.
+
+The replay boundary is now independently reproducible. The exact 5,745-row construction source,
+minus the pinned singleton bad label, yields 5,744 byte-preserved direct Action IR training rows:
+
+| Replay item | SHA-256 |
+| --- | --- |
+| Output manifest | `f964587bbed79f451c2d5360677c22d176ed9a96c750fff6e12852e57530d863` |
+| Accepted membership | `27f9acb8905db132420ddb5d11a20bed138f2e2927aec41672f6852b3895452d` |
+| Direct-target commitment | `131b7b3094fcfc3cbf919cdf2cd5fb8062ac7a492fc57a8eff45fbdcfe163389` |
+| Materializer receipt | `3df25123e1761c54fa0e0b01ca501fd1913ec65abece38683c2b3706cb7a15f5` |
+
+The audit is
+`experiments/runs/20260805-0244-action-correction-replay-audit-s17/result.json`, SHA-256
+`2e7c2ed74088fc3a130b6c6c0bbb9628154dd2295cc7912f2970ff0d756652fa`.
+It is training-only, non-fresh, non-selection, and nonauthorizing.
+Its original “without importing PlanIR ... targets” phrase was too broad at the source-module
+level: the audited implementation imported the shared tool registry through `grounded_planir` and
+used that run's exclusion ledger as provenance, while reading no PlanIR representation, compiler
+output, target, or screen row. The append-only correction SHA-256 is
+`4b06a63570bce9e746f4aef83bdb7ba9ea38495111aa0133ad96dbb2c18372ea`; the schema registry now
+lives in the neutral `mobile_action_schemas.py` module.
+
+The bounded program-first forge prototype also passed its CPU audit. It covers thirteen simulator
+operations plus `ABSTAIN`, `CLARIFY`, and `CONFIRM`; fixes role-exclusive families before render;
+constructs matched A/B/C views; exposes only draft-derived diagnostics; and certifies a single
+semantic fault without exposing that certificate to the model view. It is hard-limited to two
+fixtures per stratum and built only 16 T plus 16 D rows in tests. It cannot materialize the planned
+population or claim independent components. The audit is
+`experiments/runs/20260805-0230-action-correction-forge-screen-s17/prototype-audit.json`, SHA-256
+`d07b8aa69594c33b52e88f3f9639fa99012130fec647c99a9490ca7d264d20db`.
+
+### Keep rule and unresolved blockers
+
+C2 is kept internally only if the complete frozen quality, validity, safety, and M5 Pro efficiency
+conjunction passes. The principal margins are +5 execution points over G0, +3 over A, B, A2, and
+G02, +3 Action IR exact over A and B, +2 for C2 over C1, +5 argument-value exact over A and B,
+positive comparisons in at least two seeds and 12 of 16 strata, at least 98% clean-draft retention,
+at least 40% one-fault repair, and fixes exceeding regressions by at least 3:1. Parse validity must
+be at least 99.5%, schema validity at least 99%, false actions may rise by at most one point, and
+catastrophic unauthorized actions, missing outputs, generation failures, and truncations must all
+be zero.
+
+The sole possible preview checkpoint is the predesignated seed-17 final checkpoint of the first arm
+that passes the hierarchy. Seed 17 must independently pass every applicable quality, validity,
+safety, and efficiency gate; seeds 29 and 43 are replication only. Best-seed selection, averaging,
+post-screen refit, and a tenth fit are forbidden.
+
+The current config deliberately remains nonauthorizing because the synthetic rows, lineages,
+duplicate closure, target/token budgets, runtime diagnostic proof, scorer, provider transform, and
+phase firewall are not frozen. The standing synthetic-tranche retention half is also unevaluable
+while the reused 756 and official 961 remain inaccessible. Therefore this v1 proposal cannot
+authorize an H200 or replace the public release. A later materialized run needs a new immutable
+config, run ID, exact hashes, independent prelaunch audit, and an explicitly preregistered terminal
+compatibility rule.
 ## Resource and publication invariants
 
 Kroda 463058 is running and protected. Independently owned 463719 remains protected regardless of
-its observed lifecycle state. Qwen 463689, failed H200 evidence IDs 463786, 463793, and 463843,
-completed v3 H200 evidence ID 463802, and L4 runtime probe ID 463788 are paused and protected. Previously
-observed unrecognized ID 463697 remains protected even when absent from the latest listing. Do not
-access, resume, stop, rename, or delete any of them.
+its observed lifecycle state. The adjacent Kimi owner has repeatedly recreated its job under the
+same display name. Structured machine IDs 463912, 463936, 463964, 464346, and 464367, plus the
+endpoint-derived historical misidentification 463904, are all durably denylisted regardless of
+their observed lifecycle state. Never infer a lifecycle target from the stable display name, and
+do not inspect, connect to, rename, pause, resume, reuse, or delete any of those resources. Qwen
+463689, failed H200 evidence IDs 463786, 463793, and 463843, completed v3 H200 evidence ID 463802,
+and L4 runtime probe ID 463788 are paused and protected. Previously observed unrecognized ID
+463697 remains protected even when absent from the latest listing. Do not access, resume, stop,
+rename, or delete any of them.
+At 22:37 Asia/Kolkata on 2026-08-04, an explicit user-authorized cleanup permanently destroyed the
+twelve paused historical Barun instances 463556, 463572, 463575, 463594, 463606, 463622, 463631,
+463636, 463642, 463674, 463675, and 463686 after verifying that their corresponding local run
+directories were present. A post-cleanup safe inventory showed all twelve absent and showed only
+the six protected Barun evidence instances above remaining. Kroda and all non-Barun resources were
+outside the operation and untouched. The deleted instances are irrecoverable; their local evidence
+and append-only ledger records remain authoritative.
 Read the exact-ID lifecycle in `AGENTS.md` before creating a new resource. The
 current local orchestrator uses an open-lid `/usr/bin/caffeinate -i` assertion; it does not survive
 lid close, shutdown, power loss, or network loss.
@@ -373,3 +474,10 @@ No credential belongs in the repository, artifacts, logs, documentation, or comm
 The latest user direction authorizes a public BarunAction model/evidence release. Keep the score
 claim narrow, include Apache-2.0 plus Mobile Actions/PRESTO attribution, publish immutable artifact
 versions rather than `latest`, and verify every downloaded byte before calling the release usable.
+The local 296-file privacy-redacted evidence view is not published. Run
+`20260805-0250-candidate-v2-redacted-evidence-v1` failed its prelaunch publication audit because
+W&B version assignment cannot atomically reserve `v1`, postcommit failures can leave no local
+receipt, and anonymous-read verification was absent. No upload or network operation occurred.
+Closure verification SHA-256
+`ddd4ac6fd6f34999b104fca01f627ac40ddd38e73050a6b7c66f75e37141d72a` proves the public and
+internal executors now reject remote modes and the mutation/download implementations are removed.

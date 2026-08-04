@@ -1,11 +1,16 @@
 # BarunAction Generate-Verify-Select v1 research proposal
 
-Status: **CPU/data design only; no model load, CUDA run, training, or human-label access is
-authorized**. An independent scientific audit found the mechanism worth testing but issued a
-no-go for model work until the decoder, simulator, strata, custody, receipt, and deployment
-contracts below are implemented and frozen. GVS-v1 is a new hypothesis, not a retry or rescue of
-temporal SFT or placeholder-v2 PlanIR. It has no frozen run ID, scientific config, dataset receipt,
-or compute authorization yet.
+Status: **closed at the pre-collection population/inference-contract gate; never launch or rescue
+GVS-v1**. No model load, CUDA run, training, JarvisLabs resource, or human-label access occurred or
+is authorized. Independent reviews found the mechanism worth testing and
+implemented or hardened much of the decoder, simulator, population/support/power, schema
+presentation, verifier, calibration, shortcut, schema-partition, and pre-authoring population
+plumbing. The final CPU patch-and-rerun review passed, but the later feasibility audit proved that
+the requested effective D/S/C sample sizes cannot be constructed honestly under the current
+lineage rules. GVS-v1 was distinct from temporal SFT and placeholder-v2 PlanIR, but it never
+received a frozen model-experiment run ID, scientific config, dataset receipt, or compute
+authorization. Its CPU code is archival nonauthorizing evidence; a future verifier test requires a
+new versioned population/inference contract rather than altered identifiers inside v1.
 
 ## Decision
 
@@ -54,26 +59,36 @@ Primary research supports the mechanism while also setting limits:
 - [PA-Tool](https://aclanthology.org/2026.acl-long.948/) shows that schema alignment can help small
   models without retraining. That is useful later for renamed/unseen schemas, but the current paired
   evidence points primarily to argument values, so schema renaming is not the first intervention.
+- [SCaTR](https://arxiv.org/abs/2604.16535) selects candidates with shallow classifiers over the
+  last non-padding token from the penultimate transformer layer. Its reported models were
+  1.7B--30B, so the fixed Barun linear/MLP controls test transfer rather than assume it.
+- [Tool Calling is Linearly Readable and Steerable](https://arxiv.org/abs/2605.07990) studies
+  270M--27B models and reports that its linear tool-selection circuit was absent at 270M and began
+  emerging around 1B. This is direct reason to treat a hidden-state ranker at 35M as a cheap
+  falsification probe, not the preferred treatment.
 
 ## Proposed 35.21M system
 
 Candidate-v2's 35,072,768 generator parameters remain immutable. The intended decoder attempts
 exactly `K=8` ordered slots and includes byte-identical greedy output at rank zero. Every slot is
 parsed and schema-checked independently; invalid candidates are measured and never repaired. Raw
-duplicates remain in the evidence, while `effective_k` counts distinct schema-valid canonical
-actions. Every row stays in every denominator. A row-level generation failure is reserved for no
+duplicates remain in the evidence, while `effective_k` counts distinct schema-valid lowered
+semantic actions under a frozen order-aware canonicalization. Every row stays in every denominator.
+A row-level generation failure is reserved for no
 output, no valid candidate, or any truncation; a duplicate or invalid slot reduces effective K and
 candidate validity but is not silently dropped or relabeled as a whole-row failure. The verifier
-ranks only valid canonical candidates. If none remains, it records a failure rather than inventing
-an action.
+ranks only complete, nontruncated, schema-valid distinct lowered semantic actions. If none remains,
+it records a failure rather than inventing an action.
 
-That decoder is not implemented or frozen yet. Before `D-support` can be exposed, one immutable
-contract must bind candidate count, greedy inclusion, beam/group allocation, diversity penalty,
-length normalization, min/max new tokens, EOS and truncation behavior, raw-likelihood
-recomputation, canonical serialization/deduplication, tie-breaking, and failure semantics. Golden
-vectors must prove determinism. The verifier contract must likewise bind prompt/candidate bytes,
-adapter toggling, pooling token, attention mask/padding, score serialization, objective, and tie
-rules. Candidate order and generator rank/likelihood must be hidden from the learned verifier.
+The decoder CPU reference and golden vectors are implemented; they are not yet a frozen population
+receipt. Before `D-support` can be exposed, one immutable audited artifact must bind candidate
+count, greedy inclusion, beam/group allocation, diversity penalty, length normalization, min/max
+new tokens, EOS and truncation behavior, raw-likelihood recomputation, semantic canonicalization
+and deduplication, tie-breaking, checkpoint/tokenizer/runtime identities, and failure semantics.
+The verifier contract must likewise bind prompt-plus-generated-token bytes, adapter toggling,
+pooling token, attention mask/right padding, score serialization, exact-mask alignment, objective,
+and semantic-identity tie rules. Candidate order and generator rank/likelihood must be hidden from
+the learned verifier.
 
 The verifier reuses the same Barun backbone and adds rank-8 LoRA only to every attention `q_proj`
 and `v_proj`, plus one scalar head. With the canonical configuration (`dim=448`, 12 layers, seven
@@ -226,32 +241,82 @@ claim.
 
 ## Independent audit and implementation state
 
-The independent review passed only the distinctness of the hypothesis and the static parameter
-arithmetic. It explicitly returned **no-go for model/CUDA/human access**. The repository now has a
-CPU-only prototype that recomputes parameter counts and binds sample-level K=8 support evidence
-with exact-rational denominators. This prototype is useful fail-closed plumbing, but its aggregate
-thresholds are not a launch receipt and it still needs strata, cluster intervals, decoder binding,
-the state-transition simulator, and a GVS-specific one-shot evaluator. A generic local rehearsal of
-the observed JarvisLabs managed requirements-file copy is also implemented so the modeled provider
-transformation that ended PlanIR can be simulated on a disposable tree before any future resource
-is created. Its caller-supplied CLI version and contract hash still require independent binding in
-that future preregistration.
+The first independent review passed only the distinctness of the hypothesis and the static
+parameter arithmetic. It explicitly returned **no-go for model/CUDA/human access**. Subsequent CPU
+work now recomputes parameter counts, binds K=8 sample/component and per-stratum support evidence,
+implements the decoder, state-transition simulator, population firewall, power primitives, and
+GVS-specific receipt/claim prototype, and retains exact-rational denominators. These are useful
+fail-closed primitives, not a launch receipt. The rank-hidden verifier bridge, schema partition,
+component-balanced shortcut controls, and final patched-code re-audits are now complete. Numerical
+intervals/floors from a real roster, actual authored populations, external secret custody,
+single-use signing, and durable atomic retirement still block access. A generic local rehearsal of
+the observed JarvisLabs managed
+requirements-file copy also simulates the provider transformation that ended PlanIR on a disposable
+tree. Its caller-supplied CLI version and contract hash still require independent binding in a
+future preregistration.
+
+The final evidence is
+`experiments/runs/20260805-0046-gvs-cpu-prefreeze-audit/result.json`, SHA-256
+`6d948c05a14881c761990f070a96b7caeb87a23ac83bc4d38fba1bf9e5aa0468`.
+The append-only correction `correction-20260805-0057.json`, SHA-256
+`9c374760429b488f9c756d189b6c547876b3446ecbb702e08039ef92234bb3d0`,
+clarifies that its displayed 85%/+10-point/50% values are provisional targets, not frozen gates.
+The complete repository passed 1,338 tests, and the independent integration slice passed 365
+overlapping tests; do not add those counts. Ruff, formatting, `py_compile`, and whitespace checks
+passed. The final audit reproduced and closed forged program/membership commitments before this
+record was frozen.
 
 The implemented support evidence retains all eight attempted slots, measures invalid and truncated
 outputs, preserves duplicates while deriving unique schema-valid `effective_k`, and makes any
-no-output, no-valid-candidate, or truncation row fail the preliminary gate. Its 57 focused tests
-pass. The modeled provider transform has 53 focused tests; the combined support/provenance slice
-passes 145 tests. The current complete repository passes 863 tests, with Ruff and formatting clean.
+no-output, no-valid-candidate, or truncation row fail the preliminary gate. The 57 support, 53
+provider-transform, 145 combined, and 863 complete-suite counts below are historical
+pre-implementation checkpoints and overlap; never sum them or present them as the current complete
+suite. They are superseded by the current evidence above.
 
 A separate read-only decoder audit found that the smallest repository-native v1 is ordinary Torch
 beam search rather than a new Transformers dependency: rank zero calls the existing greedy
 `BarunLM.generate`, ranks one through seven come from one zero-diversity beam group, and final
-likelihood is recomputed from generated-token log probabilities. The proposed initial settings are
-no sampling or repair, `max_new_tokens=192`, EOS-only stopping, EOS included in likelihood, and
-explicit parent/token/rank tie rules. This is a design recommendation, not a frozen config. Before
-implementation can bind `D-support`, the tokenizer-only EOS/pad IDs, exact Python/Torch/Tokenizers
-versions, checkpoint/tokenizer/prompt hashes, continuation token IDs, likelihood bytes, adapter-off
-identity, and complete decoder trace must be receipted and covered by synthetic golden vectors.
+likelihood is recomputed from generated-token log probabilities. The CPU reference now implements
+that design with no sampling or repair, `max_new_tokens=192`, EOS-only stopping, EOS included in
+likelihood, explicit parent/token/rank tie rules, runtime/model/tokenizer identity, and synthetic
+vectors. The CPU bridge now proves the structural prompt/candidate bindings, but a future
+population still must bind its exact checkpoint, tokenizer, prompt, continuation tokens,
+likelihood bytes, adapter-off identity, complete trace, and external custody receipt.
+
+### 2026-08-05 CPU prefreeze delta
+
+The CPU implementation now contains the proposed native K=8 decoder and likelihood selector;
+bounded semantic simulator and certified single-fault construction; joint population firewall,
+component-conservative support, and exact-rational power primitives; identity/renamed schema
+presentation; decoder-to-simulator bridge; exact LoRA verifier; adapter-only serialization; and
+two frozen-hidden calibration controls. The control sizes are exactly 449 parameters for a biased
+linear projection and 29,793 parameters for a `448 -> 64 -> 16 -> 1` ReLU MLP, compared with
+135,617 trainable parameters for the proposed LoRA verifier. These controls do not change the
+35,072,768-parameter generator and cannot authenticate feature provenance by themselves.
+
+The LoRA verifier's rank-free selection contract requires exactly eight slots. Each distinct valid
+slot uses the SHA-256 of exact canonical lowered Action IR bytes as side metadata; invalid and
+semantic-duplicate slots use `null`. Ties resolve by canonical identity, not list position. The
+audited bridge proves exact prompt-plus-generated-token construction, canonicalization version,
+order-independent semantic deduplication, generator-frozen state, and absence of rank,
+beam-origin, likelihood, or list-position features. This is structural evidence only: it has not
+seen a real T/D/S/C record or licensed model loading.
+
+A separate GVS receipt/ledger prototype binds the proposed population, custody, generator,
+ranker, tokenizer, decoding, rendering, presentation, simulator, candidate, prediction, scorer,
+runtime, power, source, and ledger-service commitments. It HMAC-seals exact gate results and claims
+the entire D/S/C population before labels may be parsed. Its in-repository validation passed
+adversarial review, but external secret custody, a single-use signer, and an atomic durable
+compare-and-append service remain required; an in-process Python callback is not durability.
+
+SCaTR motivates the frozen-hidden controls but does not validate them at this scale: its evaluated
+models were 1.7B--30B. A separate 2026 mechanistic study reported no linear tool-selection circuit
+at 270M and emergence around 1B. BarunLM-35M is much smaller. Therefore the 449-parameter linear
+and 29,793-parameter MLP arms are falsification/high-information controls, not favored treatments.
+The one-shot D-support oracle gate decides whether ranking is viable. A failure closes GVS without
+training and directs the next preregistration toward generator-side correction SFT; a pass licenses
+comparison against R0 likelihood, both calibrated controls, the LoRA verifier, and matched
+correction SFT. RL stays deferred.
 
 ### Bounded semantic simulator
 
@@ -310,19 +375,47 @@ byte-identical greedy rank zero, no outcome-dependent exclusion/retry, atomic on
 100% availability of a non-catastrophic fail-closed option on safety components, and zero
 catastrophic unauthorized actions.
 
-## Implementation order
+The live real-roster bridge now proves that the preliminary allocation cannot satisfy that rule.
+With 16 rows and eight honest role-scoped schema-family IDs, the firewall derives eight components
+of size two, and a minimum of nine fails exactly. A shared collection batch reduces those eight to
+one; identifiers shared across roles cause an earlier cross-role rejection. Scaling the same
+allocation to 2,000 nominal rows does not increase its maximum eight schema-family components. The
+current schema/batch/source allocation is therefore rejected before collection; no model-quality
+conclusion exists. Evidence is frozen in
+`experiments/runs/20260805-0140-gvs-effective-component-audit-s17/result.json`, SHA-256
+`f5285533105ccd867076d344955b10e9160200472bf0f41be5fe0ead127a0ba2`.
 
-1. Preserve the PlanIR failure and keep candidate-v2 unchanged.
-2. Finish the program/state-transition simulator schema, hard-negative taxonomy, deterministic
-   candidate decoder, per-stratum support scorer, shortcut baselines, exact verifier/adapter tests,
-   GVS receipt, and provider-transform rehearsal. Keep this phase CPU/data-only.
-3. Obtain an independent prefreeze audit, then provision the external prompt/label custody and
-   atomic retirement services before collecting `S-new` or `C-new`.
-4. Build and audit `T-new` and `D-support` mostly on JarvisLabs. Run the no-training support gate.
-5. If and only if support passes, freeze a new run ID, config, hashes, exact source memberships,
-   compute budget, and gates; obtain independent prelaunch review before creating a fresh resource.
-6. Download evidence before exact-ID pause verification. Never resume or reuse protected machines,
-   including 463843.
+Separately, the offline human-collection packager and local SQLite retirement store passed
+adversarial CPU reviews after closing concrete leakage, runtime-substitution, path, ownership,
+hardlink, race, and rebinding defects. The exact combined record is
+`experiments/runs/20260805-0149-gvs-collection-retirement-cpu-audit-s17/result.json`, SHA-256
+`38b411c8378a36370cec3b512be27f8e23273feb9839a2fb1f2c2a77ee8c8b76`. Those modules
+remain explicitly nonauthorizing: they provide neither real human provenance nor an isolated
+signer/custody/anti-rollback service, and no collection has started.
 
-Until steps 2-5 are complete, GVS-v1 is a research direction, not an active experiment. The next
-authorized action is step 2 only—not a JarvisLabs model run.
+The final feasibility review found that this is not a repairable eight-family allocation bug inside
+v1. Under the current union rule, achieving the requested effective counts requires every row to
+be a singleton on every author/source/batch/schema/template/paraphrase/entity/temporal axis. The
+same identity schema cannot honestly span roles; one alias generator macro does not create
+independent schema sources; and the planner's unique slots explicitly are not provenance. Six
+thousand S/C singleton authors would also require at least 18,000 author/label/review task
+completions before adjudication, while v1 has no reserve and does not account for repeated
+labeler/reviewer dependence. The full audit is
+`experiments/runs/20260805-0205-gvs-v1-contract-feasibility-audit-s17/result.json`, SHA-256
+`27a1f8a536b2c2193091428d13e8b6bd543587fbdb56e48d21d2e76c82105dac`.
+
+## Closure
+
+1. Preserve candidate-v2, the CPU implementation, all audit defects/fixes, and the exact hashes
+   above as nonauthorizing evidence.
+2. Never collect GVS-v1 data, deploy its custody scaffold, claim `D-support`, load candidate-v2 for
+   K=8, create a JarvisLabs resource, train a verifier, or tune identifiers to escape the result.
+3. A future verifier experiment must use a new versioned contract with hierarchical ancestry,
+   nullable inapplicable axes, role-blind whole-family assignment, a strict contamination graph,
+   separately justified multiway/hierarchical inference units, a fixed identity-compatibility lane,
+   annotator dependence, and predeclared reserve collection. That is not a GVS-v1 retry.
+4. The active next experiment, if pursued instead, must be a genuinely distinct generator-side
+   intervention with a fresh internal development boundary and its own immutable preregistration.
+
+GVS-v1 is closed without a model-quality result. Its verifier mechanism remains scientifically
+untested, and no larger-model or breakthrough claim follows in either direction.

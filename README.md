@@ -26,8 +26,9 @@ the paired comparison records 80 Qwen-only wins, 19 Barun-only wins, and 657 tie
 rows remained untouched. The hypothesis that candidate-v2 beats a strong larger matched baseline
 therefore failed on this development probe. An earlier SmolLM2 result of 0/756 remains
 model-and-recipe-specific and cannot support a general larger-model claim. A separate frozen
-Mobile-plus-PRESTO rescue also found no joint passer. The exact handoff and next experiment are
-documented in `docs/current-status-and-next-experiment.md`.
+Mobile-plus-PRESTO rescue also found no joint passer. The
+[exact handoff and next experiment](https://github.com/harrrshall/barunlm-35m/blob/barunaction-v1.1.0/docs/current-status-and-next-experiment.md)
+are documented publicly.
 
 A later, independently replayed Month-Boundary Counterfactual SFT experiment taught a real but
 localized repair: across three seeds, the 35M intervention improved cross-month calendar-datetime
@@ -49,8 +50,24 @@ uv run --with 'wandb==0.28.1' wandb artifact get \
 ```
 
 The release was independently re-downloaded and all 310 files were hash-verified. See the
-[retrieval instructions](docs/barunaction-retrieval.md) for the int8 and evidence identities,
-digests, and verification receipts.
+[retrieval instructions](https://github.com/harrrshall/barunlm-35m/blob/barunaction-v1.1.0/docs/barunaction-retrieval.md)
+for the int8 and evidence identities, digests, and verification receipts.
+The immutable evidence `v0` also contains non-secret workstation paths and protected-resource
+mentions that an early privacy summary overlooked. No credential marker or signed endpoint was
+found. A proposed redacted W&B version was stopped before upload because its version reservation
+was not atomic; `v0` remains the complete authoritative mirror.
+
+Try the installed safety contract without weights, a checkpoint, a network connection, or files
+from this repository:
+
+```console
+barunaction demo
+```
+
+The deterministic JSON result validates one proposal, rejects one malformed output, and blocks the
+side-effecting proposal in the in-memory-only simulator. Its top-level
+`execution_permitted: false` and `external_side_effects: false` fields are the safety summary. The
+demo exercises validation and simulation only; it does not claim to demonstrate model quality.
 
 ```console
 uv sync --python 3.11
@@ -68,9 +85,11 @@ uv run --python 3.11 barunaction infer \
 ```
 
 Every successful proposal still returns `execution_permitted: false`. See the
-[model card](docs/barunaction-model-card.md), [data card](docs/barunaction-data-card.md),
-[retrieval instructions](docs/barunaction-retrieval.md), and
-[int8 evidence](docs/int8-quantization.md) before use.
+[model card](https://github.com/harrrshall/barunlm-35m/blob/barunaction-v1.1.0/docs/barunaction-model-card.md),
+[data card](https://github.com/harrrshall/barunlm-35m/blob/barunaction-v1.1.0/docs/barunaction-data-card.md),
+[retrieval instructions](https://github.com/harrrshall/barunlm-35m/blob/barunaction-v1.1.0/docs/barunaction-retrieval.md), and
+[int8 evidence](https://github.com/harrrshall/barunlm-35m/blob/barunaction-v1.1.0/docs/int8-quantization.md)
+before use.
 
 ## BarunLM-35M base model
 

@@ -1,0 +1,48 @@
+{
+  "access": {
+    "cuda_accessed": false,
+    "jarvislabs_accessed": false,
+    "model_loaded": false,
+    "network_accessed": false,
+    "wandb_artifact_created": false,
+    "wandb_download_performed": false,
+    "wandb_imported_by_remote_entrypoint_tests": false,
+    "wandb_upload_attempted": false
+  },
+  "closure": {
+    "download_helper_contains_remote_implementation": false,
+    "lowest_internal_executor_rejects_remote_modes_before_path_validation": true,
+    "public_executor_rejects_remote_modes_before_path_validation": true,
+    "upload_helper_contains_mutation_implementation": false
+  },
+  "code": {
+    "builder_sha256": "a18e47c1388b1cad3e283ec0fa9d88cf37e2afa57fd61a609e746d186fbd8b1b",
+    "builder_test_sha256": "d88bd3b431f82e3f60fc81ed159d724d5a4bf15fb671dcb2355ebc1537e2f60d",
+    "publisher_sha256": "58d817f8ab10e861c21980172915f4f7cfbe7f7b5ad535686bf380c6c5a96db1",
+    "publisher_test_sha256": "3eec6ecb76c012fbcc3c84b3f184246bf35d0bd4b794d48f953d09f157a555ce"
+  },
+  "corrects_no_go_audit_sha256": "117b77ed345213a98662804b236ff24e574bf25874e4c267b9358fbbc50e4770",
+  "local_view": {
+    "composite_bytes_including_receipt": 136122628,
+    "composite_sha256": "2e99caf130d4bba41f9269d9395b0f28096c59ae4c2e9375aa9f73320ecefe12",
+    "derived_file_count": 296,
+    "derived_tree_sha256": "c01de7b30c516bfb7c44625cf46ddd9bf2034ccd171f3af0f841383a94b73827",
+    "dry_run_created_local_receipt": false,
+    "dry_run_created_wandb_directory": false,
+    "redaction_receipt_sha256": "141203cff6491f9e23a3bbf62e4c6e0ae9c62bc0c4503e14e9b3702db5564a4e",
+    "upload_file_count_including_receipt": 297
+  },
+  "recorded_at": "2026-08-04T21:51:04Z",
+  "run_id": "20260805-0250-candidate-v2-redacted-evidence-v1",
+  "schema_version": "barunaction-redacted-evidence-no-go-closure-verification-v1",
+  "validation": {
+    "focused_passed": 20,
+    "protected_id_464346_builder_redacted": true,
+    "protected_id_464346_publisher_rejected": true,
+    "protected_id_464367_builder_redacted": true,
+    "protected_id_464367_publisher_rejected": true,
+    "real_297_file_dry_run_passed": true,
+    "ruff_check_passed": true,
+    "ruff_format_check_passed": true
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "access": {
+    "cuda_accessed": false,
+    "human_labels_read": 0,
+    "jarvislabs_accessed": false,
+    "mobile_official_evaluation_961_rows_read": 0,
+    "mobile_reused_development_756_rows_read": 0,
+    "model_loaded": false,
+    "network_accessed_by_auditor": false,
+    "wandb_artifact_created": false,
+    "wandb_download_performed": false,
+    "wandb_upload_attempted": false
+  },
+  "conclusion": "blocked",
+  "decision": "Do not invoke --upload under this run or retry it. Preserve authoritative public v0 and correct the documentation. Any future redacted distribution must use a new content-addressed publication contract and run ID.",
+  "findings": [
+    {
+      "blocking": true,
+      "code": "non_atomic_remote_version_assignment",
+      "detail": "A latest-is-v0 preflight cannot atomically reserve v1. A concurrent or partially completed publication can commit v2 before the postcondition rejects it, leaving an irreversible remote mutation without a local receipt."
+    },
+    {
+      "blocking": true,
+      "code": "anonymous_read_gate_unimplemented",
+      "detail": "Credentialed SDK download verification does not prove the preregistered anonymous public-read gate."
+    },
+    {
+      "blocking": true,
+      "code": "launch_contract_not_commit_bound",
+      "detail": "The preregistration did not bind a clean source commit, entity, or the builder, publisher, and test hashes, and the publisher did not verify the preregistration bytes."
+    },
+    {
+      "blocking": true,
+      "code": "protected_id_policy_stale",
+      "detail": "The generic redaction code predated newly protected adjacent Kimi IDs 464346 and 464367. The pinned local view contains neither ID, but the source policy and tests were not current."
+    }
+  ],
+  "local_view": {
+    "credential_markers_found": 0,
+    "derived_file_count": 296,
+    "derived_tree_sha256": "c01de7b30c516bfb7c44625cf46ddd9bf2034ccd171f3af0f841383a94b73827",
+    "redaction_receipt_sha256": "141203cff6491f9e23a3bbf62e4c6e0ae9c62bc0c4503e14e9b3702db5564a4e",
+    "upload_file_count_including_receipt": 297
+  },
+  "preregistration_sha256": "74990574d41d78d5c8b34e6b27594e71b1dd6257642f480b35fbd4ed823a6b9e",
+  "recorded_at": "2026-08-04T21:33:18Z",
+  "run_id": "20260805-0250-candidate-v2-redacted-evidence-v1",
+  "schema_version": "barunaction-redacted-evidence-publication-no-go-v1",
+  "validation": {
+    "actual_view_dry_run_passed": true,
+    "independent_adversarial_tests_passed": 30,
+    "publisher_combined_tests_passed_before_no_go": 51,
+    "ruff_check_passed": true,
+    "ruff_format_check_passed": true
+  }
+}

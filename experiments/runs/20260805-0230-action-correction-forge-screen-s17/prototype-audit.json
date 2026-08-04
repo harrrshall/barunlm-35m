@@ -1,0 +1,60 @@
+{
+  "access": {
+    "cuda_accessed": false,
+    "existing_prompt_or_label_dataset_read": false,
+    "human_labels_read": 0,
+    "jarvislabs_accessed": false,
+    "mobile_official_evaluation_961_rows_read": 0,
+    "mobile_reused_development_756_rows_read": 0,
+    "model_loaded": false,
+    "network_accessed": false
+  },
+  "authorization": {
+    "authorizes_cuda_or_jarvislabs": false,
+    "authorizes_full_population_materialization": false,
+    "authorizes_model_access": false,
+    "authorizes_training_or_launch": false,
+    "population_materialized": false
+  },
+  "conclusion": "keep",
+  "contract": {
+    "config_sha256": "3f1862a403dcf76edb82268f46688f44ce33027904dc11357b1c9cfc4b68931a",
+    "contract_module_sha256": "09d63c7ee45c8a5c3c71490fc37f40ae7effab746884a41d2667deecb90f8b9c",
+    "contract_test_sha256": "60e34c80670eff5ff543c77060a8259d2db2c589f7c245ca7738126c60103044",
+    "design_sha256": "3911801a64063926d5ddc005444a67102c3020b769e91ff1726994685a43f768"
+  },
+  "decision": "Keep the bounded deterministic source/view implementation as CPU prefreeze evidence only. It cannot satisfy data quotas, authorize a materialized config, or support a model-quality claim.",
+  "prototype": {
+    "arm_views": [
+      "A",
+      "B",
+      "C"
+    ],
+    "control_decision_strata": 3,
+    "fixture_rows_built_per_role_in_tests": 16,
+    "fixture_rows_per_stratum_ceiling": 2,
+    "operation_strata": 13,
+    "role_families_fixed_before_render": true,
+    "role_families_mutually_exclusive": true,
+    "source_sha256": "4adc1058e7162cf6ecc62da56f4f447a898613b91cba5624eb0b929c2a7314f7",
+    "test_sha256": "faa1c11c4f817224c80ac93f0ce326a9c6b51190d51f8c4609e5e787b5640f5d"
+  },
+  "recorded_at": "2026-08-04T21:36:10Z",
+  "run_id": "20260805-0230-action-correction-forge-screen-s17",
+  "schema_version": "barunaction-correction-forge-prototype-audit-v1",
+  "scope_limitations": [
+    "No full 16,384-row training population or 4,096-row internal screen was materialized.",
+    "Fixture rows share finite declared families and are not claimed as independent components.",
+    "PAUSE_MEDIA and ABSTAIN have no bindable argument; their bounded one-field perturbation changes decision, while CLARIFY changes missing[0].",
+    "Importing the repository root package still transitively imports Torch even though this module imports only standard-library and CPU evaluation contracts.",
+    "Exact 8,192/8,192 C-arm population balance, duplicate closure, token budgets, scorer, provider transform, and phase firewall remain unresolved."
+  ],
+  "validation": {
+    "adjacent_contract_and_simulator_passed": 82,
+    "complete_repository_passed": 1508,
+    "focused_passed": 20,
+    "py_compile_passed": true,
+    "ruff_check_passed": true,
+    "ruff_format_check_passed": true
+  }
+}

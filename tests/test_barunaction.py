@@ -272,6 +272,29 @@ def test_cli_sandbox_demo_never_executes_external_effects(
     assert payload["simulation"]["external_side_effects"] is False
 
 
+def test_cli_builtin_demo_is_weight_free_strict_and_in_memory_only(
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    code = cli_main(["demo"])
+    payload = json.loads(capsys.readouterr().out)
+
+    assert code == 0
+    assert payload["demo_schema_version"] == "barunaction-weight-free-demo-v1"
+    assert payload["checkpoint_required"] is False
+    assert payload["model_loaded"] is False
+    assert payload["network_required"] is False
+    assert payload["in_memory_only"] is True
+    assert payload["execution_permitted"] is False
+    assert payload["external_side_effects"] is False
+    assert payload["proposal"]["policy"]["execution_permitted"] is False
+    assert payload["simulation"]["status"] == "blocked"
+    assert payload["simulation"]["simulated_calls"] == []
+    assert payload["simulation"]["external_side_effects"] is False
+    assert payload["strict_validation"]["valid_example_accepted"] is True
+    assert payload["strict_validation"]["invalid_example_accepted"] is False
+    assert payload["strict_validation"]["invalid_example_error"]["code"] == "invalid_json"
+
+
 def test_cpu_inference_smoke_reaches_strict_output_validation(tmp_path: Path) -> None:
     checkpoint = tmp_path / "checkpoint"
     hashes = _tiny_cpu_checkpoint(checkpoint)

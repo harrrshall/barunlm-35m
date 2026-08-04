@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "kind": "gvs_cpu_prefreeze_claim_correction",
+  "recorded_at": "2026-08-04T19:27:27Z",
+  "run_id": "20260805-0046-gvs-cpu-prefreeze-audit",
+  "corrects_result_sha256": "6d948c05a14881c761990f070a96b7caeb87a23ac83bc4d38fba1bf9e5aa0468",
+  "field": "next_decision.pass_requirements",
+  "incorrect_implication": "The serialized 0.85 oracle pass@8, 10-point greedy gap, and 0.5 greedy-failure recovery values could be read as frozen pass requirements.",
+  "correct_interpretation": "Those values are provisional proposal targets only. No D-support pass threshold is frozen or authorized until an outcome-independent power specification is derived from the actual pre-outcome connected-component roster and external baseline/discordance assumptions.",
+  "authorization_effect": "none",
+  "authorizes_model_access": false,
+  "authorizes_label_access": false,
+  "authorizes_cuda": false,
+  "authorizes_jarvislabs": false,
+  "authorizes_training": false,
+  "authorizes_launch": false,
+  "result_file_rewritten": false,
+  "reason_result_was_not_rewritten": "The result hash was already entered in the append-only ledger; preserve the original bytes and add an explicit correction instead of silently changing history."
+}

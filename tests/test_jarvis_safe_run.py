@@ -148,6 +148,34 @@ def test_name_and_credential_guards() -> None:
         module.validate_no_sensitive_arguments(["--api-key=never-put-keys-here"])
 
 
+def test_inventory_projection_uses_machine_id_and_drops_access_bearing_fields() -> None:
+    module = load_safe_run()
+    raw = {
+        "machine_id": 463936,
+        "name": "kimi-k3-jl-node-opt-20260804",
+        "status": "Running",
+        "gpu_type": "H200",
+        "num_gpus": 8,
+        "region": "IN2",
+        "is_spot": True,
+        "template": "pytorch",
+        "url": "https://endpoint-derived-463904.invalid/?access-bearing-value=redacted",
+        "ssh_command": "ssh root@address.invalid",
+        "public_ip": "192.0.2.1",
+        "endpoints": ["https://endpoint-derived-463904.invalid"],
+    }
+    assert module.filtered_instance(raw) == {
+        "machine_id": 463936,
+        "name": "kimi-k3-jl-node-opt-20260804",
+        "status": "Running",
+        "gpu_type": "H200",
+        "num_gpus": 8,
+        "region": "IN2",
+        "is_spot": True,
+        "template": "pytorch",
+    }
+
+
 def test_private_denylist_can_be_injected_and_fails_closed(
     monkeypatch: pytest.MonkeyPatch, tmp_path: Path
 ) -> None:

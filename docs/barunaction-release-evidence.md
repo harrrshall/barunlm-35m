@@ -48,8 +48,14 @@ The release evidence artifact contains:
 
 Full JarvisLabs inventories, credentials, caches, official-test material, model checkpoints for
 rejected arms, optimizer state, and unrelated experiment files are excluded. Resource IDs needed
-for scientific provenance remain in the ledger; unrelated project-resource names are not
-redistributed.
+for scientific provenance remain in the ledger. A later audit found that immutable evidence `v0`
+also retains non-access-bearing workstation paths and mentions of unrelated protected resources;
+the earlier claim that those names were not redistributed was too strong. No credential marker or
+signed endpoint was found, and the scientific payload is unaffected. Do not rewrite or hide `v0`.
+A deterministic 296-file local redacted view exists, but its proposed W&B `v1` publication was
+stopped before network access because the service's non-atomic version assignment could create an
+irreversible `v2` during a race and the anonymous-read gate was not implemented. It is not a
+published artifact.
 
 ## Dataset attribution and firewalls
 

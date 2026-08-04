@@ -91,6 +91,7 @@ TRANSITIVE_SOURCE_PATHS = (
     "src/barunlm/evaluation/generation.py",
     "src/barunlm/evaluation/grounded_planir.py",
     "src/barunlm/evaluation/grounded_planir_v2.py",
+    "src/barunlm/evaluation/mobile_action_schemas.py",
     "src/barunlm/evaluation/mobile_actions.py",
     "src/barunlm/evaluation/mobile_planir_screen.py",
     "src/barunlm/evaluation/presto.py",

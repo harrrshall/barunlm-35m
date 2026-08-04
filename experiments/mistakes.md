@@ -444,3 +444,199 @@ entries.
   operational failure terminal. Machine 463843 is paused and protected, the evidence is preserved,
   and no retry, rescue, relaunch, or new ordinal is authorized. A reusable orchestration fix belongs
   to a genuinely distinct future hypothesis, never retroactive permission to rerun placeholder-v2.
+
+### 2026-08-04 addendum — distinguish machine IDs from endpoint identifiers
+
+- The adjacent `kimi-k3-jl-node-opt-20260804` job was initially recorded in `AGENTS.md` as instance
+  463904. A fresh read-only `jl list --json` inventory at 10:38 Asia/Kolkata showed that its actual
+  `machine_id` is 463912; 463904 appears inside provider endpoint naming and was mistaken for the
+  lifecycle identifier.
+- Lifecycle code and manual audits must read the structured `machine_id` field. Never derive a
+  pause/resume/destroy target from a notebook URL, endpoint hostname, public address, display name,
+  list position, or copied prose. Preserve the incorrect historical identifier rather than
+  rewriting the record, and denylist both 463912 and 463904.
+- The raw JSON listing can itself contain access-bearing notebook URLs. Future inventory checks
+  must project only lifecycle-safe fields at the command boundary and must not preserve or quote
+  raw endpoint values in logs, receipts, messages, or committed evidence.
+- No connection or mutation was made. The eight-H200 adjacent job and Kroda 463058 remained
+  untouched. This correction is evidence for stricter exact-ID parsing, not permission to inspect
+  either resource.
+
+At 11:11 Asia/Kolkata, a later safe projected inventory showed the same adjacent job name running
+under a newly created structured `machine_id` 463936. This does not rewrite the earlier correction:
+463912 is now a protected historical machine ID and 463904 remains a protected endpoint-derived
+identifier. All three are denylisted. A display name is not a lifecycle identity, and an adjacent
+owner may recreate a job while this work is running. No connection or lifecycle mutation was made.
+
+At 22:29 Asia/Kolkata, a further safe projected inventory found 463936 paused and discovered a
+separate paused eight-H200 resource named `kimi-k3-jl-node-opt128-20260804` with structured
+`machine_id` 463964. Paused does not mean available: 463964 is an adjacent, unrecognized resource
+and is protected by default. It was added to the durable denylist without connection or lifecycle
+mutation. The lesson is broader than correcting one ID: every fresh inventory may reveal a new
+protected resource, and only a newly created, recorded `barun-*` ID can be operated on.
+
+### 2026-08-04 addendum — restore PyTorch's default-device mode, not only its displayed value
+
+- A decoder test temporarily called `torch.set_default_device("meta")` and restored it with
+  `torch.set_default_device("cpu")`. Although `torch.get_default_device()` then displayed `cpu`,
+  PyTorch retained a process-global `DeviceContext` function mode. A later verifier test correctly
+  rejected that unexpected execution mode, so a broad decoder-to-verifier run failed.
+- The teardown now calls `torch.set_default_device(None)`, which restores the native CPU default
+  and removes the installed mode. The exact decoder test followed by the complete verifier slice
+  passes 42 tests; Ruff and formatting checks pass for the changed decoder test.
+- This was test-process contamination only. It changed no prediction, metric, checkpoint, dataset,
+  remote job, or release artifact. Never weaken verifier execution-mode rejection to accommodate a
+  leaking test; restore process-global state at the test that changed it.
+
+### 2026-08-05 addendum — private factory tokens are not validation
+
+- The deterministic GVS program planner used module-private factory tokens to restrict receipt
+  construction, but a caller able to import the module could still obtain those tokens and create
+  a `ProgramPopulationRecord` whose `program_sha256` was false while `round_trip_passed` serialized
+  as true. The corresponding plan constructor also accepted a false membership commitment.
+- Constructors now live-recompute the exact program, world, authoring packet, simulator round trip,
+  record, roster, membership, runtime, record-set, and artifact-body commitments. The regression
+  test deliberately imports the private tokens and proves that both forged objects fail closed.
+- A private name or unexported token can guide ordinary callers, but it is never an authenticity or
+  integrity boundary. Any serialized scientific claim must be rederived from the bound payload at
+  its public construction and load boundaries.
+
+### 2026-08-05 addendum — independent components, not paraphrase rows, define support
+
+- The first tool-frequency shortcut calibration counted raw D-support rows. Ten paraphrases in one
+  connected component could therefore outweigh one row from an independent component by 10:1,
+  despite the protocol defining effective evidence through connected components.
+- Tool-frequency calibration now assigns unit mass to each independent component and divides that
+  mass equally among its rows. Raw row counts remain diagnostics; exact component masses are
+  serialized and revalidated. The focused audit also closed cross-role prompt/request/trace
+  overlap hidden behind different metadata and rejected forged shortcut receipts.
+- A separate schema audit found that deterministic role-disjoint rename maps were being described
+  too strongly. They prove unseen names under known semantics only; without external custody and
+  authenticated chronology they are not held-out evidence, and they never establish novel semantic
+  schema competence. Those claim flags now remain false.
+
+The final patched repository passed 1,338 tests; the independent integration slice passed 365
+overlapping tests. No model, private label, CUDA device, JarvisLabs resource, reused-756 row, or
+official-961 row was accessed while finding or fixing these issues.
+
+### 2026-08-05 addendum — proposal targets are not frozen power gates
+
+- The first CPU-prefreeze result serialized the proposed 85% oracle pass@8, +10-point greedy gap,
+  and 50% greedy-failure recovery values under a `pass_requirements` key even though the research
+  contract says all numerical thresholds remain provisional until a real pre-outcome component
+  roster and external baseline/discordance assumptions exist. That key could overstate the gate.
+- The result was already hash-bound in the append-only ledger, so it was not silently rewritten.
+  `correction-20260805-0057.json` preserves the original bytes and explicitly limits those values to
+  proposal targets with no authorization effect; the correction is also appended to the ledger.
+- Future prefreeze artifacts must serialize unfrozen values as `provisional_targets`, never
+  `pass_requirements`. Field names are part of the scientific claim boundary, not cosmetic prose.
+
+### 2026-08-05 addendum — nominal rows are not an effective-component roster
+
+- The preliminary GVS allocation proposed 2,000 `D-support` rows and only eight schema families
+  per role. The live population firewall correctly joins every pair of rows that shares a schema
+  family. A controlled reproduction with 16 otherwise independent rows therefore produced eight
+  components of size two, not 16 independent components; a fixed floor of nine failed closed.
+- One honest shared `collection_batch` joined all eight families transitively and reduced the same
+  role to one component. Reusing a family or batch identifier across roles failed even earlier
+  because the component crossed population boundaries. Adding rows does not repair either defect.
+- The mistake was treating a nominal allocation table as if it implied statistical independence.
+  `MAX_FAMILIES_PER_ROLE=8` cannot be copied into `provenance.schema_family` for a powered
+  population, and shared batch/source fields must be audited through the complete lineage graph.
+- The current allocation is rejected before authoring, collection, model loading, CUDA, or
+  JarvisLabs access. The GVS mechanism itself remains untested. Any replacement must bind claimed
+  components to genuinely distinct source and presentation evidence; per-row identifiers invented
+  only to raise the denominator are forbidden.
+
+### 2026-08-05 addendum — an offline collection form is not human-data custody
+
+- The first GVS human-collection scaffold leaked private assignment identity and S/C role/stratum
+  expectations into author or labeler views, allowed quota validation to be altered through a
+  substituted `Counter`, and exposed a rebindable helper that could forge authorization flags.
+  It also described prompt content as authenticated, used a loose license contract, and omitted
+  complete independent-label/no-prediction attestations.
+- The package now exports grouped identifier-free author tasks, derives blinded labeling tasks
+  only after prompt intake, seals separate exact-JSON label envelopes, binds its live runtime, and
+  keeps all provenance, custody, effective-cluster, schema-bridge, power, and authorization claims
+  false. Twenty-six focused tests and an independent adversarial review pass.
+- These checks validate local serialization only. No person was recruited and no prompt or label
+  was collected or opened. Declared identity, time, consent, and license metadata do not become
+  authentic merely because a validator checks their shape.
+
+### 2026-08-05 addendum — a durable database is not an external security boundary
+
+- The initial SQLite retirement rehearsal accepted a caller-supplied false repository root,
+  existing hardlinks, non-exact ownership/modes, and a connect-time path replacement. Its
+  authenticator attribute could also be rebound by ordinary same-process Python.
+- The service now fixes the actual source root, requires owner-only `0700`/`0600`, rejects links,
+  uses no-follow descriptor opens plus descriptor/path identity checks, seals ordinary attributes,
+  and closes connections on validation failure. The focused 20-test suite and 43-test
+  authorization integration pass.
+- Same-UID code can still inspect or interfere with the process and filesystem. External signing,
+  isolated service identity, ACL and target-filesystem validation, backup/anti-rollback anchoring,
+  and crash testing remain mandatory. The storage callback therefore still authorizes no label
+  access and proves no external atomicity.
+
+### 2026-08-05 addendum — adjacent display names can be recreated repeatedly
+
+- A safe projected inventory at 02:14 Asia/Kolkata found that the adjacent Kimi owner had recreated
+  `kimi-k3-jl-node-opt-20260804` as structured `machine_id` 464346 and
+  `kimi-k3-jl-node-opt128-20260804` as 464367. These are distinct from the earlier protected IDs
+  463912, 463936, and 463964 even though the display names repeat.
+- Both new IDs were added to the durable denylist immediately. No endpoint was retained, no
+  connection was made, and no lifecycle action was taken. Kroda 463058 and all unrelated resources
+  remained untouched.
+- A preflight denylist is a snapshot, not a permanent name-to-ID map. Every future provisioning
+  decision must take a fresh safe inventory and protect every pre-existing ID before creating one
+  explicitly named BarunAction resource.
+
+### 2026-08-05 addendum — validate the uploaded artifact, not only its staging allowlist
+
+- The candidate-v2 release documentation said unrelated project-resource names were not
+  redistributed, but the immutable public W&B evidence `v0` retained non-access-bearing local
+  workstation paths and mentions of unrelated protected resources. No credential marker or signed
+  endpoint was found, and predictions, scores, hashes, and scientific provenance were unaffected,
+  but the privacy claim was too strong. Immutable `v0` must not be rewritten or hidden.
+- The first redaction rehearsal correctly verified all 291 files in the staging manifest, yet the
+  uploaded evidence artifact actually contains 296 files because the release logger adds the local
+  release manifest and four hash-bound int8-retention files. Cross-checking the independent W&B
+  redownload receipt caught that five-file boundary mismatch before publication.
+- The corrected local-only builder now reproduces all 296 public files and verifies 135,926,068
+  source bytes before changing anything. Its deterministic derived view redacts 339 occurrences in
+  44 files while rejecting credentials and preserving unmatched bytes. Receipt SHA-256 is
+  `141203cff6491f9e23a3bbf62e4c6e0ae9c62bc0c4503e14e9b3702db5564a4e`; derived-tree
+  SHA-256 is `c01de7b30c516bfb7c44625cf46ddd9bf2034ccd171f3af0f841383a94b73827`.
+- This is not yet a remote publication claim. Any immutable redacted W&B version must be uploaded
+  separately, downloaded into a fresh directory, rehashed over all 296 files plus its receipt, and
+  documented as a nonauthoritative distribution view whose scientific source remains `v0`.
+
+### 2026-08-05 addendum — a version preflight is not an atomic publication reservation
+
+- The proposed redacted W&B publisher checked that `latest` was exact authoritative `v0` before
+  calling `log_artifact`, then required the committed result to be `v1`. An adversarial fake-server
+  run showed that a concurrent or partial publisher could still make W&B assign `v2`; the code
+  would detect the mismatch only after the irreversible remote commit and would write no local
+  success receipt.
+- Any failure after the remote commit but before the local receipt has the same split-brain shape.
+  The preregistration also required anonymous public-read proof, but the verifier used ambient SDK
+  credentials, and it did not bind a clean source commit, fixed entity, or exact code hashes.
+- Run `20260805-0250-candidate-v2-redacted-evidence-v1` is therefore closed without upload,
+  download, network access, model access, CUDA, or JarvisLabs access. Its local redacted view remains
+  useful build evidence only. Never invoke its `--upload` path or retry the run. A future public
+  redacted view needs a new content-addressed destination and a durable precommit/terminal incident
+  protocol; authoritative public evidence remains immutable `v0`.
+
+### 2026-08-05 addendum — representation isolation is not module isolation
+
+- The direct replay audit said it reconstructed direct Action IR “without importing PlanIR ...
+  targets.” It correctly read no PlanIR target, compiler output, or screen row, but the Python module
+  imported the seven Mobile tool schemas from `grounded_planir` and consumed the PlanIR run's
+  one-row exclusion ledger as provenance. The wording could falsely imply complete module
+  independence.
+- The original result and ledger entry remain immutable. A claim-correction receipt narrows the
+  statement without changing any row, target, hash, firewall fact, or authorization. The frozen
+  seven-tool registry now lives in neutral `mobile_action_schemas.py`; the replay imports that
+  registry directly, while the closed PlanIR code re-exports the same object for compatibility.
+- Future audit claims must distinguish representation/compiler access, label/population access,
+  and ordinary source-module dependencies. “No PlanIR targets or compiler” was supported; “no
+  PlanIR module import” was not supported by the audited bytes.

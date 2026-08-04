@@ -1,0 +1,27 @@
+{
+  "authorization_effect": "none",
+  "corrected_claim": "The replay uses no PlanIR representation, compiler, target, or screen row. The audited implementation did import the shared seven-tool schema through the grounded_planir module and consumed the PlanIR run's one-row exclusion ledger as provenance metadata.",
+  "correction": "The original phrase 'without importing PlanIR ... targets' could be read as claiming that no PlanIR module was imported. That was false at the Python dependency level: mobile_construction_replay imported MOBILE_TOOL_SCHEMAS from grounded_planir. The output and firewall claims remain valid, but the module-dependency claim is narrowed explicitly.",
+  "corrects_result_sha256": "2e7c2ed74088fc3a130b6c6c0bbb9628154dd2295cc7912f2970ff0d756652fa",
+  "implementation_addendum": {
+    "current_replay_source_sha256": "bdea1a7f770c38baca2ba0e019527b6b7d79705b44b9353c121b43f34eca3fab",
+    "current_replay_test_sha256": "f3029687d3c398011b8b054f7c15eef0c7eeecbb12e8919efd7bbebad27c354b",
+    "shared_schema_module": "src/barunlm/evaluation/mobile_action_schemas.py",
+    "shared_schema_module_sha256": "e0faef013d99985051c378b1e9aa7cc24d519b130b7677373e71a8bbbd5e598b"
+  },
+  "original_result_rewritten": false,
+  "recorded_at": "2026-08-04T21:48:51Z",
+  "scientific_effect": {
+    "direct_target_commitment_changed": false,
+    "output_manifest_changed": false,
+    "rows_changed": false,
+    "selection_or_evaluation_access_changed": false
+  },
+  "schema_version": "barunaction-replay-claim-correction-v1",
+  "validation": {
+    "focused_and_adjacent_passed": 256,
+    "replay_ast_imports_planir_module": false,
+    "ruff_check_passed": true,
+    "ruff_format_check_passed": true
+  }
+}

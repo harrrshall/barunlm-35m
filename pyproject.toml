@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=69", "wheel"]
+requires = ["setuptools>=77", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -8,12 +8,11 @@ version = "1.1.0"
 description = "Verified local inference and research tooling for BarunLM-35M and BarunAction-35M"
 readme = "README.md"
 requires-python = ">=3.10"
-license = {text = "Apache-2.0"}
+license = "Apache-2.0"
 authors = [{name = "Harshal Singh"}]
 keywords = ["action-compiler", "language-model", "pytorch", "small-language-model"]
 classifiers = [
   "Development Status :: 4 - Beta",
-  "License :: OSI Approved :: Apache Software License",
   "Programming Language :: Python :: 3",
   "Topic :: Scientific/Engineering :: Artificial Intelligence",
 ]
@@ -35,6 +34,9 @@ dev = ["pytest>=8", "ruff>=0.6"]
 Homepage = "https://github.com/harrrshall/barunlm-35m"
 BaseSource = "https://github.com/harrrshall/barunlm-35m"
 BaseModel = "https://huggingface.co/harrrshall/BarunLM-35M"
+BarunActionModelCard = "https://github.com/harrrshall/barunlm-35m/blob/barunaction-v1.1.0/docs/barunaction-model-card.md"
+BarunActionRetrieval = "https://github.com/harrrshall/barunlm-35m/blob/barunaction-v1.1.0/docs/barunaction-retrieval.md"
+BarunActionEvidence = "https://github.com/harrrshall/barunlm-35m/blob/barunaction-v1.1.0/docs/barunaction-release-evidence.md"
 
 [tool.setuptools.packages.find]
 where = ["src"]

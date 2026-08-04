@@ -39,7 +39,7 @@ that cannot be run by another person is not the target outcome.
 
 ## Current handoff and experiment state
 
-The authoritative 2026-08-04 state and experiment boundary are in
+The authoritative 2026-08-05 state and experiment boundary are in
 `docs/current-status-and-next-experiment.md`. Read that file before launching training or changing
 release claims.
 
@@ -86,20 +86,123 @@ screen, Qwen comparison, release, rescue, or breakthrough claim is authorized. A
 distinct next hypothesis and fresh leakage-controlled population boundary must be preregistered
 before any new model or CUDA access.
 
-The preferred next research direction is **Generate-Verify-Select v1 (GVS-v1)**, specified in
-`docs/generate-verify-select-v1.md`. It keeps candidate-v2 frozen, generates eight Action IR
-candidates, and tests whether a 135,617-parameter shared-backbone verifier can recover correct
+**Generate-Verify-Select v1 (GVS-v1)** was the preferred next proposal and is specified in
+`docs/generate-verify-select-v1.md`. It kept candidate-v2 frozen, generated eight Action IR
+candidates, and would test whether a 135,617-parameter shared-backbone verifier can recover correct
 argument values from the candidate set. The complete proposed system is 35,208,385 unique
 parameters, conditional on exactly 24 bias-free rank-8 q/v LoRA modules and one biased scalar head.
-An independent audit returned no-go for model loading, CUDA, training, or human access. GVS-v1 is
-not launch-authorized and has no frozen run ID or config. CPU/data-only work must first freeze and
-test the exact K=8 decoder/verifier contract, a real deterministic state-transition simulator,
-joint T/D/S/C duplicate closure and per-stratum support floors, GVS-specific one-shot receipts,
-provider-transform rehearsal, and deployment accounting. Its current exact-rational aggregate
-support scorer is only preliminary plumbing, not an authorization gate. Even
+It is now closed at its pre-collection population/inference-contract gate without model access,
+CUDA, training, or human data. It never received a frozen model run ID or scientific config. The
+CPU reference remains useful nonauthorizing research code, but it may not be patched into a launch,
+rescued, or described as a model-quality failure. Even
 `prototype_passed=true` is serialized with `authorizes_model_or_label_access=false` and must never
 unlock a model, CUDA, training, or private prompt/label read. Never use old selection, old
 confirmation, reused-756, official-961, v3 shadows, or the PlanIR screen to tune or select GVS-v1.
+
+CPU prefreeze checkpoint, 2026-08-05 00:46 Asia/Kolkata: the native K=8 decoder, bounded
+state-transition simulator, certified single-fault generator, rank-hidden bridge, schema
+presentation/partition, exact 135,617-parameter LoRA verifier, 449-parameter linear probe,
+29,793-parameter MLP, joint-firewall primitives, component-level support/power plumbing, and
+component-balanced shortcut controls passed the final patch-and-rerun cycle. The complete
+repository passed 1,338 tests; the independent integration slice passed 365 overlapping tests;
+Ruff, formatting, `py_compile`, and whitespace checks passed. The immutable audit record is
+`experiments/runs/20260805-0046-gvs-cpu-prefreeze-audit/result.json`, SHA-256
+`6d948c05a14881c761990f070a96b7caeb87a23ac83bc4d38fba1bf9e5aa0468`.
+Its append-only correction
+`experiments/runs/20260805-0046-gvs-cpu-prefreeze-audit/correction-20260805-0057.json`,
+SHA-256 `9c374760429b488f9c756d189b6c547876b3446ecbb702e08039ef92234bb3d0`,
+clarifies that 85% oracle pass@8, +10 points over greedy, and 50% greedy-failure recovery are
+provisional proposal targets, not frozen gates. Never use them as authorization until the actual
+pre-outcome component roster and external assumptions produce a frozen power specification.
+
+This checkpoint remains deliberately nonauthorizing. The 24,000/2,000 T/D allocation is a
+deterministic pre-authoring plan, not a materialized or authored population; the 32 rename families
+prove only role-disjoint names under known semantics, not authenticated held-out chronology or
+novel-schema competence. External secret custody, a single-use signer, durable atomic
+compare-and-append retirement, original T/D requests, independently human-authored S/C, joint
+T/D/S/C duplicate closure, and real-roster pre-outcome power thresholds still block every model,
+CUDA, JarvisLabs, private-label, training, and launch action. Do not create or use a compute
+resource until those gates pass and a distinct immutable experiment preregistration authorizes an
+exact new ID.
+
+Effective-component audit, 2026-08-05 01:40 Asia/Kolkata: the real-roster power bridge is now
+implemented, but it rejected the current population allocation before collection. With 16 honest
+rows assigned across the eight role-scoped schema-family IDs, the live firewall produced exactly
+eight components of size two; a fixed floor of nine failed with `8 components from 16 eligible
+rows, minimum 9`. One shared collection batch collapsed the eight components to one, and reusing
+family or batch IDs across roles triggered the cross-role firewall. Thus 2,000 nominal rows over
+the same eight families still have at most eight effective components. The exact record is
+`experiments/runs/20260805-0140-gvs-effective-component-audit-s17/result.json`, SHA-256
+`f5285533105ccd867076d344955b10e9160200472bf0f41be5fe0ead127a0ba2`. The current
+schema/batch/source allocation is rejected; the GVS mechanism has not received a model test.
+Redesign and independently audit honest presentation and provenance allocation before authoring,
+collection, custody deployment, model access, or GPU creation. Never weaken lineage closure or
+invent per-row family IDs to manufacture a denominator.
+
+Offline-boundary audit, 2026-08-05 01:49 Asia/Kolkata: the local S/C collection packager and
+SQLite retirement storage rehearsal passed independent adversarial reviews after closing
+authorization-helper rebinding, identifier and expectation leakage, quota/runtime substitution,
+false content claims, repository-root and hardlink bypasses, ownership/mode gaps, path-swap races,
+and authenticator rebinding. The combined record is
+`experiments/runs/20260805-0149-gvs-collection-retirement-cpu-audit-s17/result.json`, SHA-256
+`38b411c8378a36370cec3b512be27f8e23273feb9839a2fb1f2c2a77ee8c8b76`.
+These are nonauthorizing CPU scaffolds only: no human was recruited and no prompt or label was
+collected. Same-process Python/UID is not a custody boundary. Honest powered allocation, the
+schema-to-simulator/population bridge, real provenance/chronology, external signer and secret
+custody, isolated retirement deployment, backup/anti-rollback, target-filesystem crash testing,
+joint closure, and real-roster power all remain mandatory.
+
+Final GVS-v1 feasibility audit, 2026-08-05 02:05 Asia/Kolkata: the current contract cannot honestly
+produce its requested 2,000/2,000/4,000 effective D/S/C components. It unions every shared
+provenance/dependence axis; the eight schema families cap components, identity schema cannot span
+roles, one generator macro does not create independent schema sources, required nonempty
+not-applicable lineages collapse rows, and the planner's unique slots explicitly are not
+provenance. Reaching the requested counts would require identifier laundering. The exact record is
+`experiments/runs/20260805-0205-gvs-v1-contract-feasibility-audit-s17/result.json`, SHA-256
+`27a1f8a536b2c2193091428d13e8b6bd543587fbdb56e48d21d2e76c82105dac`. Do not collect,
+deploy custody, create compute, or run candidate support for GVS-v1. A future verifier test needs a
+genuinely versioned hierarchical contamination/inference contract; the active next hypothesis must
+otherwise be a distinct generator-side intervention with a fresh internal boundary.
+
+The active CPU-only next proposal is **Generate-Correct SFT v1**, documented in
+`docs/generate-correct-sft-v1.md` with typed proposal config
+`configs/action_correction_forge_screen_v1.json`, SHA-256
+`3f1862a403dcf76edb82268f46688f44ce33027904dc11357b1c9cfc4b68931a`. It asks whether the
+same 35,072,768-parameter candidate-v2 weights can correct one draft's argument bindings in a
+bounded second pass. The proposal is explicitly nonauthorizing: synthetic train/screen rows,
+lineage closure, token budgets, runtime diagnostics, scorer, provider transform, and phase
+firewall are not frozen, and the standing synthetic-tranche retention gate is not currently
+evaluable without violating the reused-756/official-961 firewall. The independently audited
+5,744-row direct replay primitive is training-only; its result SHA-256 is
+`2e7c2ed74088fc3a130b6c6c0bbb9628154dd2295cc7912f2970ff0d756652fa`. Do not create a GPU,
+load a model, materialize the full population, or treat this proposal as a result. Any authorized
+model run requires a distinct immutable materialized config and run ID after independent audit.
+The result's phrase “without importing PlanIR ... targets” is narrowed by append-only correction
+SHA-256 `4b06a63570bce9e746f4aef83bdb7ba9ea38495111aa0133ad96dbb2c18372ea`: no PlanIR
+representation, compiler, target, or screen row was read, but the audited implementation imported
+the shared seven-tool schema through the PlanIR module and used its exclusion ledger as
+provenance. The registry now lives in neutral `mobile_action_schemas.py`; never erase the original
+dependency mistake.
+
+The bounded forge prototype is recorded at
+`experiments/runs/20260805-0230-action-correction-forge-screen-s17/prototype-audit.json`, SHA-256
+`d07b8aa69594c33b52e88f3f9639fa99012130fec647c99a9490ca7d264d20db`. It covers the thirteen
+simulator operations plus the three control decisions and produces matched A/B/C fixtures with
+draft-only diagnostics, but it is hard-capped at two rows per stratum. Its rows share declared
+families and prove neither quota fulfillment nor statistical independence. PAUSE_MEDIA and
+ABSTAIN lack an argument field, so their bounded fault fixture changes the decision field; this is
+not evidence that argument correction works. The prototype authorizes no full materialization,
+model, CUDA, JarvisLabs, training, or launch action.
+
+The linear and small-MLP arms are high-information falsification controls, not favored treatments.
+SCaTR's reported calibration results were on 1.7B--30B models, while a separate 2026 mechanistic
+tool-calling study reported that its linear tool-selection circuit was absent at 270M and began
+emerging around 1B. BarunLM-35M is far below both demonstrated regimes. These arms and the K=8
+support gate are now archival GVS-v1 design evidence only; the feasibility rejection occurred
+before candidate support could be measured. Never run them under v1 or treat the absence of that
+measurement as evidence for or against ranking. A future verifier experiment requires a new
+contract and preregistration; a distinct generator-side correction experiment must compare against
+simple matched SFT before considering RL.
 
 The evaluation firewall uses label-free public prompt records and separate HMAC-authenticated
 private label envelopes. A pinned renderer and tokenizer recompute model-visible bytes and token
@@ -124,8 +227,22 @@ the Qwen counterexample.
 
 The candidate-v2 float checkpoint, Darwin ARM64 int8 derivative, and evidence bundle are published
 as immutable public W&B `v0` artifacts. Their upload, fresh 310-file redownload, and anonymous
-float-weight access checks passed. The secret-scanned source branch is public in draft PR #2;
-never bulk-stage the workspace or experiment directories.
+float-weight access checks passed. The scientific `v0` evidence is immutable and authoritative,
+but it contains non-secret workstation paths and protected resource identifiers. Do not claim that
+`v0` excluded all unrelated local names. Run
+`20260805-0250-candidate-v2-redacted-evidence-v1` proposed one derived, nonauthoritative redacted
+`v1` view, but an independent adversarial prelaunch audit returned no-go. W&B version assignment
+cannot atomically reserve `v1`; a race can create irreversible `v2` before the client rejects it,
+and anonymous public-read verification was unimplemented. The run is closed without network
+access, upload, download, or artifact creation. Never invoke its upload path or retry it. The local
+296-file view remains build evidence only. Any future redacted distribution needs a new
+content-addressed destination, run ID, durable precommit/terminal-incident protocol, and anonymous
+verification. The secret-scanned source branch is public in draft PR #2; never bulk-stage the
+workspace or experiment directories.
+Closure verification SHA-256
+`ddd4ac6fd6f34999b104fca01f627ac40ddd38e73050a6b7c66f75e37141d72a` confirms that both public
+and internal executors reject remote modes before path validation and that the upload mutation and
+download implementations were removed; only local dry-run validation remains.
 
 Month-Boundary Counterfactual SFT v1 did not reach the experiment runner. Fresh H200 ID **463786**
 failed during provider dependency resolution because the PyTorch template exposed CPython 3.10.20
@@ -214,6 +331,13 @@ into source, config, CLI arguments, logs, or artifacts. Use W&B only where it ad
 experiment evidence; local immutable JSON/JSONL artifacts remain the source of truth if tracking
 is unavailable.
 
+Raw `jl list --json` responses can contain signed notebook URLs or other access-bearing endpoint
+fields. Treat those fields as credentials: do not quote, persist, commit, or place the raw listing
+in an experiment artifact. For ordinary inventory, use
+`.venv/bin/python infra/jarvis/safe_run.py inventory`; it projects only lifecycle-safe fields such
+as `machine_id`, `name`, `status`, GPU type/count, region, template, and spot/reservation state.
+Lifecycle targets always come from the structured `machine_id`, never from an endpoint string.
+
 ### Protected resources
 
 Every JarvisLabs resource that predates this project session is protected. In particular,
@@ -224,6 +348,22 @@ unrecognized resource makes it protected by default.
 
 The independently owned eight-H200 instance **463719**, named
 `kimi-k3-jl-node-a-20260803-1724`, remains protected regardless of its observed lifecycle state.
+The independently owned eight-H200 resources named
+`kimi-k3-jl-node-opt-20260804` and `kimi-k3-jl-node-opt128-20260804` belong to the adjacent Kimi
+experiment and must not be inspected, connected to, paused, resumed, renamed, reused, or otherwise
+interrupted by BarunAction work. A read-only
+inventory correction on 2026-08-04 at 10:38 Asia/Kolkata resolved its actual JarvisLabs
+`machine_id` as **463912**. A later safe inventory at 11:11 showed that the adjacent owner had
+recreated the same named job under current `machine_id` **463936**. The earlier **463904** record
+came from endpoint naming rather than a lifecycle identifier. Preserve both 463912 and 463904 as
+protected historical evidence rather than erasing them. At 22:29, a later safe inventory found
+463936 paused and discovered the separate paused opt128 resource under `machine_id` **463964**.
+At 02:14 on 2026-08-05, another safe projected inventory showed newly recreated resources with the
+same two names under structured `machine_id` values **464346** (`opt`) and **464367** (`opt128`).
+**464367**, **464346**, **463964**, **463936**, **463912**, and **463904** are all durably
+denylisted; never infer that a stable display name means a stable machine ID or that a paused or
+pausing adjacent resource is available.
+
 The previously observed unrecognized ID **463697** remains protected even when absent from a later
 live listing.
 
@@ -235,6 +375,16 @@ Never resume, reuse, rename, stop, or delete any of them. The L4
 provider preamble proved Axolotl selected CPython 3.11.10, but the probe script itself did not run
 because the intentionally minimal directory had no project metadata; do not describe it as a
 successful model or scientific run.
+
+On 2026-08-04 at 22:37 Asia/Kolkata, explicit user-authorized unused-resource cleanup permanently
+destroyed the following twelve paused historical Barun project instances after their corresponding
+local run directories were verified present: **463556**, **463572**, **463575**, **463594**,
+**463606**, **463622**, **463631**, **463636**, **463642**, **463674**, **463675**, and **463686**.
+The post-cleanup safe inventory verified that all twelve were absent. Their local evidence and
+ledger history remain; the remote instances are irrecoverable and must never be treated as
+available or reusable IDs. The six protected project-evidence instances above were deliberately
+retained. Kroda 463058 and every Kimi, Kriti, or unrecognized resource were outside the cleanup
+scope and were not mutated.
 
 ### Exact-ID lifecycle
 

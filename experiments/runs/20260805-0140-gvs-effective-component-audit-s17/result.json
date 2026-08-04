@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "run_id": "20260805-0140-gvs-effective-component-audit-s17",
+  "kind": "gvs_real_roster_power_prefreeze_and_effective_component_audit",
+  "recorded_at": "2026-08-04T20:10:02Z",
+  "hypothesis": "The proposed nominal D-support, S-new, and C-new rosters can support outcome-blind power freezing when the live population firewall, rather than row counts, defines the independent analysis units.",
+  "decision_enabled": "Retain the real-roster power builder but reject the current eight-family allocation if honest lineage closure cannot meet a fixed effective-component floor; do not collect data, access a model, or create a GPU resource until allocation is redesigned and re-audited.",
+  "source": {
+    "branch": "agent/barunaction-release-mbcf-v1",
+    "git_commit": "d1dab69c637ad74688b65ded13aa15659fa163e6",
+    "files": {
+      "src/barunlm/evaluation/gvs_power_prefreeze.py": "85bc73ef3ca428605c9ed1b2dd90270345c4b393ca753db35faf97a745c3a1d3",
+      "tests/test_gvs_power_prefreeze.py": "7053217da1afaff7ef376146bc003a202eb595856c558055e68d4d498a80a1eb"
+    }
+  },
+  "implementation": {
+    "uses_live_validated_firewall_components": true,
+    "accepts_scored_rows_or_predictions": false,
+    "accepts_row_count_as_effective_sample_size": false,
+    "accepts_provisional_85_10_50_as_frozen_gates": false,
+    "requires_external_preoutcome_assumptions": true,
+    "authorizes_model_or_label_access": false,
+    "authorizes_cuda_or_jarvislabs": false
+  },
+  "adversarial_reproduction": {
+    "roles_tested": [
+      "D-support",
+      "S-new",
+      "C-new"
+    ],
+    "nominal_rows_per_role": 16,
+    "honest_role_scoped_schema_families_per_role": 8,
+    "all_other_lineage_axes_unique_in_first_case": true,
+    "effective_components_per_role": 8,
+    "component_sizes_per_role": [
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2
+    ],
+    "fixed_floor": 9,
+    "expected_failure": "8 components from 16 eligible rows, minimum 9",
+    "one_shared_collection_batch_effective_components_per_role": 1,
+    "cross_role_reused_family_or_batch_ids": "rejected by the existing joint firewall before power calculation",
+    "extrapolated_current_design_cap": "Two thousand nominal rows allocated over the same eight honest schema-family IDs still have at most eight effective components and can collapse to one through another shared lineage axis."
+  },
+  "validation": {
+    "focused_power_prefreeze": {
+      "passed": 23,
+      "failed": 0,
+      "warnings": 14,
+      "duration_seconds": 2.76
+    },
+    "population_power_program_integration": {
+      "passed": 152,
+      "failed": 0,
+      "warnings": 14,
+      "duration_seconds": 52.58,
+      "includes_focused_tests": true
+    },
+    "ruff_check_passed": true,
+    "ruff_format_check_passed": true,
+    "py_compile_passed_by_independent_implementer": true
+  },
+  "firewall": {
+    "model_loaded": false,
+    "model_outputs_generated": 0,
+    "private_prompts_or_labels_accessed": 0,
+    "reused_756_rows_accessed": 0,
+    "official_961_rows_accessed": 0,
+    "cuda_accessed": false,
+    "jarvis_resource_created_or_mutated": false,
+    "human_collection_started": false
+  },
+  "conclusion": "reject",
+  "reason": "The current eight-family proposal confuses nominal rows with independent evidence under its own lineage rules. The exact live firewall demonstrates that the intended effective sample sizes cannot be powered from this allocation.",
+  "scope_of_rejection": "The current schema/batch/source allocation is rejected. This is not a model-quality result and does not close the untested Generate-Verify-Select mechanism.",
+  "next": "Redesign pre-collection schema-presentation and provenance allocation so every claimed component is backed by genuine distinct source bytes and dependence evidence; then rerun joint T/D/S/C closure and real-roster power. Never weaken lineage rules or fabricate per-row family IDs to reach a target count."
+}

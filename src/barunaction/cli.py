@@ -43,6 +43,26 @@ class CLIError(ValueError):
         self.message = message
 
 
+_DEMO_TOOL_SCHEMAS: tuple[dict[str, Any], ...] = (
+    {
+        "additional_arguments": False,
+        "arguments": {
+            "body": {"description": "Message body.", "type": "string"},
+            "to": {"description": "Recipient name.", "type": "string"},
+        },
+        "description": "Propose a message for an external client.",
+        "name": "send_message",
+        "required": ["to", "body"],
+        "side_effecting": True,
+    },
+)
+_DEMO_VALID_OUTPUT = (
+    '{"calls":[{"args":{"body":"This is an in-memory demo only.","to":"Ada"},'
+    '"tool":"send_message"}],"decision":"CALL","mode":"SINGLE"}'
+)
+_DEMO_INVALID_OUTPUT = '```json\n{"decision":"ABSTAIN"}\n```'
+
+
 def _reject_pairs(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
     output: dict[str, Any] = {}
     for key, value in pairs:
@@ -240,6 +260,44 @@ def _simulate_output(args: argparse.Namespace) -> int:
     return 0 if outcome.ok else 2
 
 
+def _demo(_: argparse.Namespace) -> int:
+    """Run a deterministic, weight-free validation and sandbox demonstration."""
+
+    declarations = parse_tool_declarations(_DEMO_TOOL_SCHEMAS)
+    accepted = validate_action_output(
+        _DEMO_VALID_OUTPUT,
+        declarations=declarations,
+        checkpoint_sha256={},
+    )
+    rejected = validate_action_output(
+        _DEMO_INVALID_OUTPUT,
+        declarations=declarations,
+        checkpoint_sha256={},
+    )
+    if accepted.action is None or accepted.policy is None or rejected.error is None:
+        raise RuntimeError("built-in demo contract is internally inconsistent")
+    simulation = simulate_action(accepted.action, declarations=declarations)
+    _print(
+        {
+            "checkpoint_required": False,
+            "demo_schema_version": "barunaction-weight-free-demo-v1",
+            "execution_permitted": accepted.policy.execution_permitted,
+            "external_side_effects": simulation.external_side_effects,
+            "in_memory_only": True,
+            "model_loaded": False,
+            "network_required": False,
+            "proposal": accepted.to_dict(),
+            "simulation": simulation.to_dict(),
+            "strict_validation": {
+                "invalid_example_accepted": rejected.ok,
+                "invalid_example_error": rejected.error.to_dict(),
+                "valid_example_accepted": accepted.ok,
+            },
+        }
+    )
+    return 0
+
+
 def _add_text_source(parser: argparse.ArgumentParser, name: str) -> None:
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument(f"--{name}")
@@ -252,6 +310,12 @@ def build_parser() -> argparse.ArgumentParser:
         description="Verified local BarunAction-35M proposal inference; never executes real tools.",
     )
     subparsers = parser.add_subparsers(dest="command", required=True)
+
+    demo = subparsers.add_parser(
+        "demo",
+        help="run a weight-free strict-validation and in-memory-only safety demo",
+    )
+    demo.set_defaults(func=_demo)
 
     verify = subparsers.add_parser(
         "verify", help="verify an immutable checkpoint without inference"
