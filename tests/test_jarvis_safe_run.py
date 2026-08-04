@@ -215,6 +215,173 @@ def test_explicit_requirements_omit_editable_setup_to_preserve_staged_tree(
     assert module.managed_setup_command(args) is None
 
 
+def test_managed_requirements_copy_rehearsal_binds_exact_root_path_and_bytes(
+    tmp_path: Path,
+) -> None:
+    module = load_safe_run()
+    target = tmp_path / "future-hypothesis-rehearsal"
+    requirements = target / "requirements/future-hypothesis.txt"
+    requirements.parent.mkdir(parents=True)
+    requirements.write_text("numpy==2.4.6\n", encoding="utf-8")
+    (target / "runner.py").write_text("print('rehearsal')\n", encoding="utf-8")
+    expected_before = ["requirements/future-hypothesis.txt", "runner.py"]
+
+    receipt = module.rehearse_managed_requirements_copy(
+        target=target,
+        requirements_relative_path="requirements/future-hypothesis.txt",
+        expected_copy_relative_path="future-hypothesis.txt",
+        expected_pre_transform_files=expected_before,
+        observed_cli_version="0.2.17",
+        transform_contract_sha256="a" * 64,
+    )
+
+    copied = target / "future-hypothesis.txt"
+    assert copied.read_bytes() == requirements.read_bytes()
+    assert receipt["schema_version"] == ("barun-jarvis-managed-requirements-copy-rehearsal-v2")
+    assert receipt["modeled_transform"] is True
+    assert receipt["network_or_lifecycle_action"] is False
+    assert receipt["provider_identity"] == {
+        "cli": "jl",
+        "observed_cli_version": "0.2.17",
+        "transform_contract_sha256": "a" * 64,
+    }
+    assert receipt["source"] == {
+        "relative_path": "requirements/future-hypothesis.txt",
+        "basename": "future-hypothesis.txt",
+        "sha256": module.sha256_file(requirements),
+    }
+    assert receipt["destination"] == {
+        "relative_path": "future-hypothesis.txt",
+        "basename": "future-hypothesis.txt",
+        "sha256": module.sha256_file(copied),
+    }
+    assert [item["relative_path"] for item in receipt["post_transform"]["files"]] == [
+        "future-hypothesis.txt",
+        "requirements/future-hypothesis.txt",
+        "runner.py",
+    ]
+
+
+@pytest.mark.parametrize(
+    "copy_relative",
+    ["renamed.txt", "requirements/future-hypothesis.txt"],
+)
+def test_managed_requirements_copy_rehearsal_requires_explicit_provider_basename(
+    tmp_path: Path, copy_relative: str
+) -> None:
+    module = load_safe_run()
+    target = tmp_path / "future-hypothesis-rehearsal"
+    requirements = target / "requirements/future-hypothesis.txt"
+    requirements.parent.mkdir(parents=True)
+    requirements.write_text("numpy==2.4.6\n", encoding="utf-8")
+
+    with pytest.raises(
+        module.SafetyError,
+        match="must explicitly name the source basename at target root",
+    ):
+        module.rehearse_managed_requirements_copy(
+            target=target,
+            requirements_relative_path="requirements/future-hypothesis.txt",
+            expected_copy_relative_path=copy_relative,
+            expected_pre_transform_files=["requirements/future-hypothesis.txt"],
+            observed_cli_version="0.2.17",
+            transform_contract_sha256="a" * 64,
+        )
+
+    assert not (target / "future-hypothesis.txt").exists()
+
+
+def test_managed_requirements_copy_rehearsal_rejects_unknown_neighboring_root_file(
+    tmp_path: Path,
+) -> None:
+    module = load_safe_run()
+    target = tmp_path / "future-hypothesis-rehearsal"
+    requirements = target / "requirements/future-hypothesis.txt"
+    requirements.parent.mkdir(parents=True)
+    requirements.write_text("numpy==2.4.6\n", encoding="utf-8")
+    (target / "unknown-neighbor.txt").write_text("unbound\n", encoding="utf-8")
+
+    with pytest.raises(
+        module.SafetyError,
+        match=(
+            "unexpected file outside the provider-transform rehearsal contract: "
+            "unknown-neighbor.txt"
+        ),
+    ):
+        module.rehearse_managed_requirements_copy(
+            target=target,
+            requirements_relative_path="requirements/future-hypothesis.txt",
+            expected_copy_relative_path="future-hypothesis.txt",
+            expected_pre_transform_files=["requirements/future-hypothesis.txt"],
+            observed_cli_version="0.2.17",
+            transform_contract_sha256="a" * 64,
+        )
+
+    assert not (target / "future-hypothesis.txt").exists()
+
+
+def test_managed_requirements_copy_rehearsal_rejects_source_mutation_during_copy(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    module = load_safe_run()
+    target = tmp_path / "future-hypothesis-rehearsal"
+    requirements = target / "requirements/future-hypothesis.txt"
+    requirements.parent.mkdir(parents=True)
+    requirements.write_text("numpy==2.4.6\n", encoding="utf-8")
+    original_copyfile = module.shutil.copyfile
+
+    def copy_then_mutate(source: Path, destination: Path) -> None:
+        original_copyfile(source, destination)
+        source.write_text("mutated-after-copy\n", encoding="utf-8")
+
+    monkeypatch.setattr(module.shutil, "copyfile", copy_then_mutate)
+
+    with pytest.raises(
+        module.SafetyError,
+        match=(
+            "preexisting file changed during provider-transform rehearsal: "
+            "requirements/future-hypothesis.txt"
+        ),
+    ):
+        module.rehearse_managed_requirements_copy(
+            target=target,
+            requirements_relative_path="requirements/future-hypothesis.txt",
+            expected_copy_relative_path="future-hypothesis.txt",
+            expected_pre_transform_files=["requirements/future-hypothesis.txt"],
+            observed_cli_version="0.2.17",
+            transform_contract_sha256="a" * 64,
+        )
+
+
+@pytest.mark.parametrize(
+    ("cli_version", "contract_sha256", "message"),
+    [
+        ("0.2.17 injected", "a" * 64, "CLI version must be a bounded version identifier"),
+        ("0.2.17", "A" * 64, "contract must be a lowercase SHA-256"),
+    ],
+)
+def test_managed_requirements_copy_rehearsal_requires_bound_provider_identity(
+    tmp_path: Path, cli_version: str, contract_sha256: str, message: str
+) -> None:
+    module = load_safe_run()
+    target = tmp_path / "future-hypothesis-rehearsal"
+    requirements = target / "requirements/future-hypothesis.txt"
+    requirements.parent.mkdir(parents=True)
+    requirements.write_text("numpy==2.4.6\n", encoding="utf-8")
+
+    with pytest.raises(module.SafetyError, match=message):
+        module.rehearse_managed_requirements_copy(
+            target=target,
+            requirements_relative_path="requirements/future-hypothesis.txt",
+            expected_copy_relative_path="future-hypothesis.txt",
+            expected_pre_transform_files=["requirements/future-hypothesis.txt"],
+            observed_cli_version=cli_version,
+            transform_contract_sha256=contract_sha256,
+        )
+
+    assert not (target / "future-hypothesis.txt").exists()
+
+
 def test_create_command_preserves_fresh_instance_arguments() -> None:
     module = load_safe_run()
     args = SimpleNamespace(

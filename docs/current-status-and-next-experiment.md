@@ -309,6 +309,46 @@ run and recipe. The conditional generalized and matched-Qwen lanes were never un
    independent review. Candidate-v2 remains the product checkpoint until a later experiment passes
    its own fresh gate.
 
+## Preferred next research proposal: Generate-Verify-Select v1
+
+The best current proposal is GVS-v1, detailed in `docs/generate-verify-select-v1.md`. Keep
+candidate-v2 frozen, generate eight Action IR candidates, and train only a 135,617-parameter
+shared-backbone verifier to choose among them. The complete unique parameter count would be
+35,208,385. This directly tests whether candidate ranking, rather than candidate support, explains
+the known value-only errors and avoids another uninformative full-generator SFT variation.
+
+GVS-v1 is not an active or launch-authorized experiment. Its decisive cheap stop comes first: on a
+new 2,000-cluster program-first support population, frozen candidate-v2 must reach at least 85%
+oracle pass@8, at least ten points above greedy, and place the correct action among eight candidates
+for at least half of its greedy failures. If that fails, do not train a verifier. If it passes, the
+next work is fresh population/service provisioning, hard-negative and shortcut audits, immutable
+causal-arm preregistration, and independent review—not immediate GPU training.
+
+An independent scientific audit passed the proposal's distinctness and exact static parameter
+arithmetic, but returned no-go for model loading, CUDA, training, or human-label access. The current
+CPU-only support scorer binds K=8 sample-level evidence and exact denominators, but it is only
+preliminary plumbing: it still needs per-stratum floors and cluster intervals, an exact decoder and
+verifier contract, a deterministic semantic state-transition simulator, joint T/D/S/C duplicate
+closure, a GVS-specific one-shot receipt, and a frozen deployment/quantization budget. The existing
+simulator only blocks or logs calls, and the existing human receipt is PlanIR-specific. Frozen
+candidate-v2 greedy must be an explicit comparator; selection cannot be licensed merely by beating
+K=8 likelihood ranking.
+
+The safe next action is therefore CPU/data implementation and another prefreeze audit. A generic
+provider-transform rehearsal now models the observed JarvisLabs managed copy of an explicitly
+pinned requirements file into the upload root and rejects every unexpected neighbor. Its receipt
+binds the caller-supplied observed CLI version and implementation-contract hash, which a future
+preregistration must obtain and verify independently. This addresses the exact operational mismatch
+that ended PlanIR without changing or retrying that closed recipe. No new JarvisLabs resource should
+be created until the remaining GVS contracts pass.
+
+Current validation: 57 GVS support tests, 53 provider-controller tests, and the 145-test combined
+GVS/provenance slice pass. The complete repository passes 863 tests; Ruff and formatting pass. A
+read-only decoder audit recommends a native one-group ordinary Torch beam implementation with the
+existing deployed greedy result fixed at rank zero, rather than adding Transformers. That design is
+not frozen: tokenizer EOS/pad receipts, deterministic likelihood/tie rules, decoder trace hashes,
+and adapter-off identity tests remain prerequisites.
+
 ## Resource and publication invariants
 
 Kroda 463058 is running and protected. Independently owned 463719 remains protected regardless of

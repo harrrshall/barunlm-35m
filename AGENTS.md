@@ -86,6 +86,20 @@ screen, Qwen comparison, release, rescue, or breakthrough claim is authorized. A
 distinct next hypothesis and fresh leakage-controlled population boundary must be preregistered
 before any new model or CUDA access.
 
+The preferred next research direction is **Generate-Verify-Select v1 (GVS-v1)**, specified in
+`docs/generate-verify-select-v1.md`. It keeps candidate-v2 frozen, generates eight Action IR
+candidates, and tests whether a 135,617-parameter shared-backbone verifier can recover correct
+argument values from the candidate set. The complete proposed system is 35,208,385 unique
+parameters, conditional on exactly 24 bias-free rank-8 q/v LoRA modules and one biased scalar head.
+An independent audit returned no-go for model loading, CUDA, training, or human access. GVS-v1 is
+not launch-authorized and has no frozen run ID or config. CPU/data-only work must first freeze and
+test the exact K=8 decoder/verifier contract, a real deterministic state-transition simulator,
+joint T/D/S/C duplicate closure and per-stratum support floors, GVS-specific one-shot receipts,
+provider-transform rehearsal, and deployment accounting. Its current exact-rational aggregate
+support scorer is only preliminary plumbing, not an authorization gate. Never use old selection,
+old confirmation, reused-756, official-961, v3 shadows, or the PlanIR screen to tune or select
+GVS-v1.
+
 The evaluation firewall uses label-free public prompt records and separate HMAC-authenticated
 private label envelopes. A pinned renderer and tokenizer recompute model-visible bytes and token
 counts. A signed exact-gate receipt binds selection/confirmation memberships, candidates, compiler,

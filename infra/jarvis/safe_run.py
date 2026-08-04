@@ -12,6 +12,7 @@ import hashlib
 import json
 import os
 import re
+import shutil
 import signal
 import subprocess
 import sys
@@ -102,6 +103,207 @@ def requirements_receipt(path: Path | None) -> dict[str, str] | None:
     if not path.is_file():
         fail(f"requirements file does not exist: {path}")
     return {"path": str(path), "sha256": sha256_file(path.resolve())}
+
+
+def _normalized_rehearsal_paths(values: Sequence[str]) -> tuple[str, ...]:
+    """Return one exact, sorted set of safe target-relative regular-file paths."""
+
+    normalized: list[str] = []
+    for value in values:
+        if not isinstance(value, str) or not value:
+            fail("provider-transform rehearsal paths must be nonempty strings")
+        path = Path(value)
+        if (
+            path.is_absolute()
+            or ".." in path.parts
+            or path.as_posix() != value
+            or path.name in {"", ".", ".."}
+        ):
+            fail("provider-transform rehearsal paths must be normalized target-relative paths")
+        normalized.append(value)
+    result = tuple(normalized)
+    if tuple(sorted(set(result))) != result:
+        fail("provider-transform rehearsal paths must be sorted and contain no duplicates")
+    return result
+
+
+def _exact_rehearsal_target_files(
+    target: Path, *, expected_relative_paths: Sequence[str]
+) -> dict[str, Path]:
+    """Validate and return an exact regular-file target without ignoring extra entries."""
+
+    expected = _normalized_rehearsal_paths(expected_relative_paths)
+    if target.is_symlink():
+        fail("provider-transform rehearsal target must not be a symlink")
+    try:
+        root = target.resolve(strict=True)
+    except FileNotFoundError as error:
+        raise SafetyError("provider-transform rehearsal target does not exist") from error
+    if not root.is_dir():
+        fail("provider-transform rehearsal target must be a directory")
+
+    allowed_directories: set[str] = set()
+    for relative in expected:
+        parent = Path(relative).parent
+        while parent != Path("."):
+            allowed_directories.add(parent.as_posix())
+            parent = parent.parent
+
+    files: dict[str, Path] = {}
+    for path in sorted(root.rglob("*"), key=lambda item: item.relative_to(root).as_posix()):
+        relative = path.relative_to(root).as_posix()
+        if path.is_symlink():
+            fail(f"symlink is forbidden in provider-transform rehearsal target: {relative}")
+        if path.is_dir():
+            if relative not in allowed_directories:
+                fail(
+                    "unexpected directory outside the provider-transform rehearsal contract: "
+                    f"{relative}"
+                )
+            continue
+        if not path.is_file():
+            fail(f"non-regular provider-transform rehearsal entry is forbidden: {relative}")
+        if relative not in expected:
+            fail(f"unexpected file outside the provider-transform rehearsal contract: {relative}")
+        files[relative] = path
+
+    missing = sorted(set(expected) - set(files))
+    if missing:
+        fail("provider-transform rehearsal target is missing files: " + ", ".join(missing))
+    return files
+
+
+def _rehearsal_tree_receipt(files: dict[str, Path]) -> dict[str, Any]:
+    entries = [
+        {
+            "relative_path": relative,
+            "size_bytes": path.stat().st_size,
+            "sha256": sha256_file(path),
+        }
+        for relative, path in sorted(files.items())
+    ]
+    canonical = json.dumps(entries, sort_keys=True, separators=(",", ":")).encode("utf-8")
+    return {
+        "file_count": len(entries),
+        "files": entries,
+        "tree_sha256": hashlib.sha256(canonical).hexdigest(),
+    }
+
+
+def _rehearsal_provider_identity(
+    *, observed_cli_version: str, transform_contract_sha256: str
+) -> dict[str, str]:
+    if (
+        type(observed_cli_version) is not str
+        or re.fullmatch(r"[0-9A-Za-z][0-9A-Za-z._+-]{0,63}", observed_cli_version) is None
+    ):
+        fail("provider-transform rehearsal CLI version must be a bounded version identifier")
+    if (
+        type(transform_contract_sha256) is not str
+        or re.fullmatch(r"[0-9a-f]{64}", transform_contract_sha256) is None
+    ):
+        fail("provider-transform rehearsal contract must be a lowercase SHA-256")
+    return {
+        "cli": "jl",
+        "observed_cli_version": observed_cli_version,
+        "transform_contract_sha256": transform_contract_sha256,
+    }
+
+
+def rehearse_managed_requirements_copy(
+    *,
+    target: Path,
+    requirements_relative_path: str,
+    expected_copy_relative_path: str,
+    expected_pre_transform_files: Sequence[str],
+    observed_cli_version: str,
+    transform_contract_sha256: str,
+) -> dict[str, Any]:
+    """Model one observed Jarvis managed requirements copy on a disposable target.
+
+    The currently observed Jarvis CLI implementation copies an explicitly supplied requirements
+    file into the remote target root under its basename before the requested script starts. A
+    future experiment can use this helper on a disposable clone, then run its normal launch
+    validator against the resulting post-transform target. The caller must bind the observed CLI
+    version and exact implementation/contract bytes as well as the nested source and exact root
+    copy. No neighboring file or directory is silently ignored. This local model performs no
+    network or Jarvis lifecycle action and does not assert that a later provider version behaves
+    identically.
+    """
+
+    provider_identity = _rehearsal_provider_identity(
+        observed_cli_version=observed_cli_version,
+        transform_contract_sha256=transform_contract_sha256,
+    )
+    expected_before = _normalized_rehearsal_paths(expected_pre_transform_files)
+    source_relative = _normalized_rehearsal_paths((requirements_relative_path,))[0]
+    copy_relative = _normalized_rehearsal_paths((expected_copy_relative_path,))[0]
+    source_path = Path(source_relative)
+    copy_path = Path(copy_relative)
+    if source_relative not in expected_before:
+        fail("managed requirements source must be explicit in the pre-transform file contract")
+    if len(copy_path.parts) != 1 or copy_path.name != source_path.name:
+        fail("managed requirements copy must explicitly name the source basename at target root")
+    if copy_relative == source_relative:
+        fail("managed requirements rehearsal requires a distinct provider-created root copy")
+
+    files_before = _exact_rehearsal_target_files(target, expected_relative_paths=expected_before)
+    pre_transform_receipt = _rehearsal_tree_receipt(files_before)
+    pre_transform_entries = {
+        entry["relative_path"]: entry for entry in pre_transform_receipt["files"]
+    }
+    source = files_before[source_relative]
+    destination = target.resolve() / copy_relative
+    if destination.exists() or destination.is_symlink():
+        fail("managed requirements copy destination already exists before provider transform")
+
+    source_sha256 = pre_transform_entries[source_relative]["sha256"]
+    temporary = destination.with_name(f".{destination.name}.{os.getpid()}.rehearsal.tmp")
+    try:
+        shutil.copyfile(source, temporary)
+        os.replace(temporary, destination)
+    finally:
+        if temporary.exists():
+            temporary.unlink()
+
+    expected_after = tuple(sorted((*expected_before, copy_relative)))
+    files_after = _exact_rehearsal_target_files(target, expected_relative_paths=expected_after)
+    post_transform_receipt = _rehearsal_tree_receipt(files_after)
+    post_transform_entries = {
+        entry["relative_path"]: entry for entry in post_transform_receipt["files"]
+    }
+    for relative in expected_before:
+        before_entry = pre_transform_entries[relative]
+        after_entry = post_transform_entries[relative]
+        if (
+            after_entry["size_bytes"] != before_entry["size_bytes"]
+            or after_entry["sha256"] != before_entry["sha256"]
+        ):
+            fail(f"preexisting file changed during provider-transform rehearsal: {relative}")
+    destination_sha256 = sha256_file(files_after[copy_relative])
+    if destination_sha256 != source_sha256:
+        fail("managed requirements rehearsal copy differs from its frozen source bytes")
+
+    return {
+        "schema_version": "barun-jarvis-managed-requirements-copy-rehearsal-v2",
+        "provider": "JarvisLabs",
+        "operation": "model_observed_copy_explicit_requirements_to_target_root",
+        "modeled_transform": True,
+        "network_or_lifecycle_action": False,
+        "provider_identity": provider_identity,
+        "source": {
+            "relative_path": source_relative,
+            "basename": source_path.name,
+            "sha256": source_sha256,
+        },
+        "destination": {
+            "relative_path": copy_relative,
+            "basename": copy_path.name,
+            "sha256": destination_sha256,
+        },
+        "pre_transform": pre_transform_receipt,
+        "post_transform": post_transform_receipt,
+    }
 
 
 def attempt_inventory_file(*, target: Path, relative_path: Path) -> Path:
