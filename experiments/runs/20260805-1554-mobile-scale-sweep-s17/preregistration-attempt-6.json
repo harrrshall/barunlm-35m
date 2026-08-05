@@ -1,0 +1,98 @@
+{
+  "schema_version": "barun-mobile-scale-sweep-preregistration-v6",
+  "run_id": "20260805-1554-mobile-scale-sweep-s17",
+  "attempt": 6,
+  "created_at": "2026-08-05T21:50:00+05:30",
+  "status": "cpu_prefreeze_blocked_pending_independent_prelaunch_audit",
+  "run_identity_decision": {
+    "choice": "same_run_directory_attempt_6",
+    "rationale": "Attempt 5 / frozen v5 was rejected at independent CPU prelaunch audit (SHA-256 05d40c7d6ab73594fb8e60fb15de94f676e76d62f97ecae43dfcaba7225c0500) for three P0 isolation-attestation defects with zero model/tokenizer/CUDA/GPU/JarvisLabs access. Scientific bindings matched v4 and remain accepted. This attempt-6 successor corrects only the isolation contract (stdlib-first gate, interpreter-bound pyvenv.cfg, ModuleNotFoundError-only / find_spec flash_attn absence) while retaining denylist 465183/465186/465155/465072, axolotl/CPython 3.11.10, and safe_run --isolated-project-venv. Spent attempt-4 go is not reused. The 590/725 reference score remains attempt-4 evidence only."
+  },
+  "supersedes": {
+    "attempt_5_preregistration": "experiments/runs/20260805-1554-mobile-scale-sweep-s17/preregistration-attempt-5.json",
+    "attempt_5_config_path": "configs/mobile_scale_sweep_v5.json",
+    "attempt_5_config_sha256": "57dcfe573c17759404545c272f1fc945aabb82b2893f697615eb7fe428d1f2d7",
+    "attempt_5_prelaunch_no_go_path": "experiments/runs/20260805-1554-mobile-scale-sweep-s17/prelaunch-audit-attempt-5-no-go.json",
+    "attempt_5_prelaunch_no_go_sha256": "05d40c7d6ab73594fb8e60fb15de94f676e76d62f97ecae43dfcaba7225c0500",
+    "attempt_5_reuse_authorized": false,
+    "spent_attempt_4_go_path": "experiments/runs/20260805-1554-mobile-scale-sweep-s17/prelaunch-audit-attempt-4-go.json",
+    "spent_attempt_4_go_sha256": "9bf60db79cc543e35eb5e664d1a79e761337720c0dbd663da64a8b62c6f4dac2",
+    "spent_attempt_4_go_reuse_authorized": false,
+    "attempt_4_infrastructure_failure_path": "experiments/runs/20260805-1554-mobile-scale-sweep-s17/attempt-4-infrastructure-failure.json",
+    "attempt_4_infrastructure_failure_sha256": "adad51dad1e3216272496dd83072c6d0514d6585da16fe66d56d4944184fa5e0",
+    "attempt_4_create_machine_id": 465183,
+    "attempt_4_resume_migrant_machine_id": 465186,
+    "attempt_1_infrastructure_failure_machine_id": 465155
+  },
+  "hypothesis": "The candidate-v2 (35M, 602/756) versus Qwen2.5-0.5B (663/756) gap cannot currently be attributed to parameter count versus pretraining-token budget. A matched-adaptation sweep over pinned base checkpoints (pythia-70m-deduped ~3e11 tokens; SmolLM2-135M ~2e12; SmolLM2-360M ~4e12) on the identical frozen Mobile Actions SFT recipe, scored on a fresh grouped selection split, separates the axes.",
+  "decision": "Which base-model scale, and which axis (tokens versus parameters), the project adopts for the next post-training phase: the smallest configuration clearing a +3.0-point exact-match margin over the in-run candidate-v2 reference on the fresh selection split with schema validity >= 0.95 and zero truncations, missing predictions, and generation failures; otherwise explicit per-axis falsification.",
+  "config_path": "configs/mobile_scale_sweep_v6.json",
+  "config_sha256": "0885b32f14751e77539f0bf58cae6f89b7c72e1d80c1b8a6d3fe61cff9c55540",
+  "runner_module": "src/barunlm/baselines/mobile_scale_sweep.py",
+  "attempt_6_corrections": {
+    "INFRA-6": "stdlib-only bootstrap — enforce_venv_isolation / stdlib_isolation_preflight run before any torch, transformers, training.data, mobile_matched, or pytest-bearing import on the production entrypoint; prove torch absent from sys.modules at gate entry",
+    "INFRA-7": "resolve the active venv from sys.prefix / sys.executable; require pyvenv.cfg in that prefix with include-system-site-packages=false; if VIRTUAL_ENV is set it must equal sys.prefix — never trust an unbound VIRTUAL_ENV alone",
+    "INFRA-8": "flash_attn absence uses find_spec without import plus ModuleNotFoundError-only classification; any ImportError indicating partial/broken extension (attempt-4 undefined symbol on flash_attn_2_cuda) fails closed; discoverable packages rejected without executing them",
+    "INFRA-9": "retain safe_run --isolated-project-venv, axolotl/CPython 3.11.10, denylist including 465183/465186/465155/465072, and every scientific binding; all authorization flags remain false pending fresh independent v6 audit"
+  },
+  "isolation_approach_chosen": {
+    "name": "isolated_project_venv_without_system_site_packages",
+    "packaging": "safe_run --isolated-project-venv",
+    "why": "Keeps the attempt-5 packaging approach while closing the three P0 attestation forgeries demonstrated by the attempt-5 no-go."
+  },
+  "carried_forward_verified": "every attempt-3/4/5 scientific binding plus denylist, axolotl/3.11.10, and authorization-all-false flags; only isolation attestation fields differ from v5",
+  "fresh_split": {
+    "derivation_path": "held_out_from_train",
+    "policy_version": "barun-mobile-scale-sweep-selection-v1",
+    "folds": 10,
+    "fold": 0,
+    "sweep_train_rows": 7212,
+    "selection_rows": 725,
+    "sweep_train_clusters": 4716,
+    "selection_clusters": 589,
+    "sweep_train_manifest_sha256": "3328654532d7e767e2cb87becc6c5869a65044bba7aadb62a69582be34c04183",
+    "selection_manifest_sha256": "3bd2281fce6d6910de8e42b843562a060e1d4e654bfd3ce95c850189b9f00cfb",
+    "sweep_train_membership_sha256": "3e0a64bb31ce3c4571d66b6983906e01c457edf6e53b99170b5943f7afea214e",
+    "selection_membership_sha256": "5838748633d408ab93a57b89fef17c6e4446dbbe14889215b60606d257f8ebf9"
+  },
+  "reference_evaluation": {
+    "candidate_id": "candidate-v2",
+    "scored_before_challenger_arms": true,
+    "cli_override_forbidden": true,
+    "attempt_4_evidence_note": "attempt-4 produced 590/725 exact; evidence only — never a CLI float"
+  },
+  "provider_runtime": {
+    "template": "axolotl",
+    "python_implementation": "CPython",
+    "python_version": "3.11.10",
+    "gpu": "H200",
+    "num_gpus": 1,
+    "region": "IN2",
+    "is_spot": false,
+    "storage_gb": 100,
+    "max_gpu_job_minutes": 360,
+    "isolated_project_venv": true,
+    "include_system_site_packages": false,
+    "safe_run_flag": "--isolated-project-venv"
+  },
+  "authorization": {
+    "launch_authorized": false,
+    "gpu_authorized": false,
+    "cuda_authorized": false,
+    "jarvislabs_resource_creation_authorized": false,
+    "training_authorized": false,
+    "baseline_weight_download_authorized": false,
+    "official_961_access_authorized": false,
+    "independent_prelaunch_audit_passed": false
+  },
+  "access_this_phase": {
+    "gpu": 0,
+    "cuda": 0,
+    "jarvislabs_mutations": 0,
+    "model_weights_downloaded": 0,
+    "official_961_rows_read": 0,
+    "protected_machine_ids_touched": 0,
+    "third_gpu_created": 0,
+    "network": "none for this CPU prefreeze; no weight download, no JarvisLabs command"
+  }
+}

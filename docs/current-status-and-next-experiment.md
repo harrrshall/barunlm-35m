@@ -24,17 +24,23 @@ No BarunAction training experiment is active. Candidate-v2 therefore remains the
 while the versioned v2 correction contract is built and audited behind a fresh population boundary.
 
 The matched-adaptation mobile scale sweep
-(`20260805-1554-mobile-scale-sweep-s17`) is at attempt-5 CPU prefreeze and is
-**blocked pending a fresh independent prelaunch audit of v5**. Attempt 4 attested axolotl /
+(`20260805-1554-mobile-scale-sweep-s17`) is at attempt-6 CPU prefreeze and is
+**blocked pending a fresh independent prelaunch audit of v6**. Attempt 4 attested axolotl /
 CPython 3.11.10 on H200 lineage **465183→465186**, completed the in-run candidate-v2 reference
 evaluation at **590/725**, then aborted on the first challenger because `jl run` created
 `uv venv --system-site-packages` and Transformers imported the image `flash_attn_2_cuda`
 ABI-mismatched against venv torch 2.13.0. Failure receipt SHA-256
 `adad51dad1e3216272496dd83072c6d0514d6585da16fe66d56d4944184fa5e0`; spent attempt-4 go SHA-256
-`9bf60db79cc543e35eb5e664d1a79e761337720c0dbd663da64a8b62c6f4dac2`. v5 freezes isolated project
-venv (`include-system-site-packages=false`) with a fail-closed flash_attn preflight; config
-SHA-256 `57dcfe573c17759404545c272f1fc945aabb82b2893f697615eb7fe428d1f2d7`. No GPU may be created
-until a new independent v5 audit returns go. Never reuse 465183, 465186, or 465155.
+`9bf60db79cc543e35eb5e664d1a79e761337720c0dbd663da64a8b62c6f4dac2`. Attempt 5 / frozen v5 was
+rejected at independent prelaunch audit for a forgeable isolation attestation (Torch imported
+before the gate; `VIRTUAL_ENV`/`pyvenv.cfg` unbound to `sys.prefix`; attempt-4-shaped
+`ImportError` treated as flash_attn absence). Immutable no-go SHA-256
+`05d40c7d6ab73594fb8e60fb15de94f676e76d62f97ecae43dfcaba7225c0500`. Never patch, retry, rescue,
+or launch v5. v6 keeps scientific bindings and `--isolated-project-venv` / axolotl / 3.11.10 /
+denylist (including 465183/465186/465155/465072) and corrects only the isolation contract;
+config SHA-256 `0885b32f14751e77539f0bf58cae6f89b7c72e1d80c1b8a6d3fe61cff9c55540`. No GPU may be
+created until a new independent v6 audit returns go. Never reuse 465183, 465186, 465155, or
+465072.
 
 ## Public showcase release
 

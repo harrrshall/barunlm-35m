@@ -1,7 +1,7 @@
 """Matched-adaptation base-model size/token sweep for Mobile Actions.
 
 This module is the CPU-buildable core of run ``20260805-1554-mobile-scale-sweep-s17``
-(attempt 5).  It derives the fresh grouped selection split from the frozen
+(attempt 6).  It derives the fresh grouped selection split from the frozen
 7,937-row internal train manifest, audits gold token lengths per roster
 tokenizer, freezes the raw prompt transport and termination contract for base
 (non-chat) checkpoints, and binds the preregistered learning-rate screen and
@@ -13,12 +13,14 @@ versus required CPython 3.11.10).  Attempt 4 attested ``axolotl`` / CPython
 reference evaluation, then aborted on the first challenger because ``jl run``
 created ``uv venv --system-site-packages`` and Transformers imported the
 axolotl image ``flash_attn_2_cuda`` ABI-mismatched against venv torch 2.13.0.
-This attempt binds the successor ``mobile_scale_sweep_v5.json``, which keeps
-every scientific binding attempt-3/4 accepted, retains axolotl / CPython
-3.11.10, and freezes an isolated project venv
-(``include-system-site-packages = false``) with a fail-closed ``flash_attn``
-import preflight before Torch/CUDA or challenger load.  The spent attempt-4 go
-is never reused.
+Attempt 5 / frozen v5 was rejected at independent prelaunch audit
+(SHA-256 ``05d40c7d…``) for a forgeable isolation attestation.  This attempt
+binds ``mobile_scale_sweep_v6.json``, which keeps every scientific binding
+attempt-3/4/5 accepted, retains axolotl / CPython 3.11.10 and
+``safe_run --isolated-project-venv``, and closes the three P0 attestation
+defects: stdlib-first gate before Torch, interpreter-bound ``pyvenv.cfg``, and
+``ModuleNotFoundError``-only / ``find_spec`` flash_attn absence.  Spent
+attempt-4 go and rejected v5 are never reused.
 
 The sealed 961-row official Mobile Actions evaluation tail is never an input:
 this runner accepts only the already-derived, hash-pinned internal-train
@@ -36,38 +38,31 @@ from __future__ import annotations
 import argparse
 import fnmatch
 import hashlib
+import importlib.util
 import json
 import math
 import os
 import platform
 import re
 import shutil
+import site
+import sys
+import sysconfig
 import time
 from collections.abc import Iterable, Mapping, Sequence
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Protocol
 
-from barunaction.candidate import CANDIDATE_CHECKPOINT_SHA256, CANDIDATE_ID
-from barunlm.baselines.mobile_matched import count_unique_parameters
-from barunlm.evaluation.mobile_actions import MOBILE_ACTIONS_SCORER_VERSION, write_scores
-from barunlm.training.data import (
-    SFTExample,
-    TokenizedExample,
-    load_manifest,
-    sha256_file,
-    tokenize_examples,
-)
-
-SCALE_SWEEP_CONFIG_SCHEMA_VERSION = "barun-mobile-scale-sweep-config-v5"
-RESULT_SCHEMA_VERSION = "barun-mobile-scale-sweep-result-v5"
+SCALE_SWEEP_CONFIG_SCHEMA_VERSION = "barun-mobile-scale-sweep-config-v6"
+RESULT_SCHEMA_VERSION = "barun-mobile-scale-sweep-result-v6"
 RAW_TRANSPORT_VERSION = "barun-raw-prompt-transport-v1"
 SELECTION_POLICY_VERSION = "barun-mobile-scale-sweep-selection-v1"
 
 RUN_ID = "20260805-1554-mobile-scale-sweep-s17"
-CONFIG_PATH = Path(__file__).resolve().parents[3] / "configs" / "mobile_scale_sweep_v5.json"
-# Frozen after the attempt-5 CPU build, before any baseline weight download or training.
-CONFIG_SHA256 = "57dcfe573c17759404545c272f1fc945aabb82b2893f697615eb7fe428d1f2d7"
+CONFIG_PATH = Path(__file__).resolve().parents[3] / "configs" / "mobile_scale_sweep_v6.json"
+# Frozen after the attempt-6 CPU build, before any baseline weight download or training.
+CONFIG_SHA256 = "0885b32f14751e77539f0bf58cae6f89b7c72e1d80c1b8a6d3fe61cff9c55540"
 
 # Immutable prior evidence; never edited, never loaded by this runner as the active config.
 ATTEMPT_1_CONFIG_SHA256 = "d3ee897f9afeefe1e01ec32fe9b2721479b7496785e742d0954ad081758953b8"
@@ -78,11 +73,17 @@ ATTEMPT_3_CONFIG_SHA256 = "a67959b9b95aa72a6c9153234bb502490c800dba2c539ba9163e3
 ATTEMPT_3_GO_SHA256 = "d74d01e2078322c969db1158c54ebdc7343432635d223d78523226bae452f03b"
 ATTEMPT_4_CONFIG_SHA256 = "c89b5c77a5531f617f1acc23e754c27336cf039830e9de7f00d44c8353e8dcb0"
 ATTEMPT_4_GO_SHA256 = "9bf60db79cc543e35eb5e664d1a79e761337720c0dbd663da64a8b62c6f4dac2"
+ATTEMPT_5_CONFIG_SHA256 = "57dcfe573c17759404545c272f1fc945aabb82b2893f697615eb7fe428d1f2d7"
+ATTEMPT_5_NO_GO_SHA256 = "05d40c7d6ab73594fb8e60fb15de94f676e76d62f97ecae43dfcaba7225c0500"
 ATTEMPT_1_INFRASTRUCTURE_FAILURE_SHA256 = (
     "429ba84586a9b1ea503138e8defab9e595bdad7a08ec4fd148eee2743eee2855"
 )
 ATTEMPT_4_INFRASTRUCTURE_FAILURE_SHA256 = (
     "adad51dad1e3216272496dd83072c6d0514d6585da16fe66d56d4944184fa5e0"
+)
+# Exact attempt-4 remote ImportError shape (flash_attn_2_cuda undefined symbol).
+ATTEMPT_4_FLASH_ATTN_IMPORT_ERROR = (
+    "undefined symbol: _ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib"
 )
 
 # Frozen provider runtime identity (matches successful axolotl H200 scientific runs).
@@ -156,6 +157,16 @@ class ExistingScaleSweepRunError(FileExistsError):
 
 def _sha256_bytes(value: bytes) -> str:
     return hashlib.sha256(value).hexdigest()
+
+
+def sha256_file(path: str | Path) -> str:
+    """Hash one file without importing the Torch-bearing training package."""
+
+    digest = hashlib.sha256()
+    with Path(path).open("rb") as handle:
+        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
 
 
 def _canonical_json(value: Any) -> str:
@@ -398,7 +409,7 @@ def _length_stats(lengths: Sequence[int]) -> dict[str, int]:
 
 
 def gold_token_length_audit(
-    rows: Sequence[SFTExample],
+    rows: Sequence[Any],
     tokenizer: EncodesText,
     *,
     eos_reserved: int = 1,
@@ -536,12 +547,12 @@ def verify_termination_contract(
 
 
 def tokenize_raw_rows(
-    rows: Sequence[SFTExample],
+    rows: Sequence[Any],
     tokenizer: Any,
     *,
     eos_token_id: int,
     max_seq_len: int,
-) -> list[TokenizedExample]:
+) -> list[Any]:
     """Raw transport: full frozen prompt bytes, no chat template, one appended EOS.
 
     Base checkpoints receive byte-identical model-visible prompts to BarunAction
@@ -550,6 +561,10 @@ def tokenize_raw_rows(
     separately, exactly as at generation time.  Any overlength row aborts the
     run; nothing is dropped or truncated.
     """
+
+    # Import lazily: ``barunlm.training.data`` imports Torch.  Production calls
+    # this function only after the stdlib-only isolation boundary has passed.
+    from barunlm.training.data import tokenize_examples
 
     accepted, rejected = tokenize_examples(
         rows, tokenizer, eos_token_id=eos_token_id, max_seq_len=max_seq_len
@@ -707,6 +722,12 @@ def decide_adoption(
 
 def load_frozen_config(path: str | Path = CONFIG_PATH) -> dict[str, Any]:
     """Load and validate the immutable scientific config for this sweep."""
+
+    # These project modules are deliberately imported only after the production
+    # entrypoint's stdlib isolation preflight.  Neither imports Torch, but keeping
+    # them lazy makes the preflight boundary independently inspectable.
+    from barunaction.candidate import CANDIDATE_CHECKPOINT_SHA256, CANDIDATE_ID
+    from barunlm.evaluation.mobile_actions import MOBILE_ACTIONS_SCORER_VERSION
 
     config_path = Path(path)
     actual = sha256_file(config_path)
@@ -937,6 +958,22 @@ def _validate_frozen_venv_isolation(isolation: Any) -> dict[str, Any]:
         raise ScaleSweepError("compute.venv_isolation.include_system_site_packages must be false")
     if isolation.get("flash_attn_must_be_unimportable") is not True:
         raise ScaleSweepError("compute.venv_isolation.flash_attn_must_be_unimportable must be true")
+    if isolation.get("flash_attn_absence_rule") != "module_not_found_only":
+        raise ScaleSweepError(
+            "compute.venv_isolation.flash_attn_absence_rule must be 'module_not_found_only'"
+        )
+    if isolation.get("interpreter_binding") != "sys.prefix_and_sys.executable":
+        raise ScaleSweepError(
+            "compute.venv_isolation.interpreter_binding must be 'sys.prefix_and_sys.executable'"
+        )
+    if isolation.get("virtual_env_policy") != "when_set_must_equal_sys.prefix":
+        raise ScaleSweepError(
+            "compute.venv_isolation.virtual_env_policy must be 'when_set_must_equal_sys.prefix'"
+        )
+    if isolation.get("discovery") != "importlib.util.find_spec_without_import":
+        raise ScaleSweepError(
+            "compute.venv_isolation.discovery must be 'importlib.util.find_spec_without_import'"
+        )
     fail_closed_before = isolation.get("fail_closed_before")
     if fail_closed_before != [
         "torch_import",
@@ -986,68 +1023,486 @@ def read_include_system_site_packages(pyvenv_cfg: str | Path) -> bool:
     )
 
 
-def probe_flash_attn_importable() -> bool:
-    """Return True iff ``import flash_attn`` succeeds in this process."""
+@dataclass(frozen=True, slots=True)
+class FlashAttnSpecObservation:
+    """Metadata returned by ``find_spec`` without executing ``flash_attn``."""
 
+    origin: str | None
+    search_locations: tuple[str, ...]
+
+
+@dataclass(frozen=True, slots=True)
+class VenvIsolationObservation:
+    """Detached live-process facts consumed by the pure isolation assessor."""
+
+    virtual_env: str | None
+    executable: str
+    executable_realpath: str
+    prefix: str
+    base_prefix: str
+    base_stdlib_roots: tuple[str, ...]
+    cwd: str
+    repo_root: str
+    source_root: str
+    runner_module: str
+    runner_module_sha256: str
+    pyvenv_cfg: str
+    include_system_site_packages: bool
+    sys_path: tuple[str, ...]
+    python_path: str | None
+    user_site_enabled: bool | None
+    user_site: str
+    flash_attn_spec: FlashAttnSpecObservation | None
+    torch_already_imported: bool
+
+
+def _lexical_absolute_path(value: str, *, label: str) -> str:
+    """Return one absolute normalized path without following its final symlink."""
+
+    if not isinstance(value, str) or not value:
+        raise ScaleSweepError(f"live {label} must be a nonempty path")
+    path = Path(value)
+    if not path.is_absolute():
+        path = Path.cwd() / path
+    return os.path.abspath(path)
+
+
+def _resolved_live_path(value: str, *, label: str) -> str:
+    """Resolve one required live path and fail closed when it does not exist."""
+
+    lexical = _lexical_absolute_path(value, label=label)
     try:
-        __import__("flash_attn")
-    except ImportError:
+        return str(Path(lexical).resolve(strict=True))
+    except (OSError, RuntimeError) as error:
+        raise ScaleSweepError(f"live {label} cannot be resolved: {lexical}") from error
+
+
+def _normalized_real_path(value: str, *, label: str) -> str:
+    """Resolve existing path components while permitting a missing final path."""
+
+    lexical = _lexical_absolute_path(value, label=label)
+    try:
+        return str(Path(lexical).resolve(strict=False))
+    except (OSError, RuntimeError) as error:
+        raise ScaleSweepError(f"live {label} cannot be normalized: {lexical}") from error
+
+
+def _path_is_within(path: Path, root: Path) -> bool:
+    try:
+        path.relative_to(root)
+    except ValueError:
         return False
     return True
 
 
-def enforce_venv_isolation(
-    *,
-    compute: Mapping[str, Any],
-    virtual_env: Any | None = None,
-    flash_attn_importable: bool | None = None,
-) -> dict[str, Any]:
-    """Fail closed before Torch/challenger load when the live venv can see flash_attn.
+def _is_site_packages_path(path: Path) -> bool:
+    return any(part.casefold() in {"site-packages", "dist-packages"} for part in path.parts)
 
-    Attempt 4 aborted because ``jl run`` created ``uv venv --system-site-packages``
-    and Transformers imported the axolotl image ``flash_attn_2_cuda`` extension.
-    This gate independently requires the active project venv's ``pyvenv.cfg`` to
-    record ``include-system-site-packages = false`` and that ``import flash_attn``
-    raises ``ImportError``, so the image ABI-mismatched extension cannot enter the
-    Transformers path even if controller packaging were bypassed.
+
+def discover_flash_attn_spec() -> FlashAttnSpecObservation | None:
+    """Discover ``flash_attn`` without importing it or executing its native extension."""
+
+    try:
+        spec = importlib.util.find_spec("flash_attn")
+    except Exception as error:  # fail closed on custom/broken import finders
+        raise ScaleSweepError("flash_attn metadata discovery failed") from error
+    if spec is None:
+        return None
+    locations = tuple(
+        _normalized_real_path(str(location), label="flash_attn search location")
+        for location in (spec.submodule_search_locations or ())
+    )
+    origin = spec.origin
+    if isinstance(origin, str) and origin not in {"built-in", "frozen"}:
+        origin = _normalized_real_path(origin, label="flash_attn spec origin")
+    return FlashAttnSpecObservation(origin=origin, search_locations=locations)
+
+
+def classify_flash_attn_import_error(error: BaseException) -> None:
+    """Fail closed unless ``error`` is a clean top-level ``ModuleNotFoundError``.
+
+    Attempt-4's ABI mismatch raises ``ImportError`` (undefined symbol on
+    ``flash_attn_2_cuda``).  V5 treated every ``ImportError`` as absence; v6
+    accepts only ``ModuleNotFoundError`` for top-level ``flash_attn``.
     """
 
-    isolation = _validate_frozen_venv_isolation(compute.get("venv_isolation"))
-    env_root = os.environ.get("VIRTUAL_ENV") if virtual_env is None else virtual_env
-    if not isinstance(env_root, str) or not env_root.strip():
+    if isinstance(error, ModuleNotFoundError):
+        name = error.name
+        if name in {None, "flash_attn"}:
+            return
         raise ScaleSweepError(
-            "active VIRTUAL_ENV is required for the frozen venv isolation contract"
+            "flash_attn ModuleNotFoundError is not a clean top-level absence: "
+            f"missing submodule {name!r}"
+        ) from error
+    if isinstance(error, ImportError):
+        detail = str(error)
+        raise ScaleSweepError(
+            "flash_attn raised ImportError indicating a partial/broken extension "
+            "(attempt-4 class: undefined symbol on flash_attn_2_cuda); fail closed: "
+            f"{detail}"
+        ) from error
+    raise ScaleSweepError(
+        f"flash_attn probe observed unexpected exception type {type(error).__name__}"
+    ) from error
+
+
+def probe_flash_attn_importable() -> bool:
+    """Return whether ``flash_attn`` is discoverable, without importing it.
+
+    Compatibility name retained for tests; discoverable packages are treated as
+    importable hazards even when a later import would raise ``ImportError``.
+    """
+
+    return discover_flash_attn_spec() is not None
+
+
+def assert_flash_attn_absent() -> None:
+    """Fail closed unless ``find_spec`` proves top-level ``flash_attn`` absent.
+
+    This boundary never imports ``flash_attn``: importing an installed but
+    ABI-broken extension would execute the exact attempt-4 failure path before
+    the isolation decision exists.
+    """
+
+    spec = discover_flash_attn_spec()
+    if spec is not None:
+        raise ScaleSweepError(
+            "flash_attn is discoverable before Torch/CUDA or challenger model load: "
+            f"origin={spec.origin!r}, search_locations={list(spec.search_locations)!r}"
         )
-    venv_path = Path(env_root).resolve()
-    cfg_path = venv_path / "pyvenv.cfg"
-    if not cfg_path.is_file():
-        raise ScaleSweepError(f"active virtual environment lacks pyvenv.cfg: {cfg_path}")
-    include_system = read_include_system_site_packages(cfg_path)
-    if include_system is not REQUIRED_INCLUDE_SYSTEM_SITE_PACKAGES:
+
+
+def collect_venv_isolation_observation(
+    *, require_torch_absent: bool = True
+) -> VenvIsolationObservation:
+    """Snapshot the actual interpreter/environment for the isolation gate.
+
+    The production entrypoint loads this module via
+    ``barunlm.scale_sweep_stdlib_loader`` so ``require_torch_absent=True`` can
+    hold before ``baselines`` package init imports Torch.  ``run()`` may re-attest
+    the venv/flash_attn contract after that intentional import with
+    ``require_torch_absent=False``.
+    """
+
+    torch_present = "torch" in sys.modules
+    if require_torch_absent and torch_present:
+        raise ScaleSweepError(
+            "torch is already present in sys.modules at isolation-gate entry; "
+            "the stdlib-first boundary was violated"
+        )
+
+    # Resolve the venv from the executing interpreter — never trust VIRTUAL_ENV alone.
+    prefix = _resolved_live_path(sys.prefix, label="sys.prefix")
+    base_prefix = _resolved_live_path(sys.base_prefix, label="sys.base_prefix")
+    if prefix == base_prefix:
+        raise ScaleSweepError("sys.prefix equals sys.base_prefix; no active isolated venv")
+    cfg_path = str(Path(prefix) / "pyvenv.cfg")
+    if not Path(cfg_path).is_file():
+        raise ScaleSweepError(f"active sys.prefix lacks pyvenv.cfg: {cfg_path}")
+
+    env_root = os.environ.get("VIRTUAL_ENV")
+    virtual_env: str | None
+    if env_root is None or not str(env_root).strip():
+        virtual_env = None
+    else:
+        if not isinstance(env_root, str):
+            raise ScaleSweepError("VIRTUAL_ENV must be a string when set")
+        virtual_env = _resolved_live_path(env_root, label="VIRTUAL_ENV")
+        if virtual_env != prefix:
+            raise ScaleSweepError(
+                f"VIRTUAL_ENV {virtual_env} disagrees with executing sys.prefix {prefix}"
+            )
+
+    executable = _lexical_absolute_path(sys.executable, label="sys.executable")
+    if not Path(executable).is_file():
+        raise ScaleSweepError(f"live sys.executable is not a file: {executable}")
+    if not _path_is_within(Path(executable), Path(prefix)):
+        raise ScaleSweepError(f"sys.executable {executable} is outside active sys.prefix {prefix}")
+
+    normalized_sys_path: list[str] = []
+    for index, entry in enumerate(sys.path):
+        if not isinstance(entry, str):
+            raise ScaleSweepError(f"live sys.path[{index}] is not a string")
+        normalized_sys_path.append(
+            _normalized_real_path(entry or str(Path.cwd()), label=f"sys.path[{index}]")
+        )
+    user_site = site.getusersitepackages()
+    if not isinstance(user_site, str) or not user_site:
+        raise ScaleSweepError("live user-site path is unavailable")
+    runner_module = _resolved_live_path(__file__, label="scale-sweep runner module")
+    source_root = str(Path(runner_module).parents[2])
+    repo_root = str(Path(runner_module).parents[3])
+    base_paths = sysconfig.get_paths(vars={"base": base_prefix, "platbase": base_prefix})
+    stdlib_roots = {
+        _normalized_real_path(value, label=f"sys.base_prefix {name}")
+        for name, value in base_paths.items()
+        if name in {"stdlib", "platstdlib"}
+    }
+    for root in tuple(stdlib_roots):
+        root_path = Path(root)
+        stdlib_roots.add(
+            str(root_path.parent / f"python{sys.version_info.major}{sys.version_info.minor}.zip")
+        )
+
+    # Confirm absence with ModuleNotFoundError-only classification after find_spec.
+    assert_flash_attn_absent()
+
+    return VenvIsolationObservation(
+        virtual_env=virtual_env,
+        executable=executable,
+        executable_realpath=_resolved_live_path(sys.executable, label="sys.executable realpath"),
+        prefix=prefix,
+        base_prefix=base_prefix,
+        base_stdlib_roots=tuple(sorted(stdlib_roots)),
+        cwd=_resolved_live_path(str(Path.cwd()), label="current working directory"),
+        repo_root=repo_root,
+        source_root=source_root,
+        runner_module=runner_module,
+        runner_module_sha256=sha256_file(runner_module),
+        pyvenv_cfg=cfg_path,
+        include_system_site_packages=read_include_system_site_packages(cfg_path),
+        sys_path=tuple(normalized_sys_path),
+        python_path=os.environ.get("PYTHONPATH"),
+        user_site_enabled=site.ENABLE_USER_SITE,
+        user_site=_normalized_real_path(user_site, label="user-site"),
+        flash_attn_spec=None,
+        torch_already_imported=torch_present if require_torch_absent else False,
+    )
+
+
+def _observed_absolute_path(value: Any, *, label: str) -> Path:
+    """Validate an already-normalized path without touching the filesystem."""
+
+    if not isinstance(value, str) or not value or not Path(value).is_absolute():
+        raise ScaleSweepError(f"observed {label} must be a nonempty absolute path")
+    normalized = Path(os.path.normpath(value))
+    if str(normalized) != value:
+        raise ScaleSweepError(f"observed {label} must be normalized")
+    return normalized
+
+
+def assess_venv_isolation(
+    *, compute: Mapping[str, Any], observation: VenvIsolationObservation
+) -> dict[str, Any]:
+    """Purely assess a detached observation against the frozen isolation contract."""
+
+    isolation = _validate_frozen_venv_isolation(compute.get("venv_isolation"))
+    if not isinstance(observation, VenvIsolationObservation):
+        raise ScaleSweepError("venv isolation observation has the wrong type")
+    if observation.torch_already_imported:
+        raise ScaleSweepError(
+            "torch is already present in sys.modules at isolation-gate entry; "
+            "the stdlib-first boundary was violated"
+        )
+
+    executable = _observed_absolute_path(observation.executable, label="sys.executable")
+    executable_realpath = _observed_absolute_path(
+        observation.executable_realpath, label="sys.executable realpath"
+    )
+    prefix = _observed_absolute_path(observation.prefix, label="sys.prefix")
+    base_prefix = _observed_absolute_path(observation.base_prefix, label="sys.base_prefix")
+    cwd = _observed_absolute_path(observation.cwd, label="current working directory")
+    repo_root = _observed_absolute_path(observation.repo_root, label="staged repository root")
+    source_root = _observed_absolute_path(observation.source_root, label="staged source root")
+    runner_module = _observed_absolute_path(
+        observation.runner_module, label="scale-sweep runner module"
+    )
+    cfg_path = _observed_absolute_path(observation.pyvenv_cfg, label="pyvenv.cfg")
+
+    if observation.virtual_env is None:
+        venv_path = prefix
+        virtual_env_receipt: str | None = None
+    else:
+        venv_path = _observed_absolute_path(observation.virtual_env, label="VIRTUAL_ENV")
+        if prefix != venv_path:
+            raise ScaleSweepError(
+                f"active sys.prefix {prefix} does not equal VIRTUAL_ENV {venv_path}"
+            )
+        virtual_env_receipt = str(venv_path)
+
+    if prefix == base_prefix:
+        raise ScaleSweepError("sys.prefix equals sys.base_prefix; no active isolated venv")
+    if cwd != repo_root:
+        raise ScaleSweepError(
+            f"current working directory {cwd} does not equal staged repository root {repo_root}"
+        )
+    if source_root != repo_root / "src":
+        raise ScaleSweepError("staged source root is not the exact src child of repository root")
+    expected_runner = source_root / "barunlm" / "baselines" / "mobile_scale_sweep.py"
+    if runner_module != expected_runner:
+        raise ScaleSweepError(
+            f"runner module {runner_module} is not the expected staged source {expected_runner}"
+        )
+    if (
+        not isinstance(observation.runner_module_sha256, str)
+        or re.fullmatch(r"[0-9a-f]{64}", observation.runner_module_sha256) is None
+    ):
+        raise ScaleSweepError("runner module observation lacks an exact SHA-256")
+    expected_runner_sha256 = isolation.get("runner_module_sha256")
+    if expected_runner_sha256 is not None:
+        if (
+            not isinstance(expected_runner_sha256, str)
+            or re.fullmatch(r"[0-9a-f]{64}", expected_runner_sha256) is None
+        ):
+            raise ScaleSweepError("frozen runner_module_sha256 is invalid")
+        if observation.runner_module_sha256 != expected_runner_sha256:
+            raise ScaleSweepError(
+                "live runner module SHA-256 differs from the frozen isolation contract"
+            )
+    if not _path_is_within(executable, prefix):
+        raise ScaleSweepError(f"sys.executable {executable} is outside active sys.prefix {prefix}")
+    if not _path_is_within(executable_realpath, base_prefix):
+        raise ScaleSweepError(
+            "sys.executable realpath is outside the attested sys.base_prefix: "
+            f"{executable_realpath} not under {base_prefix}"
+        )
+    if cfg_path != prefix / "pyvenv.cfg":
+        raise ScaleSweepError("observed pyvenv.cfg is not the active sys.prefix configuration")
+    if observation.include_system_site_packages is not REQUIRED_INCLUDE_SYSTEM_SITE_PACKAGES:
         raise ScaleSweepError(
             "live pyvenv.cfg include-system-site-packages does not match the frozen "
-            f"isolation contract: observed {include_system!r}, expected "
-            f"{REQUIRED_INCLUDE_SYSTEM_SITE_PACKAGES!r} "
+            f"isolation contract: observed {observation.include_system_site_packages!r}, "
+            f"expected {REQUIRED_INCLUDE_SYSTEM_SITE_PACKAGES!r} "
             "(attempt-4 failure class: jl uv venv --system-site-packages exposed "
             "flash_attn_2_cuda into Transformers)"
         )
-    importable = (
-        probe_flash_attn_importable()
-        if flash_attn_importable is None
-        else bool(flash_attn_importable)
-    )
-    if importable:
+    if observation.python_path not in {None, ""}:
         raise ScaleSweepError(
-            "import flash_attn succeeded; the frozen isolation contract requires it "
-            "to be unimportable before Torch/CUDA or challenger model load"
+            "PYTHONPATH must be unset for the frozen venv isolation contract; observed "
+            f"{observation.python_path!r}"
         )
+    if observation.user_site_enabled is not False:
+        raise ScaleSweepError(
+            f"Python user-site loading must be disabled; observed {observation.user_site_enabled!r}"
+        )
+
+    user_site = _observed_absolute_path(observation.user_site, label="user-site")
+    base_stdlib_roots = tuple(
+        _observed_absolute_path(value, label=f"base stdlib root[{index}]")
+        for index, value in enumerate(observation.base_stdlib_roots)
+    )
+    if not base_stdlib_roots:
+        raise ScaleSweepError("no sys.base_prefix stdlib roots were observed")
+    for root in base_stdlib_roots:
+        if not _path_is_within(root, base_prefix) or _is_site_packages_path(root):
+            raise ScaleSweepError(f"invalid sys.base_prefix stdlib root: {root}")
+        if root.suffix == ".zip":
+            valid_shape = root.parent == base_prefix / "lib" and re.fullmatch(
+                r"python\d+\.zip", root.name
+            )
+        else:
+            valid_shape = root.parent == base_prefix / "lib" and re.fullmatch(
+                r"python\d+\.\d+", root.name
+            )
+        if not valid_shape:
+            raise ScaleSweepError(f"unrecognized sys.base_prefix stdlib root shape: {root}")
+    observed_sys_path = tuple(
+        _observed_absolute_path(value, label=f"sys.path[{index}]")
+        for index, value in enumerate(observation.sys_path)
+    )
+    if not observed_sys_path:
+        raise ScaleSweepError("live sys.path must not be empty")
+    venv_site_paths = tuple(
+        path
+        for path in observed_sys_path
+        if _path_is_within(path, prefix) and _is_site_packages_path(path)
+    )
+    if not venv_site_paths:
+        raise ScaleSweepError("live sys.path lacks the active venv site-packages directory")
+    allowed_project_paths = {repo_root, source_root}
+    disallowed_sys_paths = tuple(
+        path
+        for path in observed_sys_path
+        if not _path_is_within(path, prefix)
+        and not any(_path_is_within(path, root) for root in base_stdlib_roots)
+        and path not in allowed_project_paths
+    )
+    if disallowed_sys_paths:
+        raise ScaleSweepError(
+            "sys.path contains entries outside the frozen venv/base-stdlib/project allowlist: "
+            + ", ".join(str(path) for path in disallowed_sys_paths)
+        )
+    if any(path == user_site or _path_is_within(path, user_site) for path in observed_sys_path):
+        raise ScaleSweepError(f"user-site path is visible on sys.path: {user_site}")
+
+    if observation.flash_attn_spec is not None:
+        spec = observation.flash_attn_spec
+        if not isinstance(spec, FlashAttnSpecObservation):
+            raise ScaleSweepError("flash_attn spec observation has the wrong type")
+        raise ScaleSweepError(
+            "flash_attn is discoverable before Torch/CUDA or challenger model load: "
+            f"origin={spec.origin!r}, search_locations={list(spec.search_locations)!r}"
+        )
+
     return {
         "approach": isolation["approach"],
-        "virtual_env": str(venv_path),
+        "virtual_env": virtual_env_receipt,
         "pyvenv_cfg": str(cfg_path),
+        "sys_executable": str(executable),
+        "sys_executable_realpath": str(executable_realpath),
+        "sys_prefix": str(prefix),
+        "sys_base_prefix": str(base_prefix),
+        "base_stdlib_roots": [str(path) for path in base_stdlib_roots],
+        "cwd": str(cwd),
+        "repo_root": str(repo_root),
+        "source_root": str(source_root),
+        "runner_module": str(runner_module),
+        "runner_module_sha256": observation.runner_module_sha256,
         "include_system_site_packages": False,
-        "flash_attn_importable": False,
+        "python_path": None,
+        "user_site_enabled": False,
+        "user_site": str(user_site),
+        "sys_path": [str(path) for path in observed_sys_path],
+        "external_site_packages": [],
+        "flash_attn_discoverable": False,
+        "flash_attn_spec": None,
+        "torch_already_imported": False,
     }
+
+
+def enforce_venv_isolation(
+    *, compute: Mapping[str, Any], require_torch_absent: bool = True
+) -> dict[str, Any]:
+    """Production boundary: assess only actual live-process observations."""
+
+    return assess_venv_isolation(
+        compute=compute,
+        observation=collect_venv_isolation_observation(require_torch_absent=require_torch_absent),
+    )
+
+
+def _load_preflight_compute(path: str | Path) -> dict[str, Any]:
+    """Load only the config fields needed by the stdlib-first isolation boundary."""
+
+    config_path = Path(path)
+    actual = sha256_file(config_path)
+    if actual != CONFIG_SHA256:
+        raise ScaleSweepError(
+            f"scale-sweep config SHA-256 changed: expected {CONFIG_SHA256}, got {actual}"
+        )
+    payload = json.loads(config_path.read_text(encoding="utf-8"))
+    if not isinstance(payload, dict):
+        raise ScaleSweepError("config must be a JSON object")
+    if payload.get("schema_version") != SCALE_SWEEP_CONFIG_SCHEMA_VERSION:
+        raise ScaleSweepError("config schema version changed")
+    if payload.get("run_id") != RUN_ID:
+        raise ScaleSweepError("config run_id is not the frozen immutable run ID")
+    compute = payload.get("compute")
+    if not isinstance(compute, Mapping):
+        raise ScaleSweepError("config compute contract is missing")
+    _validate_frozen_runtime_attestation(compute)
+    return dict(compute)
+
+
+def stdlib_isolation_preflight(
+    path: str | Path = CONFIG_PATH, *, require_torch_absent: bool = True
+) -> dict[str, Any]:
+    """Run the production isolation boundary without importing any project dependency."""
+
+    return enforce_venv_isolation(
+        compute=_load_preflight_compute(path),
+        require_torch_absent=require_torch_absent,
+    )
 
 
 def enforce_machine_id(machine_id: Any, protected_machine_ids: Any) -> int:
@@ -1376,7 +1831,7 @@ def _write_json(path: Path, payload: Any) -> None:
 def _train_one_fit(
     *,
     model: Any,
-    examples: Sequence[TokenizedExample],
+    examples: Sequence[Any],
     pad_token_id: int,
     optimization: Mapping[str, Any],
     learning_rate: float,
@@ -1678,8 +2133,8 @@ def _evaluate_reference(
     config: Mapping[str, Any],
     checkpoint_dir: Path,
     selection_manifest_path: Path,
-    sweep_rows: Sequence[SFTExample],
-    selection_rows: Sequence[SFTExample],
+    sweep_rows: Sequence[Any],
+    selection_rows: Sequence[Any],
     output_dir: Path,
     device_name: str,
 ) -> dict[str, Any]:
@@ -1694,7 +2149,9 @@ def _evaluate_reference(
 
     from tokenizers import Tokenizer
 
+    from barunaction.candidate import CANDIDATE_ID
     from barunlm.evaluation.generation import GenerationError, generate_manifest
+    from barunlm.evaluation.mobile_actions import write_scores
 
     reference_cfg = config["reference_evaluation"]
     evaluation = config["evaluation"]
@@ -1759,6 +2216,11 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
     separate signed authorization. Never reads the sealed official rows.
     """
 
+    # Re-attest venv/flash_attn after the entrypoint's stdlib-first gate. Torch may
+    # already be present once this module was imported through ``baselines`` package
+    # init; the entrypoint proves the pre-Torch boundary via
+    # ``barunlm.scale_sweep_stdlib_loader`` before that import.
+    venv_isolation = stdlib_isolation_preflight(args.config, require_torch_absent=False)
     config = load_frozen_config(args.config)
     if args.run_id != config["run_id"]:
         raise ScaleSweepError("CLI run_id differs from the frozen configuration")
@@ -1771,9 +2233,13 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         observed_python_implementation=platform.python_implementation(),
         observed_python_version=platform.python_version(),
     )
-    venv_isolation = enforce_venv_isolation(compute=config["compute"])
-
+    # Both modules below import Torch and therefore must remain after the repeated
+    # production isolation boundary.
     import torch
+
+    from barunlm.baselines.mobile_matched import count_unique_parameters
+    from barunlm.evaluation.mobile_actions import write_scores
+    from barunlm.training.data import load_manifest
 
     if not torch.cuda.is_available() or not torch.cuda.is_bf16_supported():
         raise ScaleSweepError("the scale sweep requires CUDA with bfloat16 support")
@@ -2132,10 +2598,14 @@ __all__ = [
     "LearningRateFit",
     "MeasuredFitFailure",
     "ScaleSweepError",
+    "assert_flash_attn_absent",
+    "assess_venv_isolation",
     "build_decision",
     "build_parser",
+    "classify_flash_attn_import_error",
     "decide_adoption",
     "decoding_kwargs",
+    "discover_flash_attn_spec",
     "enforce_machine_id",
     "enforce_runtime_attestation",
     "enforce_venv_isolation",
@@ -2152,6 +2622,7 @@ __all__ = [
     "run",
     "select_learning_rate",
     "selection_fold_for_cluster",
+    "stdlib_isolation_preflight",
     "tokenize_raw_rows",
     "validate_snapshot_pins",
     "verify_challenger_snapshot",

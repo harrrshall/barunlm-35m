@@ -1,22 +1,29 @@
-"""CPU-hermetic tests for the matched-adaptation scale-sweep rules (attempt 5).
+"""CPU-hermetic tests for the matched-adaptation scale-sweep rules (attempt 6).
 
 Covers the fresh grouped split derivation, the gold token-length audit and
 generation-budget rule, the raw prompt transport and termination contract, the
 preregistered learning-rate screen, the adoption decision rule, the immutable
-v5 configuration binding, the in-run candidate-v2 reference contract, the
+v6 configuration binding, the in-run candidate-v2 reference contract, the
 protected-machine-ID enforcement, the axolotl/CPython 3.11.10 runtime
-attestation gate, the isolated-venv / flash_attn fail-closed preflight, the
-real-scorer outcome join, the complete challenger snapshot hash binding, the
-explicit frozen decoding overrides, the per-fit measured-failure semantics, and
-the environment version binding.  No network, GPU, or workstation-specific paths
-are used; committed repository files are the only fixtures.
+attestation gate, the v6 isolation P0 fixes (stdlib-first, interpreter-bound
+pyvenv.cfg, ModuleNotFoundError-only / find_spec flash_attn absence, compound
+bypass rejection), the real-scorer outcome join, the complete challenger snapshot
+hash binding, the explicit frozen decoding overrides, the per-fit
+measured-failure semantics, and the environment version binding.  No network,
+GPU, or workstation-specific paths are used; committed repository files are the
+only fixtures.
 """
 
 from __future__ import annotations
 
 import hashlib
+import importlib
 import json
 import math
+import os
+import subprocess
+import sys
+from dataclasses import replace
 from pathlib import Path
 
 import pytest
@@ -31,8 +38,11 @@ from barunlm.baselines.mobile_scale_sweep import (
     ATTEMPT_3_CONFIG_SHA256,
     ATTEMPT_3_GO_SHA256,
     ATTEMPT_4_CONFIG_SHA256,
+    ATTEMPT_4_FLASH_ATTN_IMPORT_ERROR,
     ATTEMPT_4_GO_SHA256,
     ATTEMPT_4_INFRASTRUCTURE_FAILURE_SHA256,
+    ATTEMPT_5_CONFIG_SHA256,
+    ATTEMPT_5_NO_GO_SHA256,
     CONFIG_PATH,
     CONFIG_SHA256,
     ENVIRONMENT_PACKAGES,
@@ -49,13 +59,19 @@ from barunlm.baselines.mobile_scale_sweep import (
     SNAPSHOT_REQUIRED_FILES,
     TRAIN_ROWS,
     ArmOutcome,
+    FlashAttnSpecObservation,
     LearningRateFit,
     MeasuredFitFailure,
     ScaleSweepError,
+    VenvIsolationObservation,
+    assert_flash_attn_absent,
+    assess_venv_isolation,
     build_decision,
     build_parser,
+    classify_flash_attn_import_error,
     decide_adoption,
     decoding_kwargs,
+    discover_flash_attn_spec,
     enforce_machine_id,
     enforce_runtime_attestation,
     enforce_venv_isolation,
@@ -650,11 +666,11 @@ def test_verify_partition_against_config_detects_drift(tmp_path: Path) -> None:
 
 
 # ---------------------------------------------------------------------------
-# Attempt-5 lineage: v1–v4 artifacts immutable; v5 cites attempt-4 infra failure + spent go
+# Attempt-6 lineage: v1–v5 immutable; v6 cites attempt-5 no-go + corrected isolation
 # ---------------------------------------------------------------------------
 
 
-def test_v1_through_v4_configs_untouched_and_v5_cites_lineage() -> None:
+def test_v1_through_v5_configs_untouched_and_v6_cites_lineage() -> None:
     repo_v1 = REPO / "configs" / "mobile_scale_sweep_v1.json"
     assert hashlib.sha256(repo_v1.read_bytes()).hexdigest() == ATTEMPT_1_CONFIG_SHA256
     no_go_1 = RUN_DIR / "prelaunch-audit-attempt-1-no-go.json"
@@ -679,17 +695,23 @@ def test_v1_through_v4_configs_untouched_and_v5_cites_lineage() -> None:
     assert (
         hashlib.sha256(infra_4.read_bytes()).hexdigest() == ATTEMPT_4_INFRASTRUCTURE_FAILURE_SHA256
     )
+    repo_v5 = REPO / "configs" / "mobile_scale_sweep_v5.json"
+    assert hashlib.sha256(repo_v5.read_bytes()).hexdigest() == ATTEMPT_5_CONFIG_SHA256
+    no_go_5 = RUN_DIR / "prelaunch-audit-attempt-5-no-go.json"
+    assert hashlib.sha256(no_go_5.read_bytes()).hexdigest() == ATTEMPT_5_NO_GO_SHA256
 
     config = load_frozen_config()
-    assert CONFIG_PATH.name == "mobile_scale_sweep_v5.json"
+    assert CONFIG_PATH.name == "mobile_scale_sweep_v6.json"
     assert (
         config["schema_version"]
         == SCALE_SWEEP_CONFIG_SCHEMA_VERSION
-        == ("barun-mobile-scale-sweep-config-v5")
+        == "barun-mobile-scale-sweep-config-v6"
     )
     supersedes = config["supersedes"]
-    assert supersedes["config_sha256"] == ATTEMPT_4_CONFIG_SHA256
-    assert supersedes["attempt"] == 5
+    assert supersedes["config_sha256"] == ATTEMPT_5_CONFIG_SHA256
+    assert supersedes["attempt"] == 6
+    assert supersedes["attempt_5_prelaunch_no_go"]["sha256"] == ATTEMPT_5_NO_GO_SHA256
+    assert supersedes["attempt_5_prelaunch_no_go"]["reuse_authorized"] is False
     assert supersedes["spent_attempt_4_go"]["sha256"] == ATTEMPT_4_GO_SHA256
     assert supersedes["spent_attempt_4_go"]["reuse_authorized"] is False
     assert (
@@ -698,6 +720,7 @@ def test_v1_through_v4_configs_untouched_and_v5_cites_lineage() -> None:
     )
     assert supersedes["attempt_4_infrastructure_failure"]["create_machine_id"] == 465183
     assert supersedes["attempt_4_infrastructure_failure"]["resume_migrant_machine_id"] == 465186
+    assert supersedes["attempt_5_lineage"]["config_sha256"] == ATTEMPT_5_CONFIG_SHA256
     assert supersedes["attempt_4_lineage"]["config_sha256"] == ATTEMPT_4_CONFIG_SHA256
     assert supersedes["attempt_3_lineage"]["config_sha256"] == ATTEMPT_3_CONFIG_SHA256
     assert supersedes["attempt_2_lineage"]["config_sha256"] == ATTEMPT_2_CONFIG_SHA256
@@ -710,15 +733,16 @@ def test_v1_through_v4_configs_untouched_and_v5_cites_lineage() -> None:
                 ATTEMPT_2_CONFIG_SHA256,
                 ATTEMPT_3_CONFIG_SHA256,
                 ATTEMPT_4_CONFIG_SHA256,
+                ATTEMPT_5_CONFIG_SHA256,
             }
         )
-        == 5
+        == 6
     )
 
 
-def test_v5_scientific_bindings_match_attempt_4() -> None:
-    v4 = json.loads((REPO / "configs" / "mobile_scale_sweep_v4.json").read_text(encoding="utf-8"))
-    v5 = load_frozen_config()
+def test_v6_scientific_bindings_match_attempt_5() -> None:
+    v5 = json.loads((REPO / "configs" / "mobile_scale_sweep_v5.json").read_text(encoding="utf-8"))
+    v6 = load_frozen_config()
     for key in (
         "hypothesis",
         "decision_rule",
@@ -730,17 +754,25 @@ def test_v5_scientific_bindings_match_attempt_4() -> None:
         "gold_token_audit",
         "optimization",
         "evaluation",
+        "authorization",
     ):
-        assert v5[key] == v4[key], key
-    assert all(value is False for value in v5["authorization"].values())
-    # Reference score from attempt-4 evidence must not become a CLI float.
-    assert v5["reference_evaluation"]["cli_override_forbidden"] is True
-    assert v5["reference_evaluation"]["scored_before_challenger_arms"] is True
+        assert v6[key] == v5[key], key
+    assert all(value is False for value in v6["authorization"].values())
+    assert v6["reference_evaluation"]["cli_override_forbidden"] is True
+    assert v6["reference_evaluation"]["scored_before_challenger_arms"] is True
+    assert v6["compute"]["protected_machine_ids"] == v5["compute"]["protected_machine_ids"]
+    assert v6["compute"]["template"] == v5["compute"]["template"] == "axolotl"
+    assert v6["compute"]["python_version"] == v5["compute"]["python_version"] == "3.11.10"
 
 
-def test_v4_config_remains_immutable_rejected_active_path() -> None:
-    # v4 may still exist on disk but must never be the active CONFIG_PATH.
+def test_prior_configs_remain_immutable_rejected_active_paths() -> None:
+    assert CONFIG_PATH.name == "mobile_scale_sweep_v6.json"
+    assert CONFIG_PATH.name != "mobile_scale_sweep_v5.json"
     assert CONFIG_PATH.name != "mobile_scale_sweep_v4.json"
+    assert (
+        hashlib.sha256((REPO / "configs" / "mobile_scale_sweep_v5.json").read_bytes()).hexdigest()
+        == ATTEMPT_5_CONFIG_SHA256
+    )
     assert (
         hashlib.sha256((REPO / "configs" / "mobile_scale_sweep_v4.json").read_bytes()).hexdigest()
         == ATTEMPT_4_CONFIG_SHA256
@@ -748,6 +780,7 @@ def test_v4_config_remains_immutable_rejected_active_path() -> None:
 
 
 # ---------------------------------------------------------------------------
+
 # P0-2: protected machine ID enforcement
 # ---------------------------------------------------------------------------
 
@@ -854,7 +887,7 @@ def test_enforce_runtime_attestation_rejects_tampered_compute_contract() -> None
 
 
 # ---------------------------------------------------------------------------
-# Attempt-5 INFRA: isolated venv / flash_attn fail-closed preflight
+# Attempt-6 INFRA: isolated venv / flash_attn fail-closed preflight (P0 fixes)
 # ---------------------------------------------------------------------------
 
 
@@ -869,6 +902,40 @@ def _write_pyvenv_cfg(directory: Path, *, include_system_site_packages: bool) ->
     return cfg
 
 
+def _isolated_observation(tmp_path: Path) -> VenvIsolationObservation:
+    venv = (tmp_path / "project-venv").resolve()
+    base = (tmp_path / "base-python").resolve()
+    runner = REPO / "src" / "barunlm" / "baselines" / "mobile_scale_sweep.py"
+    return VenvIsolationObservation(
+        virtual_env=str(venv),
+        executable=str(venv / "bin" / "python"),
+        executable_realpath=str(base / "bin" / "python3.11"),
+        prefix=str(venv),
+        base_prefix=str(base),
+        base_stdlib_roots=(
+            str(base / "lib" / "python3.11"),
+            str(base / "lib" / "python311.zip"),
+        ),
+        cwd=str(REPO),
+        repo_root=str(REPO),
+        source_root=str(REPO / "src"),
+        runner_module=str(runner),
+        runner_module_sha256=hashlib.sha256(runner.read_bytes()).hexdigest(),
+        pyvenv_cfg=str(venv / "pyvenv.cfg"),
+        include_system_site_packages=False,
+        sys_path=(
+            str(base / "lib" / "python3.11"),
+            str(venv / "lib" / "python3.11" / "site-packages"),
+            str(REPO / "src"),
+        ),
+        python_path=None,
+        user_site_enabled=False,
+        user_site=str(tmp_path / "user" / "lib" / "python3.11" / "site-packages"),
+        flash_attn_spec=None,
+        torch_already_imported=False,
+    )
+
+
 def test_config_freezes_isolated_venv_without_system_site_packages() -> None:
     config = load_frozen_config()
     isolation = config["compute"]["venv_isolation"]
@@ -876,12 +943,17 @@ def test_config_freezes_isolated_venv_without_system_site_packages() -> None:
     assert isolation["include_system_site_packages"] is REQUIRED_INCLUDE_SYSTEM_SITE_PACKAGES
     assert isolation["include_system_site_packages"] is False
     assert isolation["flash_attn_must_be_unimportable"] is True
+    assert isolation["flash_attn_absence_rule"] == "module_not_found_only"
+    assert isolation["interpreter_binding"] == "sys.prefix_and_sys.executable"
+    assert isolation["virtual_env_policy"] == "when_set_must_equal_sys.prefix"
+    assert isolation["discovery"] == "importlib.util.find_spec_without_import"
     assert isolation["fail_closed_before"] == [
         "torch_import",
         "challenger_AutoModelForCausalLM_from_pretrained",
     ]
     assert "flash_attn" in isolation["provider_hazard"]
     assert "system-site-packages" in isolation["provider_hazard"]
+    assert "safe_run --isolated-project-venv" in isolation["launch_packaging"]
 
 
 def test_parse_pyvenv_cfg_and_system_site_flag(tmp_path: Path) -> None:
@@ -893,79 +965,278 @@ def test_parse_pyvenv_cfg_and_system_site_flag(tmp_path: Path) -> None:
     assert read_include_system_site_packages(contaminated) is True
 
 
-def test_enforce_venv_isolation_accepts_isolated_venv_without_flash_attn(
+def test_import_runner_is_stdlib_first_and_live_boundary_does_not_import_torch() -> None:
+    code = """
+import json
+import os
+import sys
+from pathlib import Path
+
+assert "torch" not in sys.modules
+from barunlm.scale_sweep_stdlib_loader import load_mobile_scale_sweep_stdlib
+sweep = load_mobile_scale_sweep_stdlib()
+assert "torch" not in sys.modules
+assert "barunlm.baselines.mobile_matched" not in sys.modules
+assert "barunlm.training.data" not in sys.modules
+assert "barunlm.baselines.mobile_scale_sweep" not in sys.modules
+compute = json.loads(Path(sweep.CONFIG_PATH).read_text(encoding="utf-8"))["compute"]
+receipt = sweep.enforce_venv_isolation(compute=compute, require_torch_absent=True)
+assert receipt["sys_prefix"] == str(Path(sys.prefix).resolve())
+assert receipt["flash_attn_discoverable"] is False
+assert receipt["torch_already_imported"] is False
+assert "torch" not in sys.modules
+"""
+    environment = os.environ.copy()
+    environment.pop("PYTHONPATH", None)
+    environment["VIRTUAL_ENV"] = sys.prefix
+    environment["PYTHONNOUSERSITE"] = "1"
+    environment["PYTHONDONTWRITEBYTECODE"] = "1"
+    completed = subprocess.run(
+        [sys.executable, "-c", code],
+        cwd=REPO,
+        env=environment,
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    assert completed.returncode == 0, completed.stderr
+
+
+def test_assess_venv_isolation_accepts_bound_live_interpreter(tmp_path: Path) -> None:
+    config = load_frozen_config()
+    observation = _isolated_observation(tmp_path)
+    receipt = assess_venv_isolation(
+        compute=config["compute"],
+        observation=observation,
+    )
+    assert receipt["include_system_site_packages"] is False
+    assert receipt["flash_attn_discoverable"] is False
+    assert receipt["virtual_env"] == observation.virtual_env
+    assert receipt["sys_prefix"] == observation.prefix
+
+
+def test_assess_venv_isolation_rejects_fake_virtual_env_even_with_clean_cfg(
     tmp_path: Path,
 ) -> None:
     config = load_frozen_config()
-    venv = tmp_path / "project-venv"
-    _write_pyvenv_cfg(venv, include_system_site_packages=False)
-    receipt = enforce_venv_isolation(
-        compute=config["compute"],
-        virtual_env=str(venv),
-        flash_attn_importable=False,
+    observation = _isolated_observation(tmp_path)
+    fake = (tmp_path / "fake-venv").resolve()
+    forged = replace(
+        observation,
+        virtual_env=str(fake),
+        pyvenv_cfg=str(fake / "pyvenv.cfg"),
     )
-    assert receipt["include_system_site_packages"] is False
-    assert receipt["flash_attn_importable"] is False
-    assert receipt["virtual_env"] == str(venv.resolve())
+    with pytest.raises(ScaleSweepError, match="sys.prefix"):
+        assess_venv_isolation(
+            compute=config["compute"],
+            observation=forged,
+        )
 
 
-def test_enforce_venv_isolation_rejects_system_site_packages_like_attempt_4(
+def test_assess_venv_isolation_rejects_system_site_packages_like_attempt_4(
     tmp_path: Path,
 ) -> None:
     """This is the exact attempt-4 failure mode: jl uv venv --system-site-packages."""
 
     config = load_frozen_config()
-    venv = tmp_path / "contaminated-venv"
-    _write_pyvenv_cfg(venv, include_system_site_packages=True)
+    contaminated = replace(_isolated_observation(tmp_path), include_system_site_packages=True)
     with pytest.raises(ScaleSweepError, match="include-system-site-packages"):
-        enforce_venv_isolation(
+        assess_venv_isolation(
             compute=config["compute"],
-            virtual_env=str(venv),
-            flash_attn_importable=False,
+            observation=contaminated,
         )
 
 
-def test_enforce_venv_isolation_rejects_importable_flash_attn(tmp_path: Path) -> None:
+def test_assess_venv_isolation_rejects_external_site_packages(tmp_path: Path) -> None:
     config = load_frozen_config()
-    venv = tmp_path / "isolated-but-flash"
-    _write_pyvenv_cfg(venv, include_system_site_packages=False)
-    with pytest.raises(ScaleSweepError, match="flash_attn"):
-        enforce_venv_isolation(
+    observation = _isolated_observation(tmp_path)
+    contaminated = replace(
+        observation,
+        sys_path=(
+            *observation.sys_path,
+            "/root/miniconda3/envs/py3.11/lib/python3.11/site-packages",
+        ),
+    )
+    with pytest.raises(ScaleSweepError, match="outside the frozen"):
+        assess_venv_isolation(
             compute=config["compute"],
-            virtual_env=str(venv),
-            flash_attn_importable=True,
+            observation=contaminated,
         )
 
 
-def test_enforce_venv_isolation_rejects_missing_virtual_env(tmp_path: Path) -> None:
+def test_assess_venv_isolation_rejects_external_non_site_path(tmp_path: Path) -> None:
     config = load_frozen_config()
-    with pytest.raises(ScaleSweepError, match="VIRTUAL_ENV"):
-        enforce_venv_isolation(
+    observation = _isolated_observation(tmp_path)
+    contaminated = replace(
+        observation,
+        sys_path=(*observation.sys_path, "/tmp/evil"),
+    )
+    with pytest.raises(ScaleSweepError, match="outside the frozen"):
+        assess_venv_isolation(
             compute=config["compute"],
-            virtual_env="",
-            flash_attn_importable=False,
-        )
-    with pytest.raises(ScaleSweepError, match="pyvenv.cfg"):
-        enforce_venv_isolation(
-            compute=config["compute"],
-            virtual_env=str(tmp_path / "no-cfg"),
-            flash_attn_importable=False,
+            observation=contaminated,
         )
 
 
-def test_enforce_venv_isolation_rejects_tampered_isolation_contract(tmp_path: Path) -> None:
+def test_assess_venv_isolation_rejects_pythonpath_injection(tmp_path: Path) -> None:
+    config = load_frozen_config()
+    contaminated = replace(
+        _isolated_observation(tmp_path),
+        python_path="/root/miniconda3/envs/py3.11/lib/python3.11/site-packages",
+    )
+    with pytest.raises(ScaleSweepError, match="PYTHONPATH"):
+        assess_venv_isolation(
+            compute=config["compute"],
+            observation=contaminated,
+        )
+
+
+@pytest.mark.parametrize("enabled", [True, None])
+def test_assess_venv_isolation_rejects_enabled_or_unknown_user_site(
+    tmp_path: Path, enabled: bool | None
+) -> None:
+    config = load_frozen_config()
+    contaminated = replace(_isolated_observation(tmp_path), user_site_enabled=enabled)
+    with pytest.raises(ScaleSweepError, match="user-site"):
+        assess_venv_isolation(compute=config["compute"], observation=contaminated)
+
+
+def test_discoverable_broken_flash_attn_is_rejected_without_import(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    site_root = tmp_path / "broken-site"
+    package = site_root / "flash_attn"
+    package.mkdir(parents=True)
+    marker = tmp_path / "flash-attn-imported.txt"
+    initializer = package / "__init__.py"
+    initializer.write_text(
+        "from pathlib import Path\n"
+        f"Path({str(marker)!r}).write_text('executed', encoding='utf-8')\n"
+        "raise ImportError('undefined symbol: simulated flash_attn_2_cuda ABI failure')\n",
+        encoding="utf-8",
+    )
+    monkeypatch.syspath_prepend(str(site_root))
+    importlib.invalidate_caches()
+    sys.modules.pop("flash_attn", None)
+
+    spec = discover_flash_attn_spec()
+
+    assert spec == FlashAttnSpecObservation(
+        origin=str(initializer.resolve()),
+        search_locations=(str(package.resolve()),),
+    )
+    assert "flash_attn" not in sys.modules
+    assert not marker.exists(), "metadata discovery must never execute flash_attn"
+    config = load_frozen_config()
+    with pytest.raises(ScaleSweepError, match="flash_attn is discoverable"):
+        assess_venv_isolation(
+            compute=config["compute"],
+            observation=replace(_isolated_observation(tmp_path), flash_attn_spec=spec),
+        )
+
+
+def test_module_not_found_alone_is_accepted_as_flash_attn_absent() -> None:
+    classify_flash_attn_import_error(
+        ModuleNotFoundError("No module named 'flash_attn'", name="flash_attn")
+    )
+    classify_flash_attn_import_error(ModuleNotFoundError("No module named 'flash_attn'"))
+
+
+def test_attempt4_shaped_importerror_is_rejected_as_partial_extension() -> None:
+    error = ImportError(
+        f"/root/miniconda3/envs/py3.11/lib/python3.11/site-packages/"
+        f"flash_attn_2_cuda.cpython-311-x86_64-linux-gnu.so: "
+        f"{ATTEMPT_4_FLASH_ATTN_IMPORT_ERROR}"
+    )
+    with pytest.raises(ScaleSweepError, match="partial/broken extension"):
+        classify_flash_attn_import_error(error)
+    with pytest.raises(ScaleSweepError, match="partial/broken extension"):
+        classify_flash_attn_import_error(
+            ImportError("undefined symbol: simulated flash_attn_2_cuda ABI failure")
+        )
+
+
+def test_assert_flash_attn_absent_rejects_attempt4_shaped_package(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    site_root = tmp_path / "broken-site"
+    package = site_root / "flash_attn"
+    package.mkdir(parents=True)
+    (package / "__init__.py").write_text(
+        f"raise ImportError({ATTEMPT_4_FLASH_ATTN_IMPORT_ERROR!r})\n",
+        encoding="utf-8",
+    )
+    monkeypatch.syspath_prepend(str(site_root))
+    importlib.invalidate_caches()
+    sys.modules.pop("flash_attn", None)
+    with pytest.raises(ScaleSweepError, match="flash_attn is discoverable"):
+        assert_flash_attn_absent()
+    assert "flash_attn" not in sys.modules
+
+
+def test_compound_forged_virtual_env_plus_attempt4_importerror_rejects(
+    tmp_path: Path,
+) -> None:
+    """The exact attempt-5 P0 compound bypass must now fail closed."""
+
+    config = load_frozen_config()
+    observation = _isolated_observation(tmp_path)
+    fake = (tmp_path / "forged-clean-venv").resolve()
+    forged = replace(
+        observation,
+        virtual_env=str(fake),
+        pyvenv_cfg=str(fake / "pyvenv.cfg"),
+        flash_attn_spec=FlashAttnSpecObservation(
+            origin="/root/miniconda3/envs/py3.11/lib/python3.11/site-packages/flash_attn/__init__.py",
+            search_locations=(
+                "/root/miniconda3/envs/py3.11/lib/python3.11/site-packages/flash_attn",
+            ),
+        ),
+    )
+    with pytest.raises(ScaleSweepError, match="sys.prefix|flash_attn is discoverable"):
+        assess_venv_isolation(compute=config["compute"], observation=forged)
+    # Even with matching prefix, discoverable/broken flash_attn must reject.
+    matched_hazard = replace(
+        observation,
+        flash_attn_spec=FlashAttnSpecObservation(
+            origin="/root/miniconda3/envs/py3.11/lib/python3.11/site-packages/flash_attn/__init__.py",
+            search_locations=(
+                "/root/miniconda3/envs/py3.11/lib/python3.11/site-packages/flash_attn",
+            ),
+        ),
+    )
+    with pytest.raises(ScaleSweepError, match="flash_attn is discoverable"):
+        assess_venv_isolation(compute=config["compute"], observation=matched_hazard)
+
+
+def test_assess_rejects_torch_already_imported(tmp_path: Path) -> None:
+    config = load_frozen_config()
+    contaminated = replace(_isolated_observation(tmp_path), torch_already_imported=True)
+    with pytest.raises(ScaleSweepError, match="torch is already present"):
+        assess_venv_isolation(compute=config["compute"], observation=contaminated)
+
+
+def test_enforce_venv_isolation_production_wrapper_rejects_observation_override(
+    tmp_path: Path,
+) -> None:
+    config = load_frozen_config()
+    with pytest.raises(TypeError, match="unexpected keyword argument"):
+        enforce_venv_isolation(  # type: ignore[call-arg]
+            compute=config["compute"],
+            observation=_isolated_observation(tmp_path),
+        )
+
+
+def test_assess_venv_isolation_rejects_tampered_isolation_contract(tmp_path: Path) -> None:
     config = load_frozen_config()
     tampered = dict(config["compute"])
     isolation = dict(tampered["venv_isolation"])
     isolation["include_system_site_packages"] = True
     tampered["venv_isolation"] = isolation
-    venv = tmp_path / "venv"
-    _write_pyvenv_cfg(venv, include_system_site_packages=False)
     with pytest.raises(ScaleSweepError, match="include_system_site_packages"):
-        enforce_venv_isolation(
+        assess_venv_isolation(
             compute=tampered,
-            virtual_env=str(venv),
-            flash_attn_importable=False,
+            observation=_isolated_observation(tmp_path),
         )
 
 

@@ -1,13 +1,17 @@
 # Mobile scale sweep: matched-adaptation base-model size/token sweep
 
 Run ID: `20260805-1554-mobile-scale-sweep-s17` (immutable).
-Status: attempt-5 CPU prefreeze complete; **blocked pending a fresh independent prelaunch
-audit of v5**. No GPU was created for this freeze. The spent attempt-4 go is not reused. H200
-lineage **465183→465186** (attempt-4) and **465155** (attempt-1/3 infra failure) remain
-permanently protected.
+Status: attempt-6 CPU prefreeze complete; **blocked pending a fresh independent prelaunch
+audit of v6**. No GPU was created for this freeze. The spent attempt-4 go is not reused; rejected
+v5 is not patched. H200 lineage **465183→465186** (attempt-4), **465155** (attempt-1/3 infra
+failure), and product host **465072** remain permanently protected.
 
-Frozen scientific config (attempt 5, current): `configs/mobile_scale_sweep_v5.json`, SHA-256
-`57dcfe573c17759404545c272f1fc945aabb82b2893f697615eb7fe428d1f2d7`.
+Frozen scientific config (attempt 6, current): `configs/mobile_scale_sweep_v6.json`, SHA-256
+`0885b32f14751e77539f0bf58cae6f89b7c72e1d80c1b8a6d3fe61cff9c55540`.
+
+Immutable rejected attempt-5 config: `configs/mobile_scale_sweep_v5.json`, SHA-256
+`57dcfe573c17759404545c272f1fc945aabb82b2893f697615eb7fe428d1f2d7`; no-go SHA-256
+`05d40c7d6ab73594fb8e60fb15de94f676e76d62f97ecae43dfcaba7225c0500`.
 
 Naming note: StrataLM is only the former working name of the base model; the canonical names are
 BarunLM-35M (base) and BarunAction-35M (post-trained). The pretraining evidence file
@@ -57,6 +61,40 @@ matches the temporal-lane torch pin pattern, and removes the entire system-site 
 the Transformers import path.
 
 All authorization flags remain false.
+
+## Attempt-5 prelaunch rejection; attempt-6 isolation attestation correction
+
+Attempt 5 (config `configs/mobile_scale_sweep_v5.json`, SHA-256
+`57dcfe573c17759404545c272f1fc945aabb82b2893f697615eb7fe428d1f2d7`, freeze commit `90ba042`)
+was rejected by an independent adversarial prelaunch audit before any GPU creation. Immutable
+no-go:
+`experiments/runs/20260805-1554-mobile-scale-sweep-s17/prelaunch-audit-attempt-5-no-go.json`,
+SHA-256 `05d40c7d6ab73594fb8e60fb15de94f676e76d62f97ecae43dfcaba7225c0500` (recorded under commit
+`f36796b`). Scientific bindings matched v4; three P0 isolation-attestation defects blocked
+launch:
+
+1. Torch was already imported via project import side effects before `enforce_venv_isolation`.
+2. `VIRTUAL_ENV` / `pyvenv.cfg` were unbound to `sys.executable` / `sys.prefix` (forgeable).
+3. The probe treated attempt-4's exact `ImportError` (undefined symbol on `flash_attn_2_cuda`)
+   as absence; compound forged-clean-`VIRTUAL_ENV` + ABI-`ImportError` bypassed the gate.
+
+Never patch, retry, rescue, or launch v5.
+
+Attempt 6 keeps the same immutable run directory with
+`preregistration-attempt-6.json` binding successor v6. Scientific bindings remain those
+attempt-3/4/5 audits accepted. Isolation corrections only:
+
+- **INFRA-6** — stdlib-only bootstrap: isolation gate before torch / transformers /
+  `training.data` / `mobile_matched` / pytest on the production entrypoint; prove `torch`
+  absent from `sys.modules` at gate entry.
+- **INFRA-7** — resolve the venv from `sys.prefix` / `sys.executable`; require `pyvenv.cfg` in
+  that prefix with `include-system-site-packages = false`; if `VIRTUAL_ENV` is set it must
+  equal `sys.prefix`.
+- **INFRA-8** — `flash_attn` absence via non-executing `find_spec` plus
+  `ModuleNotFoundError`-only classification; any partial/broken `ImportError` (attempt-4
+  shape) fails closed.
+- **INFRA-9** — retain `safe_run --isolated-project-venv`, axolotl / CPython 3.11.10, denylist
+  including **465183**/**465186**/**465155**/**465072**, and all-false authorization flags.
 
 ## Attempt-3 go spent by infrastructure failure; attempt-4 runtime correction
 
@@ -284,39 +322,40 @@ these budgets and candidate-v2 remains the release checkpoint.
 
 ## Phase gates
 
-1. **CPU build (this phase, complete for attempt 5):** split derivation, roster pinning, token
-   audit, frozen v5 config with axolotl/3.11.10 attestation plus isolated-venv / flash_attn
-   fail-closed preflight, runner, hermetic tests. All authorization flags are false.
-2. **Independent prelaunch audit of v5:** a separate adversarial review. The spent attempt-4 go
-   does not authorize launch. Only a fresh v5 go unlocks any compute action.
+1. **CPU build (this phase, complete for attempt 6):** split derivation, roster pinning, token
+   audit, frozen v6 config with axolotl/3.11.10 attestation plus corrected isolation
+   attestation (stdlib-first, interpreter-bound pyvenv.cfg, ModuleNotFoundError-only /
+   find_spec flash_attn), runner, hermetic tests. All authorization flags are false.
+2. **Independent prelaunch audit of v6:** a separate adversarial review. The spent attempt-4 go
+   and rejected v5 do not authorize launch. Only a fresh v6 go unlocks any compute action.
 3. **Single GPU launch (not authorized yet):** one fresh exact-ID `barun-scale-sweep-*` H200
    under `template=axolotl` / CPython 3.11.10 with `safe_run --isolated-project-venv` (read-only
    safe inventory first; the protected denylist includes 465072, 465155, 465183, and 465186),
    hard budget 360 minutes, pause-verified by exact ID after artifact download. Never reuse
-   465155 / 465183 / 465186.
+   465155 / 465183 / 465186 / 465072.
 
 ## Files
 
-- `configs/mobile_scale_sweep_v5.json` — immutable attempt-5 scientific+runtime config (hash
+- `configs/mobile_scale_sweep_v6.json` — immutable attempt-6 scientific+runtime config (hash
   above; the runner binds it inline).
+- `configs/mobile_scale_sweep_v5.json` — immutable rejected attempt-5 evidence; never edited,
+  never loaded by the active runner.
 - `configs/mobile_scale_sweep_v4.json`, `configs/mobile_scale_sweep_v3.json`,
   `configs/mobile_scale_sweep_v2.json`, `configs/mobile_scale_sweep_v1.json` — immutable prior
   configs; never loaded by the active runner.
 - `src/barunlm/baselines/mobile_scale_sweep.py` — split derivation, audit, transport,
   termination contract, LR screen, decision rule, machine-ID enforcement, axolotl/CPython
-  3.11.10 runtime attestation, isolated-venv / flash_attn preflight, in-run reference
+  3.11.10 runtime attestation, v6 isolation preflight, in-run reference
   evaluation, challenger snapshot verification, explicit decoding overrides, per-fit
-  measured-failure semantics, GPU runner (binds the v5 config hash).
+  measured-failure semantics, GPU runner (binds the v6 config hash).
 - `tests/test_mobile_scale_sweep.py` — CPU-hermetic tests for every rule, including the
-  attempt-2/3 scientific corrections, attempt-4 axolotl attestation, and attempt-5 isolation
-  gate.
-- `experiments/runs/20260805-1554-mobile-scale-sweep-s17/` — `preregistration.json` (attempt 1,
-  immutable), `preregistration-attempt-2.json` / `preregistration-attempt-3.json` /
-  `preregistration-attempt-4.json` (immutable), `preregistration-attempt-5.json`,
-  `prelaunch-audit-attempt-1-no-go.json` / `prelaunch-audit-attempt-2-no-go.json` (immutable),
-  `prelaunch-audit-attempt-3-go.json` / `prelaunch-audit-attempt-4-go.json` (spent),
-  `attempt-1-infrastructure-failure.json`, `attempt-4-infrastructure-failure.json`,
-  `split-receipt.json`, membership files, `gold-token-audit.json`, `roster-metadata.json`,
-  `snapshot-pins.json`, plus the build scripts.
-- Ledger: prior attempt entries plus the attempt-5 prefreeze
+  attempt-2/3 scientific corrections, attempt-4 axolotl attestation, attempt-5 no-go lineage,
+  and attempt-6 P0 isolation fixes.
+- `scripts/run_mobile_scale_sweep.py` — remote entrypoint (stdlib isolation preflight, then
+  pytest gate, then runner).
+- `infra/jarvis/safe_run.py` — retains `--isolated-project-venv`.
+- `experiments/runs/20260805-1554-mobile-scale-sweep-s17/` — prior preregistrations and
+  receipts plus `preregistration-attempt-6.json` and
+  `prelaunch-audit-attempt-5-no-go.json` (immutable; closes v5).
+- Ledger: prior attempt entries plus the attempt-6 prefreeze
   `blocked_pending_independent_prelaunch_audit` entry appended to `experiments/ledger.jsonl`.
