@@ -1,12 +1,13 @@
 # Mobile scale sweep: matched-adaptation base-model size/token sweep
 
 Run ID: `20260805-1554-mobile-scale-sweep-s17` (immutable).
-Status: attempt-6 CPU prefreeze complete; **blocked pending a fresh independent prelaunch
-audit of v6**. No GPU was created for this freeze. The spent attempt-4 go is not reused; rejected
-v5 is not patched. H200 lineage **465183→465186** (attempt-4), **465155** (attempt-1/3 infra
-failure), and product host **465072** remain permanently protected.
+Status: **attempt-6 completed; scientific decision `reject` (`all_arms_falsified`)**. Recipe
+closed. Exact H200 **465257** pause-verified and permanently protected. Spent attempt-6 GO must
+not be reused. H200 lineage **465183→465186** (attempt-4), **465155** (attempt-1/3 infra
+failure), product host **465072**, and **465257** (attempt-6 evidence) remain permanently
+protected.
 
-Frozen scientific config (attempt 6, current): `configs/mobile_scale_sweep_v6.json`, SHA-256
+Frozen scientific config (attempt 6, closed): `configs/mobile_scale_sweep_v6.json`, SHA-256
 `0885b32f14751e77539f0bf58cae6f89b7c72e1d80c1b8a6d3fe61cff9c55540`.
 
 Immutable rejected attempt-5 config: `configs/mobile_scale_sweep_v5.json`, SHA-256
@@ -16,6 +17,37 @@ Immutable rejected attempt-5 config: `configs/mobile_scale_sweep_v5.json`, SHA-2
 Naming note: StrataLM is only the former working name of the base model; the canonical names are
 BarunLM-35M (base) and BarunAction-35M (post-trained). The pretraining evidence file
 `blog/stratalm-architecture-blog.md` keeps its historical path.
+
+## Attempt-6 completed: all arms falsified; candidate-v2 remains release
+
+Spent GO:
+`experiments/runs/20260805-1554-mobile-scale-sweep-s17/prelaunch-audit-attempt-6-go.json`,
+SHA-256 `3d30a295fc358cccd5bab22d1e1f37a8d220dc22533ec527096ec652e400d9f1`. Authorized exactly
+one Axolotl / CPython 3.11.10 H200 with `safe_run --isolated-project-venv`.
+
+Exact ID **465257** (`barun-scale-sweep-a6-20260805`) ran managed job `r_7809186b` to exit 0,
+downloaded `essential-attempt-6/`, and is pause-verified. Result SHA-256
+`0dd404c37859089ccfcb7aef6660818e4bfe9c55a11f6fcf62159d60f158390f`. Completion receipt
+`attempt-6-completion.json`, SHA-256
+`7983ac28fffd04cd45eaf1fac53c55bca816a86a02d1e0111149ab8bc077b699`.
+
+| Arm | Best exact (selected LR) | Schema | Trunc |
+| --- | ---: | ---: | ---: |
+| candidate-v2 reference | **591/725** (81.52%) | 723/725 | 0 |
+| pythia-70m-deduped | 45/725 (6.21%) | 170/725 | 59 |
+| SmolLM2-135M | 422/725 (58.21%) | 655/725 | 1 |
+| SmolLM2-360M | 585/725 (80.69%) | 717/725 | 0 |
+
+Decision: **reject**. No arm cleared +3.0 points over the in-run reference.
+`adopted_arm_id=null`. Official-961 untouched. This does **not** authorize adopting a 70–360M
+base under this recipe, reopening the spent go, candidate-v2 retraining, or treating
+continued-pretraining of BarunLM-35M / generator-side work as tested. Those remain distinct
+hypotheses requiring new preregistration.
+
+Controller incidents (documented, non-duplicative of science): local controller died after
+create before SSH-ready (recovered on exact Running **465257**, no second GPU); premature
+permanent denylist briefly blocked `pause_owned` (unlocked, pause-verified, re-protected). See
+`experiments/mistakes.md` and the completion receipt `controller_incidents`.
 
 ## Attempt-4 go spent by flash_attn system-site abort; attempt-5 isolation correction
 
@@ -320,24 +352,26 @@ Axis conclusions (token: 135M versus 70M; parameter: 360M versus 135M) are repor
 pairwise gaps regardless of adoption; if no arm passes, the scaling hypothesis is falsified at
 these budgets and candidate-v2 remains the release checkpoint.
 
-## Phase gates
+## Phase gates (closed)
 
-1. **CPU build (this phase, complete for attempt 6):** split derivation, roster pinning, token
-   audit, frozen v6 config with axolotl/3.11.10 attestation plus corrected isolation
-   attestation (stdlib-first, interpreter-bound pyvenv.cfg, ModuleNotFoundError-only /
-   find_spec flash_attn), runner, hermetic tests. All authorization flags are false.
-2. **Independent prelaunch audit of v6:** a separate adversarial review. The spent attempt-4 go
-   and rejected v5 do not authorize launch. Only a fresh v6 go unlocks any compute action.
-3. **Single GPU launch (not authorized yet):** one fresh exact-ID `barun-scale-sweep-*` H200
-   under `template=axolotl` / CPython 3.11.10 with `safe_run --isolated-project-venv` (read-only
-   safe inventory first; the protected denylist includes 465072, 465155, 465183, and 465186),
-   hard budget 360 minutes, pause-verified by exact ID after artifact download. Never reuse
-   465155 / 465183 / 465186 / 465072.
+1. **CPU build (complete for attempt 6):** split derivation, roster pinning, token audit,
+   frozen v6 config with axolotl/3.11.10 attestation plus corrected isolation attestation
+   (stdlib-first, interpreter-bound pyvenv.cfg, ModuleNotFoundError-only / find_spec
+   flash_attn), runner, hermetic tests.
+2. **Independent prelaunch audit of v6 (complete; GO spent):**
+   `prelaunch-audit-attempt-6-go.json`, SHA-256
+   `3d30a295fc358cccd5bab22d1e1f37a8d220dc22533ec527096ec652e400d9f1`. Never reuse.
+3. **Single GPU launch (complete on exact ID 465257):** axolotl / CPython 3.11.10 /
+   `--isolated-project-venv`; managed `r_7809186b` exit 0; essential downloaded;
+   pause-verified. Never reuse **465257** / **465155** / **465183** / **465186** / **465072**.
+4. **Scientific decision (complete):** `reject` / `all_arms_falsified`. No further launch under
+   this recipe or spent go.
 
 ## Files
 
 - `configs/mobile_scale_sweep_v6.json` — immutable attempt-6 scientific+runtime config (hash
-  above; the runner binds it inline).
+  above; closed; do not edit to add post-hoc denylist IDs). Durable protection for **465257**
+  lives in `infra/jarvis/protected-resources.json` and handoff docs.
 - `configs/mobile_scale_sweep_v5.json` — immutable rejected attempt-5 evidence; never edited,
   never loaded by the active runner.
 - `configs/mobile_scale_sweep_v4.json`, `configs/mobile_scale_sweep_v3.json`,
@@ -354,8 +388,8 @@ these budgets and candidate-v2 remains the release checkpoint.
 - `scripts/run_mobile_scale_sweep.py` — remote entrypoint (stdlib isolation preflight, then
   pytest gate, then runner).
 - `infra/jarvis/safe_run.py` — retains `--isolated-project-venv`.
-- `experiments/runs/20260805-1554-mobile-scale-sweep-s17/` — prior preregistrations and
-  receipts plus `preregistration-attempt-6.json` and
-  `prelaunch-audit-attempt-5-no-go.json` (immutable; closes v5).
-- Ledger: prior attempt entries plus the attempt-6 prefreeze
-  `blocked_pending_independent_prelaunch_audit` entry appended to `experiments/ledger.jsonl`.
+- `experiments/runs/20260805-1554-mobile-scale-sweep-s17/` — preregistrations, GO/no-go
+  receipts, `essential-attempt-6/`, `attempt-6-completion.json`, pause proof (immutable).
+- Ledger: attempt-6 scientific completion entry already appended
+  (`kind=mobile_scale_sweep_attempt_6_scientific_completion`, conclusion `reject`); do not
+  duplicate.

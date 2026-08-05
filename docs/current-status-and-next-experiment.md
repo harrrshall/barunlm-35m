@@ -3,6 +3,10 @@
 Status: authoritative handoff as of 2026-08-05. Read this before changing weights, launching a
 JarvisLabs resource, publishing artifacts, or interpreting the larger-model comparisons.
 
+Naming note: StrataLM-35M was only a former working name; the canonical names are BarunLM-35M
+(base) and BarunAction-35M (post-trained). Do not create new StrataLM checkpoint, run, or claim
+names.
+
 ## Decision in one paragraph
 
 BarunAction-35M candidate-v2 is now a public, proposal-only compact research release; state
@@ -20,36 +24,56 @@ population collection or model access because its requested effective-component 
 incompatible with its honest lineage rule. Generate-Correct SFT v1 was then closed before
 population or model access: its frozen hash-bit rule produced 8,076 fault and 8,308 clean rows
 instead of 8,192/8,192, and its parsed draft object could not carry arbitrary raw model output.
-No action-correction model experiment is active. Candidate-v2 remains the usable checkpoint while
-the versioned v2 correction contract is built behind a fresh population boundary. The matched-adaptation baseline scale sweep attempt-6 is closed under the exact state below.
+No action-correction model experiment is active. The matched-adaptation scale sweep
+(`20260805-1554-mobile-scale-sweep-s17`) attempt-6 completed with scientific **reject**
+(`all_arms_falsified`). Candidate-v2 remains the usable release checkpoint.
 
-The matched-adaptation mobile scale sweep
-(`20260805-1554-mobile-scale-sweep-s17`) **attempt-6 completed and is closed**. The spent GO receipt is
-`experiments/runs/20260805-1554-mobile-scale-sweep-s17/prelaunch-audit-attempt-6-go.json`, SHA-256
-`3d30a295fc358cccd5bab22d1e1f37a8d220dc22533ec527096ec652e400d9f1`. Exact ID **465257**
-(`barun-scale-sweep-a6-20260805`, axolotl / CPython 3.11.10 / `--isolated-project-venv`) ran
-managed job `r_7809186b` to exit 0, downloaded `essential-attempt-6/`, and is **pause-verified**.
-In-run candidate-v2 reference scored **591/725** (81.52%; schema 723/725; 0 truncations). All three
-challenger arms failed the frozen +3.0-point adoption rule (`all_arms_falsified`): best selected-LR
-exact rates were pythia-70m **45/725** (6.21%), SmolLM2-135M **422/725** (58.21%), SmolLM2-360M
-**585/725** (80.69%). Decision: **reject**; candidate-v2 remains the release checkpoint. Official-961
-was not read. Completion receipt
-`experiments/runs/20260805-1554-mobile-scale-sweep-s17/attempt-6-completion.json`. Never reuse 465257
-or relaunch under the spent attempt-6 go. Attempt 4 attested axolotl /
-CPython 3.11.10 on H200 lineage **465183→465186**, completed the in-run candidate-v2 reference
-evaluation at **590/725**, then aborted on the first challenger because `jl run` created
-`uv venv --system-site-packages` and Transformers imported the image `flash_attn_2_cuda`
-ABI-mismatched against venv torch 2.13.0. Failure receipt SHA-256
-`adad51dad1e3216272496dd83072c6d0514d6585da16fe66d56d4944184fa5e0`; spent attempt-4 go SHA-256
-`9bf60db79cc543e35eb5e664d1a79e761337720c0dbd663da64a8b62c6f4dac2`. Attempt 5 / frozen v5 was
-rejected at independent prelaunch audit for a forgeable isolation attestation (Torch imported
-before the gate; `VIRTUAL_ENV`/`pyvenv.cfg` unbound to `sys.prefix`; attempt-4-shaped
-`ImportError` treated as flash_attn absence). Immutable no-go SHA-256
-`05d40c7d6ab73594fb8e60fb15de94f676e76d62f97ecae43dfcaba7225c0500`. Never patch, retry, rescue,
-or launch v5. v6 keeps scientific bindings and `--isolated-project-venv` / axolotl / 3.11.10 /
-denylist (including 465183/465186/465155/465072) and corrects only the isolation contract;
-config SHA-256 `0885b32f14751e77539f0bf58cae6f89b7c72e1d80c1b8a6d3fe61cff9c55540`. The attempt-6 GO
-is spent. Pause proof for 465257 is recorded. Never reuse 465257, 465183, 465186, 465155, or 465072.
+## 2026-08-05 — Matched-adaptation scale sweep completed (reject)
+
+Run `20260805-1554-mobile-scale-sweep-s17` attempt-6 **completed and is closed**. Evidence is
+committed; this section is the handoff boundary for any next agent.
+
+| Item | Frozen value |
+| --- | --- |
+| Config | `configs/mobile_scale_sweep_v6.json`, SHA-256 `0885b32f14751e77539f0bf58cae6f89b7c72e1d80c1b8a6d3fe61cff9c55540` |
+| Spent GO | `prelaunch-audit-attempt-6-go.json`, SHA-256 `3d30a295fc358cccd5bab22d1e1f37a8d220dc22533ec527096ec652e400d9f1` |
+| Result | `essential-attempt-6/result.json`, SHA-256 `0dd404c37859089ccfcb7aef6660818e4bfe9c55a11f6fcf62159d60f158390f` |
+| Completion | `attempt-6-completion.json`, SHA-256 `7983ac28fffd04cd45eaf1fac53c55bca816a86a02d1e0111149ab8bc077b699` |
+| Exact H200 | **465257** (`barun-scale-sweep-a6-20260805`), axolotl / CPython 3.11.10 / `--isolated-project-venv`, managed `r_7809186b` exit 0, **pause-verified**, permanently protected |
+| Decision | **reject** (`all_arms_falsified`); `adopted_arm_id=null` |
+
+Fresh 725-row selection-split scores (selected LR per arm):
+
+| Arm | Exact | Schema | Truncations |
+| --- | ---: | ---: | ---: |
+| candidate-v2 reference | **591/725** (81.52%) | 723/725 | 0 |
+| pythia-70m-deduped best | 45/725 (6.21%) | 170/725 | 59 |
+| SmolLM2-135M best | 422/725 (58.21%) | 655/725 | 1 |
+| SmolLM2-360M best | 585/725 (80.69%) | 717/725 | 0 |
+
+None cleared the frozen **+3.0-point** margin over the in-run reference. Official-961 was not
+read. Contract detail: `docs/mobile-scale-sweep-v1.md`.
+
+### What this authorizes / does not authorize
+
+- **Does:** Close the matched-adaptation 70M–360M base-size sweep under this recipe as
+  falsified; keep candidate-v2 as the release checkpoint; permanently protect exact ID
+  **465257** (already in `infra/jarvis/protected-resources.json`).
+- **Does not authorize:** adopting Pythia-70M, SmolLM2-135M, or SmolLM2-360M as the next base
+  under this recipe; reopening spent attempt-3/4/6 goes or rejected v5; a second H200 under the
+  spent attempt-6 go; official-961 access; candidate-v2 retraining; resume/reuse/rename/stop/
+  delete of **465257**, **465183**, **465186**, **465155**, or **465072**.
+- **Distinct untested hypotheses** (not implied by this reject; each needs a new immutable
+  preregistration, population boundary, and independent prelaunch audit before any GPU):
+  continued pretraining of BarunLM-35M; generator-side correction / action-correction successors;
+  any other base or recipe change.
+
+Prior infra lineage (unchanged): attempt 4 on **465183→465186** completed reference **590/725**
+then aborted on system-site `flash_attn` ABI mismatch (failure SHA-256
+`adad51dad1e3216272496dd83072c6d0514d6585da16fe66d56d4944184fa5e0`; spent go
+`9bf60db79cc543e35eb5e664d1a79e761337720c0dbd663da64a8b62c6f4dac2`). Attempt 5 / v5 was
+prelaunch-rejected for forgeable isolation attestation (no-go
+`05d40c7d6ab73594fb8e60fb15de94f676e76d62f97ecae43dfcaba7225c0500`); never patch or launch v5.
 
 ## Public showcase release
 
@@ -523,7 +547,10 @@ observation, not a JarvisLabs query; do not inspect them to refine their state. 
 lifecycle target from the stable display name, and
 do not inspect, connect to, rename, pause, resume, reuse, or delete any of those resources. Qwen
 463689, failed H200 evidence IDs 463786, 463793, and 463843, completed v3 H200 evidence ID 463802,
-and L4 runtime probe ID 463788 are paused and protected. Previously observed unrecognized ID
+and L4 runtime probe ID 463788 are paused and protected. Scale-sweep evidence IDs **465257**
+(attempt-6 scientific completion), **465183**/**465186** (attempt-4 infra), **465155**
+(attempt-1/3 infra), and product demo host **465072** are paused/protected and must never be
+resumed, reused, renamed, stopped, or deleted. Previously observed unrecognized ID
 463697 remains protected even when absent from the latest listing. Do not access, resume, stop,
 rename, or delete any of them.
 At 22:37 Asia/Kolkata on 2026-08-04, an explicit user-authorized cleanup permanently destroyed the
