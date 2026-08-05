@@ -1,0 +1,190 @@
+{
+  "schema_version": "barun-mobile-scale-sweep-prelaunch-audit-v1",
+  "run_id": "20260805-1554-mobile-scale-sweep-s17",
+  "attempt_under_audit": 2,
+  "audit_kind": "independent_adversarial_prelaunch_audit",
+  "auditor_statement": "I audited the attempt-2 CPU prefreeze independently and adversarially, with explicit guard against rubber-stamping my own attempt-1 prescriptions. I recomputed every claimed hash, re-ran tamper and bypass attacks against the v2 config gate, attacked the new reference-checkpoint authentication with nine crafted-directory/forged-manifest/symlink variants, attacked enforce_machine_id with every protected ID plus malformed and coercion-trick inputs, independently re-derived the pythia parameter count analytically, verified the scorer join against genuine write_scores output and the GenerationSummary key surface, re-ran the full test and lint suites, verified commit hygiene and v1-artifact immutability at HEAD, and performed the requested fresh-eyes sweep over defect classes I did not examine in attempt 1. Every attempt-1 defect is genuinely and robustly fixed. The verdict is nevertheless no-go, because the fresh-eyes sweep found a forgeable evidence binding on the challenger side that meets the same P0 definition I applied in attempt 1. The identical gap existed in the v1 runner and I failed to flag it in attempt 1; that omission was mine and is recorded here rather than hidden.",
+  "verdict": "no-go",
+  "go_criterion": "zero P0 defects (P0 = leakage, forgeable receipt/binding, sealed-data access, denylist gap, silent fallback, authorization-flag escape)",
+  "artifact_under_audit": {
+    "commit": "315070ba8bfe15c990122f4ad1aa19f9de1e5530",
+    "branch": "agent/barunaction-release-mbcf-v1",
+    "push_status": "HEAD equals origin/agent/barunaction-release-mbcf-v1 after fetch",
+    "files_changed": [
+      "configs/mobile_scale_sweep_v2.json",
+      "docs/mobile-scale-sweep-v1.md",
+      "experiments/ledger.jsonl",
+      "experiments/runs/20260805-1554-mobile-scale-sweep-s17/preregistration-attempt-2.json",
+      "src/barunlm/baselines/mobile_scale_sweep.py",
+      "tests/test_mobile_scale_sweep.py"
+    ],
+    "six_file_staging_claim": "verified: exactly the six claimed files, ledger append-only (exactly one appended JSON line), no secrets, no binaries, no bulk staging"
+  },
+  "recomputed_hashes": {
+    "configs/mobile_scale_sweep_v2.json": {
+      "recomputed_sha256": "c8d57f84013198094c27d06d35851e5320f66a5106e6f1cbc6407bfd5e78f593",
+      "matches_claim": true,
+      "bound_in": [
+        "runner CONFIG_SHA256 constant",
+        "preregistration-attempt-2.json config_sha256",
+        "appended ledger entry config_sha256"
+      ]
+    },
+    "experiments/runs/20260805-1554-mobile-scale-sweep-s17/preregistration-attempt-2.json": {
+      "recomputed_sha256": "4f98cc57e45de544e01796ebe19ea66959dfdac1ce18985a81ef4e341d56a98e",
+      "matches_claim": true,
+      "cites_attempt_1_no_go_sha256": "9bc9d3af9e633b08b6e0d0e1c3bfeedfa660cbe7755443ad58987f47e86e99e0"
+    },
+    "v1_artifacts_byte_identical_at_HEAD": {
+      "configs/mobile_scale_sweep_v1.json": "d3ee897f9afeefe1e01ec32fe9b2721479b7496785e742d0954ad081758953b8",
+      "prelaunch-audit-attempt-1-no-go.json": "9bc9d3af9e633b08b6e0d0e1c3bfeedfa660cbe7755443ad58987f47e86e99e0",
+      "preregistration.json": "92882433b14fbcf0b5eda9db7a11632b91afe92fc4995ff8b8c9522da22ab4f3",
+      "preregistration.json_matches_e183a3f": true
+    },
+    "candidate_v2_pin_chain": {
+      "src/barunaction/candidate.py CANDIDATE_CHECKPOINT_SHA256": {
+        "barun_config.json": "9b3a1d71baa95a198744d250f9629231738d942570b8685c44307fd83dd33565",
+        "model.safetensors": "fdb95ccf58a095e0d321be998924318b35ee59a334f6dd97d8726d2cf80021d3",
+        "tokenizer.json": "70ded9605fccd09c2340ca7e225361eab0ae8b4dbbb0d6e26343ab5183979db6"
+      },
+      "authoritative_manifest": "experiments/runs/20260803-1845-mobile-followup-retry-s17/essential/arms/batch63/checkpoint/checkpoint_manifest.json",
+      "authoritative_manifest_file_sha256_matches_pin": true,
+      "authoritative_manifest_recomputed_sha256": "c743ab7c4d33ae75c6b0aa4547458a961b92766da8fcf85fd148fda2ebb5530a",
+      "matches_CANDIDATE_MANIFEST_SHA256": true,
+      "v2_config_reference_evaluation_and_anchor_match_pin": true
+    }
+  },
+  "claimed_fix_verification": {
+    "P0-1_in_run_reference": {
+      "status": "verified_fixed",
+      "evidence": "--reference-exact-percent deleted (parser rejects it; args namespace has no such attribute). _evaluate_reference runs strictly before the challenger arm loop in run(); it calls verify_reference_checkpoint (delegating to barunlm.evaluation.generation.verify_checkpoint) against the frozen pins, recomputes the barun-16384 gold-token audit on both splits and compares all three frozen fields, then generate_manifest re-verifies the checkpoint hashes inside the generation call, binds the selection manifest by its frozen SHA-256, decodes greedily at temperature 0, and write_scores + fit_outcome_counts consume exact Rate numerators. result.json embeds the full reference record: verified checkpoint file hashes, generation summary including predictions_sha256, complete scorer aggregate, exact counts, and exact_match_percent computed as 100*numerator/rows. GenerationSummary.to_dict() for float checkpoints emits exactly the examples/generated/truncated/failed keys fit_outcome_counts consumes. load_frozen_config independently rejects any config whose reference_evaluation.checkpoint_sha256 or anchors.candidate_v2.checkpoint_sha256 differ from the committed pin, even when the CONFIG_SHA256 constant is forged to match tampered bytes (verified by direct attack).",
+      "attacks_all_rejected": [
+        "forged signed manifest claiming pin hashes over substituted weights",
+        "self-consistent manifest hashing substituted weights vs frozen pins",
+        "superset manifest with an extra file entry (strict dict equality)",
+        "subset manifest omitting model.safetensors",
+        "partial expected-hash map omitting a required file",
+        "unsupported manifest schema_version",
+        "symlink to wrong bytes (sha256_file hashes link targets)",
+        "malformed/uppercase hash strings",
+        "config-side reference-hash drift under a forged CONFIG_SHA256 constant"
+      ],
+      "residual_note": "symlinks to byte-identical files pass, which is not a bypass (verified bytes equal loaded bytes); a TOCTOU race between verification and load would require concurrent host compromise and is narrowed by generate_manifest's in-call re-verification (P3, informational)"
+    },
+    "P0-2_machine_id_enforcement": {
+      "status": "verified_fixed",
+      "evidence": "enforce_machine_id is called in run() immediately after load_frozen_config, before the CUDA check, imports, run-directory creation, downloads, training, and evaluation; run() is the only execution path (no resume/partial path exists; the run directory refuses overwrite). The frozen denylist was verified equal to the 18 protected IDs in AGENTS.md, sorted, duplicate-free, containing 463058; _validate_protected_ids rejects empty, unsorted, duplicated, non-int, and 463058-less lists.",
+      "attacks_all_rejected": [
+        "all 18 protected IDs",
+        "0, negative, float, string, None, list, True/False (exact-type check rejects bool)",
+        "CLI coercion tricks: '463058', '+463058', ' 463058', '463_058', '0463058' all resolve to the protected integer and are rejected by the denylist; non-integer forms exit at the parser"
+      ]
+    },
+    "P1-1_pythia_parameter_binding": {
+      "status": "verified_fixed",
+      "evidence": "Independent analytic derivation (GPTNeoX: untied 2*50304*512 embeddings + 2*512 final norm + 6 layers of [2 LayerNorms + fused QKV 512*1536+1536 + dense 512*512+512 + MLP 512*2048+2048 and 2048*512+512]) = 70,426,624, matching the config's unique_trainable_parameters. The 95,592,496 safetensors total is retained only as labeled hub metadata and the delta decomposes exactly as 6*2048*2048 causal-mask buffer entries + 48 rotary inv_freq entries. The count_unique_parameters assertion and decide_adoption ordering both consume unique_trainable_parameters; the CPU test rederives the value analytically."
+    },
+    "P1-2_scorer_join": {
+      "status": "verified_fixed",
+      "evidence": "fit_outcome_counts consumes ast_exact_match/schema_valid/truncation/missing_prediction Rate numerators with integer-type checks, denominator-equals-rows checks, range checks, truncation cross-check against the generation summary, and missing>=failed consistency. Tested against genuine write_scores aggregate output including a renamed-key regression guard; my own run of that fixture confirms schema_valid (not schema_validity) with exact integer numerators."
+    },
+    "P2-1_gold_audit_drift": {
+      "status": "verified_fixed",
+      "evidence": "verify_gold_audit_frozen compares max_target_tokens_with_eos, prompt_tokens_max, and total_with_eos_max on both sweep_train and selection, for every arm and for the barun-16384 reference; the test tampers each of the six field/split combinations individually."
+    },
+    "P2-2_generation_batch_size": {
+      "status": "verified_fixed",
+      "evidence": "generation_batch_size is read from the frozen config (positive-int-validated in load_frozen_config); the CLI argument is deleted and the parser rejects it."
+    }
+  },
+  "run_identity_assessment": {
+    "same_run_directory_attempt_2": "contract-consistent",
+    "reasoning": "Attempt 1 was rejected at CPU prefreeze before any compute action, weight download, model output, or JarvisLabs resource existed; the AGENTS.md no-retry precedents bind spent launches and spent recipes, neither of which occurred. Per-attempt documents inside one immutable run ID follow existing repository convention (action-correction runtime-audit attempt-N receipts, PlanIR attempt-1 failure directory). The v1 config, v1 preregistration, and attempt-1 no-go receipt are byte-identical at HEAD and never loaded by the corrected runner (verified: the runner binds only mobile_scale_sweep_v2.json and carries the v1 hashes solely as immutable lineage constants)."
+  },
+  "defects": [
+    {
+      "id": "P0-3",
+      "severity": "P0",
+      "title": "Challenger snapshot bytes are unbound: undetectable weight/config substitution channel into the adoption decision",
+      "detail": "The decision-critical candidate-v2 reference is now fully hash-authenticated, but the three challenger arms are not. The runner verifies only tokenizer.json against a pin; model.safetensors for pythia-70m-deduped, SmolLM2-135M, and SmolLM2-360M is neither hash-pinned in the frozen config nor verified after snapshot_download nor recorded into arm-result.json or result.json. huggingface_hub returns a cached snapshot for a pinned revision without re-hashing blob contents, so a pre-staged --cache-dir can substitute arbitrary challenger weights - including weights pre-exposed to the 725 selection rows, a direct leakage channel into a measured arm - while every receipt truthfully-looking claims the pinned revision produced the scores. No post-hoc independent verification from the evidence bundle is possible. Aggravating factors: (1) the v2 config pins config_json_sha256 and tokenizer_config_sha256 per arm, but the runner never checks either, so the frozen config advertises binding coverage that does not exist (the claimed-but-unenforced-binding defect class behind prior repository no-gos); config.json defines the architecture being measured and is loaded unverified by AutoModelForCausalLM. (2) AGENTS.md experiment discipline requires each run to record 'base checkpoint and tokenizer revisions and hashes'; challenger checkpoint hashes are recorded nowhere. (3) The accepted mobile_qwen05b_matched lane pinned and verified its entire baseline snapshot per file plus safetensors byte length, so the repository standard for exactly this lane class already includes full snapshot binding; v2 regresses from it. Mitigations honestly noted: the frozen compute plan is one fresh exact-ID H200 whose fresh hub download is TLS-delivered and content-addressed by etag, the parameter-count assertion and tokenizer pin bound gross substitutions, and exploitation requires deliberate operator staging. Those mitigations do not make substitution detectable from the receipts, which is the repository's operative standard (closure-cell, dependency-injection, and unproven-checkpoint-provenance rejections all involved operator-malice channels).",
+      "classification_basis": "forgeable receipt/binding and leakage per the frozen P0 definition; consistent with the attempt-1 P0-1 standard (an unauthenticated input whose substitution the evidence cannot detect)",
+      "attempt_1_omission": "the identical gap existed in the v1 runner; the attempt-1 audit did not flag it. This finding comes from the explicitly requested fresh-eyes sweep (evidence-bundle completeness, dependency-identity binding), not from a moved goalpost: the standard cited (AGENTS.md hash-recording requirement; qwen-lane full-snapshot pinning) predates both audits.",
+      "required_minimal_correction": "In a successor config and runner revision: (a) pin per-arm SHA-256 for model.safetensors (available without weight downloads via read-only Hugging Face metadata: files_metadata LFS sha256) plus config.json, tokenizer_config.json, and generation_config.json (or its pinned absence, as for pythia-70m-deduped at the pinned revision); (b) verify every downloaded snapshot file the loader can read against those pins after snapshot_download, aborting on mismatch or on unexpected extra model-affecting files; (c) record the verified per-file hashes into arm-result.json and result.json; (d) either enforce or remove the currently unenforced config_json_sha256/tokenizer_config_sha256 pins so the config claims exactly what the code checks."
+    },
+    {
+      "id": "P2-A",
+      "severity": "P2",
+      "title": "Frozen generation_config_overrides never applied or asserted; decoding fields inherit from an unverified snapshot file",
+      "detail": "evaluation.generation_config_overrides freezes do_sample/num_beams/repetition_penalty/no_repeat_ngram_size/length_penalty/temperature/top_k/top_p, but _generate_selection passes only do_sample, max_new_tokens, eos_token_id, pad_token_id, and use_cache to model.generate. All remaining decoding fields default from the snapshot's generation_config.json, which is downloaded but neither pinned nor verified; repetition_penalty and no_repeat_ngram_size alter greedy argmax selection. Honest-path check performed read-only at the pinned revisions: pythia-70m-deduped has no generation_config.json (404) and both SmolLM2 files contain only bos/eos IDs, so the honest path is exactly greedy as frozen. The defect is that an unverified file can influence decision-affecting decoding and that the config binds overrides the code does not enforce. Correction folds into P0-3: pin/verify generation_config.json (or its absence) and pass the frozen overrides explicitly to model.generate.",
+      "blocking": false
+    },
+    {
+      "id": "P2-B",
+      "severity": "P2",
+      "title": "Preregistered measured-failure semantics for fits are unreachable; challenger generation has no OOM handling",
+      "detail": "The config's learning_rate_screen_rule states a fit that fails to complete can never win and two failed fits make the arm a measured failure, and evaluation.measured_failures counts OOMs as failures. In the runner, every fit is recorded completed=True and any training or generation exception (non-finite loss, OOM) propagates and aborts the entire run; select_learning_rate's failed-fit branch is dead code on the production path. Unlike generate_manifest (which records per-batch OOMs as measured generation failures), _generate_selection has no OutOfMemoryError handling. This fails closed - a partial run leaves no result.json and cannot masquerade as complete (verified: result.json with status 'completed' is written once, at the end) - but it contradicts the preregistered contract text and can burn the 6-hour budget on a single recoverable fault. Correction: implement per-fit failure capture consistent with the frozen rule, or amend the successor config text to state that any fit failure terminates the run as an infrastructure failure.",
+      "blocking": false
+    },
+    {
+      "id": "P3-A",
+      "severity": "P3",
+      "title": "No torch.manual_seed or deterministic-algorithms binding",
+      "detail": "Seed 17 governs only data presentation order. No stochastic modules exist on the honest path (pinned pythia config has no dropout fields, SmolLM2 attention_dropout is 0.0, greedy decoding, no weight init), so runs are deterministic modulo CUDA kernel nondeterminism, but the receipts' 'seed 17' claim is narrower than a reader might assume. Informational.",
+      "blocking": false
+    },
+    {
+      "id": "P3-B",
+      "severity": "P3",
+      "title": "result.json binds no environment/dependency identity",
+      "detail": "torch/transformers/tokenizers versions are not recorded in result.json; the repository convention delegates environment binding to the launch tooling's environment.json. Acceptable by convention; noted for evidence-bundle completeness.",
+      "blocking": false
+    },
+    {
+      "id": "P3-C",
+      "severity": "P3",
+      "title": "Residual TOCTOU window between reference verification and file reads",
+      "detail": "The tokenizer for the reference gold-token audit is read immediately after verify_reference_checkpoint, and generate_manifest re-verifies all checkpoint hashes inside the generation call, narrowing the window. Exploiting the remainder requires concurrent write access on the remote host during the run. Informational.",
+      "blocking": false
+    }
+  ],
+  "checks_performed": [
+    {"check": "recompute v2 config SHA-256 and verify all three claimed bindings (runner constant, attempt-2 prereg, ledger entry)", "result": "pass"},
+    {"check": "recompute attempt-2 preregistration SHA-256; verify it binds the v2 config hash and cites the attempt-1 no-go hash", "result": "pass"},
+    {"check": "tamper: flipped authorization flag rejected by hash gate", "result": "pass"},
+    {"check": "tamper: reference-hash drift rejected by the committed candidate.py pin even under a forged CONFIG_SHA256 constant", "result": "pass"},
+    {"check": "tamper: cli_override_forbidden=false and denylist-missing-463058 configs rejected", "result": "pass"},
+    {"check": "verify_checkpoint attack battery (9 crafted variants)", "result": "all rejected"},
+    {"check": "candidate.py pin vs authoritative batch63 checkpoint_manifest.json and CANDIDATE_MANIFEST_SHA256", "result": "exact match"},
+    {"check": "reference evaluated strictly before challenger arms with outputs bound into result.json (predictions_sha256, aggregate, counts, exact percent)", "result": "pass (code order verified; post-hoc substitution of the reference is detectable)"},
+    {"check": "remaining unauthenticated numeric paths into the decision rule", "result": "none found for the reference/margin/floor; challenger weights are the unbound input (defect P0-3)"},
+    {"check": "enforce_machine_id on every execution path, 18-ID completeness vs AGENTS.md, malformed and coercion-trick inputs", "result": "pass"},
+    {"check": "pythia 70,426,624 independent analytic derivation; assertion and decision ordering use the corrected value", "result": "pass"},
+    {"check": "fit_outcome_counts against genuine write_scores aggregate; GenerationSummary.to_dict key compatibility for the reference path", "result": "pass"},
+    {"check": "gold-audit drift coverage (3 fields x 2 splits, arms and reference); generation_batch_size frozen with CLI argument deleted", "result": "pass"},
+    {"check": "sweep suite", "result": "40 passed (claim: 40)"},
+    {"check": "full repository suite", "result": "1835 passed, 0 failed"},
+    {"check": "ruff check + format on changed files", "result": "clean"},
+    {"check": "commit 315070b staged exactly the six claimed files; ledger append-only (one entry); no secrets; push landed (HEAD == origin)", "result": "pass"},
+    {"check": "v1 config, v1 preregistration, and attempt-1 no-go receipt byte-identical at HEAD", "result": "pass"},
+    {"check": "fresh-eyes: LR-screen gaming (distinct fit keys, tie-to-lower-rate, frozen rate set), partial-run masquerade (result.json only at completion), timezone/clock assumptions (none decision-affecting), salt/fold and split hashes unchanged from the attempt-1 independently rederived values", "result": "pass"},
+    {"check": "fresh-eyes: read-only verification of pinned generation_config.json contents (pythia: absent/404; SmolLM2 135M/360M: bos/eos only)", "result": "honest-path decoding is exactly greedy; see P2-A"},
+    {"check": "fresh-eyes: challenger snapshot evidence binding", "result": "FAIL - defect P0-3"}
+  ],
+  "constraints_honored": {
+    "cpu_local_only": true,
+    "gpu_cuda_jarvislabs_commands": 0,
+    "weight_downloads": 0,
+    "network_access": "read-only Hugging Face raw JSON metadata for the three pinned revisions (generation_config.json presence/contents, config.json dropout fields) plus git fetch/push",
+    "official_961_rows_parsed": 0,
+    "protected_machine_ids_touched": 0,
+    "credentials_exposed": 0
+  },
+  "what_this_no_go_means": "Attempt 2 fully and robustly repairs every attempt-1 defect; nothing in this receipt reopens those findings. The single blocking defect is the unbound challenger snapshot evidence (P0-3). No GPU, CUDA, JarvisLabs resource, weight download, training, or official-961 access is authorized. The required corrections are exact and small; a successor freeze that pins, verifies, and records challenger snapshot file hashes (and aligns the claimed bindings and decoding overrides with enforced code) plus a fresh independent audit is the path to launch.",
+  "required_minimal_corrections": [
+    "Pin per-arm snapshot file hashes (model.safetensors via read-only HF LFS metadata; config.json; tokenizer_config.json; generation_config.json or its recorded absence) in the successor config; verify each after snapshot_download; record verified hashes into arm-result.json and result.json.",
+    "Enforce or remove the currently unenforced config_json_sha256 / tokenizer_config_sha256 pins so the frozen config claims exactly what the runner checks.",
+    "Pass the frozen generation_config_overrides explicitly to model.generate (or construct an explicit GenerationConfig) so no unverified snapshot file can influence decoding.",
+    "Optional but recommended (P2-B): implement the preregistered per-fit measured-failure semantics or amend the contract text to declare any fit failure a run-terminating infrastructure failure."
+  ],
+  "recorded_at": "2026-08-05T18:22:00+05:30"
+}
