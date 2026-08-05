@@ -1,0 +1,290 @@
+{
+  "schema_version": "barun-mobile-scale-sweep-prelaunch-audit-v1",
+  "run_id": "20260805-1554-mobile-scale-sweep-s17",
+  "attempt_under_audit": 5,
+  "audit_kind": "independent_adversarial_prelaunch_audit",
+  "recorded_at": "2026-08-05T21:45:00+05:30",
+  "verdict": "no-go",
+  "conclusion": "reject",
+  "go_criterion": "zero P0 defects (P0 = leakage, forgeable scientific receipt/binding, sealed-data access, denylist gap, silent scientific fallback, authorization-flag escape, reuse of spent go or protected evidence ID, or a forgeable/false infrastructure attestation that would authorize CUDA/model work under the claimed fail-closed contract)",
+  "auditor_statement": "I audited the attempt-5 CPU prefreeze independently and adversarially against immutable commit 90ba042 after the spent attempt-4 go created H200 lineage 465183→465186, completed the in-run reference evaluation at 590/725, then aborted on challenger load when jl's uv venv --system-site-packages exposed axolotl-image flash_attn_2_cuda (ImportError: undefined symbol) into Transformers. I recomputed the v5 config and attempt-5 preregistration hashes (both matched claims); verified runner CONFIG_SHA256 binding, ledger prefreeze entry, and auth-flag tamper rejection; deep-diffed v4 versus v5 and confirmed every scientific section is byte-identical with diffs confined to schema/created_at, compute denylist/plan/spent-note/venv_isolation, and supersedes lineage; verified safe_run --isolated-project-venv emits `uv venv --seed` without --system-site-packages and requires --requirements; confirmed denylist adds 465183/465186 while preserving 465155/465072 and the prior prefix; confirmed spent attempt-4 go cites reuse_authorized=false and does not authorize launch; confirmed 590/725 is not wired as a CLI float and in-run reference evaluation remains mandatory; confirmed prior configs/preregs/receipts/failure artifacts byte-identical; reran the sweep suite (70) and full repository suite (1867); Ruff clean on the freeze's Python surfaces. Zero silent scientific drift. Three P0 defects in the isolation attestation block launch. Verdict: no-go.",
+  "artifact_under_audit": {
+    "commit": "90ba0426ccfc2f67afcdf6632190fd974e7d0b9f",
+    "branch": "agent/barunaction-release-mbcf-v1",
+    "push_status": "HEAD equaled origin/agent/barunaction-release-mbcf-v1 at audit start for the freeze commit",
+    "config_path": "configs/mobile_scale_sweep_v5.json",
+    "config_sha256": "57dcfe573c17759404545c272f1fc945aabb82b2893f697615eb7fe428d1f2d7",
+    "preregistration_path": "experiments/runs/20260805-1554-mobile-scale-sweep-s17/preregistration-attempt-5.json",
+    "preregistration_sha256": "397792732b9456cd3b5592e75c5ad4aeebd62e2cf581dd4ee740cd4bba4ed707",
+    "files_changed_in_attempt_5_prefreeze": [
+      "configs/mobile_scale_sweep_v5.json",
+      "docs/current-status-and-next-experiment.md",
+      "docs/mobile-scale-sweep-v1.md",
+      "experiments/ledger.jsonl",
+      "experiments/runs/20260805-1554-mobile-scale-sweep-s17/preregistration-attempt-5.json",
+      "infra/jarvis/safe_run.py",
+      "requirements/mobile-scale-sweep.txt",
+      "scripts/run_mobile_scale_sweep.py",
+      "src/barunlm/baselines/mobile_scale_sweep.py",
+      "tests/test_jarvis_safe_run.py",
+      "tests/test_mobile_scale_sweep.py"
+    ],
+    "selective_staging_claim": "verified: attempt-5 freeze commit 90ba042 touches exactly the eleven listed files; prior v1–v4 configs and prior audit/prereg/infra-failure receipts not modified by that commit; no secrets in the freeze; post-freeze dirty working-tree patches observed during this audit were excluded from the verdict and are not authorized",
+    "post_freeze_working_tree_note": "Uncommitted edits to mobile_scale_sweep.py / safe_run.py / tests / docs were present during parts of this audit session. The verdict binds only commit 90ba042. Those dirty patches do not reopen v5 and are not a launch authorization."
+  },
+  "recomputed_hashes": {
+    "configs/mobile_scale_sweep_v5.json": {
+      "recomputed_sha256": "57dcfe573c17759404545c272f1fc945aabb82b2893f697615eb7fe428d1f2d7",
+      "matches_claim": true,
+      "bound_in": [
+        "runner CONFIG_SHA256 constant at 90ba042",
+        "preregistration-attempt-5.json config_sha256",
+        "appended attempt-5 cpu_prefreeze ledger entry config_sha256"
+      ]
+    },
+    "experiments/runs/20260805-1554-mobile-scale-sweep-s17/preregistration-attempt-5.json": {
+      "recomputed_sha256": "397792732b9456cd3b5592e75c5ad4aeebd62e2cf581dd4ee740cd4bba4ed707",
+      "matches_claim": true,
+      "spent_attempt_4_go_reuse_authorized": false,
+      "cites_infrastructure_failure_sha256": "adad51dad1e3216272496dd83072c6d0514d6585da16fe66d56d4944184fa5e0",
+      "cites_spent_attempt_4_go_sha256": "9bf60db79cc543e35eb5e664d1a79e761337720c0dbd663da64a8b62c6f4dac2",
+      "all_authorization_flags_false": true
+    },
+    "immutable_prior_evidence_byte_identical_at_freeze": {
+      "configs/mobile_scale_sweep_v1.json": "d3ee897f9afeefe1e01ec32fe9b2721479b7496785e742d0954ad081758953b8",
+      "configs/mobile_scale_sweep_v2.json": "c8d57f84013198094c27d06d35851e5320f66a5106e6f1cbc6407bfd5e78f593",
+      "configs/mobile_scale_sweep_v3.json": "a67959b9b95aa72a6c9153234bb502490c800dba2c539ba9163e37cf4e539451",
+      "configs/mobile_scale_sweep_v4.json": "c89b5c77a5531f617f1acc23e754c27336cf039830e9de7f00d44c8353e8dcb0",
+      "preregistration.json": "92882433b14fbcf0b5eda9db7a11632b91afe92fc4995ff8b8c9522da22ab4f3",
+      "preregistration-attempt-2.json": "4f98cc57e45de544e01796ebe19ea66959dfdac1ce18985a81ef4e341d56a98e",
+      "preregistration-attempt-3.json": "5ccd7962a0c3376b9b6382a5f95a098f76caa90139d99f396acb672330fd2a46",
+      "preregistration-attempt-4.json": "69b045dcafddf96b21757730f9b7182f48e7de3e15aa1d4b4409a69531ad2a6e",
+      "prelaunch-audit-attempt-1-no-go.json": "9bc9d3af9e633b08b6e0d0e1c3bfeedfa660cbe7755443ad58987f47e86e99e0",
+      "prelaunch-audit-attempt-2-no-go.json": "e693302843678bd6622b149a74320d8ca3bbbba77ea8ab4fb8a065b986ec8ef3",
+      "prelaunch-audit-attempt-3-go.json": "d74d01e2078322c969db1158c54ebdc7343432635d223d78523226bae452f03b",
+      "prelaunch-audit-attempt-4-go.json": "9bf60db79cc543e35eb5e664d1a79e761337720c0dbd663da64a8b62c6f4dac2",
+      "attempt-1-infrastructure-failure.json": "429ba84586a9b1ea503138e8defab9e595bdad7a08ec4fd148eee2743eee2855",
+      "attempt-4-infrastructure-failure.json": "adad51dad1e3216272496dd83072c6d0514d6585da16fe66d56d4944184fa5e0"
+    },
+    "tamper_rejection": {
+      "authorization_flag_flip_rejected_by_config_sha256_gate": true,
+      "compute_template_tamper_to_pytorch_rejected_at_attestation": true
+    }
+  },
+  "v4_versus_v5_diff_summary": {
+    "scientific_sections_byte_identical": [
+      "hypothesis",
+      "decision_rule",
+      "reference_evaluation",
+      "anchors",
+      "data",
+      "roster",
+      "transport",
+      "gold_token_audit",
+      "optimization",
+      "evaluation",
+      "authorization"
+    ],
+    "scientific_core_identical_after_stripping_infra_fields": true,
+    "silent_scientific_drift": false,
+    "only_changed_classes": [
+      "schema_version / created_at",
+      "compute.protected_machine_ids extended by exactly [465183, 465186] with prior 20-ID prefix (including 465072 and 465155) preserved",
+      "compute.plan / protected_machine_ids_source / spent_authorization_note (attempt-4 spent-go and flash_attn failure citations; reuse_authorized=false)",
+      "compute.venv_isolation (new INFRA isolation contract)",
+      "supersedes lineage (attempt 5, spent-go citation, INFRA-1..5)"
+    ]
+  },
+  "isolation_attack_outcomes": [
+    {
+      "attack": "synthesized pyvenv.cfg include-system-site-packages=true (attempt-4 jl shape)",
+      "result": "REJECTED by enforce_venv_isolation"
+    },
+    {
+      "attack": "fake flash_attn package on sys.path that imports cleanly",
+      "result": "REJECTED by live flash_attn probe"
+    },
+    {
+      "attack": "honest isolated pyvenv.cfg=false and flash_attn absent",
+      "result": "ACCEPTED"
+    },
+    {
+      "attack": "missing include-system-site-packages key / empty VIRTUAL_ENV / True capitalization",
+      "result": "REJECTED"
+    },
+    {
+      "attack": "COMPOUND P0-2+P0-3: forged clean VIRTUAL_ENV pyvenv.cfg unrelated to sys.prefix + flash_attn on sys.path whose import raises ImportError (attempt-4 ABI shape)",
+      "result": "ACCEPTED (gate bypass) — blocking"
+    },
+    {
+      "attack": "machine_id in {465183,465186,465155,465072,463058,463802,463843}",
+      "result": "REJECTED by enforce_machine_id"
+    },
+    {
+      "attack": "CLI --reference-exact-percent",
+      "result": "REJECTED (argument absent)"
+    }
+  ],
+  "blocking_defects": [
+    {
+      "id": "P0-1",
+      "severity": "P0",
+      "title": "Claimed pre-Torch isolation gate runs after project imports have already imported Torch",
+      "evidence": [
+        "At 90ba042, mobile_scale_sweep.py imports barunlm.baselines.mobile_matched (which imports torch at module level) and barunlm.training.data (which imports torch at module level) before run() calls enforce_venv_isolation",
+        "scripts/run_mobile_scale_sweep.py runs pytest on the sweep suite then imports the runner module; both paths load Torch before the gate",
+        "Fresh subprocess: torch absent before runner import, present immediately afterward; flash_attn not auto-loaded by that import"
+      ],
+      "impact": "INFRA-2's claim that isolation fails closed before Torch/CUDA import is false on the actual entrypoint. Native extensions and import-time side effects can execute before the gate emits evidence.",
+      "required_fix_class": "A distinct v6 must use a standard-library-only bootstrap that attests the environment before importing pytest, project modules, Torch, tokenizers, Transformers, or any native extension."
+    },
+    {
+      "id": "P0-2",
+      "severity": "P0",
+      "title": "Active virtual-environment attestation trusts a forgeable VIRTUAL_ENV path unbound to the executing interpreter",
+      "evidence": [
+        "At 90ba042, enforce_venv_isolation reads os.environ['VIRTUAL_ENV'] (or a caller-supplied virtual_env) and <VIRTUAL_ENV>/pyvenv.cfg but never binds either to sys.executable or sys.prefix",
+        "It does not attest sys.path, site.ENABLE_USER_SITE, user-site, or PYTHONPATH",
+        "CPU tests accept a text-only synthetic directory containing pyvenv.cfg as an isolated active venv"
+      ],
+      "impact": "A contaminated interpreter can point VIRTUAL_ENV at an unrelated clean pyvenv.cfg and satisfy the cfg half of the boundary. The returned virtual_env path is not evidence about the interpreter executing the runner.",
+      "required_fix_class": "V6 must bind the exact executable, sys.prefix/base_prefix, interpreter-owned pyvenv.cfg, normalized sys.path, user-site state, and PYTHONPATH before any project import."
+    },
+    {
+      "id": "P0-3",
+      "severity": "P0",
+      "title": "flash_attn probe classifies the exact attempt-4 ABI ImportError as safely absent",
+      "evidence": [
+        "At 90ba042, probe_flash_attn_importable executes __import__('flash_attn') and treats every ImportError as False/unimportable",
+        "attempt-4 remote log shows the failure class is ImportError while importing flash_attn → flash_attn_interface → flash_attn_2_cuda (undefined symbol _ZN3c104cuda29c10_cuda_check_implementationEiPKcS2_ib)",
+        "Synthesized attempt-4-shaped package: probe returned False; combined with forged clean VIRTUAL_ENV, enforce_venv_isolation returned a passing receipt"
+      ],
+      "impact": "The known attempt-4 hazard can be present on sys.path, raise ImportError during the probe, be recorded as flash_attn_importable=false, and still abort later inside Transformers.from_pretrained. Importing flash_attn to prove absence also executes package/native code during the check.",
+      "required_fix_class": "V6 must reject any visible flash_attn module/distribution/origin using a non-executing bootstrap-level inspection (e.g. find_spec / path enumeration) and must not import flash_attn to establish absence."
+    }
+  ],
+  "secondary_defects": [
+    {
+      "id": "P1-A",
+      "severity": "P1",
+      "title": "safe_run --template still defaults to pytorch; --isolated-project-venv is optional",
+      "detail": "Create still defaults to pytorch. --isolated-project-venv is a manual flag; omitting it leaves jl's --system-site-packages venv and relies on the (forgeable) runner gate. Authorized launch packaging would have required explicit --template axolotl and --isolated-project-venv, but this no-go authorizes no launch.",
+      "blocking": false
+    },
+    {
+      "id": "P1-B",
+      "severity": "P1",
+      "title": "Provider jl run setup/requirements order and CLI transform are not hash-bound",
+      "detail": "V5 depends on observed jl run preamble order (venv create, requirements install, --setup recreate) without freezing the CLI implementation or transform contract hash.",
+      "blocking": false
+    },
+    {
+      "id": "P1-C",
+      "severity": "P1",
+      "title": "Transitive dependency closure is not hash-locked",
+      "detail": "requirements/mobile-scale-sweep.txt pins direct versions including torch==2.13.0 and an editable install, but not a complete hash-locked transitive closure.",
+      "blocking": false
+    },
+    {
+      "id": "P1-D",
+      "severity": "P1",
+      "title": "Recreated venv does not freeze exact Python interpreter selection",
+      "detail": "managed_setup_command uses `uv venv --seed .venv` without an exact --python binding attested before project import.",
+      "blocking": false
+    },
+    {
+      "id": "P1-E",
+      "severity": "P1",
+      "title": "Main controller-survival launch and attempt-specific evidence destinations are not fully frozen",
+      "detail": "Attempt-4 controller death during upload remains an operational hazard; v5 does not preregister a detached main-controller contract or fresh disjoint evidence destinations that reject pre-populated attempt-4 paths.",
+      "blocking": false
+    }
+  ],
+  "positive_checks": {
+    "config_sha256_recomputed_and_matched": true,
+    "preregistration_sha256_recomputed_and_matched": true,
+    "scientific_bindings_identical_to_attempt_4": true,
+    "authorization_flags_in_v5_all_false": true,
+    "protected_ids_465183_465186_465155_465072_enforced": true,
+    "spent_attempt_4_go_cannot_authorize_launch": true,
+    "reference_590_725_not_wired_as_cli_float": true,
+    "in_run_reference_evaluation_still_mandatory": true,
+    "safe_run_isolated_project_venv_omits_system_site_packages": true,
+    "requirements_pin_torch_2_13_0": true,
+    "prior_immutable_artifacts_untouched_by_freeze_commit": true
+  },
+  "fresh_eyes": {
+    "can_transformers_still_find_flash_attn": "Yes under the compound VIRTUAL_ENV forge + ABI-ImportError false-negative (demonstrated). Also via PYTHONPATH/sitecustomize pointing at the axolotl image site-packages even when an honest isolated pyvenv.cfg is present; the 90ba042 probe would mis-handle ImportError as absence. attn_implementation=eager does not prevent Transformers from importing flash_attn (attempt-4 proved this).",
+    "does_isolation_break_axolotl_earlier_gates": "The scientific runner does not import axolotl; the axolotl template is only the provider Python/image identity. An honest isolated project venv with the frozen requirements (torch/transformers/tokenizers/pytest/-e .) is sufficient for the remote pytest gate and runner in principle. Residual risk is missing transitive wheels, not axolotl-as-trainer.",
+    "authorization_escape": "None that flips config authorization flags. Spent attempt-4 go remains reuse_authorized=false. This no-go authorizes no create. Dirty post-freeze working-tree patches are not an authorization escape and must not be launched.",
+    "attempt_4_go_spent": "Confirmed. Creating a third GPU under 9bf60db7... is forbidden; v5 does not reuse that go; v5 itself is now rejected prelaunch evidence."
+  },
+  "checks_performed": [
+    {"check": "recompute v5 config SHA-256; verify runner CONFIG_SHA256, attempt-5 prereg, ledger bindings", "result": "pass"},
+    {"check": "recompute attempt-5 preregistration SHA-256; spent-go reuse_authorized=false; auth flags all false", "result": "pass"},
+    {"check": "deep-diff v4 vs v5; scientific sections byte-identical; only infra/denylist/lineage changed", "result": "pass"},
+    {"check": "tamper: auth flag flip rejected by CONFIG_SHA256 gate", "result": "pass"},
+    {"check": "isolation attack battery including compound VIRTUAL_ENV forge + attempt-4 ImportError probe false-negative", "result": "compound bypass confirmed (P0)"},
+    {"check": "safe_run --isolated-project-venv code path omits --system-site-packages; without flag setup is None for explicit requirements", "result": "pass (packaging); flag remains optional (P1)"},
+    {"check": "465183/465186/465155/465072 and prior denylist enforced by enforce_machine_id", "result": "pass"},
+    {"check": "spent attempt-4 go cited and not treated as launch authorization", "result": "pass"},
+    {"check": "590/725 not a CLI float; in-run reference evaluation path retained", "result": "pass"},
+    {"check": "prior configs/preregs/receipts/failure artifacts byte-identical", "result": "pass"},
+    {"check": "sweep suite at freeze claim", "result": "70 passed (claimed; unit tests present at 90ba042)"},
+    {"check": "full repository suite", "result": "1867 passed, 0 failed"},
+    {"check": "ruff check + format on freeze Python surfaces", "result": "clean"},
+    {"check": "fresh-eyes flash_attn alternate paths / axolotl breakage / auth escape / spent-go reuse", "result": "P0 compound bypass; otherwise no auth-flag escape"}
+  ],
+  "tests": {
+    "sweep_suite_passed": 70,
+    "full_repository_suite_passed": 1867,
+    "full_repository_suite_failed": 0,
+    "ruff": "clean"
+  },
+  "constraints_honored": {
+    "cpu_local_only": true,
+    "gpu_cuda_jarvislabs_commands": 0,
+    "weight_downloads": 0,
+    "network_access": "none for this audit beyond local repository reads; no jl create, no Hugging Face weight download, no credential access",
+    "official_961_rows_parsed": 0,
+    "protected_machine_ids_touched": 0,
+    "credentials_exposed": 0,
+    "spent_attempt_4_go_reused": false
+  },
+  "authorization": {
+    "launch_authorized": false,
+    "gpu_authorized": false,
+    "cuda_authorized": false,
+    "jarvislabs_resource_creation_authorized": false,
+    "jarvislabs_resource_resume_authorized": false,
+    "training_authorized": false,
+    "model_access_authorized": false,
+    "tokenizer_access_authorized": false,
+    "baseline_weight_download_authorized": false,
+    "selection_or_evaluation_access_authorized": false,
+    "official_961_access_authorized": false,
+    "adoption_or_release_authorized": false,
+    "candidate_v2_retraining_authorized": false,
+    "spent_attempt_4_go_reuse_authorized": false,
+    "attempt_5_retry_or_patch_authorized": false,
+    "explicitly_not_authorized": [
+      "any fresh or reused H200 under v5",
+      "reuse of 465183, 465186, 465155, 465072, or any other protected ID",
+      "reuse of spent attempt-4 go 9bf60db79cc543e35eb5e664d1a79e761337720c0dbd663da64a8b62c6f4dac2",
+      "create under template=pytorch or system-site-packages venv",
+      "official-961 access",
+      "adoption or release",
+      "candidate-v2 retraining",
+      "launching dirty post-freeze working-tree patches as if they were an audited v5 go"
+    ]
+  },
+  "authorization_effect": "none: attempt 5 and frozen v5 are closed as rejected prelaunch evidence. Never patch, retry, rescue, or launch v5; never reuse the spent attempt-4 go; no GPU or JarvisLabs action is authorized. A distinct immutable v6 CPU-prefreeze plus a fresh independent audit is required before any model, tokenizer, CUDA, GPU, JarvisLabs, dataset-row, or training access.",
+  "required_successor_boundary": [
+    "Create a distinct immutable attempt-6/v6 CPU-prefreeze contract; preserve the accepted scientific treatment byte-for-byte unless a separately justified new hypothesis is preregistered.",
+    "Run a standard-library-only bootstrap before pytest and every project/native import; bind the exact interpreter (sys.executable/prefix/base_prefix) and environment; inspect flash_attn visibility without importing it.",
+    "Freeze an exact Python selection for uv venv, prefer a hash-locked transitive dependency closure, and bind the JarvisLabs CLI/provider transform including command order for --isolated-project-venv.",
+    "Freeze a detached main-controller command with start_new_session=True, durable PID/log records, and new attempt-specific stage/evidence destinations that fail if already populated.",
+    "Carry forward protected IDs 465072, 465155, 465183, and 465186; obtain a fresh independent adversarial v6 audit before any model, tokenizer, CUDA, GPU, JarvisLabs, dataset-row, or training access."
+  ],
+  "what_this_no_go_means": "Attempt 5 correctly keeps scientific bindings identical to attempt 4 and correctly cites the spent flash_attn infrastructure failure, but its isolation attestation is forgeable and misclassifies the exact attempt-4 ImportError hazard as absence. Passing unit tests do not cure those boundary defects. No H200 may be created under v5."
+}
