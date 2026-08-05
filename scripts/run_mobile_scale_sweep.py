@@ -1,4 +1,4 @@
-"""Remote entrypoint for the frozen mobile scale-sweep v4 recipe.
+"""Remote entrypoint for the frozen mobile scale-sweep v5 recipe.
 
 Runs the CPU test gate, then delegates to the scientific runner in
 ``barunlm.baselines.mobile_scale_sweep``. Does not invent a parallel launcher.

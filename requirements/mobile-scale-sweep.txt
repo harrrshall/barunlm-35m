@@ -1,4 +1,9 @@
-# Frozen remote additions for the mobile scale-sweep v3 lane.
+# Frozen remote additions for the mobile scale-sweep v5 lane.
+# Attempt-4 aborted when jl run created `uv venv --system-site-packages` and
+# Transformers imported the axolotl image flash_attn CUDA extension against the
+# managed venv torch. v5 launch packaging recreates the project .venv without
+# --system-site-packages (safe_run --isolated-project-venv), so CUDA torch must
+# be present in the isolated venv rather than inherited from system site-packages.
 # Pin Torch-matched torchvision so Transformers cannot discover an incompatible
 # JarvisLabs system torchvision during optional vision imports.
 -e .
@@ -6,5 +11,6 @@ huggingface-hub==0.36.2
 pytest==8.4.1
 safetensors==0.8.0
 tokenizers==0.21.4
+torch==2.13.0
 transformers==4.48.3
 torchvision==0.28.0

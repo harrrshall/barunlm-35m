@@ -12,6 +12,7 @@ import hashlib
 import json
 import os
 import re
+import shlex
 import shutil
 import signal
 import subprocess
@@ -941,8 +942,33 @@ def required_create_machine_id(summary: Any) -> int:
 
 
 def managed_setup_command(args: argparse.Namespace) -> str | None:
-    """Avoid mutating an explicitly frozen requirements target before source validation."""
+    """Avoid mutating an explicitly frozen requirements target before source validation.
 
+    ``--isolated-project-venv`` is the scale-sweep v5 flash_attn isolation contract:
+    JarvisLabs ``jl run`` hardcodes ``uv venv --system-site-packages``, which exposes
+    the axolotl image ``flash_attn_2_cuda`` extension into Transformers. After the
+    provider's initial contaminated creation and requirements install, recreate the
+    project ``.venv`` without system-site-packages and reinstall the same frozen
+    requirements basename so CUDA torch comes from the pin, not system inheritance.
+    """
+
+    if getattr(args, "isolated_project_venv", False):
+        if args.requirements is None:
+            fail("--isolated-project-venv requires --requirements")
+        requirements_name = Path(args.requirements).name
+        if (
+            requirements_name in {"", ".", ".."}
+            or "/" in requirements_name
+            or "\\" in requirements_name
+        ):
+            fail("--isolated-project-venv requirements basename is invalid")
+        quoted = shlex.quote(requirements_name)
+        return (
+            "rm -rf .venv && "
+            "uv venv --seed .venv && "
+            ". .venv/bin/activate && "
+            f"uv pip install -r {quoted}"
+        )
     if args.requirements is not None:
         return None
     return "uv pip install -e '.[dev]'"
@@ -1873,6 +1899,13 @@ def build_parser() -> argparse.ArgumentParser:
     run_parser.add_argument("--region", choices=("IN1", "IN2", "EU1"))
     run_parser.add_argument("--spot", action="store_true")
     run_parser.add_argument("--requirements", type=Path)
+    run_parser.add_argument(
+        "--isolated-project-venv",
+        action="store_true",
+        help="after jl run's uv venv --system-site-packages creation, recreate .venv "
+        "without system-site-packages and reinstall --requirements (scale-sweep v5 "
+        "flash_attn isolation contract; requires --requirements)",
+    )
     run_parser.add_argument("--poll-seconds", type=int, default=20)
     run_parser.add_argument("--max-runtime-minutes", type=int, default=240)
     run_parser.add_argument("--artifact", help="remote file/directory to download before pause")

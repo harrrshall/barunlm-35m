@@ -243,6 +243,45 @@ def test_explicit_requirements_omit_editable_setup_to_preserve_staged_tree(
     assert module.managed_setup_command(args) is None
 
 
+def test_isolated_project_venv_setup_recreates_venv_without_system_site_packages(
+    tmp_path: Path,
+) -> None:
+    module = load_safe_run()
+    requirements = tmp_path / "mobile-scale-sweep.txt"
+    requirements.write_text("torch==2.13.0\n", encoding="utf-8")
+    args = SimpleNamespace(
+        target=Path("."),
+        script="scripts/run_mobile_scale_sweep.py",
+        requirements=requirements,
+        remote_args=[],
+        isolated_project_venv=True,
+    )
+
+    setup = module.managed_setup_command(args)
+    assert setup is not None
+    assert "uv venv --seed .venv" in setup
+    assert "--system-site-packages" not in setup
+    assert "rm -rf .venv" in setup
+    assert "uv pip install -r mobile-scale-sweep.txt" in setup
+
+    command = module.build_attached_run_command(args, 999_001)
+    assert command[command.index("--setup") + 1] == setup
+    assert "--requirements" in command
+
+
+def test_isolated_project_venv_requires_requirements(tmp_path: Path) -> None:
+    module = load_safe_run()
+    args = SimpleNamespace(
+        target=Path("."),
+        script="scripts/run_mobile_scale_sweep.py",
+        requirements=None,
+        remote_args=[],
+        isolated_project_venv=True,
+    )
+    with pytest.raises(module.SafetyError, match="requires --requirements"):
+        module.managed_setup_command(args)
+
+
 def test_managed_requirements_copy_rehearsal_binds_exact_root_path_and_bytes(
     tmp_path: Path,
 ) -> None:

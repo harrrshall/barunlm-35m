@@ -1,15 +1,15 @@
-"""CPU-hermetic tests for the matched-adaptation scale-sweep rules (attempt 4).
+"""CPU-hermetic tests for the matched-adaptation scale-sweep rules (attempt 5).
 
 Covers the fresh grouped split derivation, the gold token-length audit and
 generation-budget rule, the raw prompt transport and termination contract, the
 preregistered learning-rate screen, the adoption decision rule, the immutable
-v4 configuration binding, the in-run candidate-v2 reference contract, the
+v5 configuration binding, the in-run candidate-v2 reference contract, the
 protected-machine-ID enforcement, the axolotl/CPython 3.11.10 runtime
-attestation gate, the real-scorer outcome join, the complete challenger
-snapshot hash binding, the explicit frozen decoding overrides, the per-fit
-measured-failure semantics, and the environment version binding.  No network,
-GPU, or workstation-specific paths are used; committed repository files are
-the only fixtures.
+attestation gate, the isolated-venv / flash_attn fail-closed preflight, the
+real-scorer outcome join, the complete challenger snapshot hash binding, the
+explicit frozen decoding overrides, the per-fit measured-failure semantics, and
+the environment version binding.  No network, GPU, or workstation-specific paths
+are used; committed repository files are the only fixtures.
 """
 
 from __future__ import annotations
@@ -30,10 +30,14 @@ from barunlm.baselines.mobile_scale_sweep import (
     ATTEMPT_2_NO_GO_SHA256,
     ATTEMPT_3_CONFIG_SHA256,
     ATTEMPT_3_GO_SHA256,
+    ATTEMPT_4_CONFIG_SHA256,
+    ATTEMPT_4_GO_SHA256,
+    ATTEMPT_4_INFRASTRUCTURE_FAILURE_SHA256,
     CONFIG_PATH,
     CONFIG_SHA256,
     ENVIRONMENT_PACKAGES,
     GOLD_AUDIT_FROZEN_FIELDS,
+    REQUIRED_INCLUDE_SYSTEM_SITE_PACKAGES,
     REQUIRED_PROTECTED_EVIDENCE_IDS,
     REQUIRED_PROVIDER_TEMPLATE,
     REQUIRED_PYTHON_IMPLEMENTATION,
@@ -54,12 +58,15 @@ from barunlm.baselines.mobile_scale_sweep import (
     decoding_kwargs,
     enforce_machine_id,
     enforce_runtime_attestation,
+    enforce_venv_isolation,
     environment_versions,
     fit_outcome_counts,
     gold_token_length_audit,
     load_frozen_config,
     max_new_tokens_from_audit,
+    parse_pyvenv_cfg,
     partition_frozen_train_manifest,
+    read_include_system_site_packages,
     select_learning_rate,
     selection_fold_for_cluster,
     tokenize_raw_rows,
@@ -600,6 +607,8 @@ def test_config_protected_ids_extend_prior_denylist() -> None:
     assert protected == sorted(set(prior) | set(REQUIRED_PROTECTED_EVIDENCE_IDS))
     assert 465072 in protected
     assert 465155 in protected
+    assert 465183 in protected
+    assert 465186 in protected
 
 
 def test_config_roster_is_pinned_and_matches_metadata_receipt() -> None:
@@ -641,11 +650,11 @@ def test_verify_partition_against_config_detects_drift(tmp_path: Path) -> None:
 
 
 # ---------------------------------------------------------------------------
-# Attempt-4 lineage: v1/v2/v3 artifacts immutable; v4 cites infra failure + spent go
+# Attempt-5 lineage: v1–v4 artifacts immutable; v5 cites attempt-4 infra failure + spent go
 # ---------------------------------------------------------------------------
 
 
-def test_v1_v2_v3_artifacts_untouched_and_v4_cites_lineage() -> None:
+def test_v1_through_v4_configs_untouched_and_v5_cites_lineage() -> None:
     repo_v1 = REPO / "configs" / "mobile_scale_sweep_v1.json"
     assert hashlib.sha256(repo_v1.read_bytes()).hexdigest() == ATTEMPT_1_CONFIG_SHA256
     no_go_1 = RUN_DIR / "prelaunch-audit-attempt-1-no-go.json"
@@ -658,30 +667,41 @@ def test_v1_v2_v3_artifacts_untouched_and_v4_cites_lineage() -> None:
     assert hashlib.sha256(repo_v3.read_bytes()).hexdigest() == ATTEMPT_3_CONFIG_SHA256
     go_3 = RUN_DIR / "prelaunch-audit-attempt-3-go.json"
     assert hashlib.sha256(go_3.read_bytes()).hexdigest() == ATTEMPT_3_GO_SHA256
-    infra = RUN_DIR / "attempt-1-infrastructure-failure.json"
-    assert hashlib.sha256(infra.read_bytes()).hexdigest() == ATTEMPT_1_INFRASTRUCTURE_FAILURE_SHA256
+    infra_1 = RUN_DIR / "attempt-1-infrastructure-failure.json"
+    assert (
+        hashlib.sha256(infra_1.read_bytes()).hexdigest() == ATTEMPT_1_INFRASTRUCTURE_FAILURE_SHA256
+    )
+    repo_v4 = REPO / "configs" / "mobile_scale_sweep_v4.json"
+    assert hashlib.sha256(repo_v4.read_bytes()).hexdigest() == ATTEMPT_4_CONFIG_SHA256
+    go_4 = RUN_DIR / "prelaunch-audit-attempt-4-go.json"
+    assert hashlib.sha256(go_4.read_bytes()).hexdigest() == ATTEMPT_4_GO_SHA256
+    infra_4 = RUN_DIR / "attempt-4-infrastructure-failure.json"
+    assert (
+        hashlib.sha256(infra_4.read_bytes()).hexdigest() == ATTEMPT_4_INFRASTRUCTURE_FAILURE_SHA256
+    )
 
     config = load_frozen_config()
-    assert CONFIG_PATH.name == "mobile_scale_sweep_v4.json"
+    assert CONFIG_PATH.name == "mobile_scale_sweep_v5.json"
     assert (
         config["schema_version"]
         == SCALE_SWEEP_CONFIG_SCHEMA_VERSION
-        == ("barun-mobile-scale-sweep-config-v4")
+        == ("barun-mobile-scale-sweep-config-v5")
     )
     supersedes = config["supersedes"]
-    assert supersedes["config_sha256"] == ATTEMPT_3_CONFIG_SHA256
-    assert supersedes["attempt"] == 4
-    assert supersedes["spent_attempt_3_go"]["sha256"] == ATTEMPT_3_GO_SHA256
-    assert supersedes["spent_attempt_3_go"]["reuse_authorized"] is False
+    assert supersedes["config_sha256"] == ATTEMPT_4_CONFIG_SHA256
+    assert supersedes["attempt"] == 5
+    assert supersedes["spent_attempt_4_go"]["sha256"] == ATTEMPT_4_GO_SHA256
+    assert supersedes["spent_attempt_4_go"]["reuse_authorized"] is False
     assert (
-        supersedes["attempt_1_infrastructure_failure"]["sha256"]
-        == ATTEMPT_1_INFRASTRUCTURE_FAILURE_SHA256
+        supersedes["attempt_4_infrastructure_failure"]["sha256"]
+        == ATTEMPT_4_INFRASTRUCTURE_FAILURE_SHA256
     )
+    assert supersedes["attempt_4_infrastructure_failure"]["create_machine_id"] == 465183
+    assert supersedes["attempt_4_infrastructure_failure"]["resume_migrant_machine_id"] == 465186
+    assert supersedes["attempt_4_lineage"]["config_sha256"] == ATTEMPT_4_CONFIG_SHA256
+    assert supersedes["attempt_3_lineage"]["config_sha256"] == ATTEMPT_3_CONFIG_SHA256
     assert supersedes["attempt_2_lineage"]["config_sha256"] == ATTEMPT_2_CONFIG_SHA256
-    assert supersedes["attempt_2_lineage"]["prelaunch_audit_no_go_sha256"] == ATTEMPT_2_NO_GO_SHA256
-    lineage = supersedes["attempt_1_lineage"]
-    assert lineage["config_sha256"] == ATTEMPT_1_CONFIG_SHA256
-    assert lineage["prelaunch_audit_no_go_sha256"] == ATTEMPT_1_NO_GO_SHA256
+    assert supersedes["attempt_1_lineage"]["config_sha256"] == ATTEMPT_1_CONFIG_SHA256
     assert (
         len(
             {
@@ -689,15 +709,16 @@ def test_v1_v2_v3_artifacts_untouched_and_v4_cites_lineage() -> None:
                 ATTEMPT_1_CONFIG_SHA256,
                 ATTEMPT_2_CONFIG_SHA256,
                 ATTEMPT_3_CONFIG_SHA256,
+                ATTEMPT_4_CONFIG_SHA256,
             }
         )
-        == 4
+        == 5
     )
 
 
-def test_v4_scientific_bindings_match_attempt_3() -> None:
-    v3 = json.loads((REPO / "configs" / "mobile_scale_sweep_v3.json").read_text(encoding="utf-8"))
-    v4 = load_frozen_config()
+def test_v5_scientific_bindings_match_attempt_4() -> None:
+    v4 = json.loads((REPO / "configs" / "mobile_scale_sweep_v4.json").read_text(encoding="utf-8"))
+    v5 = load_frozen_config()
     for key in (
         "hypothesis",
         "decision_rule",
@@ -710,8 +731,20 @@ def test_v4_scientific_bindings_match_attempt_3() -> None:
         "optimization",
         "evaluation",
     ):
-        assert v4[key] == v3[key], key
-    assert all(value is False for value in v4["authorization"].values())
+        assert v5[key] == v4[key], key
+    assert all(value is False for value in v5["authorization"].values())
+    # Reference score from attempt-4 evidence must not become a CLI float.
+    assert v5["reference_evaluation"]["cli_override_forbidden"] is True
+    assert v5["reference_evaluation"]["scored_before_challenger_arms"] is True
+
+
+def test_v4_config_remains_immutable_rejected_active_path() -> None:
+    # v4 may still exist on disk but must never be the active CONFIG_PATH.
+    assert CONFIG_PATH.name != "mobile_scale_sweep_v4.json"
+    assert (
+        hashlib.sha256((REPO / "configs" / "mobile_scale_sweep_v4.json").read_bytes()).hexdigest()
+        == ATTEMPT_4_CONFIG_SHA256
+    )
 
 
 # ---------------------------------------------------------------------------
@@ -750,7 +783,7 @@ def test_enforce_machine_id_rejects_malformed_inputs() -> None:
 
 
 # ---------------------------------------------------------------------------
-# Attempt-4 INFRA: axolotl / CPython 3.11.10 runtime attestation
+# Attempt-4 INFRA retained: axolotl / CPython 3.11.10 runtime attestation
 # ---------------------------------------------------------------------------
 
 
@@ -817,6 +850,122 @@ def test_enforce_runtime_attestation_rejects_tampered_compute_contract() -> None
             observed_template="axolotl",
             observed_python_implementation="CPython",
             observed_python_version="3.11.10",
+        )
+
+
+# ---------------------------------------------------------------------------
+# Attempt-5 INFRA: isolated venv / flash_attn fail-closed preflight
+# ---------------------------------------------------------------------------
+
+
+def _write_pyvenv_cfg(directory: Path, *, include_system_site_packages: bool) -> Path:
+    directory.mkdir(parents=True, exist_ok=True)
+    cfg = directory / "pyvenv.cfg"
+    flag = "true" if include_system_site_packages else "false"
+    cfg.write_text(
+        f"home = /usr\ninclude-system-site-packages = {flag}\nversion = 3.11.10\n",
+        encoding="utf-8",
+    )
+    return cfg
+
+
+def test_config_freezes_isolated_venv_without_system_site_packages() -> None:
+    config = load_frozen_config()
+    isolation = config["compute"]["venv_isolation"]
+    assert isolation["approach"] == "isolated_project_venv_without_system_site_packages"
+    assert isolation["include_system_site_packages"] is REQUIRED_INCLUDE_SYSTEM_SITE_PACKAGES
+    assert isolation["include_system_site_packages"] is False
+    assert isolation["flash_attn_must_be_unimportable"] is True
+    assert isolation["fail_closed_before"] == [
+        "torch_import",
+        "challenger_AutoModelForCausalLM_from_pretrained",
+    ]
+    assert "flash_attn" in isolation["provider_hazard"]
+    assert "system-site-packages" in isolation["provider_hazard"]
+
+
+def test_parse_pyvenv_cfg_and_system_site_flag(tmp_path: Path) -> None:
+    cfg = _write_pyvenv_cfg(tmp_path / "isolated", include_system_site_packages=False)
+    values = parse_pyvenv_cfg(cfg)
+    assert values["include-system-site-packages"] == "false"
+    assert read_include_system_site_packages(cfg) is False
+    contaminated = _write_pyvenv_cfg(tmp_path / "contaminated", include_system_site_packages=True)
+    assert read_include_system_site_packages(contaminated) is True
+
+
+def test_enforce_venv_isolation_accepts_isolated_venv_without_flash_attn(
+    tmp_path: Path,
+) -> None:
+    config = load_frozen_config()
+    venv = tmp_path / "project-venv"
+    _write_pyvenv_cfg(venv, include_system_site_packages=False)
+    receipt = enforce_venv_isolation(
+        compute=config["compute"],
+        virtual_env=str(venv),
+        flash_attn_importable=False,
+    )
+    assert receipt["include_system_site_packages"] is False
+    assert receipt["flash_attn_importable"] is False
+    assert receipt["virtual_env"] == str(venv.resolve())
+
+
+def test_enforce_venv_isolation_rejects_system_site_packages_like_attempt_4(
+    tmp_path: Path,
+) -> None:
+    """This is the exact attempt-4 failure mode: jl uv venv --system-site-packages."""
+
+    config = load_frozen_config()
+    venv = tmp_path / "contaminated-venv"
+    _write_pyvenv_cfg(venv, include_system_site_packages=True)
+    with pytest.raises(ScaleSweepError, match="include-system-site-packages"):
+        enforce_venv_isolation(
+            compute=config["compute"],
+            virtual_env=str(venv),
+            flash_attn_importable=False,
+        )
+
+
+def test_enforce_venv_isolation_rejects_importable_flash_attn(tmp_path: Path) -> None:
+    config = load_frozen_config()
+    venv = tmp_path / "isolated-but-flash"
+    _write_pyvenv_cfg(venv, include_system_site_packages=False)
+    with pytest.raises(ScaleSweepError, match="flash_attn"):
+        enforce_venv_isolation(
+            compute=config["compute"],
+            virtual_env=str(venv),
+            flash_attn_importable=True,
+        )
+
+
+def test_enforce_venv_isolation_rejects_missing_virtual_env(tmp_path: Path) -> None:
+    config = load_frozen_config()
+    with pytest.raises(ScaleSweepError, match="VIRTUAL_ENV"):
+        enforce_venv_isolation(
+            compute=config["compute"],
+            virtual_env="",
+            flash_attn_importable=False,
+        )
+    with pytest.raises(ScaleSweepError, match="pyvenv.cfg"):
+        enforce_venv_isolation(
+            compute=config["compute"],
+            virtual_env=str(tmp_path / "no-cfg"),
+            flash_attn_importable=False,
+        )
+
+
+def test_enforce_venv_isolation_rejects_tampered_isolation_contract(tmp_path: Path) -> None:
+    config = load_frozen_config()
+    tampered = dict(config["compute"])
+    isolation = dict(tampered["venv_isolation"])
+    isolation["include_system_site_packages"] = True
+    tampered["venv_isolation"] = isolation
+    venv = tmp_path / "venv"
+    _write_pyvenv_cfg(venv, include_system_site_packages=False)
+    with pytest.raises(ScaleSweepError, match="include_system_site_packages"):
+        enforce_venv_isolation(
+            compute=tampered,
+            virtual_env=str(venv),
+            flash_attn_importable=False,
         )
 
 

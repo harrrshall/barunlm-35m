@@ -1,18 +1,24 @@
 """Matched-adaptation base-model size/token sweep for Mobile Actions.
 
 This module is the CPU-buildable core of run ``20260805-1554-mobile-scale-sweep-s17``
-(attempt 4).  It derives the fresh grouped selection split from the frozen
+(attempt 5).  It derives the fresh grouped selection split from the frozen
 7,937-row internal train manifest, audits gold token lengths per roster
 tokenizer, freezes the raw prompt transport and termination contract for base
 (non-chat) checkpoints, and binds the preregistered learning-rate screen and
 adoption decision rule.  Attempts 1 and 2 were rejected by independent
 prelaunch audits; attempt 3 received a go and then failed as an inconclusive
 infrastructure mismatch on H200 465155 (``pytorch`` template / CPython 3.10.20
-versus required CPython 3.11.10).  This attempt binds the successor
-``mobile_scale_sweep_v4.json``, which keeps every scientific binding attempt-3
-accepted and freezes provider ``template=axolotl`` with CPython 3.11.10 so
-``safe_run`` and this runner fail closed at the earliest attestation gate.
-The spent attempt-3 go is never reused.
+versus required CPython 3.11.10).  Attempt 4 attested ``axolotl`` / CPython
+3.11.10 on H200 lineage 465183→465186, completed the in-run candidate-v2
+reference evaluation, then aborted on the first challenger because ``jl run``
+created ``uv venv --system-site-packages`` and Transformers imported the
+axolotl image ``flash_attn_2_cuda`` ABI-mismatched against venv torch 2.13.0.
+This attempt binds the successor ``mobile_scale_sweep_v5.json``, which keeps
+every scientific binding attempt-3/4 accepted, retains axolotl / CPython
+3.11.10, and freezes an isolated project venv
+(``include-system-site-packages = false``) with a fail-closed ``flash_attn``
+import preflight before Torch/CUDA or challenger load.  The spent attempt-4 go
+is never reused.
 
 The sealed 961-row official Mobile Actions evaluation tail is never an input:
 this runner accepts only the already-derived, hash-pinned internal-train
@@ -32,6 +38,7 @@ import fnmatch
 import hashlib
 import json
 import math
+import os
 import platform
 import re
 import shutil
@@ -52,15 +59,15 @@ from barunlm.training.data import (
     tokenize_examples,
 )
 
-SCALE_SWEEP_CONFIG_SCHEMA_VERSION = "barun-mobile-scale-sweep-config-v4"
-RESULT_SCHEMA_VERSION = "barun-mobile-scale-sweep-result-v4"
+SCALE_SWEEP_CONFIG_SCHEMA_VERSION = "barun-mobile-scale-sweep-config-v5"
+RESULT_SCHEMA_VERSION = "barun-mobile-scale-sweep-result-v5"
 RAW_TRANSPORT_VERSION = "barun-raw-prompt-transport-v1"
 SELECTION_POLICY_VERSION = "barun-mobile-scale-sweep-selection-v1"
 
 RUN_ID = "20260805-1554-mobile-scale-sweep-s17"
-CONFIG_PATH = Path(__file__).resolve().parents[3] / "configs" / "mobile_scale_sweep_v4.json"
-# Frozen after the attempt-4 CPU build, before any baseline weight download or training.
-CONFIG_SHA256 = "c89b5c77a5531f617f1acc23e754c27336cf039830e9de7f00d44c8353e8dcb0"
+CONFIG_PATH = Path(__file__).resolve().parents[3] / "configs" / "mobile_scale_sweep_v5.json"
+# Frozen after the attempt-5 CPU build, before any baseline weight download or training.
+CONFIG_SHA256 = "57dcfe573c17759404545c272f1fc945aabb82b2893f697615eb7fe428d1f2d7"
 
 # Immutable prior evidence; never edited, never loaded by this runner as the active config.
 ATTEMPT_1_CONFIG_SHA256 = "d3ee897f9afeefe1e01ec32fe9b2721479b7496785e742d0954ad081758953b8"
@@ -69,15 +76,22 @@ ATTEMPT_2_CONFIG_SHA256 = "c8d57f84013198094c27d06d35851e5320f66a5106e6f1cbc6407
 ATTEMPT_2_NO_GO_SHA256 = "e693302843678bd6622b149a74320d8ca3bbbba77ea8ab4fb8a065b986ec8ef3"
 ATTEMPT_3_CONFIG_SHA256 = "a67959b9b95aa72a6c9153234bb502490c800dba2c539ba9163e37cf4e539451"
 ATTEMPT_3_GO_SHA256 = "d74d01e2078322c969db1158c54ebdc7343432635d223d78523226bae452f03b"
+ATTEMPT_4_CONFIG_SHA256 = "c89b5c77a5531f617f1acc23e754c27336cf039830e9de7f00d44c8353e8dcb0"
+ATTEMPT_4_GO_SHA256 = "9bf60db79cc543e35eb5e664d1a79e761337720c0dbd663da64a8b62c6f4dac2"
 ATTEMPT_1_INFRASTRUCTURE_FAILURE_SHA256 = (
     "429ba84586a9b1ea503138e8defab9e595bdad7a08ec4fd148eee2743eee2855"
+)
+ATTEMPT_4_INFRASTRUCTURE_FAILURE_SHA256 = (
+    "adad51dad1e3216272496dd83072c6d0514d6585da16fe66d56d4944184fa5e0"
 )
 
 # Frozen provider runtime identity (matches successful axolotl H200 scientific runs).
 REQUIRED_PROVIDER_TEMPLATE = "axolotl"
 REQUIRED_PYTHON_IMPLEMENTATION = "CPython"
 REQUIRED_PYTHON_VERSION = "3.11.10"
-REQUIRED_PROTECTED_EVIDENCE_IDS = (465072, 465155)
+REQUIRED_PROTECTED_EVIDENCE_IDS = (465072, 465155, 465183, 465186)
+REQUIRED_INCLUDE_SYSTEM_SITE_PACKAGES = False
+PYVENV_SYSTEM_SITE_KEY = "include-system-site-packages"
 
 # The exact snapshot_download allow patterns; frozen in the config and validated equal.
 SNAPSHOT_ALLOW_PATTERNS = (
@@ -906,6 +920,134 @@ def _validate_frozen_runtime_attestation(compute: Mapping[str, Any]) -> None:
                 f"(axolotl / CPython 3.11.10 attestation contract); "
                 f"got {compute.get(field)!r}"
             )
+    _validate_frozen_venv_isolation(compute.get("venv_isolation"))
+
+
+def _validate_frozen_venv_isolation(isolation: Any) -> dict[str, Any]:
+    """Config load fails closed unless the flash_attn isolation contract is frozen."""
+
+    if not isinstance(isolation, Mapping):
+        raise ScaleSweepError("compute.venv_isolation must be a frozen object")
+    if isolation.get("approach") != "isolated_project_venv_without_system_site_packages":
+        raise ScaleSweepError(
+            "compute.venv_isolation.approach must be "
+            "'isolated_project_venv_without_system_site_packages'"
+        )
+    if isolation.get("include_system_site_packages") is not REQUIRED_INCLUDE_SYSTEM_SITE_PACKAGES:
+        raise ScaleSweepError("compute.venv_isolation.include_system_site_packages must be false")
+    if isolation.get("flash_attn_must_be_unimportable") is not True:
+        raise ScaleSweepError("compute.venv_isolation.flash_attn_must_be_unimportable must be true")
+    fail_closed_before = isolation.get("fail_closed_before")
+    if fail_closed_before != [
+        "torch_import",
+        "challenger_AutoModelForCausalLM_from_pretrained",
+    ]:
+        raise ScaleSweepError(
+            "compute.venv_isolation.fail_closed_before must list torch_import and "
+            "challenger_AutoModelForCausalLM_from_pretrained"
+        )
+    return dict(isolation)
+
+
+def parse_pyvenv_cfg(path: str | Path) -> dict[str, str]:
+    """Parse a ``pyvenv.cfg`` into a flat key/value map (CPU-testable)."""
+
+    cfg_path = Path(path)
+    try:
+        text = cfg_path.read_text(encoding="utf-8")
+    except OSError as error:
+        raise ScaleSweepError(f"unable to read pyvenv.cfg at {cfg_path}: {error}") from error
+    values: dict[str, str] = {}
+    for raw_line in text.splitlines():
+        line = raw_line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        key, _, value = line.partition("=")
+        values[key.strip()] = value.strip()
+    return values
+
+
+def read_include_system_site_packages(pyvenv_cfg: str | Path) -> bool:
+    """Return the boolean ``include-system-site-packages`` flag from ``pyvenv.cfg``."""
+
+    values = parse_pyvenv_cfg(pyvenv_cfg)
+    raw = values.get(PYVENV_SYSTEM_SITE_KEY)
+    if raw is None:
+        raise ScaleSweepError(
+            f"pyvenv.cfg lacks {PYVENV_SYSTEM_SITE_KEY!r}: isolation contract unenforceable"
+        )
+    normalized = raw.lower()
+    if normalized == "true":
+        return True
+    if normalized == "false":
+        return False
+    raise ScaleSweepError(
+        f"pyvenv.cfg {PYVENV_SYSTEM_SITE_KEY} must be exactly true or false; got {raw!r}"
+    )
+
+
+def probe_flash_attn_importable() -> bool:
+    """Return True iff ``import flash_attn`` succeeds in this process."""
+
+    try:
+        __import__("flash_attn")
+    except ImportError:
+        return False
+    return True
+
+
+def enforce_venv_isolation(
+    *,
+    compute: Mapping[str, Any],
+    virtual_env: Any | None = None,
+    flash_attn_importable: bool | None = None,
+) -> dict[str, Any]:
+    """Fail closed before Torch/challenger load when the live venv can see flash_attn.
+
+    Attempt 4 aborted because ``jl run`` created ``uv venv --system-site-packages``
+    and Transformers imported the axolotl image ``flash_attn_2_cuda`` extension.
+    This gate independently requires the active project venv's ``pyvenv.cfg`` to
+    record ``include-system-site-packages = false`` and that ``import flash_attn``
+    raises ``ImportError``, so the image ABI-mismatched extension cannot enter the
+    Transformers path even if controller packaging were bypassed.
+    """
+
+    isolation = _validate_frozen_venv_isolation(compute.get("venv_isolation"))
+    env_root = os.environ.get("VIRTUAL_ENV") if virtual_env is None else virtual_env
+    if not isinstance(env_root, str) or not env_root.strip():
+        raise ScaleSweepError(
+            "active VIRTUAL_ENV is required for the frozen venv isolation contract"
+        )
+    venv_path = Path(env_root).resolve()
+    cfg_path = venv_path / "pyvenv.cfg"
+    if not cfg_path.is_file():
+        raise ScaleSweepError(f"active virtual environment lacks pyvenv.cfg: {cfg_path}")
+    include_system = read_include_system_site_packages(cfg_path)
+    if include_system is not REQUIRED_INCLUDE_SYSTEM_SITE_PACKAGES:
+        raise ScaleSweepError(
+            "live pyvenv.cfg include-system-site-packages does not match the frozen "
+            f"isolation contract: observed {include_system!r}, expected "
+            f"{REQUIRED_INCLUDE_SYSTEM_SITE_PACKAGES!r} "
+            "(attempt-4 failure class: jl uv venv --system-site-packages exposed "
+            "flash_attn_2_cuda into Transformers)"
+        )
+    importable = (
+        probe_flash_attn_importable()
+        if flash_attn_importable is None
+        else bool(flash_attn_importable)
+    )
+    if importable:
+        raise ScaleSweepError(
+            "import flash_attn succeeded; the frozen isolation contract requires it "
+            "to be unimportable before Torch/CUDA or challenger model load"
+        )
+    return {
+        "approach": isolation["approach"],
+        "virtual_env": str(venv_path),
+        "pyvenv_cfg": str(cfg_path),
+        "include_system_site_packages": False,
+        "flash_attn_importable": False,
+    }
 
 
 def enforce_machine_id(machine_id: Any, protected_machine_ids: Any) -> int:
@@ -1620,8 +1762,8 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
     config = load_frozen_config(args.config)
     if args.run_id != config["run_id"]:
         raise ScaleSweepError("CLI run_id differs from the frozen configuration")
-    # Earliest attestation gates: protected ID, then axolotl/CPython 3.11.10.
-    # Both must pass before Torch/CUDA is imported.
+    # Earliest attestation gates: protected ID, axolotl/CPython 3.11.10, then
+    # isolated venv / flash_attn unimportable. All must pass before Torch/CUDA.
     enforce_machine_id(args.jarvis_machine_id, config["compute"]["protected_machine_ids"])
     runtime_attestation = enforce_runtime_attestation(
         compute=config["compute"],
@@ -1629,6 +1771,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         observed_python_implementation=platform.python_implementation(),
         observed_python_version=platform.python_version(),
     )
+    venv_isolation = enforce_venv_isolation(compute=config["compute"])
 
     import torch
 
@@ -1637,6 +1780,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
     environment = environment_versions()
     environment["provider_template"] = runtime_attestation["template"]
     environment["python_implementation"] = runtime_attestation["python_implementation"]
+    environment["venv_isolation"] = venv_isolation
     # No stochastic module exists on the honest path (no dropout, greedy decoding,
     # no weight init), but the global torch seed is installed anyway so the frozen
     # seed governs every torch RNG, not only the data presentation order.
@@ -1953,6 +2097,9 @@ __all__ = [
     "ATTEMPT_2_NO_GO_SHA256",
     "ATTEMPT_3_CONFIG_SHA256",
     "ATTEMPT_3_GO_SHA256",
+    "ATTEMPT_4_CONFIG_SHA256",
+    "ATTEMPT_4_GO_SHA256",
+    "ATTEMPT_4_INFRASTRUCTURE_FAILURE_SHA256",
     "AUDIT_SHA256",
     "CONFIG_PATH",
     "CONFIG_SHA256",
@@ -1962,7 +2109,9 @@ __all__ = [
     "MOBILE_DATASET_REVISION",
     "OFFICIAL_EVAL_ROWS",
     "OFFICIAL_SOURCE_SHA256",
+    "PYVENV_SYSTEM_SITE_KEY",
     "RAW_TRANSPORT_VERSION",
+    "REQUIRED_INCLUDE_SYSTEM_SITE_PACKAGES",
     "REQUIRED_PROTECTED_EVIDENCE_IDS",
     "REQUIRED_PROVIDER_TEMPLATE",
     "REQUIRED_PYTHON_IMPLEMENTATION",
@@ -1983,20 +2132,24 @@ __all__ = [
     "LearningRateFit",
     "MeasuredFitFailure",
     "ScaleSweepError",
-    "TrainPartition",
     "build_decision",
     "build_parser",
     "decide_adoption",
     "decoding_kwargs",
     "enforce_machine_id",
     "enforce_runtime_attestation",
+    "enforce_venv_isolation",
     "environment_versions",
     "fit_outcome_counts",
     "gold_token_length_audit",
     "load_frozen_config",
     "main",
     "max_new_tokens_from_audit",
+    "parse_pyvenv_cfg",
     "partition_frozen_train_manifest",
+    "probe_flash_attn_importable",
+    "read_include_system_site_packages",
+    "run",
     "select_learning_rate",
     "selection_fold_for_cluster",
     "tokenize_raw_rows",
