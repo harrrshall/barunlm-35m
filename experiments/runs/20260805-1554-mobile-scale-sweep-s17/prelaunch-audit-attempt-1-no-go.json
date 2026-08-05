@@ -1,0 +1,227 @@
+{
+  "schema_version": "barun-mobile-scale-sweep-prelaunch-audit-v1",
+  "run_id": "20260805-1554-mobile-scale-sweep-s17",
+  "attempt": 1,
+  "verdict": "no-go",
+  "recorded_at": "2026-08-05T16:55:00+05:30",
+  "auditor_statement": "Independent adversarial prelaunch audit of the CPU-prefrozen matched-adaptation base-model scale sweep at commit e183a3f. The auditor had no part in building the artifact, read AGENTS.md, docs/mobile-scale-sweep-v1.md, the frozen config, the full runner source, the test suite, and the run directory, and independently recomputed every hash and derivation below. CPU/local only; no GPU, CUDA, or JarvisLabs action; no model weights downloaded; network limited to read-only Hugging Face metadata API queries. The verdict is no-go: the split, hashes, pins, tests, and commit hygiene all verify exactly, but the GPU runner contains two P0 defects (a forgeable decision-critical reference binding and a protected-machine-ID denylist gap) plus two P1 guaranteed-failure defects, and two of the P0/P1 defects contradict claims frozen inside the immutable config itself, so corrections require a successor config version and a fresh independent audit.",
+  "checks_performed": {
+    "config_hash_binding": {
+      "result": "pass",
+      "recomputed_config_sha256": "d3ee897f9afeefe1e01ec32fe9b2721479b7496785e742d0954ad081758953b8",
+      "matches_claim": true,
+      "bindings_verified": [
+        "inline CONFIG_SHA256 constant in src/barunlm/baselines/mobile_scale_sweep.py",
+        "preregistration.json config_sha256 (file sha256 92882433b14fbcf0b5eda9db7a11632b91afe92fc4995ff8b8c9522da22ab4f3 matches ledger)",
+        "experiments/ledger.jsonl preregistration entry config_sha256"
+      ],
+      "tamper_tests": {
+        "authorization_flag_flip_rejected": true,
+        "margin_points_change_rejected": true,
+        "byte_identical_copy_at_other_path_loads": true,
+        "committed_test_test_frozen_config_rejects_tampering_present": true
+      },
+      "authorization_flags": "all eight flags false; load_frozen_config requires every flag to be exactly false and any edit breaks the SHA-256 gate; no mutable escape hatch found in the loader"
+    },
+    "fresh_split_independent_rederivation": {
+      "result": "pass",
+      "method": "auditor-written reimplementation (not the project code) over the frozen train manifest rebuilt by the CPU build (source blob and revision verified)",
+      "source_verification": {
+        "dataset_blob_sha256": "91d251ee958cfd295af6c4504c236a3a1ad19517de240c3bc680bacfcbf7e7d9",
+        "dataset_revision": "e920309bc2acbc2e99a5e3201cf37df2b9fd9151",
+        "train_manifest_sha256": "131473ccb5bfb51cac0439b42159e72ec4c598025e50364a52b122b056c2e84e",
+        "dev_manifest_sha256": "988bdce5874d1f1a775feeb5ba2b58cd2bdc128f57e73cb9a63d535fae7c1d55",
+        "audit_sha256": "dc756f97c0a7ef706ec8ffefe2d57cf7e16d75a6ccd932f906d16b6a6ee2f83c",
+        "all_match_frozen_claims": true
+      },
+      "recomputed": {
+        "sweep_train_rows": 7212,
+        "selection_rows": 725,
+        "sweep_train_clusters": 4716,
+        "selection_clusters": 589,
+        "sweep_train_manifest_sha256": "3328654532d7e767e2cb87becc6c5869a65044bba7aadb62a69582be34c04183",
+        "selection_manifest_sha256": "3bd2281fce6d6910de8e42b843562a060e1d4e654bfd3ce95c850189b9f00cfb",
+        "sweep_train_membership_sha256": "3e0a64bb31ce3c4571d66b6983906e01c457edf6e53b99170b5943f7afea214e",
+        "selection_membership_sha256": "5838748633d408ab93a57b89fef17c6e4446dbbe14889215b60606d257f8ebf9",
+        "all_match_frozen_claims": true,
+        "committed_membership_files_match": true
+      },
+      "disjointness": {
+        "selection_and_sweep_clusters_disjoint": true,
+        "selection_and_sweep_ids_disjoint": true,
+        "every_row_assigned_exactly_once": true,
+        "exclusions": 0
+      },
+      "probe_leakage": {
+        "dev_756_ids_in_selection": 0,
+        "dev_756_clusters_intersect_selection": 0,
+        "dev_756_clusters_intersect_sweep_train": 0,
+        "conclusion": "the reused 756 probe occupies entirely different clusters; it cannot leak into either side"
+      },
+      "sealed_961": {
+        "adapter_audit_official_eval_opaque_unparsed": true,
+        "adapter_audit_official_eval_count": 961,
+        "new_code_parses_official_rows": false,
+        "runner_data_inputs": "only the hash-pinned train manifest via --train-manifest; no dev or official path is accepted"
+      }
+    },
+    "salt_and_fold_bias": {
+      "result": "pass",
+      "fold_row_counts_0_through_9": [725, 726, 776, 1030, 615, 954, 1012, 761, 639, 699],
+      "fold_cluster_counts_0_through_9": [589, 537, 567, 533, 530, 486, 488, 533, 524, 518],
+      "assessment": "policy-namespaced semantic salt with preregistered fold 0; fold 0 is second-smallest by rows and unremarkable; no candidate-v2 per-row scores on train rows exist anywhere in the repository, so salt shopping toward a favorable selection fold was not informationally possible; challenger arms have never been trained. Assignment is pre-outcome.",
+      "reference_bias_declaration": "honestly declared and directionally correct: candidate-v2 trained on every selection row, so its in-run reference score is upward-biased and the +3.0-point margin is conservative for challenger arms"
+    },
+    "runner_review": {
+      "result": "fail",
+      "verified_sound": [
+        "load_frozen_config re-verifies SHA-256, schema version, immutable run ID, all-false authorization flags, frozen data hashes, split parameters, roster pins/licenses, LR screen set, optimizer constants, scorer version, greedy decoding, selection-only population",
+        "partition re-derivation and verify_partition_against_config run in-process on GPU before any arm",
+        "snapshot_download pinned by 40-hex revision; from_pretrained local_files_only=True, trust_remote_code=False, explicit bfloat16, eager attention, explicit cuda:0; per-arm tokenizer.json SHA-256 verified",
+        "termination contract enforced by construction: appended EOS == generation stop == pad == native id 0, passed explicitly to model.generate",
+        "overlength rows abort (never dropped); non-finite loss aborts; optimizer-step budget asserted (115 = ceil(ceil(7212/21)/3)); every sweep-train ID presented exactly once is asserted",
+        "context-overflow prompts recorded as measured generation failures; truncation = no EOS emitted, counted; missing predictions computed; nothing dropped",
+        "run root refuses overwrite; metrics/predictions opened with mode 'x'; no closure-cell or wrapper-registry forgeability pattern in the module"
+      ],
+      "defects": "see defects list; the two CLI inputs --reference-exact-percent and --jarvis-machine-id are evidence-affecting dependencies that the runner does not bind or validate"
+    },
+    "tests_and_lint": {
+      "result": "pass_with_note",
+      "new_suite": {"claimed": 28, "observed_passed": 28, "match": true},
+      "full_repository_suite": {
+        "claimed": 1805,
+        "observed_passed": 1819,
+        "observed_failed": 0,
+        "match": false,
+        "explanation": "the delta comes from untracked adjacent-lane test files present in the workspace; tests/test_mobile_sub100m_phase1_successor.py (untracked, 17 tests) was modified at 16:55, after the 16:27 sweep commit. The tracked tree at e183a3f is byte-identical to the working tree for tests/ and src/. All tests pass either way; the claimed count is a snapshot of a mutable workspace, not a defect of the sweep artifact."
+      },
+      "ruff": "clean on src/barunlm/baselines/mobile_scale_sweep.py, tests/test_mobile_scale_sweep.py, and both run-dir build scripts; ruff format --check clean",
+      "hermeticity": "the new test suite uses only committed repository files and tmp_path fixtures; no network, no absolute workstation paths; module-level imports avoid transformers/huggingface_hub (imported only inside run())"
+    },
+    "commit_and_push": {
+      "result": "pass",
+      "commit": "e183a3ffef24b8548dd8bc6032e4bdfb0641616b",
+      "files_changed": 13,
+      "staged_scope": "exactly the claimed set: config, doc, runner, tests, 8 run-dir artifacts, plus experiments/ledger.jsonl",
+      "ledger_ride_along": "9 appended lines: 8 previously uncommitted append-only entries from earlier closed lanes plus the new sweep preregistration; no history rewritten",
+      "secrets_found": 0,
+      "binaries_found": 0,
+      "bulk_staging": false,
+      "push": "origin/agent/barunaction-release-mbcf-v1 is at e183a3f; push landed"
+    },
+    "roster_pins": {
+      "result": "pass_with_p1_defect",
+      "hf_read_only_verification": {
+        "EleutherAI/pythia-70m-deduped": {"revision_exists": true, "sha_matches": true, "license": "apache-2.0", "hf_safetensors_total": 95592496},
+        "HuggingFaceTB/SmolLM2-135M": {"revision_exists": true, "sha_matches": true, "license": "apache-2.0", "hf_safetensors_total": 134515008},
+        "HuggingFaceTB/SmolLM2-360M": {"revision_exists": true, "sha_matches": true, "license": "apache-2.0", "hf_safetensors_total": 361821120}
+      },
+      "independent_parameter_recomputation": {
+        "pythia-70m-deduped": {
+          "trainable_unique_parameters": 70426624,
+          "claimed_as_unique_trainable": 95592496,
+          "match": false,
+          "decomposition": "95,592,496 = 70,426,624 trainable + 6 x 4,194,304 persisted causal-mask attention.bias buffer entries + 48 rotary inv_freq buffer entries; the claimed number is the safetensors tensor total, not the unique trainable count"
+        },
+        "smollm2-135m": {"trainable_unique_parameters": 134515008, "claimed": 134515008, "match": true},
+        "smollm2-360m": {"trainable_unique_parameters": 361821120, "claimed": 361821120, "match": true}
+      },
+      "no_weights_downloaded": "verified: HF cache blobs for all three roster models are tokenizer/config JSON only (largest 2.1 MB); access claims in preregistration hold",
+      "denylist": "18 protected machine IDs copied verbatim from configs/mobile_sub100m_off_the_shelf_v1.json and matching the AGENTS.md protected roster exactly"
+    }
+  },
+  "defects": [
+    {
+      "id": "P0-1",
+      "severity": "P0",
+      "class": "forgeable_receipt_binding",
+      "title": "Decision-critical candidate-v2 reference score is an unauthenticated CLI float",
+      "detail": "run() takes --reference-exact-percent as a required CLI float and feeds it directly into decide_adoption; result.json records only the float and a description string. The frozen config's evaluation.reference_evaluation states 'candidate-v2 is loaded from its hash-pinned checkpoint and scored once on the same selection manifest with the same scorer, greedy decoding, and 256-token budget before any challenger arm is scored', and decision_rule.reference makes the same claim, but no code in the module or repository implements that in-run reference evaluation. The anchors.candidate_v2 checkpoint SHA-256 values are never consumed. An operator can pass any number and produce a 'completed' result whose adoption decision, per-axis conclusions, and falsification verdict all follow from a forged value, with no bound reference predictions, no reference score receipt, and no candidate-v2 checkpoint hash verification. This is the same failure family as the immutably rejected phase/scoring attempt 3 (run_score_binds_checkpoint_sha256=false; P not proven to come from the frozen source)."
+    },
+    {
+      "id": "P0-2",
+      "severity": "P0",
+      "class": "denylist_gap",
+      "title": "Runner never checks --jarvis-machine-id against the protected-machine-ID denylist",
+      "detail": "build_parser accepts --jarvis-machine-id as a plain int (not even positivity-checked) and run() records it into result.json without comparing it against config['compute']['protected_machine_ids']. load_frozen_config only checks that the denylist exists and is non-empty. The repository's own precedent lane (src/barunlm/baselines/mobile_qwen05b_matched.py) rejects a machine ID found in the protected list and cross-checks it against a safe-inventory receipt; this runner has no equivalent, and no test covers denylist enforcement. A launch mistakenly pointed at a protected instance would produce a completed evidence bundle recording the protected ID with no in-code rejection."
+    },
+    {
+      "id": "P1-1",
+      "severity": "P1",
+      "class": "false_frozen_claim_guaranteed_abort",
+      "title": "Pythia-70m 'unique trainable count 95,592,496' is false and guarantees a whole-run abort at arm 1",
+      "detail": "The true unique trainable parameter count of EleutherAI/pythia-70m-deduped at the pinned revision is 70,426,624 (recomputed analytically from the pinned config.json: GPTNeoX, hidden 512, 6 layers, vocab 50304, untied embeddings). The frozen 95,592,496 is the Hugging Face safetensors tensor total, which includes 25,165,824 persisted non-trainable causal-mask attention.bias entries and 48 rotary inv_freq entries (exact decomposition verified). count_unique_parameters iterates named_parameters() and will return 70,426,624, so the runner's equality assertion against safetensors_total_parameters aborts the entire GPU run at the first fit of the first arm, after instance creation and downloads. The false 'exact unique trainable count' claim is frozen in the config parameter_note, the doc table, and would flow into the decision output's unique_parameters ordering field. The two SmolLM2 counts are exact (tied embeddings, no persisted buffers)."
+    },
+    {
+      "id": "P1-2",
+      "severity": "P1",
+      "class": "guaranteed_crash_untested_join",
+      "title": "_fit_outcome_counts reads aggregate['schema_validity'] but the frozen scorer emits 'schema_valid'",
+      "detail": "aggregate_record serializes AggregateEvaluation via asdict, whose field is schema_valid (verified in src/barunlm/evaluation/evaluator.py). _fit_outcome_counts accesses aggregate['schema_validity']['value'] and raises KeyError (reproduced on CPU by this audit). On GPU this crashes after the first fit's full training and generation complete, wasting paid compute and producing no scored arm. The 28-test suite never exercises _fit_outcome_counts against a real write_scores aggregate."
+    },
+    {
+      "id": "P2-1",
+      "severity": "P2",
+      "class": "overclaimed_reverification",
+      "title": "Per-arm gold-audit re-verification compares only max_target_tokens_with_eos, not 'any drift'",
+      "detail": "The config claims 'the GPU runner recomputes the audit per arm before training and aborts on any drift from these frozen values', but the runner's drift loop iterates a single field tuple ('max_target_tokens_with_eos',); drift in prompt_tokens_max or total_with_eos_max is not aborted as drift (context fit is still re-verified live from recomputed values, which mitigates the safety impact but not the overclaim)."
+    },
+    {
+      "id": "P2-2",
+      "severity": "P2",
+      "class": "unbound_frozen_value",
+      "title": "generation_batch_size is frozen at 64 in the config but taken from an unvalidated CLI argument",
+      "detail": "run() uses args.generation_batch_size (default 64) and never checks it against config['evaluation']['generation_batch_size']. Batched greedy decoding with left padding is not exactly batch-size-invariant numerically, so an operator-supplied value silently diverges from the frozen evaluation contract."
+    },
+    {
+      "id": "P3-1",
+      "severity": "P3",
+      "class": "dead_check",
+      "title": "tokenize_raw_rows prompt-prefix invariant compares a slice to itself and can never fire",
+      "detail": "Line 458 compares row.input_ids[:prompt_length] to row.input_ids[:row.prompt_tokens] where prompt_length = row.prompt_tokens; also line 456 raises IndexError rather than ScaleSweepError on an empty target region."
+    },
+    {
+      "id": "P3-2",
+      "severity": "P3",
+      "class": "fragile_reconstruction",
+      "title": "Exact-match and schema-valid counts reconstructed via round(value * rows) although Rate exposes exact numerators",
+      "detail": "The scorer's Rate records carry exact integer numerators/denominators; _fit_outcome_counts should consume them directly instead of rounding a float product."
+    },
+    {
+      "id": "P3-3",
+      "severity": "P3",
+      "class": "unreproducible_claimed_count",
+      "title": "Claimed full-suite count 1,805 not reproducible (observed 1,819 passed, 0 failed)",
+      "detail": "The delta is attributable to untracked adjacent-lane test files that kept evolving in the shared workspace after the sweep commit; the tracked tree is byte-identical for tests/ and src/. Not a defect of the artifact, but future claims should pin the count to the tracked tree."
+    },
+    {
+      "id": "P3-4",
+      "severity": "P3",
+      "class": "naming_confusion",
+      "title": "run() copies the config file to export/preregistration.json",
+      "detail": "The exported file named preregistration.json is actually the scientific config, not the run's preregistration.json; the name collision invites provenance confusion in the evidence bundle."
+    }
+  ],
+  "go_requires_zero_p0": true,
+  "p0_count": 2,
+  "minimal_corrections_required": [
+    "Implement the in-run candidate-v2 reference evaluation exactly as the config text claims: verify the three anchors.candidate_v2 checkpoint SHA-256 values, load the checkpoint and the Barun tokenizer (sha 70ded960...), re-verify the frozen barun-16384 gold-token audit, generate greedily with the 256-token budget on the same selection manifest before any challenger arm, score with the same scorer, and bind the reference predictions SHA-256, scores, and checkpoint hashes into result.json; delete --reference-exact-percent.",
+    "Enforce the denylist in the runner: require a positive --jarvis-machine-id, abort with ScaleSweepError if it appears in config['compute']['protected_machine_ids'], and add a CPU test; preferably also bind a safe-inventory receipt as in the mobile_qwen05b_matched lane.",
+    "Correct the pythia-70m parameter binding: record unique_trainable_parameters = 70,426,624 as the value count_unique_parameters is asserted against and the decision-ordering key, keep safetensors_total_parameters = 95,592,496 only as a separately labeled hub-metadata field, and fix the parameter_note, doc table, and hypothesis framing accordingly.",
+    "Fix _fit_outcome_counts to read 'schema_valid' (preferably consuming Rate numerators directly) and add a CPU test that runs write_scores on a small fixture and feeds the real aggregate.json through _fit_outcome_counts.",
+    "Because corrections 1 and 3 change text and values frozen inside configs/mobile_scale_sweep_v1.json, freeze a successor config version with a new SHA-256, update every binding (runner constant, preregistration, ledger), and obtain a fresh independent prelaunch audit before any compute action. Optionally address P2-1 (compare all frozen audit fields) and P2-2 (bind generation_batch_size) in the same pass."
+  ],
+  "access_this_audit": {
+    "gpu": 0,
+    "cuda": 0,
+    "jarvislabs_commands": 0,
+    "jarvislabs_resources_created_or_mutated": 0,
+    "model_weights_downloaded": 0,
+    "official_961_rows_read": 0,
+    "reused_756_used_for_selection": false,
+    "protected_machine_ids_touched": 0,
+    "network": "read-only Hugging Face metadata API queries for the three pinned revisions only, plus git push",
+    "sub100m_run_access": "public config denylist comparison only; the frozen run 20260805-1352-mobile-sub100m-ots-s17 was not otherwise read"
+  },
+  "authorization_effect": "none: this no-go authorizes no model, tokenizer-for-training, population, network, CUDA, JarvisLabs, training, or launch action; all eight config authorization flags remain false and the run stays blocked pending a corrected successor freeze and a fresh independent audit"
+}
