@@ -1,15 +1,55 @@
-# Mobile scale sweep v1: matched-adaptation base-model size/token sweep
+# Mobile scale sweep: matched-adaptation base-model size/token sweep
 
 Run ID: `20260805-1554-mobile-scale-sweep-s17` (immutable).
-Status: CPU prefreeze complete; **blocked pending an independent prelaunch audit**. No GPU,
-JarvisLabs resource, CUDA context, training step, or baseline weight download has occurred.
+Status: attempt-2 CPU prefreeze complete; **blocked pending a fresh independent prelaunch
+audit**. No GPU, JarvisLabs resource, CUDA context, training step, or baseline weight download
+has occurred in either attempt.
 
-Frozen scientific config: `configs/mobile_scale_sweep_v1.json`, SHA-256
-`d3ee897f9afeefe1e01ec32fe9b2721479b7496785e742d0954ad081758953b8`.
+Frozen scientific config (attempt 2, current): `configs/mobile_scale_sweep_v2.json`, SHA-256
+`c8d57f84013198094c27d06d35851e5320f66a5106e6f1cbc6407bfd5e78f593`.
 
 Naming note: StrataLM is only the former working name of the base model; the canonical names are
 BarunLM-35M (base) and BarunAction-35M (post-trained). The pretraining evidence file
 `blog/stratalm-architecture-blog.md` keeps its historical path.
+
+## Attempt-1 no-go and attempt-2 corrections
+
+The attempt-1 CPU prefreeze (config `configs/mobile_scale_sweep_v1.json`, SHA-256
+`d3ee897f9afeefe1e01ec32fe9b2721479b7496785e742d0954ad081758953b8`, commit `e183a3f`) was
+rejected by an independent adversarial prelaunch audit. The immutable receipt is
+`experiments/runs/20260805-1554-mobile-scale-sweep-s17/prelaunch-audit-attempt-1-no-go.json`,
+SHA-256 `9bc9d3af9e633b08b6e0d0e1c3bfeedfa660cbe7755443ad58987f47e86e99e0`. The fresh split,
+all hashes, roster revision pins, salt-bias analysis, tests, and commit hygiene verified
+exactly; the rejection was confined to the runner and config bindings. The v1 config, the v1
+`preregistration.json`, and the no-go receipt are immutable rejected evidence: never edit or
+load them.
+
+Attempt 2 keeps the same immutable run directory (the run never reached a compute action, so no
+retry clause was spent) with `preregistration-attempt-2.json` binding the successor v2 config.
+Corrections, each covered by a CPU test:
+
+- **P0-1** — the candidate-v2 reference score is now produced only by an in-run, hash-verified
+  evaluation: the checkpoint is verified against the committed `src/barunaction/candidate.py`
+  pin (with a signed-manifest cross-check), the `barun-16384` gold-token audit is re-verified
+  field by field, and greedy generation plus scoring run on the frozen selection manifest before
+  any challenger arm. The forgeable `--reference-exact-percent` CLI float is deleted; no
+  unauthenticated path can supply the decision-critical number.
+- **P0-2** — `enforce_machine_id` rejects any non-positive or protected `--jarvis-machine-id`
+  against the frozen denylist before any work (mirroring the `mobile_qwen05b_matched` lane).
+- **P1-1** — pythia-70m-deduped is rebound to its true unique trainable parameter count
+  **70,426,624** (verified analytically from the pinned architecture in a CPU test); the earlier
+  95,592,496 was the safetensors total including 25,165,824 persisted causal-mask buffer entries
+  and 48 rotary `inv_freq` entries, and is retained only as labeled hub metadata.
+- **P1-2** — `fit_outcome_counts` consumes the real scorer aggregate's `schema_valid` /
+  `ast_exact_match` / `truncation` / `missing_prediction` exact `Rate` numerators (the old code
+  read a nonexistent `schema_validity` key and rounded float products); tested against genuine
+  `write_scores` output.
+- **P2** — the per-arm gold-audit drift check now compares every frozen field
+  (`max_target_tokens_with_eos`, `prompt_tokens_max`, `total_with_eos_max`) on both splits, and
+  `generation_batch_size` is read from the frozen config with no CLI override.
+- **P3** — dead prompt-prefix invariant removed, empty-target guard raises `ScaleSweepError`,
+  and the exported config in the evidence bundle is named `config.json`, not
+  `preregistration.json`.
 
 ## Hypothesis and evidence basis
 
@@ -70,11 +110,16 @@ property is preserved.
 Pinned revisions (read-only Hugging Face metadata; receipt at
 `experiments/runs/20260805-1554-mobile-scale-sweep-s17/roster-metadata.json`):
 
-| Arm | Revision | Unique params | Claimed pretraining tokens | Context |
+| Arm | Revision | Unique trainable params | Claimed pretraining tokens | Context |
 | --- | --- | --- | --- | --- |
-| `EleutherAI/pythia-70m-deduped` | `e93a9faa9c77e5d09219f6c868bfc7a1bd65593c` | 95,592,496 (untied) | ~3e11 | 2048 |
+| `EleutherAI/pythia-70m-deduped` | `e93a9faa9c77e5d09219f6c868bfc7a1bd65593c` | 70,426,624 (untied) | ~3e11 | 2048 |
 | `HuggingFaceTB/SmolLM2-135M` | `93efa2f097d58c2a74874c7e644dbc9b0cee75a2` | 134,515,008 (tied) | ~2e12 | 8192 |
 | `HuggingFaceTB/SmolLM2-360M` | `f8027fd0eaeea54caa13c31d31b9fdc459c38b49` | 361,821,120 (tied) | ~4e12 | 8192 |
+
+Pythia's hub safetensors total is 95,592,496, but 25,165,824 of those entries are persisted
+non-trainable causal-mask `attention.bias` buffers plus 48 rotary `inv_freq` entries; the
+runner's `count_unique_parameters` assertion and the decision ordering use the trainable
+70,426,624 (attempt-1 audit defect P1-1, corrected in v2).
 
 All three are Apache-2.0 base checkpoints with no chat template and `<|endoftext|>` (id 0) as
 EOS/BOS. Transport is `barun-raw-prompt-transport-v1`: byte-identical model-visible prompts to
@@ -105,12 +150,15 @@ dropped rows.
 ## Decision rule
 
 Reference: candidate-v2 evaluated on the same selection split in the same run before any
-challenger arm is scored. An arm passes if its screen-selected fit clears **all** of: exact match
-at least reference + 3.0 points; schema validity at least 0.95; zero truncations; zero missing
-predictions; zero generation failures. The smallest passing arm by unique parameter count is
-adopted. Axis conclusions (token: 135M versus 70M; parameter: 360M versus 135M) are reported
-from pairwise gaps regardless of adoption; if no arm passes, the scaling hypothesis is falsified
-at these budgets and candidate-v2 remains the release checkpoint.
+challenger arm is scored, through the in-run hash-verified path bound in the v2 config's
+`reference_evaluation` section (checkpoint pins from `src/barunaction/candidate.py`, greedy
+decoding, 256-token budget, same scorer; predictions and scores bound into `result.json`). An
+arm passes if its screen-selected fit clears **all** of: exact match at least reference + 3.0
+points; schema validity at least 0.95; zero truncations; zero missing predictions; zero
+generation failures. The smallest passing arm by unique trainable parameter count is adopted.
+Axis conclusions (token: 135M versus 70M; parameter: 360M versus 135M) are reported from
+pairwise gaps regardless of adoption; if no arm passes, the scaling hypothesis is falsified at
+these budgets and candidate-v2 remains the release checkpoint.
 
 ## Phase gates
 
@@ -125,12 +173,19 @@ at these budgets and candidate-v2 remains the release checkpoint.
 
 ## Files
 
-- `configs/mobile_scale_sweep_v1.json` — immutable scientific config (hash above).
+- `configs/mobile_scale_sweep_v2.json` — immutable attempt-2 scientific config (hash above; the
+  runner binds it inline).
+- `configs/mobile_scale_sweep_v1.json` — immutable rejected attempt-1 config; never loaded.
 - `src/barunlm/baselines/mobile_scale_sweep.py` — split derivation, audit, transport,
-  termination contract, LR screen, decision rule, GPU runner (binds the config hash).
-- `tests/test_mobile_scale_sweep.py` — 28 CPU-hermetic tests for every new rule.
-- `experiments/runs/20260805-1554-mobile-scale-sweep-s17/` — `preregistration.json`,
-  `split-receipt.json`, `sweep-train-membership.txt`, `selection-membership.txt`,
-  `gold-token-audit.json`, `roster-metadata.json`, plus the build scripts
-  (`pin_roster_metadata.py`, `derive_fresh_split_and_audit.py`).
-- Ledger: one preregistration entry appended to `experiments/ledger.jsonl`.
+  termination contract, LR screen, decision rule, machine-ID enforcement, in-run reference
+  evaluation, GPU runner (binds the v2 config hash).
+- `tests/test_mobile_scale_sweep.py` — 40 CPU-hermetic tests for every rule, including the
+  attempt-2 corrections.
+- `experiments/runs/20260805-1554-mobile-scale-sweep-s17/` — `preregistration.json` (attempt 1,
+  immutable), `preregistration-attempt-2.json`,
+  `prelaunch-audit-attempt-1-no-go.json` (immutable), `split-receipt.json`,
+  `sweep-train-membership.txt`, `selection-membership.txt`, `gold-token-audit.json`,
+  `roster-metadata.json`, plus the build scripts (`pin_roster_metadata.py`,
+  `derive_fresh_split_and_audit.py`).
+- Ledger: the attempt-1 preregistration entry, the independent reject entry, and the attempt-2
+  prefreeze entry appended to `experiments/ledger.jsonl`.

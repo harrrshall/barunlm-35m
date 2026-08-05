@@ -1,0 +1,82 @@
+{
+  "schema_version": "barun-mobile-scale-sweep-preregistration-v2",
+  "run_id": "20260805-1554-mobile-scale-sweep-s17",
+  "attempt": 2,
+  "created_at": "2026-08-05T17:20:00+05:30",
+  "status": "cpu_prefreeze_blocked_pending_independent_prelaunch_audit",
+  "run_identity_decision": {
+    "choice": "same_run_directory_attempt_2",
+    "rationale": "Attempt 1 was rejected at CPU prefreeze by the independent prelaunch audit before any compute action, weight download, model output, or JarvisLabs resource existed; the no-retry precedents in this repository bind runs whose launch or recipe was spent, not CPU-only builds rejected pre-launch. Repository convention (action-correction runtime audit attempt-N receipts, PlanIR attempt-1 failure directory) keeps one immutable run ID with per-attempt documents. The v1 config, v1 preregistration, and the attempt-1 no-go receipt remain immutable rejected evidence in place."
+  },
+  "supersedes": {
+    "attempt_1_preregistration": "experiments/runs/20260805-1554-mobile-scale-sweep-s17/preregistration.json",
+    "attempt_1_config_path": "configs/mobile_scale_sweep_v1.json",
+    "attempt_1_config_sha256": "d3ee897f9afeefe1e01ec32fe9b2721479b7496785e742d0954ad081758953b8",
+    "attempt_1_no_go_path": "experiments/runs/20260805-1554-mobile-scale-sweep-s17/prelaunch-audit-attempt-1-no-go.json",
+    "attempt_1_no_go_sha256": "9bc9d3af9e633b08b6e0d0e1c3bfeedfa660cbe7755443ad58987f47e86e99e0"
+  },
+  "hypothesis": "The candidate-v2 (35M, 602/756) versus Qwen2.5-0.5B (663/756) gap cannot currently be attributed to parameter count versus pretraining-token budget. A matched-adaptation sweep over pinned base checkpoints (pythia-70m-deduped ~3e11 tokens; SmolLM2-135M ~2e12; SmolLM2-360M ~4e12) on the identical frozen Mobile Actions SFT recipe, scored on a fresh grouped selection split, separates the axes.",
+  "decision": "Which base-model scale, and which axis (tokens versus parameters), the project adopts for the next post-training phase: the smallest configuration clearing a +3.0-point exact-match margin over the in-run candidate-v2 reference on the fresh selection split with schema validity >= 0.95 and zero truncations, missing predictions, and generation failures; otherwise explicit per-axis falsification.",
+  "config_path": "configs/mobile_scale_sweep_v2.json",
+  "config_sha256": "c8d57f84013198094c27d06d35851e5320f66a5106e6f1cbc6407bfd5e78f593",
+  "runner_module": "src/barunlm/baselines/mobile_scale_sweep.py",
+  "attempt_2_corrections": {
+    "P0-1": "in-run candidate-v2 reference evaluation: checkpoint verified against the committed src/barunaction/candidate.py pin via barunlm.evaluation.generation.verify_checkpoint, barun-16384 gold-token audit re-verified field-by-field, greedy generation and scoring on the frozen selection manifest before any challenger arm, predictions/aggregate/hashes bound into result.json; the --reference-exact-percent CLI float is deleted",
+    "P0-2": "enforce_machine_id rejects any non-positive or protected --jarvis-machine-id against the frozen denylist before any work, with CPU tests proving every protected ID is rejected",
+    "P1-1": "pythia-70m-deduped rebound to unique_trainable_parameters 70,426,624 (analytically verified from the pinned architecture in a CPU test); 95,592,496 retained only as labeled safetensors hub metadata",
+    "P1-2": "fit_outcome_counts consumes the real scorer aggregate's schema_valid/ast_exact_match/truncation/missing_prediction Rate numerators, tested against genuine write_scores output",
+    "P2-1": "verify_gold_audit_frozen compares max_target_tokens_with_eos, prompt_tokens_max, and total_with_eos_max on both splits per arm and for the reference",
+    "P2-2": "generation_batch_size read from the frozen config; CLI argument deleted",
+    "P3": "exact Rate numerators, dead prompt-prefix invariant removed, empty-target guard raises ScaleSweepError, exported config named config.json"
+  },
+  "carried_forward_verified": "fresh split hashes and counts, roster revision pins and tokenizer hashes, salt-bias analysis, recipe, LR screen, decision thresholds, denylist contents, and run-directory artifacts are byte-identical to the attempt-1 values the audit verified exactly",
+  "fresh_split": {
+    "derivation_path": "held_out_from_train",
+    "policy_version": "barun-mobile-scale-sweep-selection-v1",
+    "folds": 10,
+    "fold": 0,
+    "sweep_train_rows": 7212,
+    "selection_rows": 725,
+    "sweep_train_clusters": 4716,
+    "selection_clusters": 589,
+    "sweep_train_manifest_sha256": "3328654532d7e767e2cb87becc6c5869a65044bba7aadb62a69582be34c04183",
+    "selection_manifest_sha256": "3bd2281fce6d6910de8e42b843562a060e1d4e654bfd3ce95c850189b9f00cfb",
+    "sweep_train_membership_sha256": "3e0a64bb31ce3c4571d66b6983906e01c457edf6e53b99170b5943f7afea214e",
+    "selection_membership_sha256": "5838748633d408ab93a57b89fef17c6e4446dbbe14889215b60606d257f8ebf9",
+    "frozen_source_verification": "unchanged from attempt 1; independently rederived and confirmed by the attempt-1 audit"
+  },
+  "reference_evaluation": {
+    "candidate_id": "candidate-v2",
+    "checkpoint_sha256": {
+      "barun_config.json": "9b3a1d71baa95a198744d250f9629231738d942570b8685c44307fd83dd33565",
+      "model.safetensors": "fdb95ccf58a095e0d321be998924318b35ee59a334f6dd97d8726d2cf80021d3",
+      "tokenizer.json": "70ded9605fccd09c2340ca7e225361eab0ae8b4dbbb0d6e26343ab5183979db6"
+    },
+    "scored_before_challenger_arms": true,
+    "cli_override_forbidden": true
+  },
+  "roster_metadata_receipt": "experiments/runs/20260805-1554-mobile-scale-sweep-s17/roster-metadata.json",
+  "gold_token_audit": "experiments/runs/20260805-1554-mobile-scale-sweep-s17/gold-token-audit.json",
+  "max_new_tokens": 256,
+  "official_961": "sealed and unread; the preparation audit proves opacity",
+  "reused_756_probe": "not a selection metric; descriptive post-hoc reporting only",
+  "authorization": {
+    "launch_authorized": false,
+    "gpu_authorized": false,
+    "cuda_authorized": false,
+    "jarvislabs_resource_creation_authorized": false,
+    "training_authorized": false,
+    "baseline_weight_download_authorized": false,
+    "official_961_access_authorized": false,
+    "independent_prelaunch_audit_passed": false
+  },
+  "access_this_phase": {
+    "gpu": 0,
+    "cuda": 0,
+    "jarvislabs_mutations": 0,
+    "model_weights_downloaded": 0,
+    "official_961_rows_read": 0,
+    "protected_machine_ids_touched": 0,
+    "network": "none required for this fix; the pythia 70,426,624 recount was verified analytically from the already-pinned architecture metadata and the audit receipt's decomposition"
+  }
+}

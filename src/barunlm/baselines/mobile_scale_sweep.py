@@ -1,10 +1,16 @@
 """Matched-adaptation base-model size/token sweep for Mobile Actions.
 
-This module is the CPU-buildable core of run ``20260805-1554-mobile-scale-sweep-s17``.
-It derives the fresh grouped selection split from the frozen 7,937-row internal
-train manifest, audits gold token lengths per roster tokenizer, freezes the raw
-prompt transport and termination contract for base (non-chat) checkpoints, and
-binds the preregistered learning-rate screen and adoption decision rule.
+This module is the CPU-buildable core of run ``20260805-1554-mobile-scale-sweep-s17``
+(attempt 2).  It derives the fresh grouped selection split from the frozen
+7,937-row internal train manifest, audits gold token lengths per roster
+tokenizer, freezes the raw prompt transport and termination contract for base
+(non-chat) checkpoints, and binds the preregistered learning-rate screen and
+adoption decision rule.  Attempt 1 (config ``mobile_scale_sweep_v1.json``) was
+rejected by the independent prelaunch audit; this attempt binds the successor
+``mobile_scale_sweep_v2.json`` with an in-run candidate-v2 reference evaluation
+(no CLI float can supply the decision-critical reference score), in-code
+protected-machine-ID enforcement, and the corrected pythia-70m unique trainable
+parameter count.
 
 The sealed 961-row official Mobile Actions evaluation tail is never an input:
 this runner accepts only the already-derived, hash-pinned internal-train
@@ -12,8 +18,9 @@ manifests plus the adapter audit that proves the tail stayed opaque.  The reused
 756-row development probe is likewise not a selection metric here; scoring uses
 only the fresh selection partition derived below.
 
-``transformers`` and ``huggingface_hub`` are imported only inside :func:`run`,
-keeping every preregistered rule CPU-testable without network access.
+``transformers``, ``huggingface_hub``, and the Barun generation stack are
+imported only inside the functions that need them, keeping every preregistered
+rule CPU-testable without network access.
 """
 
 from __future__ import annotations
@@ -30,6 +37,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Protocol
 
+from barunaction.candidate import CANDIDATE_CHECKPOINT_SHA256, CANDIDATE_ID
 from barunlm.baselines.mobile_matched import count_unique_parameters
 from barunlm.evaluation.mobile_actions import MOBILE_ACTIONS_SCORER_VERSION, write_scores
 from barunlm.training.data import (
@@ -40,15 +48,27 @@ from barunlm.training.data import (
     tokenize_examples,
 )
 
-SCALE_SWEEP_CONFIG_SCHEMA_VERSION = "barun-mobile-scale-sweep-config-v1"
-RESULT_SCHEMA_VERSION = "barun-mobile-scale-sweep-result-v1"
+SCALE_SWEEP_CONFIG_SCHEMA_VERSION = "barun-mobile-scale-sweep-config-v2"
+RESULT_SCHEMA_VERSION = "barun-mobile-scale-sweep-result-v2"
 RAW_TRANSPORT_VERSION = "barun-raw-prompt-transport-v1"
 SELECTION_POLICY_VERSION = "barun-mobile-scale-sweep-selection-v1"
 
 RUN_ID = "20260805-1554-mobile-scale-sweep-s17"
-CONFIG_PATH = Path(__file__).resolve().parents[3] / "configs" / "mobile_scale_sweep_v1.json"
-# Frozen after the CPU build, before any baseline weight download or training.
-CONFIG_SHA256 = "d3ee897f9afeefe1e01ec32fe9b2721479b7496785e742d0954ad081758953b8"
+CONFIG_PATH = Path(__file__).resolve().parents[3] / "configs" / "mobile_scale_sweep_v2.json"
+# Frozen after the attempt-2 CPU build, before any baseline weight download or training.
+CONFIG_SHA256 = "c8d57f84013198094c27d06d35851e5320f66a5106e6f1cbc6407bfd5e78f593"
+
+# Immutable rejected attempt-1 evidence; never edited, never loaded by this runner.
+ATTEMPT_1_CONFIG_SHA256 = "d3ee897f9afeefe1e01ec32fe9b2721479b7496785e742d0954ad081758953b8"
+ATTEMPT_1_NO_GO_SHA256 = "9bc9d3af9e633b08b6e0d0e1c3bfeedfa660cbe7755443ad58987f47e86e99e0"
+
+# Every frozen gold-token-audit field the GPU runner must re-verify per arm.
+GOLD_AUDIT_FROZEN_FIELDS = (
+    "max_target_tokens_with_eos",
+    "prompt_tokens_max",
+    "total_with_eos_max",
+)
+GOLD_AUDIT_SPLITS = ("sweep_train", "selection")
 
 # Upstream frozen Mobile Actions inputs (identical to the matched-baseline lane).
 MOBILE_DATASET_REVISION = "e920309bc2acbc2e99a5e3201cf37df2b9fd9151"
@@ -369,6 +389,36 @@ def max_new_tokens_from_audit(
     return multiple * math.ceil((max_target_tokens_with_eos + margin) / multiple)
 
 
+def verify_gold_audit_frozen(
+    audit: Mapping[str, Any],
+    frozen: Mapping[str, Any],
+    *,
+    label: str,
+) -> None:
+    """Abort on drift in any frozen gold-token-audit field on either split.
+
+    ``audit`` maps split name to a fresh :func:`gold_token_length_audit` result;
+    ``frozen`` is the config's per-tokenizer entry, which binds exactly the
+    fields in :data:`GOLD_AUDIT_FROZEN_FIELDS` per split.  Every field is
+    compared; a single-field check is not sufficient because prompt-side drift
+    changes the generation window even when the target maximum is unchanged.
+    """
+
+    for split_name in GOLD_AUDIT_SPLITS:
+        observed = {
+            "max_target_tokens_with_eos": audit[split_name]["max_target_tokens_with_eos"],
+            "prompt_tokens_max": audit[split_name]["prompt_tokens"]["max"],
+            "total_with_eos_max": audit[split_name]["total_with_eos"]["max"],
+        }
+        for field in GOLD_AUDIT_FROZEN_FIELDS:
+            if observed[field] != frozen[split_name][field]:
+                raise ScaleSweepError(
+                    f"{label}: {split_name} gold token audit field {field} drifted from "
+                    f"the frozen CPU audit: expected {frozen[split_name][field]!r}, "
+                    f"got {observed[field]!r}"
+                )
+
+
 def verify_context_fit(
     *,
     prompt_tokens_max: int,
@@ -452,11 +502,11 @@ def tokenize_raw_rows(
     if len(accepted) != len(rows):  # pragma: no cover - tokenize_examples invariant
         raise ScaleSweepError("raw transport lost rows")
     for row, example in zip(accepted, rows, strict=True):
-        prompt_length = row.prompt_tokens
-        if tuple(row.input_ids[prompt_length:])[-1] != eos_token_id:
+        target_region = tuple(row.input_ids[row.prompt_tokens :])
+        if not target_region:
+            raise ScaleSweepError(f"example {example.example_id!r} has an empty supervised region")
+        if target_region[-1] != eos_token_id:
             raise ScaleSweepError(f"example {example.example_id!r} lacks the appended EOS")
-        if row.input_ids[:prompt_length] != row.input_ids[: row.prompt_tokens]:
-            raise ScaleSweepError("prompt prefix invariant failed")  # pragma: no cover
     return accepted
 
 
@@ -661,6 +711,18 @@ def load_frozen_config(path: str | Path = CONFIG_PATH) -> dict[str, Any]:
             raise ScaleSweepError(f"arm {arm.get('arm_id')!r} lacks a pinned 40-hex revision")
         if arm.get("license") != "apache-2.0":
             raise ScaleSweepError(f"arm {arm.get('arm_id')!r} license changed")
+        unique = arm.get("unique_trainable_parameters")
+        total = arm.get("safetensors_total_parameters")
+        if type(unique) is not int or unique < 1:
+            raise ScaleSweepError(
+                f"arm {arm.get('arm_id')!r} lacks a positive unique_trainable_parameters "
+                "binding (the value count_unique_parameters is asserted against)"
+            )
+        if type(total) is not int or total < unique:
+            raise ScaleSweepError(
+                f"arm {arm.get('arm_id')!r} safetensors_total_parameters must be an integer "
+                "at or above the unique trainable count (buffers are non-trainable)"
+            )
 
     optimization = payload.get("optimization")
     if not isinstance(optimization, dict):
@@ -687,15 +749,92 @@ def load_frozen_config(path: str | Path = CONFIG_PATH) -> dict[str, Any]:
         raise ScaleSweepError("primary decoding must stay unconstrained and greedy")
     if evaluation.get("population") != "fresh_selection_split_only":
         raise ScaleSweepError("selection metric population changed")
+    for label in ("generation_batch_size", "max_new_tokens"):
+        value = evaluation.get(label)
+        if type(value) is not int or value < 1:
+            raise ScaleSweepError(
+                f"evaluation.{label} must be a positive frozen integer; the runner "
+                "accepts no CLI override for it"
+            )
+
+    reference = payload.get("reference_evaluation")
+    if not isinstance(reference, dict):
+        raise ScaleSweepError("config lacks the reference_evaluation contract section")
+    if reference.get("candidate_id") != CANDIDATE_ID:
+        raise ScaleSweepError("reference evaluation is not bound to candidate-v2")
+    if reference.get("scored_before_challenger_arms") is not True:
+        raise ScaleSweepError("reference evaluation must be scored before any challenger arm")
+    if reference.get("cli_override_forbidden") is not True:
+        raise ScaleSweepError(
+            "the reference score must never be suppliable through an unauthenticated path"
+        )
+    reference_hashes = reference.get("checkpoint_sha256")
+    if not isinstance(reference_hashes, dict) or dict(reference_hashes) != dict(
+        CANDIDATE_CHECKPOINT_SHA256
+    ):
+        raise ScaleSweepError(
+            "reference checkpoint hashes differ from the committed candidate-v2 pin"
+        )
+    anchors = payload.get("anchors")
+    if not isinstance(anchors, dict) or not isinstance(anchors.get("candidate_v2"), dict):
+        raise ScaleSweepError("config lacks the candidate_v2 anchor")
+    if anchors["candidate_v2"].get("checkpoint_sha256") != dict(CANDIDATE_CHECKPOINT_SHA256):
+        raise ScaleSweepError("anchor candidate-v2 checkpoint hashes changed")
+
+    gold_audit = payload.get("gold_token_audit")
+    if not isinstance(gold_audit, dict) or not isinstance(gold_audit.get("per_tokenizer"), dict):
+        raise ScaleSweepError("config lacks the frozen gold token audit")
+    for audit_key, entry in gold_audit["per_tokenizer"].items():
+        for split_name in GOLD_AUDIT_SPLITS:
+            split_entry = entry.get(split_name) if isinstance(entry, dict) else None
+            if not isinstance(split_entry, dict):
+                raise ScaleSweepError(f"gold token audit {audit_key!r} lacks {split_name}")
+            for field in GOLD_AUDIT_FROZEN_FIELDS:
+                if type(split_entry.get(field)) is not int or split_entry[field] < 1:
+                    raise ScaleSweepError(
+                        f"gold token audit {audit_key!r} {split_name}.{field} must be a "
+                        "positive frozen integer"
+                    )
+    if reference.get("gold_token_audit_key") not in gold_audit["per_tokenizer"]:
+        raise ScaleSweepError("reference gold token audit key is not frozen in the config")
 
     compute = payload.get("compute")
     if not isinstance(compute, dict):
         raise ScaleSweepError("config lacks the compute section")
-    protected = compute.get("protected_machine_ids")
-    if not isinstance(protected, list) or not protected:
-        raise ScaleSweepError("config lacks the protected machine ID denylist")
+    _validate_protected_ids(compute.get("protected_machine_ids"))
 
     return payload
+
+
+def _validate_protected_ids(protected: Any) -> list[int]:
+    """The frozen denylist must be a sorted, duplicate-free, non-empty int list."""
+
+    if (
+        not isinstance(protected, list)
+        or not protected
+        or any(type(value) is not int or value < 1 for value in protected)
+        or protected != sorted(set(protected))
+        or 463058 not in protected
+    ):
+        raise ScaleSweepError("config protected machine ID denylist is invalid")
+    return protected
+
+
+def enforce_machine_id(machine_id: Any, protected_machine_ids: Any) -> int:
+    """Reject any protected or malformed JarvisLabs machine ID before any work.
+
+    Mirrors the mobile_qwen05b_matched lane: the runner may operate only on a
+    fresh, positive, exact project-created machine ID that does not appear in
+    the frozen protected denylist.  A protected ID aborts before any download,
+    training, or evaluation step.
+    """
+
+    protected = _validate_protected_ids(protected_machine_ids)
+    if type(machine_id) is not int or machine_id < 1:
+        raise ScaleSweepError("jarvis machine ID must be a positive integer")
+    if machine_id in protected:
+        raise ScaleSweepError(f"jarvis machine ID {machine_id} is protected; refusing to run on it")
+    return machine_id
 
 
 # ---------------------------------------------------------------------------
@@ -962,20 +1101,154 @@ def _score_aggregate(scores_dir: Path) -> dict[str, Any]:
     return json.loads((scores_dir / "aggregate.json").read_text(encoding="utf-8"))
 
 
-def _fit_outcome_counts(
+def fit_outcome_counts(
     generation: Mapping[str, Any], aggregate: Mapping[str, Any]
 ) -> dict[str, int]:
-    exact = aggregate["ast_exact_match"]["value"]
-    schema_valid = aggregate["schema_validity"]["value"]
+    """Join one generation summary with the frozen scorer's aggregate output.
+
+    Counts are consumed from the scorer's exact ``Rate`` numerators (the
+    ``barun-mobile-actions-score-v1`` aggregate serializes ``schema_valid``,
+    ``ast_exact_match``, ``truncation``, and ``missing_prediction`` as
+    numerator/denominator/value records); nothing is reconstructed from rounded
+    float products.  The generation summary and the scorer must agree on the
+    row and truncation counts or the join aborts.
+    """
+
     rows = int(generation["examples"])
+    if rows < 1:
+        raise ScaleSweepError("generation summary reports zero examples")
+    rates: dict[str, Mapping[str, Any]] = {}
+    for label in ("ast_exact_match", "schema_valid", "truncation", "missing_prediction"):
+        rate = aggregate.get(label)
+        if not isinstance(rate, Mapping):
+            raise ScaleSweepError(f"scorer aggregate lacks the {label} rate record")
+        numerator = rate.get("numerator")
+        denominator = rate.get("denominator")
+        if type(numerator) is not int or type(denominator) is not int:
+            raise ScaleSweepError(f"scorer {label} rate lacks exact integer counts")
+        if denominator != rows:
+            raise ScaleSweepError(
+                f"scorer {label} denominator {denominator} disagrees with the {rows} generated rows"
+            )
+        if not 0 <= numerator <= denominator:
+            raise ScaleSweepError(f"scorer {label} numerator is out of range")
+        rates[label] = rate
+    truncated_count = int(rates["truncation"]["numerator"])
+    if truncated_count != int(generation["truncated"]):
+        raise ScaleSweepError("scorer truncation count disagrees with the generation summary")
+    generation_failure_count = int(generation["failed"])
+    missing_count = int(rates["missing_prediction"]["numerator"])
+    if missing_count < generation_failure_count:
+        raise ScaleSweepError(
+            "scorer missing-prediction count is below the recorded generation failures"
+        )
     return {
         "rows": rows,
-        "exact_match_count": round(float(exact) * rows),
-        "schema_valid_count": round(float(schema_valid) * rows),
-        "truncated_count": int(generation["truncated"]),
-        "generation_failure_count": int(generation["failed"]),
-        "missing_prediction_count": rows - int(generation["generated"]) - int(generation["failed"]),
+        "exact_match_count": int(rates["ast_exact_match"]["numerator"]),
+        "schema_valid_count": int(rates["schema_valid"]["numerator"]),
+        "truncated_count": truncated_count,
+        "generation_failure_count": generation_failure_count,
+        "missing_prediction_count": missing_count - generation_failure_count,
     }
+
+
+def verify_reference_checkpoint(
+    checkpoint_dir: str | Path,
+    *,
+    expected_sha256: Mapping[str, str],
+) -> dict[str, str]:
+    """Verify the candidate-v2 checkpoint against its frozen file hashes.
+
+    Delegates to the release-grade :func:`barunlm.evaluation.generation.verify_checkpoint`,
+    which additionally cross-checks the checkpoint's own signed manifest when
+    one is present.  Any missing file, hash mismatch, or manifest disagreement
+    aborts before the reference score can exist.
+    """
+
+    from barunlm.evaluation.generation import GenerationError, verify_checkpoint
+
+    try:
+        return verify_checkpoint(checkpoint_dir, expected_sha256=dict(expected_sha256))
+    except GenerationError as error:
+        raise ScaleSweepError(f"reference checkpoint verification failed: {error}") from error
+
+
+def _evaluate_reference(
+    *,
+    config: Mapping[str, Any],
+    checkpoint_dir: Path,
+    selection_manifest_path: Path,
+    sweep_rows: Sequence[SFTExample],
+    selection_rows: Sequence[SFTExample],
+    output_dir: Path,
+    device_name: str,
+) -> dict[str, Any]:
+    """Score hash-verified candidate-v2 on the fresh selection split, in-run.
+
+    This is the only path that can produce the decision-critical reference
+    number: the checkpoint files are verified against the committed pin, the
+    frozen barun-tokenizer gold-token audit is recomputed and compared field by
+    field, generation uses the same greedy decoding and frozen budget as every
+    challenger arm, and the predictions plus scores are bound into the result.
+    """
+
+    from tokenizers import Tokenizer
+
+    from barunlm.evaluation.generation import GenerationError, generate_manifest
+
+    reference_cfg = config["reference_evaluation"]
+    evaluation = config["evaluation"]
+    expected_hashes = {
+        str(name): str(digest) for name, digest in reference_cfg["checkpoint_sha256"].items()
+    }
+    verified_hashes = verify_reference_checkpoint(checkpoint_dir, expected_sha256=expected_hashes)
+
+    tokenizer = Tokenizer.from_file(str(checkpoint_dir / "tokenizer.json"))
+    audit = {
+        "sweep_train": gold_token_length_audit(sweep_rows, tokenizer),
+        "selection": gold_token_length_audit(selection_rows, tokenizer),
+    }
+    audit_key = reference_cfg["gold_token_audit_key"]
+    verify_gold_audit_frozen(
+        audit,
+        config["gold_token_audit"]["per_tokenizer"][audit_key],
+        label=f"reference {CANDIDATE_ID}",
+    )
+
+    output_dir.mkdir(parents=True)
+    predictions_path = output_dir / "predictions.jsonl"
+    try:
+        summary = generate_manifest(
+            checkpoint_dir=checkpoint_dir,
+            manifest_path=selection_manifest_path,
+            manifest_sha256=config["evaluation"]["population_manifest_sha256"],
+            predictions_path=predictions_path,
+            device_name=device_name,
+            batch_size=int(evaluation["generation_batch_size"]),
+            max_new_tokens=int(evaluation["max_new_tokens"]),
+            expected_checkpoint_sha256=expected_hashes,
+        )
+    except GenerationError as error:
+        raise ScaleSweepError(f"reference generation failed: {error}") from error
+    generation = summary.to_dict()
+    write_scores(selection_manifest_path, predictions_path, output_dir / "scores")
+    aggregate = _score_aggregate(output_dir / "scores")
+    counts = fit_outcome_counts(generation, aggregate)
+    exact_match_percent = 100.0 * counts["exact_match_count"] / counts["rows"]
+    record = {
+        "schema_version": "barun-mobile-scale-sweep-reference-v1",
+        "candidate_id": CANDIDATE_ID,
+        "checkpoint_sha256": verified_hashes,
+        "gold_token_audit": audit,
+        "generation": generation,
+        "aggregate": aggregate,
+        "counts": counts,
+        "exact_match_percent": exact_match_percent,
+        "scored_before_challenger_arms": True,
+        "bias_note": config["decision_rule"]["reference_bias_note"],
+    }
+    _write_json(output_dir / "reference-result.json", record)
+    return record
 
 
 def run(args: argparse.Namespace) -> dict[str, Any]:
@@ -991,6 +1264,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
     config = load_frozen_config(args.config)
     if args.run_id != config["run_id"]:
         raise ScaleSweepError("CLI run_id differs from the frozen configuration")
+    enforce_machine_id(args.jarvis_machine_id, config["compute"]["protected_machine_ids"])
     if not torch.cuda.is_available() or not torch.cuda.is_bf16_supported():
         raise ScaleSweepError("the scale sweep requires CUDA with bfloat16 support")
 
@@ -1009,7 +1283,9 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         raise ExistingScaleSweepRunError(f"refusing to overwrite {run_root}") from error
     export = run_root / "export"
     export.mkdir()
-    shutil.copy2(args.config, export / "preregistration.json")
+    # The scientific config keeps its own name; the run preregistration lives in the
+    # repository run directory and is a different document.
+    shutil.copy2(args.config, export / "config.json")
 
     train_rows = tuple(
         load_manifest(
@@ -1030,7 +1306,21 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
     evaluation = config["evaluation"]
     max_seq_len = int(optimization["max_seq_len"])
     max_new_tokens = int(evaluation["max_new_tokens"])
+    generation_batch_size = int(evaluation["generation_batch_size"])
     selection_manifest_path = split_dir / "selection.jsonl"
+
+    # The decision-critical reference number exists only through this in-run,
+    # hash-verified evaluation of candidate-v2, scored before any challenger arm.
+    reference_record = _evaluate_reference(
+        config=config,
+        checkpoint_dir=Path(args.reference_checkpoint).resolve(),
+        selection_manifest_path=selection_manifest_path,
+        sweep_rows=sweep_rows,
+        selection_rows=selection_rows,
+        output_dir=export / "reference",
+        device_name="cuda",
+    )
+    reference_exact_percent = float(reference_record["exact_match_percent"])
 
     arm_results: list[dict[str, Any]] = []
     outcomes: list[ArmOutcome] = []
@@ -1074,13 +1364,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
             "selection": gold_token_length_audit(selection_rows, adapter),
         }
         frozen_audit = config["gold_token_audit"]["per_tokenizer"][arm["tokenizer"]["audit_key"]]
-        for split_name in ("sweep_train", "selection"):
-            for field in ("max_target_tokens_with_eos",):
-                if audit[split_name][field] != frozen_audit[split_name][field]:
-                    raise ScaleSweepError(
-                        f"arm {arm_id!r}: {split_name} gold token audit drifted from the "
-                        "frozen CPU audit"
-                    )
+        verify_gold_audit_frozen(audit, frozen_audit, label=f"arm {arm_id!r}")
         for split_name in ("sweep_train", "selection"):
             verify_context_fit(
                 prompt_tokens_max=audit[split_name]["prompt_tokens"]["max"],
@@ -1115,10 +1399,10 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
                 attn_implementation="eager",
             ).to(torch.device("cuda", 0))
             unique_parameters = count_unique_parameters(model)
-            if unique_parameters != int(arm["safetensors_total_parameters"]):
+            if unique_parameters != int(arm["unique_trainable_parameters"]):
                 raise ScaleSweepError(
-                    f"arm {arm_id!r}: unique parameter count changed: expected "
-                    f"{arm['safetensors_total_parameters']}, got {unique_parameters}"
+                    f"arm {arm_id!r}: unique trainable parameter count changed: expected "
+                    f"{arm['unique_trainable_parameters']}, got {unique_parameters}"
                 )
             training = _train_one_fit(
                 model=model,
@@ -1137,12 +1421,12 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
                 rows=prompt_rows,
                 max_seq_len=max_seq_len,
                 max_new_tokens=max_new_tokens,
-                batch_size=args.generation_batch_size,
+                batch_size=generation_batch_size,
                 output_path=predictions_path,
             )
             write_scores(selection_manifest_path, predictions_path, fit_dir / "scores")
             aggregate = _score_aggregate(fit_dir / "scores")
-            counts = _fit_outcome_counts(generation, aggregate)
+            counts = fit_outcome_counts(generation, aggregate)
             fit_records[fit_key] = {
                 "learning_rate": float(learning_rate),
                 "training": training,
@@ -1167,7 +1451,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         outcomes.append(
             ArmOutcome(
                 arm_id=arm_id,
-                unique_parameters=int(arm["safetensors_total_parameters"]),
+                unique_parameters=int(arm["unique_trainable_parameters"]),
                 rows=selected_counts["rows"],
                 exact_match_count=selected_counts["exact_match_count"],
                 schema_valid_count=selected_counts["schema_valid_count"],
@@ -1186,8 +1470,6 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         _write_json(arm_dir / "arm-result.json", arm_record)
         arm_results.append(arm_record)
 
-    reference = config["decision_rule"]["reference"]
-    reference_exact_percent = float(args.reference_exact_percent)
     decision = decide_adoption(
         outcomes,
         reference_exact_percent=reference_exact_percent,
@@ -1202,10 +1484,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         "config_sha256": CONFIG_SHA256,
         "fresh_split": partition.receipt(),
         "arms": arm_results,
-        "reference": {
-            "description": reference,
-            "exact_match_percent": reference_exact_percent,
-        },
+        "reference": reference_record,
         "decision": decision,
     }
     _write_json(export / "result.json", result)
@@ -1218,21 +1497,32 @@ def _run_id_argument(value: str) -> str:
     return value
 
 
+def _machine_id_argument(value: str) -> int:
+    try:
+        machine_id = int(value)
+    except ValueError as error:
+        raise argparse.ArgumentTypeError("must be a positive integer") from error
+    if machine_id < 1:
+        raise argparse.ArgumentTypeError("must be a positive integer")
+    return machine_id
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--run-id", type=_run_id_argument, required=True)
-    parser.add_argument("--jarvis-machine-id", type=int, required=True)
+    parser.add_argument("--jarvis-machine-id", type=_machine_id_argument, required=True)
     parser.add_argument("--train-manifest", type=Path, required=True)
     parser.add_argument("--config", type=Path, default=CONFIG_PATH)
     parser.add_argument("--artifact-root", type=Path, required=True)
     parser.add_argument("--cache-dir", type=Path, default=None)
-    parser.add_argument("--generation-batch-size", type=int, default=64)
     parser.add_argument(
-        "--reference-exact-percent",
-        type=float,
+        "--reference-checkpoint",
+        type=Path,
         required=True,
-        help="candidate-v2 exact match on the fresh selection split, measured in the "
-        "same run before any challenger arm is scored",
+        help="directory holding the candidate-v2 checkpoint; its files are verified "
+        "against the frozen SHA-256 pins before the in-run reference evaluation. "
+        "There is deliberately no argument that can supply the reference score "
+        "itself, and the generation batch size is read from the frozen config.",
     )
     return parser
 
@@ -1244,9 +1534,13 @@ def main() -> None:
 
 
 __all__ = [
+    "ATTEMPT_1_CONFIG_SHA256",
+    "ATTEMPT_1_NO_GO_SHA256",
     "AUDIT_SHA256",
     "CONFIG_PATH",
     "CONFIG_SHA256",
+    "GOLD_AUDIT_FROZEN_FIELDS",
+    "GOLD_AUDIT_SPLITS",
     "MOBILE_DATASET_REVISION",
     "OFFICIAL_EVAL_ROWS",
     "OFFICIAL_SOURCE_SHA256",
@@ -1267,6 +1561,8 @@ __all__ = [
     "TrainPartition",
     "build_parser",
     "decide_adoption",
+    "enforce_machine_id",
+    "fit_outcome_counts",
     "gold_token_length_audit",
     "load_frozen_config",
     "main",
@@ -1276,7 +1572,9 @@ __all__ = [
     "selection_fold_for_cluster",
     "tokenize_raw_rows",
     "verify_context_fit",
+    "verify_gold_audit_frozen",
     "verify_partition_against_config",
+    "verify_reference_checkpoint",
     "verify_termination_contract",
     "write_partition_artifacts",
 ]
