@@ -1,0 +1,54 @@
+{
+  "schema_version": "barun-sft-config-v1",
+  "run_id": "20260803-1200-action-sft-s1",
+  "output_root": "../experiments/runs",
+  "hypothesis": "Completion-only SFT improves executable Action IR without teaching prompt copying.",
+  "decision": "Keep this recipe only if the preregistered small-SFT quality gate passes.",
+  "base_checkpoint": {
+    "source": "huggingface",
+    "repo_id": "harrrshall/BarunLM-35M",
+    "revision": "ef3e483a9fd7d906ecf2a7929babeffaf82d1d16",
+    "expected_sha256": {
+      "barun_config.json": "9b3a1d71baa95a198744d250f9629231738d942570b8685c44307fd83dd33565",
+      "model.safetensors": "f2a7c88b9f2c2e3584809081407ab136795d82e30e89b730e007781c45d01447",
+      "tokenizer.json": "70ded9605fccd09c2340ca7e225361eab0ae8b4dbbb0d6e26343ab5183979db6"
+    }
+  },
+  "data": {
+    "train_manifest": "../data/processed/action-sft-train-v1.jsonl",
+    "train_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "dev_manifest": "../data/processed/action-sft-dev-v1.jsonl",
+    "dev_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "max_seq_len": 2048,
+    "eos_token": "<eos>",
+    "pad_token": "<pad>",
+    "overlength_policy": "error"
+  },
+  "optimization": {
+    "seed": 17,
+    "epochs": 3,
+    "batch_size": 16,
+    "eval_batch_size": 16,
+    "gradient_accumulation_steps": 4,
+    "learning_rate": 0.00002,
+    "min_learning_rate_ratio": 0.1,
+    "weight_decay": 0.1,
+    "beta1": 0.9,
+    "beta2": 0.95,
+    "adam_epsilon": 1e-8,
+    "warmup_steps": 100,
+    "max_steps": null,
+    "gradient_clip_norm": 1.0,
+    "eval_every_steps": 100,
+    "save_every_steps": 500,
+    "early_stopping_patience": 5,
+    "early_stopping_min_delta": 0.001
+  },
+  "execution": {
+    "device": "cuda",
+    "precision": "bf16",
+    "deterministic": true,
+    "jarvis_resource_id": "REPLACE_WITH_EXACT_BARUN_PROJECT_ID",
+    "estimated_hourly_cost": null
+  }
+}

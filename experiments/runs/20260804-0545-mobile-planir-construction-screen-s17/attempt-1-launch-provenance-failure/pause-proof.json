@@ -1,0 +1,17 @@
+{
+  "schema_version": "barun-jarvis-pause-proof-v1",
+  "captured_at": "2026-08-04T01:26:44Z",
+  "provider": "JarvisLabs",
+  "machine_id": 463843,
+  "name": "barun-planir-screen-v1-a1",
+  "expected_owned_machine_id": 463843,
+  "controller_pause_verified_at": "2026-08-04T01:22:47.288492+00:00",
+  "controller_final_status": "Paused",
+  "independent_read_only_status_checks": 2,
+  "independent_observed_status": "Paused",
+  "independent_observed_run_state": "instance-paused",
+  "inventory_recheck_observed_status": "Paused",
+  "kroda_463058_observed_status": "Running",
+  "preexisting_resources_mutated": [],
+  "safe_run_record_sha256": "648f09662134e65bd6fdb00a391aec99780fe6c48dd0c0bb6754fce29787493f"
+}

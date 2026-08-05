@@ -1,0 +1,11 @@
+# Frozen additions for the Qwen2.5-0.5B matched-adaptation lane.
+# Pin the Torch-matched torchvision build so Transformers cannot discover an
+# incompatible JarvisLabs system package during its optional vision imports.
+-e .
+huggingface-hub==0.36.2
+pytest==8.4.1
+ruff==0.12.7
+safetensors==0.8.0
+tokenizers==0.21.4
+transformers==4.48.3
+torchvision==0.28.0

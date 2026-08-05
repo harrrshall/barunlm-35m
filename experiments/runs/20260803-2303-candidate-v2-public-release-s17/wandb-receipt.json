@@ -1,0 +1,30 @@
+{
+  "artifacts": {
+    "evidence": {
+      "digest": "b5e2cb35698e36bc1a97095c6c2d8565",
+      "name": "barunaction-35m-candidate-v2-evidence",
+      "qualified_name": "harshalsingh1223-gladium-ai/barunaction-35m/barunaction-35m-candidate-v2-evidence:v0",
+      "version": "v0"
+    },
+    "float": {
+      "digest": "09c2a608c6f3947854a0f55eafc56b8a",
+      "name": "barunaction-35m-candidate-v2-float",
+      "qualified_name": "harshalsingh1223-gladium-ai/barunaction-35m/barunaction-35m-candidate-v2-float:v0",
+      "version": "v0"
+    },
+    "int8_darwin_arm64_qnnpack": {
+      "digest": "8c3d8d30afc140e8c63461668ecb91a4",
+      "name": "barunaction-35m-candidate-v2-int8-darwin-arm64-qnnpack",
+      "qualified_name": "harshalsingh1223-gladium-ai/barunaction-35m/barunaction-35m-candidate-v2-int8-darwin-arm64-qnnpack:v0",
+      "version": "v0"
+    }
+  },
+  "entity": "harshalsingh1223-gladium-ai",
+  "local_manifest": {
+    "path": "experiments/runs/20260803-2303-candidate-v2-public-release-s17/release-manifest.json",
+    "sha256": "cbb29c4921855031bfeee1c1f5e9ed1a33a932b902a875c21f255fac793c2165"
+  },
+  "project": "barunaction-35m",
+  "run_id": "msgofaqw",
+  "schema_version": "barunaction-wandb-release-receipt-v1"
+}

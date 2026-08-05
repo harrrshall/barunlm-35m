@@ -1,0 +1,94 @@
+{
+  "schema_version": "barun-presto-stage-preregistration-v1",
+  "recipe_id": "presto-context-safety-sft-v1",
+  "hypothesis": "One full-parameter response-only PRESTO English SFT stage, with a bounded train-only replay of revision, disfluency, contextual, ABSTAIN, and CONFIRM rows, will add useful contextual action compilation while preserving strict Action IR syntax.",
+  "decision": "Keep this stage as a broader candidate only if derived PRESTO development exact match reaches 0.70, ABSTAIN F1 reaches 0.80, schema validity reaches 0.95, false CALL on ABSTAIN/CONFIRM gates is at most 0.01, and represented revision/disfluency buckets are no more than 0.10 below the represented no-phenomenon bucket. This is not a larger-model or blind-test claim.",
+  "dataset": {
+    "repository": "google-research-datasets/presto",
+    "revision": "fa47167477453afebe698a287409514df5a7dadf",
+    "locale": "en-US",
+    "archive_sha256": "1fc671692cceb31fbda17e351e47f2cc52ee8779042f92dc26674cc0cca2167f",
+    "train_manifest_sha256": "49a553ea37a981f2a8009ce8bc6575fd56182d8f959352c9815fcc463b832e06",
+    "dev_manifest_sha256": "1e34c5554480f78e3c0616ef36207380f0973ab581f37a61ea33cb7122795c42",
+    "audit_sha256": "8e1f035809c14baf6f247f1bd8bf0f4b874ff4b117dc6dd217fbc732c1d8b7c4",
+    "official_test_policy": "member remains unopened, unparsed, and unmaterialized; central-directory metadata and whole-archive hash only"
+  },
+  "tokenizer_identity": {
+    "identifier": "harrrshall/BarunLM-35M",
+    "revision": "ef3e483a9fd7d906ecf2a7929babeffaf82d1d16",
+    "sha256": "70ded9605fccd09c2340ca7e225361eab0ae8b4dbbb0d6e26343ab5183979db6"
+  },
+  "proposed_input_checkpoint": {
+    "local_dir": "experiments/runs/20260803-1845-mobile-followup-retry-s17/essential/arms/batch63/checkpoint",
+    "model_sha256": "fdb95ccf58a095e0d321be998924318b35ee59a334f6dd97d8726d2cf80021d3",
+    "config_sha256": "9b3a1d71baa95a198744d250f9629231738d942570b8685c44307fd83dd33565",
+    "tokenizer_sha256": "70ded9605fccd09c2340ca7e225361eab0ae8b4dbbb0d6e26343ab5183979db6"
+  },
+  "train_view": {
+    "kind": "dev_deduplicated_train_plus_stratified_focus_replay",
+    "selector_version": "barun-presto-focus-replay-v1",
+    "categories": [
+      "abstain",
+      "confirm",
+      "revision",
+      "disfluency",
+      "contextual"
+    ],
+    "maximum_replays_per_category": 3200,
+    "selection": "lowest SHA-256(seed:category:source-example-id) among eligible official-train rows",
+    "duplicate_across_categories": "intentional and recorded",
+    "exact_prompt_target_dev_exclusion": {
+      "enabled": true,
+      "identity": "SHA-256(canonical JSON object with exact prompt and exact target strings)",
+      "policy": "exclude every official-train row whose identity occurs in official development before focus selection; correctness-blind and record all excluded train IDs"
+    },
+    "development_rows_read_for_exact_duplicate_exclusion": 14288,
+    "development_rows_read_for_focus_selection": 0,
+    "official_test_rows_read": 0
+  },
+  "optimization": {
+    "seed": 17,
+    "epochs": 1,
+    "batch_size": 64,
+    "eval_batch_size": 128,
+    "gradient_accumulation_steps": 1,
+    "learning_rate": 0.00005,
+    "min_learning_rate_ratio": 0.1,
+    "weight_decay": 0.1,
+    "beta1": 0.9,
+    "beta2": 0.95,
+    "adam_epsilon": 1e-8,
+    "warmup_steps": 50,
+    "max_steps": null,
+    "gradient_clip_norm": 1.0,
+    "eval_every_steps": 200,
+    "save_every_steps": 200,
+    "early_stopping_patience": 3,
+    "early_stopping_min_delta": 0.001
+  },
+  "evaluation": {
+    "checkpoint_policy": "latest checkpoint whose development response-only loss improves the previously selected loss by more than the frozen 0.001 minimum delta; final checkpoint if none qualifies",
+    "decoding": "unconstrained deterministic greedy",
+    "generation_max_new_tokens": "minimum of 384 and audited development target maximum plus 24",
+    "sample_level_predictions": true,
+    "sample_level_scores": true,
+    "raw_phenomenon_buckets": true,
+    "contextual_bucket": true,
+    "false_call_on_gate_definition": "any parse-valid top-level CALL on an ABSTAIN or CONFIRM gold row, including a CALL whose tool or payload is schema-invalid and policy-blocked",
+    "native_presto_metric": false
+  },
+  "gate": {
+    "derived_ast_exact_at_least": 0.7,
+    "schema_valid_at_least": 0.95,
+    "abstention_f1_at_least": 0.8,
+    "false_call_on_gate_at_most": 0.01,
+    "maximum_no_phenomenon_to_revision_or_disfluency_gap": 0.1,
+    "require_represented_gap_buckets": true
+  },
+  "limitations": [
+    "PRESTO official development has known template overlap with training and is not a blind breakthrough set.",
+    "The Action IR safety mapping is derived and must not be reported as native PRESTO semantic-parse exact match.",
+    "This single development-selected stage does not establish robustness across seeds or preservation of Mobile Actions behavior.",
+    "PRESTO supplies no CLARIFY supervision and does not by itself complete the product safety distribution."
+  ]
+}

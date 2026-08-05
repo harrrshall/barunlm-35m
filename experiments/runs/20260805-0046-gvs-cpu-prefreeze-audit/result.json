@@ -1,0 +1,188 @@
+{
+  "schema_version": 1,
+  "run_id": "20260805-0046-gvs-cpu-prefreeze-audit",
+  "kind": "gvs_v1_cpu_prefreeze_audit",
+  "recorded_at": "2026-08-04T19:16:01Z",
+  "hypothesis": "Before any model or private-label access, the GVS-v1 CPU reference can bind and fail closed over deterministic K=8 decoding, semantic simulation, rank-hidden verification, schema renaming, population planning, joint-firewall primitives, shortcut controls, support scoring, power plumbing, and one-shot authorization.",
+  "decision_enabled": "Keep the CPU implementation as prefreeze evidence only if independent adversarial reviews and the complete repository suite pass; this record never authorizes model, label, CUDA, JarvisLabs, training, launch, or execution access.",
+  "status": "cpu_prefreeze_passed_nonauthorizing",
+  "source": {
+    "branch": "agent/barunaction-release-mbcf-v1",
+    "git_commit": "d1dab69c637ad74688b65ded13aa15659fa163e6",
+    "tracked_dirty_patch_sha256": "fc610ec26d6ab874033436ab74dab42d321d546feee34a0dfbe48175d1880206",
+    "explicit_source_sha256": {
+      "src/barunlm/evaluation/action_simulator.py": "ab8ca95da652a0f986215f1175dcae4530587e2ca2d57c9fbff36f56553f2109",
+      "src/barunlm/evaluation/gvs_authorization.py": "fa67903049256f1e1db66342a956ee281ee5adf1ddb717abb8e59abc13dcb1ba",
+      "src/barunlm/evaluation/gvs_bridge.py": "827f0e12b264a0ef2c613c8ff38346860a27e5df9eaf675e8bc1339504142be1",
+      "src/barunlm/evaluation/gvs_calibrated_ranker.py": "6171d5f7895e9e750dca8b6794fa2c229cd2511ab2613cd5c528d0bac66aa1ad",
+      "src/barunlm/evaluation/gvs_decoder.py": "0b2afd907a8c833a2d9b3d4d3a79de6689f7db3c7f8f3b773248e8882b903d26",
+      "src/barunlm/evaluation/gvs_faults.py": "979d2c7534a47c5ad4f6557ba10a133effe4fb6bcc22c01d4b0efad813e332c9",
+      "src/barunlm/evaluation/gvs_population.py": "f257112e472939a26a7afb10fb3e9dfe0f68f4434dfbf454eed1040c873b735a",
+      "src/barunlm/evaluation/gvs_power.py": "0ce1d2825262d99001a9502eaee998814259e31ce4916fd5e3cd76996df97eca",
+      "src/barunlm/evaluation/gvs_program_population.py": "872102fc065a274e592d3750faccd7876d006762c57d11b9644417b52d08ec90",
+      "src/barunlm/evaluation/gvs_schema_partition.py": "36d9ddcaf919ac0e971cdc4cb1d6386061da1e8b7a78e3caf9e63f55bf0939f4",
+      "src/barunlm/evaluation/gvs_schema_presentation.py": "121298bfd81edcd73c5a728eee5880e7ee707cf8c3d157b2eb9e36d5e83dbf87",
+      "src/barunlm/evaluation/gvs_shortcuts.py": "ddbd44270f6e44673d1351c4c4f2af3d1d4bee5b437a7358cdf310c8f28cfc9f",
+      "src/barunlm/evaluation/gvs_support.py": "43c60920c645f68282779351c21ca04086341ea90a2b81baca15c4ce4efe49ca",
+      "src/barunlm/evaluation/gvs_verifier.py": "4bdad09fd0a18b83fee19268ab602ead57cb48967d644eb6408ed7acc8765889",
+      "src/barunlm/evaluation/sim_program.py": "751f77c098e98c6c94a07435fa8f8696cad03de2a1362154086e19951aa75399"
+    },
+    "explicit_test_sha256": {
+      "tests/test_action_simulator.py": "a03f41c38ee20cdecfb3e7f57320645378777c29e753b1736ce0f2759a1547e0",
+      "tests/test_gvs_authorization.py": "a0a1e61cf205c6f60ec90d9146560ab8ed7e71fd84776cf55d41a5bc9e109c3a",
+      "tests/test_gvs_bridge.py": "e632d376b097f131815cd838760a5e590285730deeab039ff21bdffce9262444",
+      "tests/test_gvs_calibrated_ranker.py": "0c04580fed7ac19e7fa94d5298a62619004d47f8ac4215869a501eeac4ea8ad0",
+      "tests/test_gvs_decoder.py": "ca4681a04522d4a13b728ea4b148f4aac61e6a4e96620ea2d384831961ce2c18",
+      "tests/test_gvs_faults.py": "4e752b56e5ca03467936ac956e399c2e68d42fbb9ef225bd189ed595147ba7df",
+      "tests/test_gvs_population.py": "d4f4b700177659a6cd12b0ab4d4e735592724417bcfff84fdf67ed8e2bd9df51",
+      "tests/test_gvs_power.py": "a632a6edf9abfd4f383ea9d7b14b22b93b1fc1527d64b5cd33b58d526857a92a",
+      "tests/test_gvs_program_population.py": "83e8654284a0de1376975d9fb8c62500f1df154712204a5889156bce91e7e6ea",
+      "tests/test_gvs_schema_partition.py": "23672add46aac0af25e01255c7db2ac3f091d16ef8b79d63a23f4ebb02d37832",
+      "tests/test_gvs_schema_presentation.py": "3b32b98f00001d40dbb1d36719aecdec113215dfa167a08bf5ba10f187dcb9ab",
+      "tests/test_gvs_shortcuts.py": "919ce6dd71b31614903f114b6711b779d8f85f8320f4a42be17de2ba408c172f",
+      "tests/test_gvs_support.py": "026a900e5d4b2fb6462025fab958f25baac1d2c44b2229b1ffa98de6fe18f6e1",
+      "tests/test_gvs_verifier.py": "1e9cdbb4e7b97e2268887f9383348082fa55a5ff0d1093df26447368a4b2e9e4",
+      "tests/test_sim_program.py": "2cdd8946ce96c9a40d73422df02b5b25f7834df12e8c02c7861e7cf5e3fe824c"
+    }
+  },
+  "environment": {
+    "python": "CPython 3.11.15",
+    "operating_system": "macOS 26.6 build 25G72",
+    "architecture": "arm64",
+    "model_loaded": false,
+    "private_prompt_or_label_accessed": false,
+    "cuda_accessed": false,
+    "jarvis_resource_created_or_mutated": false,
+    "network_accessed_by_audits": false
+  },
+  "validation": {
+    "complete_repository": {
+      "passed": 1338,
+      "failed": 0,
+      "warnings": 16,
+      "duration_seconds": 299.25
+    },
+    "independent_scoped_integration": {
+      "passed": 365,
+      "failed": 0,
+      "warnings": 14,
+      "duration_seconds": 238.92,
+      "overlaps_complete_repository": true
+    },
+    "focused_planner_after_final_patch": {
+      "passed": 32,
+      "failed": 0,
+      "overlaps_other_counts": true
+    },
+    "ruff_check_passed": true,
+    "ruff_format_check_passed": true,
+    "formatted_file_count": 171,
+    "git_diff_check_passed": true,
+    "py_compile_passed": true
+  },
+  "implemented_nonauthorizing_surface": {
+    "candidate_count": 8,
+    "planned_populations": {
+      "T-new": 24000,
+      "D-support": 2000,
+      "S-new": 2000,
+      "C-new": 4000
+    },
+    "program_planner_outcome_allocation": {
+      "T-new": {
+        "ACTION": 6000,
+        "CONFIRM": 6000,
+        "CLARIFY": 6000,
+        "ABSTAIN": 6000
+      },
+      "D-support": {
+        "ACTION": 500,
+        "CONFIRM": 500,
+        "CLARIFY": 500,
+        "ABSTAIN": 500
+      }
+    },
+    "schema_partition": {
+      "roles": 4,
+      "families_per_role": 8,
+      "families_total": 32,
+      "lineages_per_family": 64,
+      "memberships_total": 2048,
+      "canonical_tools": 13,
+      "canonical_arguments": 33,
+      "structural_role_disjoint_names": true,
+      "authenticated_heldout_evidence": false,
+      "novel_semantic_schema_claim": false
+    },
+    "trainable_control_parameters": {
+      "linear_probe": 449,
+      "small_mlp": 29793,
+      "lora_verifier": 135617
+    },
+    "proposed_unique_system_parameters": 35208385,
+    "full_26000_record_plan_materialized": false,
+    "authored_provenance_complete": false,
+    "joint_T_D_S_C_duplicate_closure_complete": false
+  },
+  "reproduced_and_fixed_audit_defects": [
+    "decoder argmax and parameter-storage substitution",
+    "bridge prompt mutation and verifier storage aliasing",
+    "population canonical-hash and authorization wrapper forgery",
+    "shortcut runtime substitution, cross-role content overlap, forged receipts, and raw-row rather than independent-component weighting",
+    "schema duplicate lineage/map acceptance, cross-role family-source reuse, mutable receipt evidence, and false authenticated-heldout claims",
+    "program-planner outcome imbalance, author-packet metadata leakage, caller TOCTOU, and forged record/plan commitments"
+  ],
+  "firewall": {
+    "official_961_rows_read": 0,
+    "reused_756_rows_accessed_by_this_audit": 0,
+    "old_selection_or_confirmation_rows_accessed": 0,
+    "model_outputs_generated": 0,
+    "authorizes_model_access": false,
+    "authorizes_label_access": false,
+    "authorizes_cuda": false,
+    "authorizes_jarvislabs": false,
+    "authorizes_training": false,
+    "authorizes_launch": false,
+    "authorizes_execution": false
+  },
+  "live_safety_observation": {
+    "observed_at_local": "2026-08-05T00:19:50+05:30",
+    "caffeinate_pid": 2445,
+    "prevent_user_idle_system_sleep": true,
+    "prevent_user_idle_display_sleep": false,
+    "kroda_463058": "Running and untouched",
+    "barun_evidence_instances_paused": [
+      463689,
+      463786,
+      463788,
+      463793,
+      463802,
+      463843
+    ],
+    "protected_adjacent_resources_mutated": false,
+    "safe_projected_inventory_only": true,
+    "raw_access_bearing_inventory_persisted": false
+  },
+  "remaining_blockers": [
+    "external secret custody outside the repository",
+    "single-use selection signer",
+    "durable atomic compare-and-append global retirement service",
+    "full materialization and original authoring of T-new and D-support requests",
+    "model-independent human authoring and labeling of S-new and C-new",
+    "joint provenance and exact/near-duplicate closure across T-new, D-support, S-new, and C-new",
+    "outcome-independent numerical power thresholds derived from the actual pre-outcome component roster",
+    "one immutable preregistration binding model, tokenizer, renderer, decoder, populations, scorer, thresholds, provider transform, and exact Jarvis lifecycle"
+  ],
+  "next_decision": {
+    "gate": "Once-only frozen candidate-v2 D-support K=8 oracle support",
+    "pass_requirements": {
+      "oracle_pass_at_8_minimum": 0.85,
+      "oracle_gain_over_greedy_minimum_points": 10,
+      "greedy_failure_recovery_fraction_minimum": 0.5
+    },
+    "on_fail": "Close GVS-v1 without verifier training and preregister generator-side correction SFT.",
+    "on_pass": "Compare no-fit likelihood, the 449-parameter linear probe, the 29,793-parameter MLP, the 135,617-parameter LoRA verifier, and matched correction SFT before any RL consideration."
+  },
+  "conclusion": "keep",
+  "reason": "The CPU reference passed a final adversarial patch-and-rerun cycle and the complete repository suite, so it is useful prefreeze evidence. It remains deliberately nonauthorizing because the real populations and external custody/retirement boundary do not yet exist."
+}

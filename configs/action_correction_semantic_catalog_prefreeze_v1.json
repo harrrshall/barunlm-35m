@@ -1,0 +1,261 @@
+{
+  "schema_version": "barun-action-correction-semantic-catalog-prefreeze-v1",
+  "run_id": "20260805-0505-action-correction-semantic-catalog-prefreeze-s17",
+  "status": "cpu_contract_draft_non_authorizing",
+  "hypothesis": "A program-first role-scoped semantic catalog can supply every finite Generate-Correct T/P/D allocation coordinate with real request, state, program, target, and lineage semantics while keeping the three roles disconnected before any model output.",
+  "decision": "Freeze a candidate-level coordinate decoder and renderer boundary for independent CPU review. This draft cannot enumerate or materialize the complete population, read an existing prompt or label, load a model or tokenizer, use CUDA or JarvisLabs, train, infer, score a held-out population, or change the release.",
+  "authorization": {
+    "candidate_universe_enumeration_authorized": false,
+    "population_materialization_authorized": false,
+    "existing_prompt_or_label_read_authorized": false,
+    "model_or_tokenizer_access_authorized": false,
+    "training_or_inference_authorized": false,
+    "cuda_authorized": false,
+    "jarvislabs_inventory_or_resource_action_authorized": false,
+    "network_authorized": false,
+    "human_or_private_label_access_authorized": false,
+    "held_out_scoring_authorized": false,
+    "release_change_authorized": false,
+    "launch_authorized": false
+  },
+  "roles": {
+    "T": {
+      "label": "T-synth",
+      "candidate_ordinals_per_stratum": 2048,
+      "affine_multiplier_mod_2048": 137,
+      "affine_offset_mod_2048": 41,
+      "renderer_family": "imperative_state_tools",
+      "request_grammar_family": "direct_imperative_with_repairable_disfluency",
+      "schema_presentation_family": "tool_args_required_side_effecting",
+      "context_shape_family": "context_state",
+      "timezone": "Asia/Kolkata",
+      "temporal_epoch": "2027-02-01T09:00:00+05:30",
+      "entity_lexicon_family": "south_asia_household_alpha",
+      "logical_source_batch": "programmatic_household_alpha"
+    },
+    "P": {
+      "label": "P-futility",
+      "candidate_ordinals_per_stratum": 128,
+      "affine_multiplier_mod_2048": 811,
+      "affine_offset_mod_2048": 307,
+      "renderer_family": "constraint_first_capability_query",
+      "request_grammar_family": "question_then_constraint_with_self_correction",
+      "schema_presentation_family": "function_inputs_mandatory_confirmation",
+      "context_shape_family": "environment_snapshot",
+      "timezone": "Africa/Nairobi",
+      "temporal_epoch": "2028-06-05T08:30:00+03:00",
+      "entity_lexicon_family": "east_africa_fieldwork_beta",
+      "logical_source_batch": "programmatic_fieldwork_beta"
+    },
+    "D": {
+      "label": "D-internal",
+      "candidate_ordinals_per_stratum": 512,
+      "affine_multiplier_mod_2048": 1229,
+      "affine_offset_mod_2048": 733,
+      "renderer_family": "declarative_available_state",
+      "request_grammar_family": "context_first_declarative_with_revision",
+      "schema_presentation_family": "name_parameters_required_effect",
+      "context_shape_family": "supplied_context_available_state",
+      "timezone": "America/Los_Angeles",
+      "temporal_epoch": "2029-10-15T07:45:00-07:00",
+      "entity_lexicon_family": "pacific_northwest_studio_gamma",
+      "logical_source_batch": "programmatic_studio_gamma"
+    }
+  },
+  "registered_strata": [
+    "ADD_LIST_ITEM",
+    "CREATE_CALENDAR_EVENT",
+    "CREATE_NOTE",
+    "CREATE_REMINDER",
+    "LOOK_UP_CONTACT",
+    "LOOK_UP_ROUTE",
+    "PAUSE_MEDIA",
+    "PLAY_MEDIA",
+    "PROPOSE_MESSAGE",
+    "RESCHEDULE_CALENDAR_EVENT",
+    "SET_BOOLEAN_SETTING",
+    "SET_LIST_ITEM_CHECKED",
+    "UPDATE_REMINDER",
+    "ABSTAIN",
+    "CLARIFY",
+    "CONFIRM"
+  ],
+  "coordinate_decoder": {
+    "modulus": 2048,
+    "affine_rule": "permuted_ordinal=(candidate_ordinal*role_multiplier+role_offset)%2048",
+    "coprime_odd_multiplier_required": true,
+    "mixed_radix_order_least_significant_first": [
+      {
+        "axis": "renderer_variant",
+        "cardinality": 4
+      },
+      {
+        "axis": "wording_variant",
+        "cardinality": 4
+      },
+      {
+        "axis": "entity_bundle",
+        "cardinality": 8
+      },
+      {
+        "axis": "temporal_bundle",
+        "cardinality": 8
+      },
+      {
+        "axis": "context_variant",
+        "cardinality": 2
+      }
+    ],
+    "mixed_radix_product": 2048,
+    "candidate_coordinate_fields": [
+      "catalog_schema_version",
+      "role",
+      "stratum",
+      "candidate_ordinal",
+      "permuted_ordinal",
+      "renderer_variant",
+      "wording_variant",
+      "entity_bundle",
+      "temporal_bundle",
+      "context_variant",
+      "role_renderer_family",
+      "role_request_grammar_family",
+      "role_schema_presentation_family",
+      "role_context_shape_family",
+      "role_timezone",
+      "role_entity_lexicon_family",
+      "role_logical_source_batch"
+    ],
+    "coordinate_commitment": "sha256(strict_canonical_json(candidate_coordinate_fields_and_values))",
+    "adaptive_or_outcome_dependent_coordinates_authorized": false
+  },
+  "render_contract": {
+    "program_first": true,
+    "program_schema": "barun-sim-program-v1",
+    "world_state_schema": "barun-sim-world-state-v1",
+    "action_ir_contract": "ACTION_IR_V1",
+    "simulator_operation_count": 13,
+    "control_decisions": [
+      "ABSTAIN",
+      "CLARIFY",
+      "CONFIRM"
+    ],
+    "candidate_outputs": [
+      "semantic_coordinates",
+      "declared_lineage",
+      "request_text",
+      "canonical_original_prompt_json",
+      "canonical_program_json",
+      "canonical_gold_action_ir_json",
+      "canonical_world_state_json",
+      "reference_transition_receipt",
+      "exact_normalized_and_delexicalized_views",
+      "source_and_runtime_identity"
+    ],
+    "every_coordinate_axis_must_change_rendered_or_program_semantics": true,
+    "ordinal_or_hash_only_uniqueness_counts_as_semantics": false,
+    "program_compiler_reference_round_trip_required": true,
+    "real_tool_execution_permitted": false,
+    "gold_or_fault_metadata_model_visible": false,
+    "fixture_only_test_ceiling_per_role_stratum": 2,
+    "complete_candidate_enumeration_in_this_run": false
+  },
+  "role_prompt_shapes": {
+    "T": {
+      "top_level_fields": [
+        "action_ir_contract",
+        "instruction",
+        "request",
+        "context",
+        "tools"
+      ],
+      "state_path": "$.context.state"
+    },
+    "P": {
+      "top_level_fields": [
+        "protocol",
+        "objective",
+        "utterance",
+        "environment",
+        "capabilities"
+      ],
+      "state_path": "$.environment.snapshot"
+    },
+    "D": {
+      "top_level_fields": [
+        "contract",
+        "task",
+        "user_request",
+        "supplied_context",
+        "tool_schemas"
+      ],
+      "state_path": "$.supplied_context.available_state"
+    }
+  },
+  "fault_contract": {
+    "selected_exact_draft": "byte_identical_canonical_gold_action_ir",
+    "selected_single_fault": "one_leaf_semantic_mutation_with_distinct_reference_transition_and_no_other_Action_IR_difference",
+    "fault_certificate_model_visible": false,
+    "failed_certificate_policy": "abort_complete_population_without_backfill",
+    "argument_fault_required_except": [
+      "PAUSE_MEDIA",
+      "ABSTAIN"
+    ],
+    "decision_only_control_strata": [
+      "PAUSE_MEDIA",
+      "ABSTAIN"
+    ],
+    "arbitrary_model_output_fault_distance_scorer_included": false,
+    "arbitrary_model_output_fault_distance_scorer_required_before_launch": true
+  },
+  "lineage_and_duplicate_contract": {
+    "lineage_axes": [
+      "request_plan_skeleton",
+      "renderer_macro",
+      "entity_pool",
+      "temporal_construction",
+      "timezone_pool",
+      "schema_presentation",
+      "context_state_family",
+      "logical_source_batch"
+    ],
+    "duplicate_axes": [
+      "exact",
+      "normalized",
+      "delexicalized",
+      "verified_near"
+    ],
+    "all_views_must_be_derived_from_frozen_raw_candidate": true,
+    "role_or_split_prefix_is_disjointness_evidence": false,
+    "slot_or_coordinate_hash_is_disjointness_evidence": false,
+    "T_P_D_memberships_jointly_frozen_before_model_output": true,
+    "direct_or_transitive_cross_role_component_policy": "abort_complete_population",
+    "effective_component_or_power_claimed_by_this_contract": false,
+    "semantic_lineage_disjointness_proven": false,
+    "complete_near_pair_scan_proven": false
+  },
+  "future_roster_binding": {
+    "required_successor_plan_schema": "barun-action-correction-allocation-basis-v4-or-later",
+    "global_placeholder_coordinate_permitted": false,
+    "each_candidate_slot_must_bind_semantic_coordinate_commitment": true,
+    "semantic_catalog_config_sha256": null,
+    "semantic_catalog_source_sha256": null,
+    "semantic_catalog_runtime_sha256": null,
+    "complete_candidate_universe_receipt_sha256": null,
+    "selected_discarded_partition_receipt_sha256": null,
+    "duplicate_firewall_receipt_sha256": null
+  },
+  "unresolved_gates": [
+    "independent audit of this coordinate and renderer design",
+    "source implementation with source and runtime identity guards",
+    "exact P prompt integration into the raw runtime",
+    "candidate-level allocation-basis v4 binding before roster ranks are derived",
+    "separate authorization before complete candidate enumeration or materialization",
+    "complete selected-row fault certification without replacement",
+    "complete derived duplicate views and near-pair scan",
+    "arbitrary-output semantic fault scorer",
+    "exact tokenizer revision, model-visible rendering, token lengths, and static pass caps",
+    "provider-transform rehearsal and atomic materialization receipts",
+    "independent complete CPU and prelaunch audits"
+  ]
+}

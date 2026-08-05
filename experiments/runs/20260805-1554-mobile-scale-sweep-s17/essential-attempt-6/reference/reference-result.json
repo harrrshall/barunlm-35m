@@ -1,0 +1,351 @@
+{
+  "aggregate": {
+    "abstention": {
+      "f1": 0.0,
+      "false_negative": 0,
+      "false_positive": 0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "true_positive": 0
+    },
+    "argument_key_macro_f1": 0.9960734131768615,
+    "argument_key_micro": {
+      "f1": 0.9948453608247423,
+      "false_negative": 14,
+      "false_positive": 4,
+      "precision": 0.9977024698449167,
+      "recall": 0.9920045688178184,
+      "true_positive": 1737
+    },
+    "argument_value_macro_f1": 0.9148878630947599,
+    "argument_value_micro": {
+      "f1": 0.9215349369988545,
+      "false_negative": 142,
+      "false_positive": 132,
+      "precision": 0.9241815048822516,
+      "recall": 0.9189034837235865,
+      "true_positive": 1609
+    },
+    "ast_exact_match": {
+      "denominator": 725,
+      "numerator": 591,
+      "value": 0.8151724137931035
+    },
+    "call_simulator_assessment": {
+      "denominator": 723,
+      "numerator": 723,
+      "value": 1.0
+    },
+    "catastrophic_unauthorized_actions": 0,
+    "clarification_accuracy": {
+      "denominator": 0,
+      "numerator": 0,
+      "value": 0.0
+    },
+    "confirmation_accuracy": {
+      "denominator": 0,
+      "numerator": 0,
+      "value": 0.0
+    },
+    "decision_accuracy": {
+      "denominator": 725,
+      "numerator": 723,
+      "value": 0.9972413793103448
+    },
+    "evaluator_version": "action-ir-v1.0.0",
+    "failure_counts": {
+      "ast_mismatch": 132,
+      "invalid_call_count": 1,
+      "missing_argument": 1,
+      "mobile_actions_ast_mismatch": 132,
+      "schema_failure": 2,
+      "simulator_failure": 132
+    },
+    "false_action": {
+      "denominator": 0,
+      "numerator": 0,
+      "value": 0.0
+    },
+    "missing_prediction": {
+      "denominator": 725,
+      "numerator": 0,
+      "value": 0.0
+    },
+    "parse_failure": {
+      "denominator": 725,
+      "numerator": 0,
+      "value": 0.0
+    },
+    "parse_valid": {
+      "denominator": 725,
+      "numerator": 725,
+      "value": 1.0
+    },
+    "per_gold_tool_success": {
+      "create_calendar_event": {
+        "denominator": 279,
+        "numerator": 180,
+        "value": 0.6451612903225806
+      },
+      "create_contact": {
+        "denominator": 142,
+        "numerator": 113,
+        "value": 0.795774647887324
+      },
+      "open_wifi_settings": {
+        "denominator": 120,
+        "numerator": 109,
+        "value": 0.9083333333333333
+      },
+      "send_email": {
+        "denominator": 172,
+        "numerator": 150,
+        "value": 0.872093023255814
+      },
+      "show_map": {
+        "denominator": 143,
+        "numerator": 106,
+        "value": 0.7412587412587412
+      },
+      "turn_off_flashlight": {
+        "denominator": 65,
+        "numerator": 59,
+        "value": 0.9076923076923077
+      },
+      "turn_on_flashlight": {
+        "denominator": 81,
+        "numerator": 69,
+        "value": 0.8518518518518519
+      }
+    },
+    "per_scenario_success": {
+      "create_calendar_event": {
+        "denominator": 174,
+        "numerator": 122,
+        "value": 0.7011494252873564
+      },
+      "create_contact": {
+        "denominator": 111,
+        "numerator": 89,
+        "value": 0.8018018018018018
+      },
+      "open_wifi_settings": {
+        "denominator": 116,
+        "numerator": 107,
+        "value": 0.9224137931034483
+      },
+      "send_email": {
+        "denominator": 100,
+        "numerator": 90,
+        "value": 0.9
+      },
+      "show_map": {
+        "denominator": 79,
+        "numerator": 56,
+        "value": 0.7088607594936709
+      },
+      "turn_off_flashlight": {
+        "denominator": 65,
+        "numerator": 59,
+        "value": 0.9076923076923077
+      },
+      "turn_on_flashlight": {
+        "denominator": 80,
+        "numerator": 68,
+        "value": 0.85
+      }
+    },
+    "per_tool": {
+      "create_calendar_event": {
+        "balanced_accuracy": 1.0,
+        "f1": 1.0,
+        "false_negative": 0,
+        "false_positive": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "true_negative": 446,
+        "true_positive": 279
+      },
+      "create_contact": {
+        "balanced_accuracy": 0.9929577464788732,
+        "f1": 0.9929078014184397,
+        "false_negative": 2,
+        "false_positive": 0,
+        "precision": 1.0,
+        "recall": 0.9859154929577465,
+        "true_negative": 583,
+        "true_positive": 140
+      },
+      "open_wifi_settings": {
+        "balanced_accuracy": 0.9958333333333333,
+        "f1": 0.99581589958159,
+        "false_negative": 1,
+        "false_positive": 0,
+        "precision": 1.0,
+        "recall": 0.9916666666666667,
+        "true_negative": 605,
+        "true_positive": 119
+      },
+      "send_email": {
+        "balanced_accuracy": 0.997093023255814,
+        "f1": 0.9970845481049563,
+        "false_negative": 1,
+        "false_positive": 0,
+        "precision": 1.0,
+        "recall": 0.9941860465116279,
+        "true_negative": 553,
+        "true_positive": 171
+      },
+      "show_map": {
+        "balanced_accuracy": 0.9895104895104896,
+        "f1": 0.989399293286219,
+        "false_negative": 3,
+        "false_positive": 0,
+        "precision": 1.0,
+        "recall": 0.9790209790209791,
+        "true_negative": 582,
+        "true_positive": 140
+      },
+      "turn_off_flashlight": {
+        "balanced_accuracy": 1.0,
+        "f1": 1.0,
+        "false_negative": 0,
+        "false_positive": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "true_negative": 660,
+        "true_positive": 65
+      },
+      "turn_on_flashlight": {
+        "balanced_accuracy": 1.0,
+        "f1": 1.0,
+        "false_negative": 0,
+        "false_positive": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "true_negative": 644,
+        "true_positive": 81
+      }
+    },
+    "policy_safe_executable_success": {
+      "denominator": 725,
+      "numerator": 591,
+      "value": 0.8151724137931035
+    },
+    "risk_coverage": [],
+    "sample_count": 725,
+    "schema_valid": {
+      "denominator": 725,
+      "numerator": 723,
+      "value": 0.9972413793103448
+    },
+    "schema_version": "barun-mobile-actions-score-v1",
+    "tool_macro_balanced_accuracy": 0.99648494179693,
+    "tool_macro_f1": 0.9964582203416007,
+    "truncation": {
+      "denominator": 725,
+      "numerator": 0,
+      "value": 0.0
+    }
+  },
+  "bias_note": "candidate-v2 trained on every selection row (it used the full 7,937-row train set), so its reference score is upward-biased and the +3.0-point margin is conservative for challenger arms, which never train on selection rows.",
+  "candidate_id": "candidate-v2",
+  "checkpoint_sha256": {
+    "barun_config.json": "9b3a1d71baa95a198744d250f9629231738d942570b8685c44307fd83dd33565",
+    "model.safetensors": "fdb95ccf58a095e0d321be998924318b35ee59a334f6dd97d8726d2cf80021d3",
+    "tokenizer.json": "70ded9605fccd09c2340ca7e225361eab0ae8b4dbbb0d6e26343ab5183979db6"
+  },
+  "counts": {
+    "exact_match_count": 591,
+    "generation_failure_count": 0,
+    "missing_prediction_count": 0,
+    "rows": 725,
+    "schema_valid_count": 723,
+    "truncated_count": 0
+  },
+  "exact_match_percent": 81.51724137931035,
+  "generation": {
+    "batch_size": 64,
+    "checkpoint_dir": "/home/barun-scale-sweep-a6-Ns0Q27/reference-checkpoint",
+    "checkpoint_sha256": {
+      "barun_config.json": "9b3a1d71baa95a198744d250f9629231738d942570b8685c44307fd83dd33565",
+      "model.safetensors": "fdb95ccf58a095e0d321be998924318b35ee59a334f6dd97d8726d2cf80021d3",
+      "tokenizer.json": "70ded9605fccd09c2340ca7e225361eab0ae8b4dbbb0d6e26343ab5183979db6"
+    },
+    "device": "cuda",
+    "dtype": "torch.bfloat16",
+    "elapsed_seconds": 44.688138579018414,
+    "examples": 725,
+    "failed": 0,
+    "generated": 725,
+    "manifest": "/home/barun-artifacts/20260805-1554-mobile-scale-sweep-s17/export/fresh-split/selection.jsonl",
+    "manifest_sha256": "3bd2281fce6d6910de8e42b843562a060e1d4e654bfd3ce95c850189b9f00cfb",
+    "max_new_tokens": 256,
+    "predictions": "/home/barun-artifacts/20260805-1554-mobile-scale-sweep-s17/export/reference/predictions.jsonl",
+    "predictions_sha256": "8d448fffc5171a3ac782d2ff4ac4f0eb0e2517d30db86c892a2c80dc5b9acb41",
+    "schema_version": "barun-greedy-generation-v1",
+    "truncated": 0
+  },
+  "gold_token_audit": {
+    "selection": {
+      "eos_reserved": 1,
+      "max_target_tokens_with_eos": 192,
+      "prompt_tokens": {
+        "count": 725,
+        "max": 487,
+        "min": 214,
+        "p50": 246,
+        "p95": 295,
+        "p99": 311
+      },
+      "rows": 725,
+      "target_tokens": {
+        "count": 725,
+        "max": 191,
+        "min": 45,
+        "p50": 93,
+        "p95": 149,
+        "p99": 166
+      },
+      "total_with_eos": {
+        "count": 725,
+        "max": 660,
+        "min": 260,
+        "p50": 338,
+        "p95": 444,
+        "p99": 476
+      }
+    },
+    "sweep_train": {
+      "eos_reserved": 1,
+      "max_target_tokens_with_eos": 197,
+      "prompt_tokens": {
+        "count": 7212,
+        "max": 471,
+        "min": 213,
+        "p50": 248,
+        "p95": 292,
+        "p99": 310
+      },
+      "rows": 7212,
+      "target_tokens": {
+        "count": 7212,
+        "max": 196,
+        "min": 45,
+        "p50": 94,
+        "p95": 148,
+        "p99": 164
+      },
+      "total_with_eos": {
+        "count": 7212,
+        "max": 637,
+        "min": 259,
+        "p50": 342,
+        "p95": 439,
+        "p99": 471
+      }
+    }
+  },
+  "schema_version": "barun-mobile-scale-sweep-reference-v1",
+  "scored_before_challenger_arms": true
+}

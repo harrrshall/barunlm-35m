@@ -1,0 +1,191 @@
+{
+  "schema_version": "barun-interpolation-rescue-protocol-v1",
+  "protocol_id": "candidate-v2-presto-linear-interpolation-v1",
+  "status": "frozen_before_any_interpolation_arm_is_scored",
+  "hypothesis": "A dyadic linear interpolation on the exact candidate-v2 to PRESTO training trajectory can retain the frozen Mobile Actions development regression gate while preserving the PRESTO capability, safety, and corrected hard-bucket gates.",
+  "decision": "Select at most one interpolation arm as the next BarunAction-35M candidate, or reject interpolation without adding another alpha.",
+  "trajectory": {
+    "candidate_v2": {
+      "role": "alpha_zero_mobile_incumbent",
+      "candidate_id": "candidate-v2",
+      "source_run_id": "20260803-1845-mobile-followup-retry-s17",
+      "checkpoint_manifest_sha256": "c743ab7c4d33ae75c6b0aa4547458a961b92766da8fcf85fd148fda2ebb5530a",
+      "file_sha256": {
+        "barun_config.json": "9b3a1d71baa95a198744d250f9629231738d942570b8685c44307fd83dd33565",
+        "model.safetensors": "fdb95ccf58a095e0d321be998924318b35ee59a334f6dd97d8726d2cf80021d3",
+        "tokenizer.json": "70ded9605fccd09c2340ca7e225361eab0ae8b4dbbb0d6e26343ab5183979db6"
+      }
+    },
+    "presto": {
+      "role": "alpha_one_presto_endpoint",
+      "source_run_id": "20260803-1920-presto-stage-s17",
+      "selected_training_step": 947,
+      "checkpoint_manifest_sha256": "90e50f316456947bbee10b710b6f828f1ca8955ed0e43998b15adb0e09f46e23",
+      "file_sha256": {
+        "barun_config.json": "9b3a1d71baa95a198744d250f9629231738d942570b8685c44307fd83dd33565",
+        "model.safetensors": "83c78952e719456574d2bb808fb486d0320519dd4f5df3c67736ae17931ee357",
+        "tokenizer.json": "70ded9605fccd09c2340ca7e225361eab0ae8b4dbbb0d6e26343ab5183979db6"
+      },
+      "recorded_input_checkpoint_sha256": {
+        "barun_config.json": "9b3a1d71baa95a198744d250f9629231738d942570b8685c44307fd83dd33565",
+        "model.safetensors": "fdb95ccf58a095e0d321be998924318b35ee59a334f6dd97d8726d2cf80021d3",
+        "tokenizer.json": "70ded9605fccd09c2340ca7e225361eab0ae8b4dbbb0d6e26343ab5183979db6"
+      }
+    },
+    "same_trajectory_requirement": "The PRESTO release manifest must identify the exact candidate-v2 file hash map as its input checkpoint."
+  },
+  "interpolation": {
+    "equation": "theta_alpha=((denominator-numerator)*theta_candidate_v2+numerator*theta_presto)/denominator",
+    "accumulator_device": "cpu",
+    "accumulator_dtype": "float64",
+    "source_and_output_tensor_dtype": "float32",
+    "rounding": "one_final_cast_from_float64_to_source_float32",
+    "non_floating_tensor_policy": "require_bitwise_equal_then_copy_candidate_v2",
+    "tensor_key_policy": "exact_identical_key_shape_and_dtype_sets",
+    "expected_stored_tensor_count": 137,
+    "expected_stored_parameter_count": 35072768,
+    "expected_safetensors_metadata": {
+      "lm_head.weight": "embedding.weight"
+    },
+    "tied_weight_policy": "require_tie_embeddings_true_require_single_stored_embedding_tensor_preserve_alias_metadata_and_verify_loaded_storage_alias",
+    "arms": [
+      {
+        "arm_id": "alpha-025",
+        "numerator": 1,
+        "denominator": 4
+      },
+      {
+        "arm_id": "alpha-050",
+        "numerator": 1,
+        "denominator": 2
+      },
+      {
+        "arm_id": "alpha-075",
+        "numerator": 3,
+        "denominator": 4
+      }
+    ],
+    "trial_budget": {
+      "checkpoint_arms": 3,
+      "mobile_generations_per_arm": 1,
+      "presto_generations_per_arm": 1,
+      "adaptive_followup_alphas": 0,
+      "endpoint_regenerations": 0,
+      "early_stopping_before_both_evaluations": false,
+      "failed_or_truncated_generations_count_as_wrong": true
+    }
+  },
+  "mobile_evaluation": {
+    "preregistration_path": "configs/mobile_regression_v1.json",
+    "preregistration_sha256": "96afa0ac407c53fd375ed0910a08ec66463718e3b826cf02b73f8bbc87a3c47e",
+    "manifest_sha256": "988bdce5874d1f1a775feeb5ba2b58cd2bdc128f57e73cb9a63d535fae7c1d55",
+    "audit_sha256": "dc756f97c0a7ef706ec8ffefe2d57cf7e16d75a6ccd932f906d16b6a6ee2f83c",
+    "rows": 756,
+    "batch_size": 128,
+    "max_new_tokens": 192,
+    "minimum_ast_exact_numerator": 587,
+    "required_ast_exact_denominator": 756,
+    "environment": {
+      "device": "cuda",
+      "dtype": "torch.bfloat16",
+      "cuda_device_name": "NVIDIA H200",
+      "cuda_capability": [
+        9,
+        0
+      ],
+      "torch": "2.13.0+cu130",
+      "cuda_runtime": "13.0",
+      "cublas_workspace_config": ":4096:8",
+      "sdpa_backends": {
+        "flash": false,
+        "memory_efficient": false,
+        "math": true,
+        "cudnn": false
+      }
+    },
+    "trial_accounting": "Each alpha consumes one of the three frozen joint development-selection trials even though the nested legacy Mobile regression receipt labels itself gate-only."
+  },
+  "presto_evaluation": {
+    "repository": "google-research-datasets/presto",
+    "revision": "fa47167477453afebe698a287409514df5a7dadf",
+    "locale": "en-US",
+    "archive_sha256": "1fc671692cceb31fbda17e351e47f2cc52ee8779042f92dc26674cc0cca2167f",
+    "derived_dev_manifest_sha256": "1e34c5554480f78e3c0616ef36207380f0973ab581f37a61ea33cb7122795c42",
+    "derived_audit_sha256": "8e1f035809c14baf6f247f1bd8bf0f4b874ff4b117dc6dd217fbc732c1d8b7c4",
+    "rows": 14288,
+    "batch_size": 128,
+    "max_new_tokens": 287,
+    "scorer_version": "barun-presto-action-ir-score-v2",
+    "taxonomy_version": "barun-presto-phenomenon-taxonomy-v2",
+    "revision_alias_set_version": "barun-presto-user-revision-raw-aliases-v2",
+    "revision_raw_label_rows": {
+      "cancel-action": 454,
+      "correct-action": 230,
+      "correct-argument": 389,
+      "within-turn-correction": 3067
+    },
+    "headline_bucket_rows": {
+      "disfluency": 2624,
+      "no_phenomenon": 6648,
+      "revision": 4140
+    },
+    "metric_scope": "derived_action_ir_not_native_presto_semantic_parse",
+    "gate": {
+      "derived_ast_exact_at_least": 0.7,
+      "schema_valid_at_least": 0.95,
+      "abstention_f1_at_least": 0.8,
+      "false_call_on_gate_at_most": 0.01,
+      "maximum_no_phenomenon_to_revision_or_disfluency_gap": 0.1,
+      "require_represented_gap_buckets": true
+    }
+  },
+  "joint_gate": {
+    "operator": "mobile_and_every_presto_check",
+    "all_thresholds_are_hard": true,
+    "no_compensation_across_metrics": true
+  },
+  "selection": {
+    "eligible_population": "joint_gate_passers_only",
+    "primary": "maximum_presto_ast_exact_numerator",
+    "secondary": "maximum_mobile_ast_exact_numerator",
+    "tertiary": "minimum_alpha",
+    "unlisted_metrics_may_not_break_ties": true,
+    "no_joint_passer": "reject_interpolation_keep_candidate_v2_and_run_no_additional_alpha"
+  },
+  "official_test_firewall": {
+    "mobile_official_rows": 961,
+    "presto_official_rows": 194118,
+    "accepted_official_test_input_paths": [],
+    "official_test_generations": 0,
+    "labels_prompts_targets_schemas_or_summaries_read": false,
+    "presto_test_and_combined_archive_members_opened": false
+  },
+  "remote_execution": {
+    "resource_name_prefix": "barun-interpolation-",
+    "fresh_project_instance_required": true,
+    "preexisting_instances_may_be_used": false,
+    "known_protected_machine_ids": [
+      463058
+    ],
+    "gpu": "NVIDIA H200",
+    "gpu_count": 1,
+    "parallel_instances": 1,
+    "arms_run_sequentially": true,
+    "expected_runtime_minutes": 24,
+    "conservative_runtime_minutes": 30,
+    "reference_hourly_cost_inr": 378.27,
+    "expected_cost_inr": 151.31,
+    "conservative_cost_inr": 189.14
+  },
+  "remote_preflight_tests": [
+    "tests/test_interpolation_rescue.py",
+    "tests/test_mobile_regression.py",
+    "tests/test_presto.py"
+  ],
+  "limitations": [
+    "The three alpha arms are selected on already-used Mobile Actions and PRESTO development data and therefore do not support a blind breakthrough claim.",
+    "PRESTO exact match is the derived Action IR metric, not the native PRESTO semantic-parse metric.",
+    "Interpolation can expose a trade-off on this same trajectory but cannot repair missing supervision or establish robustness across seeds.",
+    "No official test, sealed human set, hidden safety suite, quantized deployment, or larger-model comparison is evaluated."
+  ]
+}

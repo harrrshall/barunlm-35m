@@ -1,0 +1,129 @@
+{
+  "schema_version": 1,
+  "run_id": "20260805-0149-gvs-collection-retirement-cpu-audit-s17",
+  "kind": "gvs_offline_human_collection_and_retirement_storage_cpu_audit",
+  "recorded_at": "2026-08-04T20:19:58Z",
+  "hypothesis": "Offline S-new/C-new packaging and crash-durable whole-population retirement storage can fail closed over their local contracts while truthfully withholding every claim that requires an external trust boundary.",
+  "decision_enabled": "Keep the audited CPU scaffolds for later deployment work, but never use them to start collection, open labels, authorize a model, or create compute until external isolation, custody, authentic provenance, joint closure, and real-roster power exist.",
+  "source": {
+    "branch": "agent/barunaction-release-mbcf-v1",
+    "git_commit": "d1dab69c637ad74688b65ded13aa15659fa163e6",
+    "files": {
+      "src/barunlm/evaluation/gvs_human_collection.py": "7795cf2aaae3d1caa633df8f61dd69552cb2292a298e8e2ff2fa7aa685895134",
+      "tests/test_gvs_human_collection.py": "3e3c42ed97dd208200023da89021b298dfe92d77280b16c7fc0da039503f5c10",
+      "infra/gvs_retirement/sqlite_retirement.py": "c61c4e80e3e41a2d44ddce67a1a56a42fdec2ddccf145a28e1711bb7939ae17b",
+      "infra/gvs_retirement/__init__.py": "02060e30673f48395386d24ae4fc1dc15c4a4d8e5a023086b5c837cecc5a8180",
+      "tests/test_gvs_retirement_service.py": "a00d44df99398583f3f9a706fdc0c066327695734eed7925f99a56766266223b"
+    }
+  },
+  "human_collection_scaffold": {
+    "nominal_role_counts": {
+      "S-new": 2000,
+      "C-new": 4000
+    },
+    "identifier_free_author_tasks": true,
+    "blinded_label_tasks": true,
+    "prompt_before_label_chronology_checked": true,
+    "separate_exact_json_label_envelopes": true,
+    "human_no_model_no_prediction_attestations_required": true,
+    "runtime_tamper_detection": true,
+    "actual_humans_recruited": 0,
+    "actual_prompts_collected": 0,
+    "actual_labels_collected_or_opened": 0,
+    "authenticated_provenance_claim": false,
+    "effective_cluster_claim": false,
+    "custody_claim": false,
+    "authorization_claim": false
+  },
+  "retirement_storage_scaffold": {
+    "storage": "SQLite rollback journal with BEGIN IMMEDIATE and synchronous FULL",
+    "exact_parent_mode": "0700",
+    "exact_file_mode": "0600",
+    "owner_and_link_count_checked": true,
+    "nofollow_and_descriptor_path_identity_checked": true,
+    "whole_population_compare_and_append": true,
+    "same_process_python_is_security_boundary": false,
+    "external_signer_or_key_custody_provided": false,
+    "isolated_service_account_provided": false,
+    "backup_or_antirollback_anchor_provided": false,
+    "target_filesystem_crash_certification_provided": false,
+    "authorizes_private_label_access": false
+  },
+  "reproduced_and_fixed_defects": {
+    "human_collection": [
+      "authorization helper rebinding",
+      "regex substitution accepting a false SHA",
+      "Counter quota bypass",
+      "private assignment identifier leakage",
+      "S/C role and stratum expectation leakage",
+      "false prompt-content authentication claims",
+      "missing independent-label and no-prediction attestations",
+      "loose license compatibility",
+      "safety-class overlap"
+    ],
+    "retirement_storage": [
+      "caller-supplied false repository-root bypass",
+      "existing hardlink acceptance",
+      "owner and exact-mode gaps",
+      "file and parent symlink gaps",
+      "connect-time path replacement race",
+      "ordinary authenticator rebinding",
+      "connection leak on validation failure"
+    ]
+  },
+  "validation": {
+    "human_collection_focused": {
+      "passed": 26,
+      "failed": 0,
+      "warnings": 14,
+      "duration_seconds": 41.77
+    },
+    "adjacent_population_and_human_firewall": {
+      "passed": 92,
+      "failed": 0,
+      "overlaps_other_counts": true
+    },
+    "retirement_focused": {
+      "passed": 20,
+      "failed": 0,
+      "warnings": 14,
+      "duration_seconds": 3.78
+    },
+    "authorization_and_retirement_integration": {
+      "passed": 43,
+      "failed": 0,
+      "warnings": 14,
+      "duration_seconds": 4.76,
+      "overlaps_retirement_focused": true
+    },
+    "ruff_check_passed": true,
+    "ruff_format_check_passed": true,
+    "py_compile_passed_by_independent_auditors": true,
+    "git_diff_check_passed_by_independent_auditors": true
+  },
+  "firewall": {
+    "network_accessed_by_implementers_or_auditors": false,
+    "model_loaded": false,
+    "private_prompt_or_label_accessed": false,
+    "cuda_accessed": false,
+    "jarvis_resource_created_or_mutated": false,
+    "official_961_rows_read": 0,
+    "reused_756_rows_accessed": 0,
+    "external_write_performed": false,
+    "authorizes_model_or_label_access": false,
+    "authorizes_cuda_or_jarvislabs": false,
+    "authorizes_collection_or_training": false
+  },
+  "remaining_blockers": [
+    "honest powered population allocation replacing the rejected eight-family plan",
+    "authenticated coordinator schema scaffold and schema-to-simulator/population bridge",
+    "real human provenance and release-relative chronology",
+    "external prompt and label custody plus a single-use signer",
+    "retirement service deployed under an isolated account on a validated filesystem",
+    "backup, anti-rollback anchor, and target-filesystem crash testing",
+    "joint T/D/S/C provenance and duplicate closure",
+    "outcome-blind real-roster power thresholds"
+  ],
+  "conclusion": "keep",
+  "reason": "Both local scaffolds passed independent adversarial audits after concrete fail-open defects were reproduced and patched. They remain useful implementation evidence only; neither local Python nor declared metadata supplies the missing external trust boundary."
+}

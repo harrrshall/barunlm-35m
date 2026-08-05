@@ -1,0 +1,51 @@
+{
+  "schema_version": "barun-qwen05b-posthoc-paired-error-analysis-v1",
+  "run_id": "20260803-2122-mobile-qwen05b-matched-s17",
+  "status": "posthoc_diagnostic_only",
+  "decision_limit": "May motivate a separately preregistered experiment; may not rewrite this result, select candidate-v2, or support an official-test claim.",
+  "sources": {
+    "paired_samples_sha256": "ad5d44e741f9b98a0a0ffaadfa147c142cdaf8fea8801a11b62b7d323e93730a",
+    "qwen_sample_scores_sha256": "5ed69b469de56f8afd3b73dedf9bad2009a0fb21ce01ee91a346167ed0d47bda",
+    "barunaction_sample_scores_sha256": "a29c4d5c83493ec437a9f0fee362ea54cf97c2219844e5b46ba60d0f759f556c",
+    "development_manifest_sha256": "988bdce5874d1f1a775feeb5ba2b58cd2bdc128f57e73cb9a63d535fae7c1d55"
+  },
+  "paired_outcomes": {
+    "both_correct": 583,
+    "both_wrong": 74,
+    "barunaction_only": 19,
+    "qwen_only": 80
+  },
+  "per_scenario": {
+    "create_calendar_event": {"rows": 178, "barunaction_exact": 114, "qwen_exact": 143, "qwen_minus_barunaction_percentage_points": 16.292134831460675},
+    "create_contact": {"rows": 128, "barunaction_exact": 104, "qwen_exact": 118, "qwen_minus_barunaction_percentage_points": 10.9375},
+    "open_wifi_settings": {"rows": 117, "barunaction_exact": 111, "qwen_exact": 114, "qwen_minus_barunaction_percentage_points": 2.564102564102564},
+    "send_email": {"rows": 85, "barunaction_exact": 77, "qwen_exact": 78, "qwen_minus_barunaction_percentage_points": 1.1764705882352942},
+    "show_map": {"rows": 92, "barunaction_exact": 58, "qwen_exact": 60, "qwen_minus_barunaction_percentage_points": 2.1739130434782608},
+    "turn_off_flashlight": {"rows": 74, "barunaction_exact": 67, "qwen_exact": 72, "qwen_minus_barunaction_percentage_points": 6.756756756756757},
+    "turn_on_flashlight": {"rows": 82, "barunaction_exact": 71, "qwen_exact": 78, "qwen_minus_barunaction_percentage_points": 8.536585365853659}
+  },
+  "barunaction_failures_on_qwen_only_rows": {
+    "rows": 80,
+    "argument_value_mismatch": 76,
+    "argument_key_mismatch": 1,
+    "call_count_mismatch": 2,
+    "mode_mismatch": 2,
+    "tool_mismatch": 1,
+    "schema_invalid": 1,
+    "counts_are_multilabel": true
+  },
+  "calendar_shortcut": {
+    "qwen_only_rows_labeled_create_calendar_event": 31,
+    "barunaction_datetime_mismatches": 28,
+    "barunaction_prediction_month_equal_to_prompt_now_month": 30,
+    "same_year_day_and_time_but_previous_numeric_month": 23,
+    "interpretation": "BarunAction usually copied the reference-time month instead of grounding the explicitly requested or computed future date. This is a post-hoc shortcut diagnosis, not a causal proof."
+  },
+  "shared_failure_signal": {
+    "both_wrong_rows": 74,
+    "barunaction_argument_value_mismatch": 73,
+    "qwen_argument_value_mismatch": 73,
+    "both_wrong_show_map_query_value_mismatch": 19
+  },
+  "recommended_intervention": "Counterfactual temporal-grounding and exact-copy curriculum plus an argument-value-token-weighted response-only SFT ablation, selected on a newly frozen challenge population rather than the reused 756 rows."
+}

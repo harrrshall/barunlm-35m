@@ -1,0 +1,525 @@
+{
+  "schema_version": "barun-mobile-temporal-counterfactual-v2",
+  "run_id": "20260804-0255-mobile-temporal-counterfactual-axolotl-hermetic-s17",
+  "status": "frozen_before_model_or_cuda_access",
+  "registered_at": "2026-08-04T02:55:00+05:30",
+  "frozen_at": "2026-08-04T02:57:00+05:30",
+  "supersession": {
+    "new_run_not_retry_ordinal": true,
+    "superseded_run_id": "20260804-0210-mobile-temporal-counterfactual-axolotl-s17",
+    "superseded_config_path": "configs/mobile_temporal_counterfactual_v2.json",
+    "superseded_config_sha256": "893a2e0ff59ccb98767af653d0f80745e32c05abc4620d3dfae3f277033f20b8",
+    "superseded_attempt_id": "20260804-0210-mobile-temporal-counterfactual-axolotl-s17-attempt-1",
+    "superseded_bound_attempt_sha256": "e8b17a73601fca0d16d340cda22f1c1b01a091ee150e1b0207446b0668bcb126",
+    "jarvis_machine_id": 463793,
+    "jarvis_run_id": "r_2186968e",
+    "classification": "zero_usable_held_out_or_scientific_signal",
+    "failure_phase": "stdlib_prebackend_cpu_only_validation",
+    "old_runtime": {
+      "template": "axolotl",
+      "python_implementation": "CPython",
+      "python_version": "3.11.10",
+      "failure": "two tests implicitly required the intentionally private workstation denylist absent from the clean remote stage"
+    },
+    "model_or_cuda_loaded": false,
+    "official_961_rows_read": 0,
+    "reused_756_rows_read": 0,
+    "reused_756_rows_scored": 0,
+    "change_scope": [
+      "run_identity",
+      "config_binding",
+      "source_snapshot",
+      "test_hermeticity"
+    ],
+    "unchanged": {
+      "scientific_hypothesis": true,
+      "data_and_materializations": true,
+      "optimization": true,
+      "selection_confirmation_and_terminal_gates": true,
+      "requirements_sha256": "a037db0943d563ea04bcc45b963b5a27931e6f745a7f472c079bb9f9fa6df853",
+      "compute_template_and_runtime": true
+    },
+    "scientific_contract_digest_changed": true,
+    "hypothesis_data_training_recipe_selection_gates_changed": false
+  },
+  "pre_execution_amendments": [
+    {
+      "at": "2026-08-04T02:55:00+05:30",
+      "scientific_contract_changed": true,
+      "scientific_contract_sha256": "f1705c38c064bef646a5814ee9f6cc6c652e9db3c6714e76ff65049fe65ed280",
+      "model_or_cuda_loaded": false,
+      "held_out_rows_read_or_scored": 0,
+      "reason": "Supersede the zero-signal v2 pre-CUDA failure with a new preregistered run whose clean source tree contains the narrow hermetic test correction. Only run identity changes inside the scientific-field projection; hypothesis, data, training recipe, gates, requirements, and compute remain unchanged."
+    }
+  ],
+  "implementation_contract": {
+    "files": {
+      "infra/jarvis/safe_run.py": "393a4d32b00d92e0f0a18e77d4753a148551e3bfd0dc1bad58e9ab0f2fcbc93a",
+      "requirements/mobile-temporal-counterfactual.txt": "a037db0943d563ea04bcc45b963b5a27931e6f745a7f472c079bb9f9fa6df853",
+      "scripts/build_mobile_temporal_launch_provenance.py": "089c55bc824e5db94ba5e6f56ff7d201b15993a4e40e36d7054fe22fb0054bb6",
+      "scripts/materialize_mobile_temporal_counterfactual.py": "928a2b2c0c67ee77f881cd150e674368a97af191859ac8bed64c318b1686aaa9",
+      "scripts/run_mobile_temporal_counterfactual.py": "4fca4c57ffb2753d3ff6bdb51d946b0699ff3fe420ec95f5d5729c58ebdc95cf",
+      "src/barunlm/config.py": "a5fc47a046822c3ad0efb9ef4b1b251be96edbe51fb6a24f7c001bcafa8c753e",
+      "src/barunlm/datasets/mobile_temporal_counterfactual.py": "cc2b982cd54c5d0decb417b3f4d27fff1d4db37aecedfe3062ae8a6f18ae40ed",
+      "src/barunlm/evaluation/action_ir.py": "563d40afabd03bc81fdd4e2a0bf0224c5f6e9b686ee8f9f868611043d42642c8",
+      "src/barunlm/evaluation/evaluator.py": "36db751c9b4d791e45ebdd5b6338f3364789aefcd33ebed271c1023dcbf0d3a5",
+      "src/barunlm/evaluation/generation.py": "79fdcb9f11a3e21ae776fe868aba4288e6f8b161db85ebf9d1d8c5908b4a0926",
+      "src/barunlm/evaluation/mobile_actions.py": "4c7fc82d546996d5ba739a24ca59abf805acf44221f65edeccee1c095babb7ac",
+      "src/barunlm/evaluation/mobile_temporal_counterfactual.py": "f809cca2e04e361498e1ac8ef0174ffe1a1802fcc38cac907e0defbe0889e620",
+      "src/barunlm/model.py": "d221ca66514f98cea06a6c2004d5612b65c19c7633eaea12aade54d52ceb81c8",
+      "src/barunlm/training/checkpoint.py": "99b6792d14f06f04fde2601da27abf88365af196628fe4dd5ad248708b2674a2",
+      "src/barunlm/training/config.py": "17e4bacf7a7bc63d6cb2d23b93a5d4090054eeb00d878a39bf5d0c5df4541b12",
+      "src/barunlm/training/data.py": "4d746fbd2f5ceaf371074b41db390d14dd3d2115ec935ddd2ccad3c5d1a4413a",
+      "src/barunlm/training/mobile_temporal_experiment.py": "e50a527d0c645ad5703ad357d788633f84c1561824e64faf17d720ee33a901b3",
+      "src/barunlm/training/trainer.py": "97dc7d2e854124149d36fafce5c74d6caeb433a08424080743d4e85a7bd61aec"
+    },
+    "scientific_contract_sha256": "f1705c38c064bef646a5814ee9f6cc6c652e9db3c6714e76ff65049fe65ed280",
+    "staged_source_policy": "clean canonical Git HEAD plus only hash-audited materialization JSONLs, one identical provider-root requirements copy, and the pinned reused-756 terminal veto manifest; attempt and source snapshot are the only provenance exclusions; the provider-created repository-root .venv is permitted only at remote runtime when it is the exact active interpreter and remains excluded from the scientific content tree"
+  },
+  "hypothesis": "Teacher-free counterfactual SFT that breaks the shortcut between NOW's month and a requested calendar month will improve natural cross-month datetime grounding beyond both ordinary SFT and unchanged repetition of the same source rows.",
+  "decision": "Advance arm C only if it beats both controls across three frozen seeds on the selection shadow, then passes the untouched confirmation shadow and cluster bootstrap. Otherwise retain candidate-v2 and stop this recipe.",
+  "diagnostic_basis": {
+    "status": "posthoc_reused_development_diagnostic_only",
+    "temporal_analysis_path": "experiments/runs/20260803-2122-mobile-qwen05b-matched-s17/posthoc-temporal-error-analysis-v1.json",
+    "temporal_analysis_sha256": "80ed74763ffdd5bb26e60f2392d86e9be57eb220764ffaf05d34e5f8993a62e6",
+    "cross_month_calendar_calls": 59,
+    "barunaction_datetime_exact": 16,
+    "qwen_datetime_exact": 52,
+    "barunaction_wrong_copying_now_month": 43,
+    "development_rows_allowed_for_screening_or_confirmation": 0
+  },
+  "base_checkpoint": {
+    "repo_id": "harrrshall/BarunLM-35M",
+    "revision": "ef3e483a9fd7d906ecf2a7929babeffaf82d1d16",
+    "parameter_count": 35072768,
+    "file_sha256": {
+      "barun_config.json": "9b3a1d71baa95a198744d250f9629231738d942570b8685c44307fd83dd33565",
+      "model.safetensors": "f2a7c88b9f2c2e3584809081407ab136795d82e30e89b730e007781c45d01447",
+      "tokenizer.json": "70ded9605fccd09c2340ca7e225361eab0ae8b4dbbb0d6e26343ab5183979db6"
+    },
+    "starting_policy": "Every screening fit starts independently from this base, never from candidate-v2."
+  },
+  "source_data": {
+    "dataset": "google/mobile-actions",
+    "revision": "e920309bc2acbc2e99a5e3201cf37df2b9fd9151",
+    "license": "CC BY 4.0",
+    "adapter_schema_version": "barun-mobile-actions-adapter-v2",
+    "train_rows": 7937,
+    "train_sha256": "131473ccb5bfb51cac0439b42159e72ec4c598025e50364a52b122b056c2e84e",
+    "train_membership_sha256": "4cdfc3649c21a9f0d3dc4d8d9cffcae3cb5c6abc4414a9fb09636e9220afe96f",
+    "reused_development_rows": 756,
+    "reused_development_sha256": "988bdce5874d1f1a775feeb5ba2b58cd2bdc128f57e73cb9a63d535fae7c1d55",
+    "reused_development_membership_sha256": "31e0170c1de49d9c4591064587c405f0cb9f981e7026ac457f6fa2902b3647de",
+    "official_evaluation_rows": 961
+  },
+  "shadow_split": {
+    "version": "barun-mobile-temporal-shadow-split-v1",
+    "function": "uint64_be(sha256(version + ':' + cluster_id)[:8]) % 20",
+    "construction_folds": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
+    "selection_folds": [14, 15, 16],
+    "confirmation_folds": [17, 18, 19],
+    "roles": {
+      "construction_train": {
+        "rows": 5745,
+        "components": 3722,
+        "calendar_rows": 2070,
+        "calendar_same_month": 1686,
+        "calendar_cross_month": 384,
+        "membership_sha256": "b70f6dfe79cfe49792b6e6f5d414fd509c889d18101f75cd8df6d4e4f146c588"
+      },
+      "selection": {
+        "rows": 1024,
+        "components": 752,
+        "calendar_rows": 360,
+        "calendar_same_month": 294,
+        "calendar_cross_month": 66,
+        "non_calendar_rows": 664,
+        "membership_sha256": "b4191540878ec28c6819e08e0b390fbfd57eab836d3361727ad89862a46cf927"
+      },
+      "confirmation": {
+        "rows": 1168,
+        "components": 831,
+        "calendar_rows": 450,
+        "calendar_same_month": 377,
+        "calendar_cross_month": 73,
+        "non_calendar_rows": 718,
+        "membership_sha256": "519c22724873ee579d0f59be886cfc297088113bd1a297521b9ca280a79c35b9"
+      }
+    },
+    "required_pairwise_overlap": {
+      "cluster_id": 0,
+      "exact_prompt_target": 0,
+      "example_id": 0,
+      "family_id": 0
+    }
+  },
+  "transform": {
+    "version": "barun-mobile-month-boundary-counterfactual-v1",
+    "teacher_information": "none",
+    "maximum_variants_per_source": 1,
+    "absolute_explicit": "For an explicit month-and-day request with no relative marker, move only NOW to the final day of the preceding month and keep the target byte-identical.",
+    "pure_relative": "For a relative request with no explicit date surface, shift NOW and the sole calendar datetime by the same deterministic nonzero multiple of seven days until their months differ; preserve user text, timedelta, weekday, time, and non-calendar calls.",
+    "reject": [
+      "already_cross_month",
+      "invalid_or_noncanonical_datetime",
+      "mixed_or_ambiguous_temporal_surface",
+      "multiple_calendar_calls",
+      "numeric_or_iso_date_in_relative_request",
+      "over_2048_tokens",
+      "same_day_relative_request"
+    ]
+  },
+  "materialization": {
+    "artifact_rows": {
+      "confirmation": 1168,
+      "construction": 5745,
+      "counterfactual": 6838,
+      "receipts": 1093,
+      "repeat": 6838,
+      "selection": 1024
+    },
+    "artifact_sha256": {
+      "confirmation": "9c6df5b4e40cbd985871f43c88da793ddd47a759f14ffe54768aaefe7af39f8b",
+      "construction": "800a3ba0a7f0215e5cf95c77c32e47abed48b2f07f375954b0e0b08296a33d10",
+      "counterfactual": "9b90983693c3a4434e3626e9e5b72ae60ceb65c190260d07917fc83c16653472",
+      "receipts": "632310f5781bcb81362cf4ae4059d633cc250efbe4c9849b48d727af06b66a7c",
+      "repeat": "f0117ad9630605265fa2cdfafb3c9f13b995bb7cac7d445340d22c44e9b67120",
+      "selection": "cea80c9d01b491269787d10a6cb9377a3c0aaecdf37a003e80a6f62ec10be153"
+    },
+    "shadow_audit_sha256": "86c38f2b03f5f2e61758079fb1edca698d6e8e658d726004d5d975dd3a1305ae",
+    "view_audit_sha256": "7315a71221bc2a86379d62b5079a07b80c7cf4a54b9fe7fe293f9d31ddb44343"
+  },
+  "materialization_summary": {
+    "safe_variants": 1093,
+    "absolute_explicit": 748,
+    "pure_relative": 345,
+    "safe_source_membership_sha256": "3fcfd233e6c9e8cc7c552bb48a741ee075c90c43e23ac72c6f700a463f456a2a",
+    "counterfactual_cross_month_presentations": 1477,
+    "counterfactual_calendar_presentations": 3163,
+    "counterfactual_cross_month_fraction": 0.4669617451786279,
+    "independent_byte_identical_materializations": 2
+  },
+  "arms": [
+    {"arm_id": "A", "name": "standard", "view": "standard"},
+    {"arm_id": "B", "name": "repeat", "view": "repeat"},
+    {"arm_id": "C", "name": "mbcf", "view": "counterfactual"}
+  ],
+  "seeds": [17, 29, 43],
+  "screening_fit_budget": 9,
+  "conditional_full_refit_budget": 1,
+  "checkpoint_policy": "final_only",
+  "optimization": {
+    "adam_epsilon": 1e-8,
+    "batch_size": 63,
+    "beta1": 0.9,
+    "beta2": 0.95,
+    "decoding": "unconstrained_greedy",
+    "epochs": 1,
+    "gradient_accumulation_steps": 1,
+    "gradient_clip_norm": 1.0,
+    "learning_rate": 0.0001,
+    "loss": "response_only_cross_entropy",
+    "max_seq_len": 2048,
+    "min_learning_rate_ratio": 0.1,
+    "precision": "bf16",
+    "warmup_steps": 12,
+    "weight_decay": 0.1
+  },
+  "decoding_contract": {
+    "algorithm": "unconstrained_greedy",
+    "batch_size": 128,
+    "shadow_max_new_tokens": 256,
+    "terminal_max_new_tokens": 192,
+    "stop_on_eos": true,
+    "runtime_gold_target_length_used_to_set_limit": false,
+    "shadow_cap_selection_policy": "preregistered_static_constant_chosen_before_predictions_to_exceed_the_frozen_shadow_length_audit",
+    "terminal_cap_selection_policy": "fixed_192_token_candidate_v2_and_qwen_matched_protocol_with_zero_truncations_required"
+  },
+  "token_length_audit": {
+    "schema_version": "barun-mobile-temporal-token-length-audit-v1",
+    "tokenizer_sha256": "70ded9605fccd09c2340ca7e225361eab0ae8b4dbbb0d6e26343ab5183979db6",
+    "max_seq_len": 2048,
+    "eos_tokens": 1,
+    "role": "pre_score_evidence_used_to_choose_a_static_nontruncating_cap_never_derived_at_runtime",
+    "populations": {
+      "selection": {
+        "rows": 1024,
+        "max_prompt_tokens": 445,
+        "max_target_tokens": 194,
+        "max_target_plus_eos_tokens": 195,
+        "max_full_sequence_tokens": 594,
+        "rows_over_max_seq_len": 0
+      },
+      "confirmation": {
+        "rows": 1168,
+        "max_prompt_tokens": 471,
+        "max_target_tokens": 192,
+        "max_target_plus_eos_tokens": 193,
+        "max_full_sequence_tokens": 637,
+        "rows_over_max_seq_len": 0
+      },
+      "construction": {
+        "rows": 5745,
+        "max_prompt_tokens": 487,
+        "max_target_tokens": 196,
+        "max_target_plus_eos_tokens": 197,
+        "max_full_sequence_tokens": 660,
+        "rows_over_max_seq_len": 0
+      },
+      "repeat": {
+        "rows": 6838,
+        "max_prompt_tokens": 487,
+        "max_target_tokens": 196,
+        "max_target_plus_eos_tokens": 197,
+        "max_full_sequence_tokens": 660,
+        "rows_over_max_seq_len": 0
+      },
+      "mbcf": {
+        "rows": 6838,
+        "max_prompt_tokens": 487,
+        "max_target_tokens": 196,
+        "max_target_plus_eos_tokens": 197,
+        "max_full_sequence_tokens": 660,
+        "rows_over_max_seq_len": 0
+      },
+      "conditional_full_refit": {
+        "rows": 9483,
+        "max_prompt_tokens": 487,
+        "max_target_tokens": 196,
+        "max_target_plus_eos_tokens": 197,
+        "max_full_sequence_tokens": 660,
+        "rows_over_max_seq_len": 0
+      }
+    }
+  },
+  "training_contract": {
+    "optimizer": "AdamW",
+    "standard_rows_and_steps": [5745, 92],
+    "repeat_rows_and_steps": [6838, 109],
+    "mbcf_rows_and_steps": [6838, 109],
+    "screening_selection_labels_read_for_diagnostic_loss": true,
+    "screening_development_loss_used_for_selection": false,
+    "screening_development_loss_measurement": "selection loss may be measured for diagnostics only and must never affect optimization, early stopping, checkpoint choice, arm selection, thresholds, or claims",
+    "screening_checkpoint_choice": "unconditional_final_only",
+    "conditional_full_refit_mode": "completion_only_no_development_manifest_read",
+    "conditional_full_refit_development_labels_read": 0,
+    "early_stopping": false,
+    "packing": false,
+    "truncation_or_row_drop": false,
+    "attention_backend": "deterministic_math_sdpa_only"
+  },
+  "thresholds": {
+    "minimum_cross_month_calendar_fraction_mbcf": 0.45,
+    "minimum_safe_variants": 1000
+  },
+  "metric_contract": {
+    "overall": "strict Action IR AST exact; any missing, malformed, truncated, failed, or schema-invalid prediction is wrong",
+    "calendar_cross_month": "The sole gold create_calendar_event datetime is aligned by its call index and compared byte-exactly; its gold YYYY-MM differs from prompt NOW YYYY-MM.",
+    "calendar_same_month": "The same aligned sole-datetime metric where the gold calendar YYYY-MM equals prompt NOW YYYY-MM.",
+    "non_calendar": "Strict Action IR AST exact on rows with no create_calendar_event call.",
+    "multiple_calendar_policy": "fail_closed_not_silently_averaged"
+  },
+  "selection_gate": {
+    "population": "selection shadow only",
+    "comparisons": ["C_minus_A", "C_minus_B"],
+    "minimum_mean_calendar_cross_month_gain": {"numerator": 3, "denominator": 20},
+    "minimum_mean_overall_ast_exact_gain": {"numerator": 3, "denominator": 100},
+    "minimum_positive_seed_matched_comparisons_out_of_three": 2,
+    "maximum_mean_calendar_same_month_loss": {"numerator": 1, "denominator": 50},
+    "maximum_mean_non_calendar_loss": {"numerator": 1, "denominator": 50},
+    "minimum_pooled_candidate_parse_valid": {"numerator": 199, "denominator": 200},
+    "minimum_pooled_candidate_schema_valid": {"numerator": 99, "denominator": 100},
+    "maximum_missing_predictions": 0,
+    "maximum_generation_failures": 0,
+    "maximum_truncations": 0,
+    "maximum_catastrophic_unauthorized_actions": 0,
+    "evaluator_thresholds": {
+      "comparison_names": ["C_minus_A", "C_minus_B"],
+      "expected_seeds": [17, 29, 43],
+      "target_subset": "calendar_cross_month",
+      "target_metric": "create_calendar_event_datetime_exact",
+      "overall_metric": "ast_exact_match",
+      "regression_subsets": ["calendar_same_month", "non_calendar"],
+      "regression_metrics": {
+        "calendar_same_month": "create_calendar_event_datetime_exact",
+        "non_calendar": "ast_exact_match"
+      },
+      "minimum_target_mean_gain": {"numerator": 3, "denominator": 20},
+      "minimum_overall_mean_gain": {"numerator": 3, "denominator": 100},
+      "minimum_positive_seed_count": 2,
+      "maximum_regression_mean_loss": {"numerator": 1, "denominator": 50},
+      "minimum_candidate_parse_valid": {"numerator": 199, "denominator": 200},
+      "minimum_candidate_schema_valid": {"numerator": 99, "denominator": 100},
+      "maximum_missing_predictions": 0,
+      "maximum_generation_failures": 0,
+      "maximum_truncations": 0,
+      "maximum_catastrophic_unauthorized_actions": 0
+    },
+    "hard_conjunction": true
+  },
+  "confirmation_gate": {
+    "population": "confirmation shadow scored once only after selection passes",
+    "comparisons": ["C_minus_A", "C_minus_B"],
+    "minimum_mean_calendar_cross_month_gain": {"numerator": 1, "denominator": 10},
+    "minimum_mean_overall_ast_exact_gain": {"numerator": 1, "denominator": 50},
+    "minimum_positive_seed_matched_comparisons_out_of_three": 2,
+    "maximum_mean_calendar_same_month_loss": {"numerator": 1, "denominator": 50},
+    "maximum_mean_non_calendar_loss": {"numerator": 1, "denominator": 50},
+    "minimum_pooled_candidate_parse_valid": {"numerator": 199, "denominator": 200},
+    "minimum_pooled_candidate_schema_valid": {"numerator": 99, "denominator": 100},
+    "maximum_missing_predictions": 0,
+    "maximum_generation_failures": 0,
+    "maximum_truncations": 0,
+    "maximum_catastrophic_unauthorized_actions": 0,
+    "bootstrap": {
+      "clusters": "metadata.cluster_id",
+      "resamples": 10000,
+      "rng": "NumPy PCG64",
+      "seed": 17,
+      "endpoint": "calendar_cross_month_datetime_exact_C_minus_each_control",
+      "required_one_sided_fifth_percentile_strictly_greater_than": {
+        "numerator": 0,
+        "denominator": 1
+      }
+    },
+    "evaluator_thresholds": {
+      "comparison_names": ["C_minus_A", "C_minus_B"],
+      "expected_seeds": [17, 29, 43],
+      "target_subset": "calendar_cross_month",
+      "target_metric": "create_calendar_event_datetime_exact",
+      "overall_metric": "ast_exact_match",
+      "regression_subsets": ["calendar_same_month", "non_calendar"],
+      "regression_metrics": {
+        "calendar_same_month": "create_calendar_event_datetime_exact",
+        "non_calendar": "ast_exact_match"
+      },
+      "minimum_target_mean_gain": {"numerator": 1, "denominator": 10},
+      "minimum_overall_mean_gain": {"numerator": 1, "denominator": 50},
+      "minimum_positive_seed_count": 2,
+      "maximum_regression_mean_loss": {"numerator": 1, "denominator": 50},
+      "minimum_candidate_parse_valid": {"numerator": 199, "denominator": 200},
+      "minimum_candidate_schema_valid": {"numerator": 99, "denominator": 100},
+      "maximum_missing_predictions": 0,
+      "maximum_generation_failures": 0,
+      "maximum_truncations": 0,
+      "maximum_catastrophic_unauthorized_actions": 0,
+      "bootstrap_lower_bound_strictly_greater_than": {"numerator": 0, "denominator": 1},
+      "bootstrap_lower_probability": {"numerator": 1, "denominator": 20},
+      "bootstrap_contract": {
+        "estimator": "mean_of_fixed_seed_within_seed_cluster_rates",
+        "expected_training_seeds": [17, 29, 43],
+        "quantile_method": "linear",
+        "resamples": 10000,
+        "resampling_unit": "semantic_cluster_within_each_fixed_training_seed",
+        "rng": {
+          "api": "Generator",
+          "bit_generator": "PCG64",
+          "library": "numpy",
+          "seed": 17
+        }
+      }
+    },
+    "hard_conjunction": true
+  },
+  "conditional_full_refit": {
+    "seed": 17,
+    "source_rows": 7937,
+    "variant_rows": 1546,
+    "rows": 9483,
+    "optimizer_steps": 151,
+    "safe_source_membership_sha256": "05d9fd21753e8a3e8740a900c6a0fca9435e80b27f7d43297eddd9aff3e1f32a",
+    "train_sha256": "0877a7db29989a2e824de907300aad63137c511b2c8fdaaa5597afe6f046b6fd",
+    "receipts_sha256": "a8c99c324677db02906997ff7c721e4c5e78ddbf548fb38e299c81541addd2bc",
+    "audit_sha256": "ae68c8157e103760973ffbe33d8ef224e5fed34cf44b37d9ef7d1b2074f25f64"
+  },
+  "terminal_compatibility_veto": {
+    "population": "reused 756-row development diagnostic scored once after a confirmed full refit",
+    "minimum_ast_exact": [602, 756],
+    "minimum_parse_valid": [756, 756],
+    "minimum_schema_valid": [755, 756],
+    "minimum_cross_month_calendar_datetime_exact": [25, 59],
+    "minimum_scenario_ast_exact": {
+      "create_calendar_event": [111, 178],
+      "create_contact": [102, 128],
+      "open_wifi_settings": [109, 117],
+      "send_email": [76, 85],
+      "show_map": [57, 92],
+      "turn_off_flashlight": [66, 74],
+      "turn_on_flashlight": [70, 82]
+    },
+    "maximum_missing_predictions": 0,
+    "maximum_generation_failures": 0,
+    "maximum_truncations": 0,
+    "maximum_catastrophic_unauthorized_actions": 0,
+    "post_score_recipe_or_threshold_change": "forbidden"
+  },
+  "official_evaluation": {
+    "policy": "forbidden",
+    "rows": 961,
+    "rows_materialized": 0,
+    "rows_read": 0,
+    "rows_scored": 0
+  },
+  "official_evaluation_after_promotion": "Only if every prior gate passes and weights, tokenizer, inference code, evaluator, and claims are frozen may the 961 rows be opened once. No subsequent training, selection, threshold revision, or repair is allowed.",
+  "compute": {
+    "provider": "JarvisLabs",
+    "template": "axolotl",
+    "python_implementation": "CPython",
+    "python_version": "3.11.10",
+    "hardware": "one newly created NVIDIA H200",
+    "gpu": "H200",
+    "num_gpus": 1,
+    "region": "IN2",
+    "is_spot": false,
+    "maximum_gpu_job_minutes": 30,
+    "existing_instances_allowed": [],
+    "exact_id_controller": "infra/jarvis/safe_run.py",
+    "required_final_state": "Paused",
+    "preexisting_resources_mutated": []
+  },
+  "remote_validation_contract": {
+    "command": [
+      "python",
+      "-m",
+      "pytest",
+      "-q",
+      "tests/test_mobile_temporal_counterfactual.py",
+      "tests/test_materialize_mobile_temporal_counterfactual_cli.py",
+      "tests/test_mobile_temporal_evaluation.py",
+      "tests/test_mobile_temporal_counterfactual_runner.py",
+      "tests/test_mobile_temporal_experiment_backend.py",
+      "tests/test_training.py",
+      "tests/test_jarvis_safe_run.py"
+    ],
+    "environment_overrides": {
+      "CUDA_VISIBLE_DEVICES": "",
+      "WANDB_MODE": "disabled"
+    },
+    "provider_runtime": {
+      "template": "axolotl",
+      "python_implementation": "CPython",
+      "python_version": "3.11.10",
+      "repository_root_virtual_environment": ".venv",
+      "virtual_environment_must_be_active": true,
+      "virtual_environment_in_scientific_tree": false,
+      "preupload_runtime_attestation_required": true
+    },
+    "required_exit_code": 0,
+    "parent_process_torch_imported_before_validation": false,
+    "real_terminal_manifest_path_or_contents_passed_in_test_argv_or_environment": false,
+    "test_file_allowlist_has_no_real_terminal_reference": true
+  },
+  "retry_policy": {
+    "maximum_byte_identical_infrastructure_retries": 2,
+    "scientific_change_on_retry": "forbidden",
+    "retry_after_any_held_out_signal": "forbidden after any usable held-out signal, including a selection diagnostic loss, selection/confirmation/terminal prediction, or action-evaluation score; a retry is allowed only when the previous attempt produced no usable held-out signal of any kind",
+    "retry_execution_policy": "fresh_instance_new_output_directory_new_attempt_id_incremented_ordinal_and_prior_zero_signal_receipt_only; safe_run_owned_resume_retry_forbidden",
+    "evidence": "Preserve the failed exact instance ID, phase, logs, artifacts, and paused-state proof before retry."
+  },
+  "claim_limits": [
+    "The reused 756 rows generated the hypothesis and cannot validate its repair.",
+    "The shadow populations are derived from public Mobile training data, not a hidden or official test.",
+    "A passing result supports a narrow month-boundary grounding improvement, not general function calling, safety, or superiority to Qwen.",
+    "A failed gate retains candidate-v2 and ends this recipe without threshold changes or an informal rescue."
+  ]
+}

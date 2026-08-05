@@ -1,0 +1,465 @@
+{
+  "schema_version": "barun-action-correction-population-prefreeze-v2",
+  "run_id": "20260805-0410-action-correction-population-prefreeze-v2-s17",
+  "status": "cpu_contract_only_non_authorizing",
+  "canonical_names": {
+    "base_model": "BarunLM-35M",
+    "base_parameter_count": 35072768,
+    "post_trained_model": "BarunAction-35M",
+    "starting_checkpoint": "BarunAction-35M candidate-v2"
+  },
+  "hypothesis": "A full-budget seed-17 correction fit can provide early, disconnected synthetic evidence that the same 35,072,768-parameter BarunAction-35M checkpoint learned draft-conditioned value repair rather than merely benefiting from a second decode.",
+  "decision": "This CPU-only contract freezes the successor's population-allocation rule, raw-draft boundary, and one-full-C17 futility ladder. It cannot materialize a population, load a model or tokenizer, train, create or use JarvisLabs compute, promote candidate-v2, or support a breakthrough claim.",
+  "immutability": {
+    "edit_in_place_authorized": false,
+    "successor_required_for_change": true
+  },
+  "authorization": {
+    "population_candidate_enumeration_authorized": false,
+    "population_materialization_authorized": false,
+    "population_prompt_or_label_read_authorized": false,
+    "existing_dataset_access_authorized": false,
+    "model_access_authorized": false,
+    "checkpoint_weight_access_authorized": false,
+    "tokenizer_access_authorized": false,
+    "training_authorized": false,
+    "inference_authorized": false,
+    "cuda_access_authorized": false,
+    "jarvislabs_inventory_authorized": false,
+    "jarvislabs_resource_creation_authorized": false,
+    "jarvislabs_resource_use_authorized": false,
+    "network_access_authorized": false,
+    "human_label_access_authorized": false,
+    "private_label_access_authorized": false,
+    "release_change_authorized": false,
+    "launch_authorized": false
+  },
+  "closed_v1_binding": {
+    "proposal": {
+      "config_path": "configs/action_correction_forge_screen_v1.json",
+      "config_sha256": "3f1862a403dcf76edb82268f46688f44ce33027904dc11357b1c9cfc4b68931a",
+      "doc_path": "docs/generate-correct-sft-v1.md",
+      "doc_sha256": "3911801a64063926d5ddc005444a67102c3020b769e91ff1726994685a43f768",
+      "run_id": "20260805-0230-action-correction-forge-screen-s17",
+      "schema_version": "barun-action-correction-forge-prefreeze-v1",
+      "retry_or_repair_authorized": false
+    },
+    "feasibility_audit": {
+      "result_path": "experiments/runs/20260805-0406-action-correction-v1-feasibility-audit-s17/result.json",
+      "result_sha256": "eec225c1f0e9a88c58446db638b89fa30fb0429ed222c1265e6e6fb225b8a13e",
+      "run_id": "20260805-0406-action-correction-v1-feasibility-audit-s17",
+      "schema_version": "barun-action-correction-v1-feasibility-audit-v1",
+      "conclusion": "reject",
+      "model_quality_result_exists": false,
+      "population_materialized": false,
+      "model_or_tokenizer_accessed": false,
+      "cuda_or_jarvislabs_accessed": false,
+      "observed_single_fault_rows": 8076,
+      "observed_exact_rows": 8308,
+      "registered_single_fault_rows": 8192,
+      "registered_exact_rows": 8192,
+      "exact_50_50_passed": false,
+      "exact_raw_bytes_preserved": false,
+      "runtime_recomputation_verified": false,
+      "required_successor_assignment": "finite_role_stratum_roster_then_domain_separated_rank_without_backfill",
+      "required_successor_transport": "once_snapshotted_exact_utf8_draft_raw_string"
+    },
+    "v1_artifact_modification_authorized": false,
+    "v1_population_or_model_retry_authorized": false
+  },
+  "checkpoint_binding": {
+    "candidate_v2": {
+      "parameter_count": 35072768,
+      "model_safetensors_sha256": "fdb95ccf58a095e0d321be998924318b35ee59a334f6dd97d8726d2cf80021d3",
+      "tokenizer_json_sha256": "70ded9605fccd09c2340ca7e225361eab0ae8b4dbbb0d6e26343ab5183979db6",
+      "checkpoint_manifest_sha256": "c743ab7c4d33ae75c6b0aa4547458a961b92766da8fcf85fd148fda2ebb5530a",
+      "weights_read_by_this_contract": false,
+      "tokenizer_read_by_this_contract": false
+    },
+    "canonical_base": {
+      "parameter_count": 35072768,
+      "repo_id": "harrrshall/BarunLM-35M",
+      "revision": "ef3e483a9fd7d906ecf2a7929babeffaf82d1d16",
+      "model_safetensors_sha256": "f2a7c88b9f2c2e3584809081407ab136795d82e30e89b730e007781c45d01447",
+      "weights_read_by_this_contract": false
+    }
+  },
+  "population_prefreeze": {
+    "name": "ActionCorrection-Population-v2",
+    "status": "plan_only_not_enumerated_or_materialized",
+    "allocation_basis_schema": "barun-action-correction-allocation-basis-v2",
+    "allocation_basis_canonical_json_sha256": null,
+    "descriptive_strata": [
+      "ADD_LIST_ITEM",
+      "CREATE_CALENDAR_EVENT",
+      "CREATE_NOTE",
+      "CREATE_REMINDER",
+      "LOOK_UP_CONTACT",
+      "LOOK_UP_ROUTE",
+      "PAUSE_MEDIA",
+      "PLAY_MEDIA",
+      "PROPOSE_MESSAGE",
+      "RESCHEDULE_CALENDAR_EVENT",
+      "SET_BOOLEAN_SETTING",
+      "SET_LIST_ITEM_CHECKED",
+      "UPDATE_REMINDER",
+      "ABSTAIN",
+      "CLARIFY",
+      "CONFIRM"
+    ],
+    "roles": [
+      {
+        "role": "T",
+        "role_label": "T-synth",
+        "purpose": "training_only",
+        "candidate_ordinal_start": 0,
+        "candidate_ordinal_stop_exclusive": 2048,
+        "candidate_universe_per_stratum": 2048,
+        "selected_quota_per_stratum": 1024,
+        "exact_draft_quota_per_stratum": 512,
+        "single_fault_quota_per_stratum": 512,
+        "candidate_universe_total": 32768,
+        "selected_quota_total": 16384,
+        "exact_draft_quota_total": 8192,
+        "single_fault_quota_total": 8192
+      },
+      {
+        "role": "P",
+        "role_label": "P-futility",
+        "purpose": "disconnected_seed17_futility_only",
+        "candidate_ordinal_start": 0,
+        "candidate_ordinal_stop_exclusive": 128,
+        "candidate_universe_per_stratum": 128,
+        "selected_quota_per_stratum": 64,
+        "exact_draft_quota_per_stratum": 32,
+        "single_fault_quota_per_stratum": 32,
+        "candidate_universe_total": 2048,
+        "selected_quota_total": 1024,
+        "exact_draft_quota_total": 512,
+        "single_fault_quota_total": 512
+      },
+      {
+        "role": "D",
+        "role_label": "D-internal",
+        "purpose": "final_internal_synthetic_screen_only",
+        "candidate_ordinal_start": 0,
+        "candidate_ordinal_stop_exclusive": 512,
+        "candidate_universe_per_stratum": 512,
+        "selected_quota_per_stratum": 256,
+        "exact_draft_quota_per_stratum": 128,
+        "single_fault_quota_per_stratum": 128,
+        "candidate_universe_total": 8192,
+        "selected_quota_total": 4096,
+        "exact_draft_quota_total": 2048,
+        "single_fault_quota_total": 2048
+      }
+    ],
+    "ranking_contract": {
+      "canonical_json": {
+        "encoding": "strict_utf8",
+        "sort_keys": true,
+        "separators": [
+          ",",
+          ":"
+        ],
+        "ensure_ascii": false,
+        "allow_nan": false
+      },
+      "allocation_basis_digest": "sha256(exact_canonical_prefreeze_plan_bytes).digest()",
+      "slot_commitment_fields_sorted_by_canonical_json": [
+        "candidate_ordinal",
+        "catalog_coordinates",
+        "role",
+        "stratum"
+      ],
+      "slot_id_namespace_hex": "626172756e616374696f6e2d67632d736c6f742d763200",
+      "slot_id_formula": "sha256(slot_id_namespace_bytes + allocation_basis_digest + canonical_slot_commitment_bytes).hexdigest()",
+      "roster_rank_namespace_hex": "626172756e616374696f6e2d67632d726f737465722d72616e6b2d763200",
+      "roster_rank_formula": "sha256(roster_rank_namespace_bytes + bytes.fromhex(slot_id)).hexdigest()",
+      "draft_rank_namespace_hex": "626172756e616374696f6e2d67632d64726166742d72616e6b2d763200",
+      "draft_rank_formula": "sha256(draft_rank_namespace_bytes + bytes.fromhex(slot_id)).hexdigest()",
+      "selection_rule": "within_each_role_and_stratum_select_lowest_(roster_rank,slot_id)_up_to_selected_quota",
+      "assignment_rule": "within_each_selected_role_and_stratum_sort_by_(draft_rank,slot_id);first_half_exact_draft;second_half_single_fault",
+      "tie_breaker": "slot_id_hex_ascending",
+      "adaptive_assignment_authorized": false,
+      "outcome_dependent_assignment_authorized": false,
+      "failed_fault_replacement_authorized": false,
+      "reserve_substitution_authorized": false,
+      "selected_source_failure_policy": "abort_entire_population_without_backfill"
+    },
+    "role_disconnection": {
+      "T_P_D_jointly_frozen_before_any_model_output_required": true,
+      "P_disconnected_from_T_and_D_required": true,
+      "T_P_D_component_disjoint_required": true,
+      "role_prefix_only_lineage_is_evidence": false,
+      "catalog_coordinates_must_encode_actual_generator_semantics": true,
+      "component_split_before_render_required": true,
+      "joint_exact_normalized_delexicalized_near_duplicate_closure_required": true,
+      "cross_role_duplicate_or_lineage_connection_policy": "abort_entire_population",
+      "independently_verified": false
+    },
+    "fault_contract": {
+      "exact_draft_definition": "draft_raw_bytes_equal_complete_canonical_gold_action_ir_bytes",
+      "single_fault_definition": "exactly_one_certified_semantic_fault_and_no_other_action_ir_or_state_transition_difference",
+      "PAUSE_MEDIA_and_ABSTAIN_argument_repair_claimed": false,
+      "PAUSE_MEDIA_and_ABSTAIN_fault_class": "decision_fault_control_only",
+      "every_selected_fault_must_certify": true,
+      "arbitrary_model_output_single_fault_scorer_required": true,
+      "arbitrary_model_output_single_fault_scorer_verified": false
+    },
+    "manifests": {
+      "allocation_basis_sha256": null,
+      "candidate_roster_sha256": null,
+      "T_synth_sha256": null,
+      "P_futility_sha256": null,
+      "D_internal_sha256": null,
+      "joint_duplicate_closure_sha256": null,
+      "token_audit_sha256": null
+    },
+    "population_enumerated": false,
+    "population_materialized": false,
+    "prompt_or_label_rows_read": 0
+  },
+  "raw_draft_runtime": {
+    "runtime_schema_version": "barun-action-correction-raw-runtime-v1",
+    "transport_schema_version": "barun-action-correction-draft-raw-transport-v1",
+    "model_input_mode": "inspect_one_raw_draft_and_return_complete_action_ir",
+    "action_ir_contract": "ACTION_IR_V1",
+    "transport_field": "draft_raw",
+    "transport_type": "exact_string",
+    "snapshot_rule": "encode once as strict UTF-8, retain the detached decoded snapshot without Unicode normalization, and reuse that same snapshot for transport, hashing, parsing, diagnostics, and fallback evidence",
+    "maximum_draft_utf8_bytes": 65536,
+    "maximum_original_prompt_utf8_bytes": 1048576,
+    "reserved_token_policy": "fail_closed_case_insensitive_substring_rejection",
+    "reserved_tokenizer_control_tokens": [
+      "<pad>",
+      "<unk>",
+      "<bos>",
+      "<eos>",
+      "<system>",
+      "<user>",
+      "<assistant>"
+    ],
+    "original_prompt_state_source": "state extracted only from the exact canonical model-visible original prompt",
+    "model_visible_diagnostic_fields": [
+      "parse_valid",
+      "schema_valid",
+      "policy_status",
+      "simulator_status",
+      "error_codes"
+    ],
+    "diagnostic_derivation": "recomputed from the snapshotted draft_raw plus original-prompt state by the pinned parser, schema, policy, and deterministic simulator",
+    "caller_supplied_validity_or_policy_flags_accepted": false,
+    "gold_target_or_fault_certificate_visible": false,
+    "fallback_order": [
+      "eligible_pass2",
+      "eligible_pass1",
+      "canonical_abstain"
+    ],
+    "canonical_abstain": "{\"decision\":\"ABSTAIN\"}",
+    "missing_failure_and_truncation_eligible": false,
+    "silent_repair_authorized": false,
+    "real_tool_execution_permitted": false,
+    "runtime_source_path": "src/barunlm/evaluation/action_correction_runtime.py",
+    "runtime_source_sha256": "8cad30fc58a9e67ab83cf9a845b7811f5a088a60abdefed8ab4b15d901f59e86",
+    "runtime_tests_path": "tests/test_action_correction_runtime.py",
+    "runtime_tests_sha256": "ef182db2b39b71ec85d13bbadb65d415871d3eead43b3c17f04a47a82a8082d8",
+    "runtime_independently_audited": true,
+    "runtime_audit_path": "experiments/runs/20260805-0418-action-correction-runtime-audit-s17/attempt-3-go.json",
+    "runtime_audit_sha256": "3d50e9eb0029fefb86301c8aefa08e679ecabea78d648ab503beff1e7b18a6ae",
+    "runtime_audit_scope": "narrow_T_and_D_raw_transport_only_non_authorizing",
+    "P_futility_prompt_shape_supported_and_verified": false,
+    "decoding_caps_resolved": false,
+    "pass1_max_new_tokens": null,
+    "pass2_max_new_tokens": null
+  },
+  "training_recipe_if_a_later_config_authorizes_it": {
+    "starting_checkpoint": "BarunAction-35M candidate-v2",
+    "parameter_count": 35072768,
+    "full_parameter": true,
+    "first_fit_only": "C_seed17",
+    "seed": 17,
+    "shared_replay_rows": 5744,
+    "shared_direct_synthetic_rows": 16384,
+    "C_specific_synthetic_rows": 16384,
+    "rows": 38512,
+    "epochs": 1,
+    "batch_size": 64,
+    "drop_last": false,
+    "last_batch_rows": 48,
+    "optimizer_updates": 602,
+    "warmup_updates": 18,
+    "full_v1_optimizer_and_renderer_binding_required": true,
+    "training_authorized": false
+  },
+  "futility_ladder": {
+    "status": "frozen_design_not_evaluated",
+    "one_full_C_seed17_fit_before_probe": true,
+    "mini_fit_or_partial_budget_authorized": false,
+    "P_futility_frozen_with_T_and_D_before_model_output": true,
+    "P_futility_open_before_C_seed17_checkpoint_frozen": false,
+    "P_futility_roles": [
+      "B0",
+      "G0",
+      "G02",
+      "C1",
+      "C2"
+    ],
+    "hard_conjunction": {
+      "minimum_C2_minus_G0_exact_count": 21,
+      "minimum_C2_minus_G0_points": [
+        2,
+        100
+      ],
+      "minimum_C2_minus_G02_exact_count": 21,
+      "minimum_C2_minus_G02_points": [
+        2,
+        100
+      ],
+      "minimum_C2_minus_C1_exact_count": 11,
+      "minimum_C2_minus_C1_points": [
+        1,
+        100
+      ],
+      "minimum_C2_minus_B0_exact_count": 256,
+      "minimum_C2_minus_B0_points": [
+        25,
+        100
+      ],
+      "minimum_C2_raw_schema_valid_count": 973,
+      "minimum_controlled_one_fault_recovery_count": 128,
+      "controlled_one_fault_denominator": 512,
+      "minimum_controlled_argument_fault_recovery_count": 112,
+      "controlled_argument_fault_denominator": 448,
+      "minimum_controlled_decision_fault_recovery_count": 16,
+      "controlled_decision_fault_denominator": 64,
+      "minimum_controlled_correct_draft_retention_count": 487,
+      "controlled_correct_draft_denominator": 512,
+      "false_action_comparators": [
+        "B0",
+        "G0",
+        "G02",
+        "C1"
+      ],
+      "maximum_C2_false_action_count_increase_per_comparator": 10,
+      "P_futility_rows": 1024,
+      "maximum_catastrophic_unauthorized_actions": 0,
+      "maximum_missing_predictions": 0,
+      "maximum_generation_failures": 0,
+      "maximum_truncations": 0
+    },
+    "gate_evaluated": false,
+    "gate_passed": null,
+    "fail_action": "close_recipe_without_opening_D_or_training_remaining_eight_fits",
+    "pass_action": "continue_only_under_a_model_run_config_frozen_before_C17_that_conditionally_authorized_the_unchanged_remaining_eight_fits",
+    "P_can_select_recipe_arm_seed_threshold_or_checkpoint": false,
+    "P_can_promote_checkpoint_or_support_release_claim": false
+  },
+  "phase_state_machine": {
+    "initial_state": "CPU_PREFREEZE_ONLY",
+    "current_state": "CPU_PREFREEZE_ONLY",
+    "terminal_states": [
+      "CLOSED_PREFLIGHT_FAILURE",
+      "CLOSED_FUTILITY",
+      "CLOSED_INTERNAL_SCREEN_REJECTION",
+      "INTERNAL_SYNTHETIC_MECHANISM_EVIDENCE_ONLY"
+    ],
+    "transitions": [
+      {
+        "from": "CPU_PREFREEZE_ONLY",
+        "to": "POPULATION_FROZEN",
+        "requires": "distinct_successor_config_and_independent_go",
+        "authorized_here": false
+      },
+      {
+        "from": "POPULATION_FROZEN",
+        "to": "C17_CHECKPOINT_FROZEN",
+        "requires": "full_budget_C_seed17_fit_under_distinct_model_run",
+        "authorized_here": false
+      },
+      {
+        "from": "C17_CHECKPOINT_FROZEN",
+        "to": "P_FUTILITY_OPEN",
+        "requires": "immutable_checkpoint_and_phase_receipt",
+        "authorized_here": false
+      },
+      {
+        "from": "P_FUTILITY_OPEN",
+        "to": "CLOSED_FUTILITY",
+        "requires": "hard_conjunction_failed",
+        "authorized_here": false
+      },
+      {
+        "from": "P_FUTILITY_OPEN",
+        "to": "REMAINING_EIGHT_FITS_PENDING",
+        "requires": "hard_conjunction_passed_under_model_run_config_frozen_before_C17",
+        "authorized_here": false
+      },
+      {
+        "from": "REMAINING_EIGHT_FITS_PENDING",
+        "to": "ALL_NINE_CHECKPOINTS_FROZEN",
+        "requires": "unchanged_full_A_B_C_three_seed_design",
+        "authorized_here": false
+      },
+      {
+        "from": "ALL_NINE_CHECKPOINTS_FROZEN",
+        "to": "D_INTERNAL_OPEN",
+        "requires": "nine_immutable_checkpoint_hashes_and_phase_receipt",
+        "authorized_here": false
+      }
+    ],
+    "D_open_before_all_nine_checkpoints_frozen": false,
+    "P_or_D_loss_used_for_training_or_checkpoint_selection": false,
+    "post_result_rescue_refit_or_threshold_edit_authorized": false
+  },
+  "forbidden_population_access": {
+    "mobile_reused_development_756_rows_read": 0,
+    "mobile_official_evaluation_961_rows_read": 0,
+    "v3_selection_rows_read": 0,
+    "v3_confirmation_rows_read": 0,
+    "planir_screen_rows_read": 0,
+    "presto_development_rows_read": 0,
+    "gvs_population_rows_read": 0,
+    "private_human_prompt_or_label_rows_read": 0,
+    "old_7937_training_rows_read": 0,
+    "proposed_T_synth_rows_read": 0,
+    "proposed_P_futility_rows_read": 0,
+    "proposed_D_internal_rows_read": 0
+  },
+  "execution_access": {
+    "population_candidates_enumerated": 0,
+    "population_rows_materialized": 0,
+    "model_loads": 0,
+    "checkpoint_weight_files_read": 0,
+    "tokenizer_loads": 0,
+    "training_fits": 0,
+    "model_predictions": 0,
+    "cuda_devices_accessed": 0,
+    "jarvislabs_inventory_reads": 0,
+    "jarvislabs_resources_created": 0,
+    "jarvislabs_resources_mutated": 0,
+    "network_requests": 0,
+    "real_external_actions": 0,
+    "protected_resource_ids_touched": []
+  },
+  "unresolved_blockers": [
+    "freeze and independently audit exact semantic catalog coordinates for all role-stratum candidate universes",
+    "prove T/P/D disconnection through actual lineage and joint duplicate closure rather than role-prefixed identifiers",
+    "implement and audit a P-futility canonical prompt shape compatible with the raw-draft runtime",
+    "materialize and hash the complete T/P/D roster under a distinct non-model authorization",
+    "certify every selected fault with zero backfill and implement the arbitrary-output one-fault scorer",
+    "freeze exact model renderer bytes, unique training-view IDs, tokenizer revision, token audit, and static pass caps",
+    "bind scorer, provider transform, phase-firewall, runner, source snapshot, and all immutable receipts",
+    "independently adversarially re-audit the complete materialized contract before any model or JarvisLabs access",
+    "provide a fresh official-development retention population before any checkpoint promotion"
+  ],
+  "maximum_claim": {
+    "current": "CPU-only population-allocation and raw-runtime contract evidence",
+    "future_if_P_and_D_pass": "internal synthetic mechanism evidence only",
+    "candidate_v2_promotion_supported": false,
+    "public_release_change_supported": false,
+    "larger_model_outperformance_supported": false,
+    "breakthrough_supported": false,
+    "independent_or_powered_population_claimed": false
+  }
+}

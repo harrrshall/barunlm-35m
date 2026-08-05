@@ -1,0 +1,17 @@
+{
+  "schema_version": "barun-jarvis-pause-recheck-v1",
+  "queried_at_utc": "2026-08-03T17:04:21Z",
+  "query": "jl get 463689 --json",
+  "machine_id": 463689,
+  "name": "barun-qwen05b-matched-2122-s17",
+  "status": "Paused",
+  "gpu_type": "H200",
+  "num_gpus": 1,
+  "region": "IN2",
+  "is_spot": false,
+  "provider_reported_runtime": "0 hours 30 minutes",
+  "provider_reported_cost": 0.0,
+  "billing_fields_used_for_cost_estimate": false,
+  "filtered": true,
+  "note": "This second exact-ID read-only query was taken about 30 minutes after the controller pause proof. The provider runtime/cost fields are ambiguous for a paused instance and are not historical billing evidence."
+}

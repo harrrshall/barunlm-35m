@@ -1,0 +1,153 @@
+{
+  "schema_version": "barun-qwen05b-handoff-result-v1",
+  "run_id": "20260803-2122-mobile-qwen05b-matched-s17",
+  "status": "completed_and_independently_verified",
+  "conclusion": "keep",
+  "conclusion_detail": "keep_as_second_matched_public_development_architecture_evidence",
+  "reason": "The exact one-seed Qwen baseline produced complete, reproducible evidence and exceeded BarunAction-35M candidate-v2 by 61 strict rows. Preserve the negative comparison; do not promote a BarunAction-over-Qwen claim.",
+  "model": {
+    "id": "Qwen/Qwen2.5-0.5B-Instruct",
+    "revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+    "license": "Apache-2.0",
+    "architecture": "Qwen2ForCausalLM",
+    "unique_parameters": 494032768,
+    "trainable_unique_parameters": 494032768,
+    "barunlm_parameters": 35072768,
+    "ratio_to_barunlm": 14.085936074392531,
+    "checkpoint_model_sha256": "21f3f234ce9bfc2fa387cf396807fa35f5eb72e311f23a89cd98c98224c78793"
+  },
+  "data": {
+    "dataset": "google/mobile-actions",
+    "revision": "e920309bc2acbc2e99a5e3201cf37df2b9fd9151",
+    "license": "CC-BY-4.0",
+    "train_rows": 7937,
+    "train_sha256": "131473ccb5bfb51cac0439b42159e72ec4c598025e50364a52b122b056c2e84e",
+    "development_rows": 756,
+    "development_sha256": "988bdce5874d1f1a775feeb5ba2b58cd2bdc128f57e73cb9a63d535fae7c1d55",
+    "official_evaluation_rows": 961,
+    "official_evaluation_rows_read_or_materialized": 0
+  },
+  "adaptation": {
+    "method": "full_parameter_response_only_sft",
+    "epochs": 1,
+    "seed": 17,
+    "examples_presented": 7937,
+    "unique_examples_presented": 7937,
+    "microbatch": 21,
+    "gradient_accumulation": 3,
+    "effective_batch": 63,
+    "optimizer_steps": 126,
+    "learning_rate": 0.00002,
+    "checkpoint_policy": "final_only",
+    "recipe_sha256": "6855eaf52c34089d802b8584c566b95619f9ff2780d4f130f333126bc33357e1",
+    "adaptation_data_effort_matched": true,
+    "total_model_selection_effort_matched": false,
+    "model_selection_asymmetry": "BarunAction candidate-v2 received earlier Mobile development sweep selection; Qwen received exactly one frozen development trial."
+  },
+  "generation": {
+    "examples": 756,
+    "generated": 756,
+    "failed": 0,
+    "truncated": 0,
+    "batch_size": 64,
+    "max_new_tokens": 192,
+    "decoding": "unconstrained_deterministic_greedy",
+    "grammar_constrained": false,
+    "vendor_sampling_defaults_neutralized": true,
+    "predictions_sha256": "836788091d08b931bf37565d197c4053e6e6f4664d379c38e7668ae9b8739b08"
+  },
+  "baseline_metrics": {
+    "strict_ast_exact": {
+      "numerator": 663,
+      "denominator": 756,
+      "value": 0.876984126984127
+    },
+    "parse_valid": {
+      "numerator": 755,
+      "denominator": 756,
+      "value": 0.9986772486772487
+    },
+    "schema_valid": {
+      "numerator": 754,
+      "denominator": 756,
+      "value": 0.9973544973544973
+    },
+    "truncation": {
+      "numerator": 0,
+      "denominator": 756,
+      "value": 0.0
+    },
+    "argument_key_macro_f1": 0.9957912457912459,
+    "argument_key_micro_f1": 0.996489332973265,
+    "argument_value_macro_f1": 0.927409010742344,
+    "argument_value_micro_f1": 0.945179584120983,
+    "tool_macro_f1": 0.9984311382645951,
+    "catastrophic_unauthorized_actions": 0,
+    "false_action_numerator": 0,
+    "false_action_denominator": 0,
+    "false_action_interpretation": "unavailable because this development population contains no eligible non-call rows"
+  },
+  "paired_comparison": {
+    "candidate": "BarunAction-35M candidate-v2 batch63 final checkpoint",
+    "candidate_exact": 602,
+    "baseline_exact": 663,
+    "denominator": 756,
+    "candidate_minus_baseline_exact_rows": -61,
+    "candidate_minus_baseline_percentage_points": -8.068783068783068,
+    "candidate_only_wins": 19,
+    "baseline_only_wins": 80,
+    "both_correct": 583,
+    "both_wrong": 74,
+    "ties": 657,
+    "paired_samples_sha256": "ad5d44e741f9b98a0a0ffaadfa147c142cdaf8fea8801a11b62b7d323e93730a"
+  },
+  "duration_and_cost": {
+    "training_seconds": 73.12946654902771,
+    "terminal_generation_seconds": 18.84165497869253,
+    "scientific_runner_seconds": 117.76858996087685,
+    "full_lifecycle_seconds": 567.159668,
+    "frozen_h200_rate_inr_per_hour": 378.27,
+    "scientific_runner_estimated_cost_inr": 12.374534590139135,
+    "full_lifecycle_estimated_cost_inr": 59.59430211509999,
+    "cost_basis": "frozen hourly rate multiplied by measured controller wall time; estimate only, not provider invoice"
+  },
+  "jarvis": {
+    "machine_id": 463689,
+    "instance_name": "barun-qwen05b-matched-2122-s17",
+    "managed_run_id": "r_85efbb92",
+    "gpu": "H200",
+    "region": "IN2",
+    "final_state": "Paused",
+    "fresh_exact_id_pause_proof": true,
+    "second_exact_id_recheck_at_utc": "2026-08-03T17:04:21Z",
+    "second_exact_id_recheck_state": "Paused",
+    "preexisting_resources_mutated": []
+  },
+  "artifacts": {
+    "attempt_preregistration_sha256_after_binding": "d569b463346304b00249588c9f42f6a784a2d7e8f55b1340d27b270603cac05c",
+    "attempt_preregistration_sha256_before_binding": "365d65f75c7c0695cddfd78c068a5e92ff7c6b94d6ebc42999ab73ada74df653",
+    "source_snapshot_sha256": "f9c187539e097ac21bec8315daf75c48e74c6f3bcc8e9cfe969d3aaf568d9cb6",
+    "source_content_tree_sha256": "1a131cc8bc7a24c73c7c39cacc0c313f6ce7037ef5033077e0e8f4cfbbadeabb",
+    "essential_artifact_manifest_sha256": "e9c3540186693d778dbba1535f607c0fcfb6da0172faf7fb56834c0891b53b43",
+    "essential_bundle_manifest_sha256": "72d89b9de38c41835518904608130c5619699379619c2542fd6779274c4ef1fe",
+    "independent_verification_sha256": "3fd3a0ba4c33ae3a707b7be05a8b98511eb12226da29f571c9fbf8a5f7ba5b8c",
+    "independent_verification_manifest_sha256": "b7118411c14d211d5315cf5c2b53de732f02d7e541702fb77f50bf854c30a9d2",
+    "independent_verifier_source_sha256": "355018916f839fdb0b6bfe4cc23b41381200cfa1bde59ed040bba513abdde064",
+    "jarvis_controller_record_sha256": "3bfa8f7f235e45a631f494dafee38aa2f6bf73ddfd0fa6a0416ed8077e4a7ea4",
+    "fresh_pause_proof_sha256": "9efc725130de593c3a0b720fbf78ecf00f0b46bf877f4a70424d8496adafb1d5",
+    "baseline_sample_scores_sha256": "5ed69b469de56f8afd3b73dedf9bad2009a0fb21ce01ee91a346167ed0d47bda",
+    "candidate_predictions_sha256": "e5aea59e5090e3aa7c9dbd6b1a810c753410a159ce18dc8bb889fde3a58b8665",
+    "candidate_sample_scores_sha256": "a29c4d5c83493ec437a9f0fee362ea54cf97c2219844e5b46ba60d0f759f556c"
+  },
+  "claim_limitations": [
+    "one seed and one frozen recipe",
+    "public grouped development data, not the official Mobile evaluation",
+    "no sealed human safety suite",
+    "no multi-seed paired uncertainty interval",
+    "no equal upstream pretraining or instruction tuning",
+    "asymmetric prior development model-selection budget",
+    "call-only population has no false-action denominator",
+    "no on-device latency, memory, energy, or quantization evidence",
+    "comparison cannot select or modify BarunAction weights or rescue outcome"
+  ]
+}

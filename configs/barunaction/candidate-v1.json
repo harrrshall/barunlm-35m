@@ -1,0 +1,12 @@
+{
+  "candidate_id": "candidate-v1",
+  "checkpoint_manifest_sha256": "53b5f1f1f4b33e28601e8ff776eec671a16efe062fe833db5451019f9a7b6235",
+  "file_sha256": {
+    "barun_config.json": "9b3a1d71baa95a198744d250f9629231738d942570b8685c44307fd83dd33565",
+    "model.safetensors": "0c558fd6ec658a4568ab246fba4f01216a29b3e71abe0995337c0f4f592f10a1",
+    "tokenizer.json": "70ded9605fccd09c2340ca7e225361eab0ae8b4dbbb0d6e26343ab5183979db6"
+  },
+  "run_id": "20260803-1810-mobile-blind-s17",
+  "schema_version": "barunaction-candidate-provenance-v1",
+  "step": 62
+}

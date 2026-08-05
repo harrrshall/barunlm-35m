@@ -81,24 +81,31 @@ class PartialRotaryEmbedding(nn.Module):
 
 
 @lru_cache(maxsize=32)
-def _local_causal_mask(seq_len: int, window: int, device_type: str) -> Tensor:
-    device = torch.device(device_type)
-    row = torch.arange(seq_len, device=device)[:, None]
-    col = torch.arange(seq_len, device=device)[None, :]
-    allowed = (col <= row) & (col > row - window)
-    mask = torch.zeros((seq_len, seq_len), device=device, dtype=torch.float32)
-    return mask.masked_fill(~allowed, float("-inf"))
+def _local_causal_mask(seq_len: int, window: int, device_name: str) -> Tensor:
+    """Return a reusable normal tensor, even if first called under inference mode."""
+    # The complete device name is part of the cache key so cuda:0 and cuda:1 can
+    # never share a device-local tensor.  Disabling inference mode while creating
+    # the cached constant prevents an inference tensor from later being reused by
+    # a gradient-enabled forward pass.
+    with torch.inference_mode(False):
+        device = torch.device(device_name)
+        row = torch.arange(seq_len, device=device)[:, None]
+        col = torch.arange(seq_len, device=device)[None, :]
+        allowed = (col <= row) & (col > row - window)
+        mask = torch.zeros((seq_len, seq_len), device=device, dtype=torch.float32)
+        return mask.masked_fill(~allowed, float("-inf"))
 
 
 @lru_cache(maxsize=32)
-def _local_bidirectional_mask(seq_len: int, window: int, device_type: str) -> Tensor:
+def _local_bidirectional_mask(seq_len: int, window: int, device_name: str) -> Tensor:
     """Window constraint for custom masks such as bidirectional PrefixLM prompts."""
-    device = torch.device(device_type)
-    row = torch.arange(seq_len, device=device)[:, None]
-    col = torch.arange(seq_len, device=device)[None, :]
-    allowed = (col - row).abs() < window
-    mask = torch.zeros((seq_len, seq_len), device=device, dtype=torch.float32)
-    return mask.masked_fill(~allowed, float("-inf"))
+    with torch.inference_mode(False):
+        device = torch.device(device_name)
+        row = torch.arange(seq_len, device=device)[:, None]
+        col = torch.arange(seq_len, device=device)[None, :]
+        allowed = (col - row).abs() < window
+        mask = torch.zeros((seq_len, seq_len), device=device, dtype=torch.float32)
+        return mask.masked_fill(~allowed, float("-inf"))
 
 
 @lru_cache(maxsize=32)
@@ -110,15 +117,16 @@ def _local_block_mask(seq_len: int, window: int, device: str):
         del batch, head
         return (query_index >= key_index) & (query_index - key_index < window)
 
-    return create_block_mask(
-        causal_window,
-        B=None,
-        H=None,
-        Q_LEN=seq_len,
-        KV_LEN=seq_len,
-        device=device,
-        _compile=True,
-    )
+    with torch.inference_mode(False):
+        return create_block_mask(
+            causal_window,
+            B=None,
+            H=None,
+            Q_LEN=seq_len,
+            KV_LEN=seq_len,
+            device=device,
+            _compile=True,
+        )
 
 
 class GroupedAttention(nn.Module):
@@ -139,6 +147,166 @@ class GroupedAttention(nn.Module):
         self.k_norm = RMSNorm(config.head_dim, config.norm_eps) if config.qk_norm else nn.Identity()
         self.rope = PartialRotaryEmbedding(config.rope_dim, config.max_seq_len, config.rope_theta)
 
+    @staticmethod
+    def _is_binary_mask(mask: Tensor) -> bool:
+        if mask.dtype == torch.bool:
+            return True
+        return bool(torch.all((mask == 0) | (mask == 1)).item())
+
+    def _is_key_mask(self, mask: Tensor, batch: int, query_len: int) -> bool:
+        """Distinguish a standard [B, K] key mask from a [Q, K] policy mask.
+
+        The shapes are inherently ambiguous when B == Q.  Boolean/integer and
+        0/1 floating masks use the standard padding-mask interpretation in that
+        case; a floating square matrix containing additive values such as -inf
+        retains the custom PrefixLM-policy interpretation.
+        """
+        if mask.ndim != 2 or mask.shape[0] != batch:
+            return False
+        return batch != query_len or self._is_binary_mask(mask)
+
+    def _causal_mask(
+        self,
+        q: Tensor,
+        key_len: int,
+        *,
+        query_start: int,
+        key_start: int,
+    ) -> Tensor:
+        query_len = q.shape[-2]
+        if query_len == key_len and query_start == key_start:
+            window = key_len if self.is_full else self.config.local_window
+            return _local_causal_mask(query_len, window, str(q.device)).to(dtype=q.dtype)
+
+        query_positions = query_start + torch.arange(query_len, device=q.device)[:, None]
+        key_positions = key_start + torch.arange(key_len, device=q.device)[None, :]
+        allowed = key_positions <= query_positions
+        if not self.is_full:
+            allowed &= query_positions - key_positions < self.config.local_window
+        mask = torch.zeros((query_len, key_len), device=q.device, dtype=q.dtype)
+        return mask.masked_fill(~allowed, float("-inf"))
+
+    def _local_policy_mask(
+        self,
+        q: Tensor,
+        key_len: int,
+        *,
+        query_start: int,
+        key_start: int,
+    ) -> Tensor:
+        query_len = q.shape[-2]
+        if query_len == key_len and query_start == key_start:
+            return _local_bidirectional_mask(query_len, self.config.local_window, str(q.device)).to(
+                dtype=q.dtype
+            )
+
+        query_positions = query_start + torch.arange(query_len, device=q.device)[:, None]
+        key_positions = key_start + torch.arange(key_len, device=q.device)[None, :]
+        allowed = (key_positions - query_positions).abs() < self.config.local_window
+        mask = torch.zeros((query_len, key_len), device=q.device, dtype=q.dtype)
+        return mask.masked_fill(~allowed, float("-inf"))
+
+    def _key_mask_to_additive(self, mask: Tensor, q: Tensor) -> Tensor:
+        mask = mask.to(device=q.device)
+        if mask.dtype == torch.bool:
+            valid = mask.to(dtype=torch.bool)
+            additive = torch.zeros(valid.shape, device=q.device, dtype=q.dtype)
+            additive = additive.masked_fill(~valid, float("-inf"))
+        elif not torch.is_floating_point(mask):
+            if not self._is_binary_mask(mask):
+                raise ValueError("integer attention masks must contain only 0 and 1")
+            valid = mask.to(dtype=torch.bool)
+            additive = torch.zeros(valid.shape, device=q.device, dtype=q.dtype)
+            additive = additive.masked_fill(~valid, float("-inf"))
+        else:
+            # Avoid a device synchronization in the common training path while
+            # accepting either floating 0/1 key masks or additive key masks.
+            valid = mask.to(dtype=torch.bool)
+            binary_additive = torch.zeros(valid.shape, device=q.device, dtype=q.dtype)
+            binary_additive = binary_additive.masked_fill(~valid, float("-inf"))
+            is_binary = torch.all((mask == 0) | (mask == 1))
+            additive = torch.where(is_binary, binary_additive, mask.to(dtype=q.dtype))
+        return additive[:, None, None, :]
+
+    @staticmethod
+    def _ensure_nonempty_rows(
+        mask: Tensor,
+        *,
+        query_start: int,
+        key_start: int,
+    ) -> Tensor:
+        """Give otherwise fully masked padding queries one harmless self key.
+
+        PyTorch 2.4's math SDPA backend returns NaNs for an all-``-inf`` row.
+        Padding-query outputs are not semantically used, but those NaNs can enter
+        later K/V projections before the key mask is applied.  Letting only such
+        rows attend their own position keeps them finite without exposing a pad
+        key to any valid query.
+        """
+        missing = ~torch.isfinite(mask).any(dim=-1, keepdim=True)
+        query_len = mask.shape[-2]
+        key_len = mask.shape[-1]
+        fallback = query_start + torch.arange(query_len, device=mask.device) - key_start
+        fallback = fallback.clamp(0, key_len - 1)
+        indices = fallback[None, None, :, None].expand(mask.shape[0], 1, query_len, 1)
+        current = mask.gather(dim=-1, index=indices)
+        values = torch.where(missing, torch.zeros_like(current), current)
+        return mask.scatter(dim=-1, index=indices, src=values)
+
+    def _prepare_custom_mask(self, mask: Tensor, q: Tensor, key_len: int) -> Tensor:
+        batch = q.shape[0]
+        query_len = q.shape[-2]
+        mask = mask.to(device=q.device)
+        if mask.ndim == 2:
+            if mask.shape != (query_len, key_len):
+                raise ValueError(
+                    "2D additive attention masks must have shape [query_length, key_length]"
+                )
+        elif mask.ndim == 3:
+            if mask.shape[0] not in (1, batch) or mask.shape[-2:] != (query_len, key_len):
+                raise ValueError(
+                    "3D additive attention masks must have shape [batch, query_length, key_length]"
+                )
+            mask = mask[:, None, :, :]
+        elif mask.ndim == 4:
+            if (
+                mask.shape[0] not in (1, batch)
+                or mask.shape[1] not in (1, self.config.n_heads)
+                or mask.shape[-2:] != (query_len, key_len)
+            ):
+                raise ValueError(
+                    "4D additive attention masks must broadcast to "
+                    "[batch, heads, query_length, key_length]"
+                )
+        else:
+            raise ValueError("attention_mask must be a 2D, 3D, or 4D tensor")
+
+        if mask.dtype == torch.bool:
+            return mask
+        if not torch.is_floating_point(mask):
+            if not self._is_binary_mask(mask):
+                raise ValueError("integer attention masks must contain only 0 and 1")
+            return mask.to(dtype=torch.bool)
+        return mask.to(dtype=q.dtype)
+
+    def _combine_custom_mask(
+        self,
+        mask: Tensor,
+        q: Tensor,
+        key_len: int,
+        *,
+        query_start: int,
+        key_start: int,
+    ) -> Tensor:
+        if self.is_full:
+            return mask
+        local_mask = self._local_policy_mask(
+            q, key_len, query_start=query_start, key_start=key_start
+        )
+        if mask.dtype == torch.bool:
+            return mask & torch.isfinite(local_mask)
+        return mask + local_mask
+
     def _torch_attention(self, q: Tensor, k: Tensor, v: Tensor, mask: Tensor | None) -> Tensor:
         use_flex = (
             not self.is_full
@@ -155,12 +323,20 @@ class GroupedAttention(nn.Module):
             k = k.repeat_interleave(repeat, dim=1)
             v = v.repeat_interleave(repeat, dim=1)
         if mask is not None:
-            mask = mask.to(dtype=q.dtype)
-            if not self.is_full:
-                local_mask = _local_bidirectional_mask(
-                    q.shape[-2], self.config.local_window, q.device.type
-                ).to(dtype=q.dtype)
-                mask = mask + local_mask
+            batch = q.shape[0]
+            query_len = q.shape[-2]
+            key_len = k.shape[-2]
+            if self._is_key_mask(mask, batch, query_len):
+                if mask.shape[-1] != key_len:
+                    raise ValueError(
+                        "2D padding attention masks must have shape [batch, sequence_length]"
+                    )
+                causal_mask = self._causal_mask(q, key_len, query_start=0, key_start=0)
+                mask = causal_mask[None, None, :, :] + self._key_mask_to_additive(mask, q)
+                mask = self._ensure_nonempty_rows(mask, query_start=0, key_start=0)
+            else:
+                mask = self._prepare_custom_mask(mask, q, key_len)
+                mask = self._combine_custom_mask(mask, q, key_len, query_start=0, key_start=0)
             return F.scaled_dot_product_attention(
                 q, k, v, attn_mask=mask, dropout_p=self.config.dropout if self.training else 0.0
             )
@@ -168,7 +344,9 @@ class GroupedAttention(nn.Module):
             return F.scaled_dot_product_attention(
                 q, k, v, is_causal=True, dropout_p=self.config.dropout if self.training else 0.0
             )
-        local_mask = _local_causal_mask(q.shape[-2], self.config.local_window, q.device.type)
+        local_mask = _local_causal_mask(q.shape[-2], self.config.local_window, str(q.device)).to(
+            dtype=q.dtype
+        )
         return F.scaled_dot_product_attention(
             q,
             k,
@@ -225,22 +403,75 @@ class GroupedAttention(nn.Module):
             k, v = new_k, new_v
             out = self._torch_attention(q, k, v, mask=attention_mask)
         else:
+            past_len = cache[0].shape[-2]
+            if position_offset < past_len:
+                raise ValueError("position_offset cannot be smaller than the cached sequence")
+            key_start = position_offset - past_len
             k = torch.cat((cache[0], new_k), dim=-2)
             v = torch.cat((cache[1], new_v), dim=-2)
-            if not self.is_full:
-                k = k[:, :, -self.config.local_window :]
-                v = v[:, :, -self.config.local_window :]
             repeat = self.config.n_heads // self.config.n_kv_heads
             expanded_k = k.repeat_interleave(repeat, dim=1) if repeat > 1 else k
             expanded_v = v.repeat_interleave(repeat, dim=1) if repeat > 1 else v
+            key_len = k.shape[-2]
+            query_len = q.shape[-2]
+            prepared_mask = None
             if attention_mask is not None:
-                attention_mask = attention_mask[..., -k.shape[-2] :].to(dtype=q.dtype)
+                if self._is_key_mask(attention_mask, q.shape[0], query_len):
+                    mask_len = attention_mask.shape[-1]
+                    if mask_len == key_len:
+                        key_mask = attention_mask
+                    elif mask_len >= key_start + key_len:
+                        key_mask = attention_mask[:, key_start : key_start + key_len]
+                    else:
+                        raise ValueError(
+                            "cached padding mask does not cover all cached and current keys"
+                        )
+                    causal_mask = self._causal_mask(
+                        q,
+                        key_len,
+                        query_start=position_offset,
+                        key_start=key_start,
+                    )
+                    prepared_mask = causal_mask[None, None, :, :] + self._key_mask_to_additive(
+                        key_mask, q
+                    )
+                    prepared_mask = self._ensure_nonempty_rows(
+                        prepared_mask,
+                        query_start=position_offset,
+                        key_start=key_start,
+                    )
+                else:
+                    custom_mask = attention_mask
+                    expected_shape = (query_len, key_len)
+                    if custom_mask.shape[-2:] != expected_shape:
+                        query_end = position_offset + query_len
+                        key_end = key_start + key_len
+                        if custom_mask.shape[-2] < query_end or custom_mask.shape[-1] < key_end:
+                            raise ValueError(
+                                "cached additive mask does not cover the requested positions"
+                            )
+                        custom_mask = custom_mask[..., position_offset:query_end, key_start:key_end]
+                    prepared_mask = self._prepare_custom_mask(custom_mask, q, key_len)
+                    prepared_mask = self._combine_custom_mask(
+                        prepared_mask,
+                        q,
+                        key_len,
+                        query_start=position_offset,
+                        key_start=key_start,
+                    )
+            elif not self.is_full or query_len > 1:
+                prepared_mask = self._causal_mask(
+                    q,
+                    key_len,
+                    query_start=position_offset,
+                    key_start=key_start,
+                )
             out = F.scaled_dot_product_attention(
                 q,
                 expanded_k,
                 expanded_v,
-                attn_mask=attention_mask,
-                is_causal=False,
+                attn_mask=prepared_mask,
+                dropout_p=self.config.dropout if self.training else 0.0,
             )
         if not self.is_full:
             k = k[:, :, -self.config.local_window :]
@@ -341,6 +572,17 @@ class BarunLM(nn.Module):
             if name == "weight" and isinstance(module, RMSNorm) and parameter is not None:
                 nn.init.ones_(parameter)
 
+    @staticmethod
+    def _safe_cross_entropy(logits: Tensor, targets: Tensor) -> Tensor:
+        """Cross entropy that remains differentiable when every target is ignored."""
+        flat_logits = logits.reshape(-1, logits.shape[-1])
+        flat_targets = targets.reshape(-1)
+        if flat_targets.numel() == 0:
+            return flat_logits.sum() * 0.0
+        loss_sum = F.cross_entropy(flat_logits, flat_targets, ignore_index=-100, reduction="sum")
+        valid_targets = (flat_targets != -100).sum().clamp_min(1)
+        return loss_sum / valid_targets
+
     def forward(
         self,
         input_ids: Tensor,
@@ -354,6 +596,8 @@ class BarunLM(nn.Module):
             raise ValueError(f"sequence length exceeds max_seq_len={self.config.max_seq_len}")
         if past_key_values is not None and len(past_key_values) != len(self.layers):
             raise ValueError("past_key_values must have one entry per layer")
+        if labels is not None and labels.shape != input_ids.shape:
+            raise ValueError("labels must have the same shape as input_ids")
         x = self.embedding(input_ids)
         checkpoint = x
         selector_index = 0
@@ -361,9 +605,7 @@ class BarunLM(nn.Module):
         for index, layer in enumerate(self.layers):
             if use_cache:
                 layer_cache = past_key_values[index] if past_key_values is not None else None
-                x, new_cache = layer.forward_cached(
-                    x, layer_cache, position_offset, attention_mask
-                )
+                x, new_cache = layer.forward_cached(x, layer_cache, position_offset, attention_mask)
                 new_past_key_values.append(new_cache)
             else:
                 x = layer(x, attention_mask)
@@ -377,19 +619,20 @@ class BarunLM(nn.Module):
         if labels is None:
             return BarunOutput(logits=logits, past_key_values=new_past_key_values)
 
-        causal_loss = F.cross_entropy(logits.reshape(-1, logits.shape[-1]), labels.reshape(-1))
+        # The state at position t predicts the label at t + 1.  This lets callers
+        # use the conventional labels=input_ids contract and mask prompt tokens by
+        # replacing their label positions with -100.
+        causal_loss = self._safe_cross_entropy(logits[:, :-1], labels[:, 1:])
         mtp_loss = None
         loss = causal_loss
         offset = self.config.mtp_offset
         if self.mtp_proj is not None and hidden.shape[1] > offset:
             mtp_hidden = self.mtp_norm(hidden[:, :-offset] + self.mtp_proj(hidden[:, :-offset]))
             mtp_logits = self.lm_head(mtp_hidden)
-            mtp_labels = input_ids[:, offset:].clone()
-            target_mask = labels[:, offset - 1 : -1] == -100
-            mtp_labels.masked_fill_(target_mask, -100)
-            mtp_loss = F.cross_entropy(
-                mtp_logits.reshape(-1, mtp_logits.shape[-1]), mtp_labels.reshape(-1)
-            )
+            # MTP at position t predicts exactly the caller-supplied target at
+            # t + offset.  Using labels directly preserves completion-only masks.
+            mtp_labels = labels[:, offset:]
+            mtp_loss = self._safe_cross_entropy(mtp_logits, mtp_labels)
             loss = loss + self.config.mtp_loss_weight * mtp_loss
         return BarunOutput(
             logits=logits,
@@ -400,12 +643,56 @@ class BarunLM(nn.Module):
         )
 
     @torch.no_grad()
-    def generate(self, input_ids: Tensor, max_new_tokens: int, temperature: float = 0.8) -> Tensor:
+    def generate(
+        self,
+        input_ids: Tensor,
+        max_new_tokens: int,
+        temperature: float = 0.8,
+        attention_mask: Tensor | None = None,
+        eos_token_id: int | None = None,
+        pad_token_id: int | None = None,
+    ) -> Tensor:
+        """Generate from unpadded or left-padded prompts with an optional EOS stop."""
         self.eval()
+        if input_ids.ndim != 2 or input_ids.shape[1] == 0:
+            raise ValueError("input_ids must have shape [batch, sequence] with sequence > 0")
+        if max_new_tokens < 0:
+            raise ValueError("max_new_tokens cannot be negative")
         if input_ids.shape[1] + max_new_tokens > self.config.max_seq_len:
             raise ValueError("prompt plus generation exceeds max_seq_len")
-        output = self(input_ids, use_cache=True)
+        for name, token_id in (("eos_token_id", eos_token_id), ("pad_token_id", pad_token_id)):
+            if token_id is not None and not 0 <= token_id < self.config.vocab_size:
+                raise ValueError(f"{name} must be within the model vocabulary")
+
+        if attention_mask is None:
+            generation_mask = torch.ones_like(input_ids, dtype=torch.bool)
+            prefill_mask = None
+        else:
+            if attention_mask.shape != input_ids.shape:
+                raise ValueError("generation attention_mask must have shape [batch, sequence]")
+            attention_mask = attention_mask.to(device=input_ids.device)
+            if (
+                attention_mask.dtype != torch.bool
+                and not torch.all((attention_mask == 0) | (attention_mask == 1)).item()
+            ):
+                raise ValueError("generation attention_mask must contain only 0 and 1")
+            generation_mask = attention_mask.to(dtype=torch.bool)
+            if not torch.all(generation_mask.any(dim=1)).item():
+                raise ValueError("each generation prompt must contain at least one unmasked token")
+            if torch.any(generation_mask[:, :-1] & ~generation_mask[:, 1:]).item():
+                raise ValueError("batched generation supports left padding, not right padding")
+            prefill_mask = attention_mask
+
+        if max_new_tokens == 0:
+            return input_ids
+
+        output = self(input_ids, attention_mask=prefill_mask, use_cache=True)
         past_key_values = output.past_key_values
+        if past_key_values is None:  # pragma: no cover - internal invariant
+            raise RuntimeError("cache-enabled model forward did not return a cache")
+        generated_ids = input_ids
+        finished = torch.zeros(input_ids.shape[0], device=input_ids.device, dtype=torch.bool)
+        fill_token_id = pad_token_id if pad_token_id is not None else eos_token_id
         for generated in range(max_new_tokens):
             logits = output.logits[:, -1]
             if temperature <= 0:
@@ -413,16 +700,33 @@ class BarunLM(nn.Module):
             else:
                 probs = (logits / temperature).softmax(dim=-1)
                 next_token = torch.multinomial(probs, num_samples=1)
-            input_ids = torch.cat((input_ids, next_token), dim=1)
+
+            previously_finished = finished.clone()
+            if fill_token_id is not None:
+                filler = torch.full_like(next_token, fill_token_id)
+                next_token = torch.where(previously_finished[:, None], filler, next_token)
+            if eos_token_id is not None:
+                finished |= (~previously_finished) & next_token.squeeze(-1).eq(eos_token_id)
+
+            generated_ids = torch.cat((generated_ids, next_token), dim=1)
+            # EOS itself is a valid key.  Tokens appended after a sequence has
+            # already finished are padding and stay invisible to active rows.
+            step_mask = ~previously_finished
+            generation_mask = torch.cat((generation_mask, step_mask[:, None]), dim=1)
+            if torch.all(finished).item():
+                break
             if generated + 1 < max_new_tokens:
                 output = self(
                     next_token,
+                    attention_mask=generation_mask,
                     past_key_values=past_key_values,
                     use_cache=True,
-                    position_offset=input_ids.shape[1] - 1,
+                    position_offset=generated_ids.shape[1] - 1,
                 )
                 past_key_values = output.past_key_values
-        return input_ids
+                if past_key_values is None:  # pragma: no cover - internal invariant
+                    raise RuntimeError("cache-enabled model forward did not return a cache")
+        return generated_ids
 
     def parameter_counts(self) -> dict[str, int]:
         total = sum(parameter.numel() for parameter in self.parameters())

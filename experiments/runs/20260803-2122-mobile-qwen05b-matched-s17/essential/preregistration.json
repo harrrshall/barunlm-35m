@@ -1,0 +1,162 @@
+{
+  "schema_version": "barun-mobile-matched-baseline-recipe-v1",
+  "run_id": "20260803-2122-mobile-qwen05b-matched-s17",
+  "status": "frozen_before_remote_launch_or_model_download",
+  "registered_at": "2026-08-03T21:22:00+05:30",
+  "hypothesis": "With exactly the same Mobile Actions semantic supervision, the 494,032,768-parameter Qwen2.5 instruction baseline may outperform BarunAction-35M candidate-v2 on strict Action IR development exact match; a second independent architecture tests whether the existing SmolLM2 comparison is family-specific.",
+  "decision": "Run this single recipe once. Preserve its final-checkpoint predictions regardless of outcome. Use it only as a second matched public-development architecture comparison; it cannot select or modify BarunAction training or the active rescue winner.",
+  "model": {
+    "id": "Qwen/Qwen2.5-0.5B-Instruct",
+    "revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+    "license": "Apache-2.0",
+    "access": "public",
+    "expected_unique_parameters": 494032768,
+    "parameter_ratio_to_barunaction_35m": 14.085936074392531,
+    "parameter_count_policy": "Load the exact revision and sum unique parameter storage views, counting tied input/output embeddings once; abort unless the measured count is exactly 494,032,768.",
+    "trust_remote_code": false,
+    "native_chat_template_required": true,
+    "architecture": {
+      "architectures": ["Qwen2ForCausalLM"],
+      "model_type": "qwen2",
+      "vocab_size": 151936,
+      "hidden_size": 896,
+      "intermediate_size": 4864,
+      "num_hidden_layers": 24,
+      "num_attention_heads": 14,
+      "num_key_value_heads": 2,
+      "tie_word_embeddings": true
+    },
+    "primary_source_evidence": {
+      "hub_api": "https://huggingface.co/api/models/Qwen/Qwen2.5-0.5B-Instruct/revision/7ae557604adf67be50417f59c2c2f167def9a775",
+      "config": "https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct/raw/7ae557604adf67be50417f59c2c2f167def9a775/config.json",
+      "license": "https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct/raw/7ae557604adf67be50417f59c2c2f167def9a775/LICENSE",
+      "hub_reported_safetensors_parameters": 494032768,
+      "verified_public_ungated": true,
+      "verified_transformers_auto_model": "AutoModelForCausalLM"
+    }
+  },
+  "data": {
+    "dataset": "google/mobile-actions",
+    "dataset_revision": "e920309bc2acbc2e99a5e3201cf37df2b9fd9151",
+    "source_sha256": "91d251ee958cfd295af6c4504c236a3a1ad19517de240c3bc680bacfcbf7e7d9",
+    "adapter_schema_version": "barun-mobile-actions-adapter-v2",
+    "split_policy_version": "barun-mobile-actions-connected-components-v1",
+    "train_manifest_sha256": "131473ccb5bfb51cac0439b42159e72ec4c598025e50364a52b122b056c2e84e",
+    "train_membership_sha256": "4cdfc3649c21a9f0d3dc4d8d9cffcae3cb5c6abc4414a9fb09636e9220afe96f",
+    "train_rows": 7937,
+    "dev_manifest_sha256": "988bdce5874d1f1a775feeb5ba2b58cd2bdc128f57e73cb9a63d535fae7c1d55",
+    "dev_membership_sha256": "31e0170c1de49d9c4591064587c405f0cb9f981e7026ac457f6fa2902b3647de",
+    "dev_rows": 756,
+    "audit_sha256": "dc756f97c0a7ef706ec8ffefe2d57cf7e16d75a6ccd932f906d16b6a6ee2f83c",
+    "official_eval_rows": 961,
+    "official_eval_firewall": "The runner accepts no source-dataset or official-eval path. Only the frozen train manifest, dev manifest, and audit are staged. The audit must prove all 961 official rows remained opaque, unparsed, unmaterialized, un-tokenized, and excluded from overlap analysis."
+  },
+  "information_budget": {
+    "train_example_ids": "identical to BarunAction candidate-v2 uniform arm",
+    "dev_example_ids": "identical to BarunAction candidate-v2 evaluation",
+    "semantic_system_content": "byte-identical ACTION_IR_V1, NOW, ordered TOOLS schemas, descriptions, types, and required flags from each frozen manifest prompt",
+    "user_content": "byte-identical",
+    "targets": "byte-identical canonical Action IR v1 strings",
+    "train_passes": 1,
+    "examples_presented": 7937,
+    "augmentations": "none",
+    "teacher_information": "none",
+    "preference_or_reward_information": "none",
+    "packing": false,
+    "truncation_or_row_drop": false,
+    "allowed_model_specific_difference": "Only tokenizer-native chat role/control tokens and tokenization may differ; no vendor tool schema or extra instruction is added."
+  },
+  "rendering": {
+    "version": "barun-native-chat-action-render-v1",
+    "method": "Strictly remove the frozen Barun role wrapper, pass the unchanged semantic system and user strings to tokenizer.apply_chat_template(add_generation_prompt=true), and render the unchanged target as the assistant message for SFT.",
+    "assistant_output_only_loss": true,
+    "native_full_message_must_have_generation_prompt_token_prefix": true,
+    "native_assistant_eos_required": true
+  },
+  "optimization": {
+    "method": "full_parameter_sft",
+    "seed": 17,
+    "epochs": 1,
+    "max_seq_len": 2048,
+    "precision": "bfloat16",
+    "attention_implementation": "eager",
+    "per_device_batch_size": 21,
+    "gradient_accumulation_steps": 3,
+    "effective_batch_size": 63,
+    "expected_optimizer_steps": 126,
+    "optimizer": "AdamW",
+    "learning_rate": 0.00002,
+    "min_learning_rate_ratio": 0.1,
+    "warmup_steps": 12,
+    "weight_decay": 0.1,
+    "beta1": 0.9,
+    "beta2": 0.95,
+    "adam_epsilon": 1e-8,
+    "gradient_clip_norm": 1.0,
+    "gradient_checkpointing": true,
+    "checkpoint_policy": "final_only",
+    "early_stopping": false
+  },
+  "evaluation": {
+    "population": "the frozen 756-row grouped Mobile Actions development manifest only",
+    "scorer_version": "barun-mobile-actions-score-v1",
+    "primary_metric": "ast_exact_match.value",
+    "checkpoint_policy": "final_only",
+    "decoding": "unconstrained_deterministic_greedy",
+    "grammar_constrained": false,
+    "generation_batch_size": 64,
+    "generation_config_overrides": {
+      "do_sample": false,
+      "length_penalty": 1.0,
+      "no_repeat_ngram_size": 0,
+      "num_beams": 1,
+      "repetition_penalty": 1.0,
+      "temperature": null,
+      "top_k": null,
+      "top_p": null
+    },
+    "max_new_tokens": 192,
+    "sample_level_raw_predictions_required": true,
+    "sample_level_scores_required": true,
+    "missing_truncated_oom_or_parse_failure": "count as failure"
+  },
+  "paired_reference": {
+    "candidate": "BarunAction-35M candidate-v2 batch63 final checkpoint",
+    "run_id": "20260803-1845-mobile-followup-retry-s17",
+    "development_rows": 756,
+    "strict_ast_exact": {
+      "numerator": 602,
+      "denominator": 756
+    },
+    "predictions_sha256": "e5aea59e5090e3aa7c9dbd6b1a810c753410a159ce18dc8bb889fde3a58b8665",
+    "predictions_manifest_sha256": "badbb1dc91daa78a7807b998c7c3042a6b35523e4bd3024b7714ab6fdb69ba06",
+    "sample_scores_sha256": "a29c4d5c83493ec437a9f0fee362ea54cf97c2219844e5b46ba60d0f759f556c",
+    "aggregate_sha256": "5d7244d2fa449a7ce4b2aa3a20fc095fb118a38920b1dd9181f56669a7ddfea1",
+    "comparison": "Recompute both aggregates from sample-level evidence, require exactly the same 756 unique IDs, and report candidate-only wins, baseline-only wins, and ties."
+  },
+  "trial_budget": {
+    "recipes": 1,
+    "training_seeds": [17],
+    "development_scores_consulted": 1,
+    "hyperparameter_or_prompt_selection_after_scoring": "forbidden for this run",
+    "next_change_if_result_is_weak": "Record the negative result. Any second baseline recipe must be separately preregistered and cannot replace this evidence."
+  },
+  "compute": {
+    "provider": "JarvisLabs",
+    "gpu": "H200",
+    "num_gpus": 1,
+    "maximum_runtime_minutes": 240,
+    "lifecycle": "Use one newly created barun-* instance through infra/jarvis/safe_run.py; stage only train/dev/audit inputs; download essential evidence; pause and verify only its exact recorded ID.",
+    "protected_instance": {
+      "machine_id": 463058,
+      "name": "Kroda",
+      "policy": "do not use or mutate"
+    }
+  },
+  "retry_policy": {
+    "allowed": "One infrastructure-only retry is allowed only for an environment, import, transfer, or CUDA failure before any development prediction or score exists.",
+    "scientific_changes": "forbidden",
+    "required_evidence": "Record the failed exact machine ID, phase, logs, whether model/data scoring occurred, and the parent-attempt chain; pause-verify that machine before any retry."
+  },
+  "claim_limit": "This one-seed, one-recipe public-development comparison is not a universal beats-larger-models result. It has no official Mobile Actions test score, no sealed safety suite, no matched multi-seed uncertainty interval, and less dev-tuning budget than BarunAction candidate-v2. It is useful as a second matched-adaptation architecture comparison only."
+}

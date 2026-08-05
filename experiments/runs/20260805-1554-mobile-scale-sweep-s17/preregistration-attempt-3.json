@@ -1,0 +1,96 @@
+{
+  "schema_version": "barun-mobile-scale-sweep-preregistration-v3",
+  "run_id": "20260805-1554-mobile-scale-sweep-s17",
+  "attempt": 3,
+  "created_at": "2026-08-05T19:05:00+05:30",
+  "status": "cpu_prefreeze_blocked_pending_independent_prelaunch_audit",
+  "run_identity_decision": {
+    "choice": "same_run_directory_attempt_3",
+    "rationale": "Attempt 2 was rejected at CPU prefreeze by the independent prelaunch audit before any compute action, weight download, model output, or JarvisLabs resource existed; the attempt-2 receipt itself assessed the same-run-directory convention as contract-consistent. The v1/v2 configs, attempt-1/attempt-2 preregistrations, and both no-go receipts remain immutable rejected evidence in place."
+  },
+  "supersedes": {
+    "attempt_2_preregistration": "experiments/runs/20260805-1554-mobile-scale-sweep-s17/preregistration-attempt-2.json",
+    "attempt_2_config_path": "configs/mobile_scale_sweep_v2.json",
+    "attempt_2_config_sha256": "c8d57f84013198094c27d06d35851e5320f66a5106e6f1cbc6407bfd5e78f593",
+    "attempt_2_no_go_path": "experiments/runs/20260805-1554-mobile-scale-sweep-s17/prelaunch-audit-attempt-2-no-go.json",
+    "attempt_2_no_go_sha256": "e693302843678bd6622b149a74320d8ca3bbbba77ea8ab4fb8a065b986ec8ef3",
+    "attempt_1_lineage": {
+      "config_path": "configs/mobile_scale_sweep_v1.json",
+      "config_sha256": "d3ee897f9afeefe1e01ec32fe9b2721479b7496785e742d0954ad081758953b8",
+      "no_go_sha256": "9bc9d3af9e633b08b6e0d0e1c3bfeedfa660cbe7755443ad58987f47e86e99e0"
+    }
+  },
+  "hypothesis": "The candidate-v2 (35M, 602/756) versus Qwen2.5-0.5B (663/756) gap cannot currently be attributed to parameter count versus pretraining-token budget. A matched-adaptation sweep over pinned base checkpoints (pythia-70m-deduped ~3e11 tokens; SmolLM2-135M ~2e12; SmolLM2-360M ~4e12) on the identical frozen Mobile Actions SFT recipe, scored on a fresh grouped selection split, separates the axes.",
+  "decision": "Which base-model scale, and which axis (tokens versus parameters), the project adopts for the next post-training phase: the smallest configuration clearing a +3.0-point exact-match margin over the in-run candidate-v2 reference on the fresh selection split with schema validity >= 0.95 and zero truncations, missing predictions, and generation failures; otherwise explicit per-axis falsification.",
+  "config_path": "configs/mobile_scale_sweep_v3.json",
+  "config_sha256": "a67959b9b95aa72a6c9153234bb502490c800dba2c539ba9163e37cf4e539451",
+  "runner_module": "src/barunlm/baselines/mobile_scale_sweep.py",
+  "attempt_3_corrections": {
+    "P0-3": "every challenger arm's complete downloadable snapshot is hash-pinned in the v3 config roster snapshot_files tables (model.safetensors SHA-256 obtained via read-only Hugging Face LFS metadata with no weight download; config.json, tokenizer.json, tokenizer_config.json, special_tokens_map.json, and generation_config.json where present hashed from small metadata files). verify_challenger_snapshot enforces exact file-set equality plus per-file byte size and SHA-256 after snapshot_download and before any tokenizer or weight load, iterating the config's own pin table so no advertised pin can be left unenforced; validate_snapshot_pins additionally cross-checks the previously advertised tokenizer_json_sha256/tokenizer_config_sha256/config_json_sha256 against the pin table at config load. The verified hashes are bound into snapshot-verification.json, arm-result.json, and result.json. Pin receipt: experiments/runs/20260805-1554-mobile-scale-sweep-s17/snapshot-pins.json.",
+    "P2-A": "decoding_kwargs validates the frozen generation_config_overrides against the exact greedy contract at config load and the runner passes every non-null field explicitly to each challenger model.generate call; the generation summary records the explicitly passed overrides. Snapshot generation_config.json files are hash-verified where present; pythia-70m-deduped has none at its pinned revision and its absence is pinned through the frozen file set.",
+    "P2-B": "per-fit measured-failure semantics are implemented as preregistered: non-finite training loss (MeasuredFitFailure) or CUDA out-of-memory during one fit's training or generation records that fit as completed=false with its failure class, and the run continues; an arm with zero completed fits is a measured arm failure recorded in the decision's measured_failed_arm_ids and can never be adopted; if every arm fails, build_decision returns an explicit all-arms-falsified decision. Integrity violations (hash mismatch, optimizer-step budget drift, ID-presentation or gold-audit drift) remain whole-run aborts.",
+    "P3-A": "torch.manual_seed(17) and torch.cuda.manual_seed_all(17) are installed at run start; the config's seed_scope note records that no stochastic module exists on the honest path so the seed claim is exact rather than assumed",
+    "P3-B": "environment_versions binds the python/huggingface_hub/safetensors/tokenizers/torch/transformers versions into result.json, aborting on any missing package; the launch tooling's environment.json remains the complete environment record",
+    "P3-C": "consciously accepted without code change: the residual TOCTOU window between reference verification and file reads is narrowed by generate_manifest re-verifying every checkpoint hash inside the generation call, and exploiting the remainder requires concurrent write access on the remote host during the run, which no receipt-level binding can exclude"
+  },
+  "carried_forward_verified": "every attempt-2 fix (in-run hash-verified candidate-v2 reference evaluation, protected-machine-ID enforcement, pythia 70,426,624 unique trainable recount, exact scorer-numerator join, full-field gold-audit drift check, config-bound generation batch size) plus the fresh split hashes and counts, roster revision pins, salt-bias analysis, recipe, LR screen, decision thresholds, and denylist contents are byte-identical to the values the attempt-2 audit verified exactly",
+  "fresh_split": {
+    "derivation_path": "held_out_from_train",
+    "policy_version": "barun-mobile-scale-sweep-selection-v1",
+    "folds": 10,
+    "fold": 0,
+    "sweep_train_rows": 7212,
+    "selection_rows": 725,
+    "sweep_train_clusters": 4716,
+    "selection_clusters": 589,
+    "sweep_train_manifest_sha256": "3328654532d7e767e2cb87becc6c5869a65044bba7aadb62a69582be34c04183",
+    "selection_manifest_sha256": "3bd2281fce6d6910de8e42b843562a060e1d4e654bfd3ce95c850189b9f00cfb",
+    "sweep_train_membership_sha256": "3e0a64bb31ce3c4571d66b6983906e01c457edf6e53b99170b5943f7afea214e",
+    "selection_membership_sha256": "5838748633d408ab93a57b89fef17c6e4446dbbe14889215b60606d257f8ebf9",
+    "frozen_source_verification": "unchanged from attempts 1 and 2; independently rederived and confirmed by both audits"
+  },
+  "reference_evaluation": {
+    "candidate_id": "candidate-v2",
+    "checkpoint_sha256": {
+      "barun_config.json": "9b3a1d71baa95a198744d250f9629231738d942570b8685c44307fd83dd33565",
+      "model.safetensors": "fdb95ccf58a095e0d321be998924318b35ee59a334f6dd97d8726d2cf80021d3",
+      "tokenizer.json": "70ded9605fccd09c2340ca7e225361eab0ae8b4dbbb0d6e26343ab5183979db6"
+    },
+    "scored_before_challenger_arms": true,
+    "cli_override_forbidden": true
+  },
+  "challenger_snapshot_pins": {
+    "receipt_path": "experiments/runs/20260805-1554-mobile-scale-sweep-s17/snapshot-pins.json",
+    "pinning_method": "read-only Hugging Face model_info(files_metadata=True) LFS sha256 for model.safetensors (no weight blob downloaded); small non-LFS JSON metadata files downloaded and hashed locally, matching the attempt-1 roster pinning method",
+    "model_safetensors_sha256": {
+      "pythia-70m-deduped": "3da388330e4549156d76b58d6d268c63cd005e9336b4f4d2d378421e7b7a33fd",
+      "smollm2-135m": "80521b40281d6ce74e35c9282c22539e75aa0ac8578892b2a59955ef78d55da1",
+      "smollm2-360m": "7aaff6661428bed033abba9522bec81938678642cca3181fe752b6ca9e1e540f"
+    },
+    "generation_config_json": "pinned for smollm2-135m and smollm2-360m (identical bytes, sha256 2056c988e990b0d13670f63f2f3b87b3b6d07edaf7a3416998ba27dab2d8a059, bos/eos only); pinned absent for pythia-70m-deduped through exact file-set equality"
+  },
+  "roster_metadata_receipt": "experiments/runs/20260805-1554-mobile-scale-sweep-s17/roster-metadata.json",
+  "gold_token_audit": "experiments/runs/20260805-1554-mobile-scale-sweep-s17/gold-token-audit.json",
+  "max_new_tokens": 256,
+  "official_961": "sealed and unread; the preparation audit proves opacity",
+  "reused_756_probe": "not a selection metric; descriptive post-hoc reporting only",
+  "authorization": {
+    "launch_authorized": false,
+    "gpu_authorized": false,
+    "cuda_authorized": false,
+    "jarvislabs_resource_creation_authorized": false,
+    "training_authorized": false,
+    "baseline_weight_download_authorized": false,
+    "official_961_access_authorized": false,
+    "independent_prelaunch_audit_passed": false
+  },
+  "access_this_phase": {
+    "gpu": 0,
+    "cuda": 0,
+    "jarvislabs_mutations": 0,
+    "model_weights_downloaded": 0,
+    "official_961_rows_read": 0,
+    "protected_machine_ids_touched": 0,
+    "network": "read-only Hugging Face metadata only: model_info(files_metadata=True) for the three pinned revisions (LFS sha256 per file) plus small non-LFS JSON metadata files (config.json, generation_config.json, special_tokens_map.json, tokenizer.json, tokenizer_config.json) downloaded and hashed locally; no weight blob, no GPU, no JarvisLabs command"
+  }
+}

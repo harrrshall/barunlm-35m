@@ -1,0 +1,258 @@
+{
+  "abstention": {
+    "f1": 0.0,
+    "false_negative": 0,
+    "false_positive": 0,
+    "precision": 0.0,
+    "recall": 0.0,
+    "true_positive": 0
+  },
+  "argument_key_macro_f1": 0.22579310344827586,
+  "argument_key_micro": {
+    "f1": 0.06363137685134394,
+    "false_negative": 1693,
+    "false_positive": 14,
+    "precision": 0.8055555555555556,
+    "recall": 0.03312392918332382,
+    "true_positive": 58
+  },
+  "argument_value_macro_f1": 0.1917241379310345,
+  "argument_value_micro": {
+    "f1": 0.004388370817334065,
+    "false_negative": 1747,
+    "false_positive": 68,
+    "precision": 0.05555555555555555,
+    "recall": 0.002284408909194746,
+    "true_positive": 4
+  },
+  "ast_exact_match": {
+    "denominator": 725,
+    "numerator": 45,
+    "value": 0.06206896551724138
+  },
+  "call_simulator_assessment": {
+    "denominator": 170,
+    "numerator": 170,
+    "value": 1.0
+  },
+  "catastrophic_unauthorized_actions": 0,
+  "clarification_accuracy": {
+    "denominator": 0,
+    "numerator": 0,
+    "value": 0.0
+  },
+  "confirmation_accuracy": {
+    "denominator": 0,
+    "numerator": 0,
+    "value": 0.0
+  },
+  "decision_accuracy": {
+    "denominator": 725,
+    "numerator": 170,
+    "value": 0.23448275862068965
+  },
+  "evaluator_version": "action-ir-v1.0.0",
+  "failure_counts": {
+    "ast_mismatch": 125,
+    "duplicate_key": 20,
+    "extra_argument": 22,
+    "invalid_call_count": 4,
+    "invalid_decision": 1,
+    "invalid_json": 360,
+    "missing_argument": 49,
+    "missing_field": 2,
+    "mobile_actions_ast_mismatch": 125,
+    "parse_failure": 380,
+    "schema_failure": 175,
+    "simulator_failure": 125,
+    "truncated": 59,
+    "type_mismatch": 1,
+    "unknown_tool": 96
+  },
+  "false_action": {
+    "denominator": 0,
+    "numerator": 0,
+    "value": 0.0
+  },
+  "missing_prediction": {
+    "denominator": 725,
+    "numerator": 0,
+    "value": 0.0
+  },
+  "parse_failure": {
+    "denominator": 725,
+    "numerator": 380,
+    "value": 0.5241379310344828
+  },
+  "parse_valid": {
+    "denominator": 725,
+    "numerator": 345,
+    "value": 0.47586206896551725
+  },
+  "per_gold_tool_success": {
+    "create_calendar_event": {
+      "denominator": 279,
+      "numerator": 0,
+      "value": 0.0
+    },
+    "create_contact": {
+      "denominator": 142,
+      "numerator": 0,
+      "value": 0.0
+    },
+    "open_wifi_settings": {
+      "denominator": 120,
+      "numerator": 39,
+      "value": 0.325
+    },
+    "send_email": {
+      "denominator": 172,
+      "numerator": 0,
+      "value": 0.0
+    },
+    "show_map": {
+      "denominator": 143,
+      "numerator": 0,
+      "value": 0.0
+    },
+    "turn_off_flashlight": {
+      "denominator": 65,
+      "numerator": 2,
+      "value": 0.03076923076923077
+    },
+    "turn_on_flashlight": {
+      "denominator": 81,
+      "numerator": 4,
+      "value": 0.04938271604938271
+    }
+  },
+  "per_scenario_success": {
+    "create_calendar_event": {
+      "denominator": 174,
+      "numerator": 0,
+      "value": 0.0
+    },
+    "create_contact": {
+      "denominator": 111,
+      "numerator": 0,
+      "value": 0.0
+    },
+    "open_wifi_settings": {
+      "denominator": 116,
+      "numerator": 39,
+      "value": 0.33620689655172414
+    },
+    "send_email": {
+      "denominator": 100,
+      "numerator": 0,
+      "value": 0.0
+    },
+    "show_map": {
+      "denominator": 79,
+      "numerator": 0,
+      "value": 0.0
+    },
+    "turn_off_flashlight": {
+      "denominator": 65,
+      "numerator": 2,
+      "value": 0.03076923076923077
+    },
+    "turn_on_flashlight": {
+      "denominator": 80,
+      "numerator": 4,
+      "value": 0.05
+    }
+  },
+  "per_tool": {
+    "create_calendar_event": {
+      "balanced_accuracy": 0.5562265940177122,
+      "f1": 0.20512820512820515,
+      "false_negative": 247,
+      "false_positive": 1,
+      "precision": 0.9696969696969697,
+      "recall": 0.11469534050179211,
+      "true_negative": 445,
+      "true_positive": 32
+    },
+    "create_contact": {
+      "balanced_accuracy": 0.5070422535211268,
+      "f1": 0.02777777777777778,
+      "false_negative": 140,
+      "false_positive": 0,
+      "precision": 1.0,
+      "recall": 0.014084507042253521,
+      "true_negative": 583,
+      "true_positive": 2
+    },
+    "open_wifi_settings": {
+      "balanced_accuracy": 0.7261363636363636,
+      "f1": 0.5550660792951543,
+      "false_negative": 57,
+      "false_positive": 44,
+      "precision": 0.5887850467289719,
+      "recall": 0.525,
+      "true_negative": 561,
+      "true_positive": 63
+    },
+    "send_email": {
+      "balanced_accuracy": 0.5,
+      "f1": 0.0,
+      "false_negative": 172,
+      "false_positive": 0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "true_negative": 553,
+      "true_positive": 0
+    },
+    "show_map": {
+      "balanced_accuracy": 0.5,
+      "f1": 0.0,
+      "false_negative": 143,
+      "false_positive": 0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "true_negative": 582,
+      "true_positive": 0
+    },
+    "turn_off_flashlight": {
+      "balanced_accuracy": 0.5223193473193474,
+      "f1": 0.08695652173913043,
+      "false_negative": 62,
+      "false_positive": 1,
+      "precision": 0.75,
+      "recall": 0.046153846153846156,
+      "true_negative": 659,
+      "true_positive": 3
+    },
+    "turn_on_flashlight": {
+      "balanced_accuracy": 0.5369603558009355,
+      "f1": 0.15238095238095237,
+      "false_negative": 73,
+      "false_positive": 16,
+      "precision": 0.3333333333333333,
+      "recall": 0.09876543209876543,
+      "true_negative": 628,
+      "true_positive": 8
+    }
+  },
+  "policy_safe_executable_success": {
+    "denominator": 725,
+    "numerator": 45,
+    "value": 0.06206896551724138
+  },
+  "risk_coverage": [],
+  "sample_count": 725,
+  "schema_valid": {
+    "denominator": 725,
+    "numerator": 170,
+    "value": 0.23448275862068965
+  },
+  "schema_version": "barun-mobile-actions-score-v1",
+  "tool_macro_balanced_accuracy": 0.5498121306136408,
+  "tool_macro_f1": 0.1467585051887457,
+  "truncation": {
+    "denominator": 725,
+    "numerator": 59,
+    "value": 0.08137931034482758
+  }
+}

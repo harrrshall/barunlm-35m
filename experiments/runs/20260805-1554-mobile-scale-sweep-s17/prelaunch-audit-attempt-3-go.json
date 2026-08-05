@@ -1,0 +1,236 @@
+{
+  "schema_version": "barun-mobile-scale-sweep-prelaunch-audit-v1",
+  "run_id": "20260805-1554-mobile-scale-sweep-s17",
+  "attempt_under_audit": 3,
+  "audit_kind": "independent_adversarial_prelaunch_audit",
+  "auditor_statement": "I audited the attempt-3 CPU prefreeze independently and adversarially. I recomputed the v3 config and attempt-3 preregistration hashes; verified their bindings in the runner constant, preregistration, and ledger; independently re-derived all 17 challenger snapshot pins from the Hugging Face REST tree API (LFS sha256 for model.safetensors; local download+hash of every small metadata file) and confirmed every hash and byte size matches both snapshot-pins.json and the v3 roster snapshot_files tables; attacked verify_challenger_snapshot and validate_snapshot_pins with wrong-hash, extra smuggled shard, missing file, wrong-size-right-prefix, nested extra, unallowable advertised pin, tokenizer/pin disagreement, and pythia generation_config.json smuggle; confirmed verification precedes every Tokenizer.from_file and AutoModelForCausalLM.from_pretrained and that verified hashes are bound into snapshot-verification.json, arm-result.json, and result.json; verified frozen decoding_kwargs at every challenger generate() site; verified per-fit MeasuredFitFailure / CUDA OOM capture with zero-completed arms excluded from adoption; assessed the declined reference TOCTOU rationale honestly; spot-checked that every attempt-1 and attempt-2 fix remains intact; ran the sweep suite (53) and the full repository suite (1848); Ruff/format clean; confirmed the eight-file staging, append-only ledger, no secrets, push landed, and v1/v2 configs plus both prior no-go receipts byte-identical. Zero P0 defects. Verdict: go.",
+  "verdict": "go",
+  "go_criterion": "zero P0 defects (P0 = leakage, forgeable receipt/binding, sealed-data access, denylist gap, silent fallback, authorization-flag escape)",
+  "artifact_under_audit": {
+    "commit": "2774389b9122e6a54d6da874bb6d925039da463e",
+    "branch": "agent/barunaction-release-mbcf-v1",
+    "push_status": "HEAD equals origin/agent/barunaction-release-mbcf-v1 after fetch",
+    "files_changed": [
+      "configs/mobile_scale_sweep_v3.json",
+      "docs/mobile-scale-sweep-v1.md",
+      "experiments/ledger.jsonl",
+      "experiments/runs/20260805-1554-mobile-scale-sweep-s17/pin_snapshot_hashes.py",
+      "experiments/runs/20260805-1554-mobile-scale-sweep-s17/preregistration-attempt-3.json",
+      "experiments/runs/20260805-1554-mobile-scale-sweep-s17/snapshot-pins.json",
+      "src/barunlm/baselines/mobile_scale_sweep.py",
+      "tests/test_mobile_scale_sweep.py"
+    ],
+    "eight_file_staging_claim": "verified: exactly the eight claimed files, ledger append-only (exactly one appended JSON line for the attempt-3 prefreeze), no secrets, no binaries, no bulk staging"
+  },
+  "recomputed_hashes": {
+    "configs/mobile_scale_sweep_v3.json": {
+      "recomputed_sha256": "a67959b9b95aa72a6c9153234bb502490c800dba2c539ba9163e37cf4e539451",
+      "matches_claim": true,
+      "bound_in": [
+        "runner CONFIG_SHA256 constant",
+        "preregistration-attempt-3.json config_sha256",
+        "appended ledger entry config_sha256"
+      ]
+    },
+    "experiments/runs/20260805-1554-mobile-scale-sweep-s17/preregistration-attempt-3.json": {
+      "recomputed_sha256": "5ccd7962a0c3376b9b6382a5f95a098f76caa90139d99f396acb672330fd2a46",
+      "matches_claim": true,
+      "cites_attempt_2_no_go_sha256": "e693302843678bd6622b149a74320d8ca3bbbba77ea8ab4fb8a065b986ec8ef3",
+      "cites_attempt_1_no_go_sha256": "9bc9d3af9e633b08b6e0d0e1c3bfeedfa660cbe7755443ad58987f47e86e99e0",
+      "ledger_binds": "config_sha256 and preregistration_path (path-bound; SHA recomputed here)"
+    },
+    "experiments/runs/20260805-1554-mobile-scale-sweep-s17/snapshot-pins.json": {
+      "recomputed_sha256": "48100336fb8375de5786f14879d204e8cd09c9fa675cc7cb743f64523ae2d270",
+      "matches_v3_roster_snapshot_files": true
+    },
+    "immutable_rejected_evidence_byte_identical_at_HEAD": {
+      "configs/mobile_scale_sweep_v1.json": "d3ee897f9afeefe1e01ec32fe9b2721479b7496785e742d0954ad081758953b8",
+      "configs/mobile_scale_sweep_v2.json": "c8d57f84013198094c27d06d35851e5320f66a5106e6f1cbc6407bfd5e78f593",
+      "preregistration.json": "92882433b14fbcf0b5eda9db7a11632b91afe92fc4995ff8b8c9522da22ab4f3",
+      "preregistration-attempt-2.json": "4f98cc57e45de544e01796ebe19ea66959dfdac1ce18985a81ef4e341d56a98e",
+      "prelaunch-audit-attempt-1-no-go.json": "9bc9d3af9e633b08b6e0d0e1c3bfeedfa660cbe7755443ad58987f47e86e99e0",
+      "prelaunch-audit-attempt-2-no-go.json": "e693302843678bd6622b149a74320d8ca3bbbba77ea8ab4fb8a065b986ec8ef3"
+    },
+    "candidate_v2_pin_chain": {
+      "reference_evaluation_and_anchor_match_CANDIDATE_CHECKPOINT_SHA256": true,
+      "files": {
+        "barun_config.json": "9b3a1d71baa95a198744d250f9629231738d942570b8685c44307fd83dd33565",
+        "model.safetensors": "fdb95ccf58a095e0d321be998924318b35ee59a334f6dd97d8726d2cf80021d3",
+        "tokenizer.json": "70ded9605fccd09c2340ca7e225361eab0ae8b4dbbb0d6e26343ab5183979db6"
+      }
+    }
+  },
+  "pin_rederivation": {
+    "method": "independent read-only Hugging Face REST GET /api/models/{repo}/tree/{revision}?recursive=true for LFS sha256+size of model.safetensors; GET /{repo}/resolve/{revision}/{path} for small non-LFS JSON files, hashed locally with hashlib.sha256; no weight blob downloaded",
+    "total_files_checked": 17,
+    "all_sha256_and_bytes_match": true,
+    "config_roster_equals_snapshot_pins_receipt": true,
+    "tokenizer_block_cross_check_vs_pin_table": true,
+    "arms": [
+      {
+        "arm_id": "pythia-70m-deduped",
+        "repo_id": "EleutherAI/pythia-70m-deduped",
+        "revision": "e93a9faa9c77e5d09219f6c868bfc7a1bd65593c",
+        "files_matched": [
+          "config.json",
+          "model.safetensors",
+          "special_tokens_map.json",
+          "tokenizer.json",
+          "tokenizer_config.json"
+        ],
+        "generation_config_json": "confirmed ABSENT on hub tree (pinned absence via exact file-set equality)",
+        "model_safetensors_sha256": "3da388330e4549156d76b58d6d268c63cd005e9336b4f4d2d378421e7b7a33fd",
+        "model_safetensors_bytes": 166029852
+      },
+      {
+        "arm_id": "smollm2-135m",
+        "repo_id": "HuggingFaceTB/SmolLM2-135M",
+        "revision": "93efa2f097d58c2a74874c7e644dbc9b0cee75a2",
+        "files_matched": [
+          "config.json",
+          "generation_config.json",
+          "model.safetensors",
+          "special_tokens_map.json",
+          "tokenizer.json",
+          "tokenizer_config.json"
+        ],
+        "generation_config_json_content": "bos_token_id=0, eos_token_id=0 only (_from_model_config); sha256 2056c988e990b0d13670f63f2f3b87b3b6d07edaf7a3416998ba27dab2d8a059",
+        "model_safetensors_sha256": "80521b40281d6ce74e35c9282c22539e75aa0ac8578892b2a59955ef78d55da1",
+        "model_safetensors_bytes": 269060552
+      },
+      {
+        "arm_id": "smollm2-360m",
+        "repo_id": "HuggingFaceTB/SmolLM2-360M",
+        "revision": "f8027fd0eaeea54caa13c31d31b9fdc459c38b49",
+        "files_matched": [
+          "config.json",
+          "generation_config.json",
+          "model.safetensors",
+          "special_tokens_map.json",
+          "tokenizer.json",
+          "tokenizer_config.json"
+        ],
+        "generation_config_json_content": "identical bytes to smollm2-135m (bos/eos only); sha256 2056c988e990b0d13670f63f2f3b87b3b6d07edaf7a3416998ba27dab2d8a059",
+        "model_safetensors_sha256": "7aaff6661428bed033abba9522bec81938678642cca3181fe752b6ca9e1e540f",
+        "model_safetensors_bytes": 723674912
+      }
+    ],
+    "pin_snapshot_hashes_py_poisoning": "independently re-derived every pin from HF; script outputs match hub truth; refuse-overwrite and allow_patterns identity with runner SNAPSHOT_ALLOW_PATTERNS verified; no evidence of poisoned pins"
+  },
+  "claimed_fix_verification": {
+    "P0-3_challenger_snapshot_binding": {
+      "status": "verified_fixed",
+      "evidence": "Every roster arm carries snapshot_files with lowercase 64-hex sha256 and positive bytes for every downloadable evidence-affecting file; validate_snapshot_pins requires SNAPSHOT_REQUIRED_FILES, allow-pattern coverage, and exact agreement of tokenizer_json_sha256/tokenizer_config_sha256/config_json_sha256 with the pin table; verify_challenger_snapshot enforces exact file-set equality then per-file size then sha256_file, iterating the config's own pin table; run() calls it after snapshot_download and before Tokenizer.from_file / from_pretrained; verified dict is written to snapshot-verification.json and embedded as snapshot_sha256 in arm-result.json and result.json arms[]. Post-hoc weight substitution without editing result.json is detectable.",
+      "attacks_all_rejected": [
+        "wrong hash, correct size",
+        "extra smuggled model-00001-of-00002.safetensors (allow-pattern match)",
+        "missing config.json",
+        "wrong-size-right-prefix (10-byte truncated config.json)",
+        "nested subdirectory extra file",
+        "advertised pin outside allow patterns",
+        "tokenizer.config_json_sha256 disagreeing with snapshot pin",
+        "pythia pinned-absent generation_config.json added by attacker",
+        "exact synthetic pins accepted (positive control)"
+      ],
+      "case_insensitive_apfs_note": "a Config.json vs config.json smuggle is not scored as a vulnerability: the remote H200 is Linux with case-sensitive exact-set equality; macOS APFS case-insensitivity is a local auditor host property only"
+    },
+    "P2-A_explicit_decoding_overrides": {
+      "status": "verified_fixed",
+      "evidence": "decoding_kwargs validates evaluation.generation_config_overrides against the exact frozen greedy contract at config load and returns only the non-null fields; _generate_selection passes **decoding to every model.generate call and records decoding_overrides_passed_explicitly in the generation summary; hub generation_config.json cannot influence challenger decoding. Independently confirmed SmolLM2 generation_config.json files contain only bos/eos IDs; pythia has none."
+    },
+    "P2-B_per_fit_measured_failure": {
+      "status": "verified_fixed",
+      "evidence": "Non-finite loss raises MeasuredFitFailure inside _train_one_fit; the per-fit try/except captures MeasuredFitFailure and torch.cuda.OutOfMemoryError (covering train and generate), records completed=false with failure class, continues the LR screen; select_learning_rate rejects zero-completed arms; build_decision records measured_failed_arm_ids and never adopts them; all-arms-failed yields adopted_arm_id=null with all_arms_falsified=true. ScaleSweepError integrity violations (hash mismatch, optimizer-step budget drift, ID presentation, gold-audit drift, parameter-count mismatch) are not caught by the measured-failure handler and abort the run. result.json with status=completed is written once, at the end; partial arm artifacts cannot masquerade as a complete decision."
+    },
+    "P3_seed_and_environment": {
+      "status": "verified_fixed",
+      "evidence": "torch.manual_seed and torch.cuda.manual_seed_all install seed 17 at run start; environment_versions binds python plus huggingface_hub/safetensors/tokenizers/torch/transformers into result.json and aborts on missing packages."
+    },
+    "attempt_1_and_attempt_2_fixes_intact": {
+      "P0-1_in_run_reference": "spot-checked: --reference-exact-percent absent; _evaluate_reference before challenger loop; verify_reference_checkpoint + generate_manifest re-verify; reference pin equals CANDIDATE_CHECKPOINT_SHA256",
+      "P0-2_denylist": "spot-checked: enforce_machine_id before CUDA/downloads; 18 sorted unique IDs including 463058; all AGENTS.md-named protected project/Kimi/evidence IDs present; protected IDs and non-positive rejected",
+      "P1-1_pythia_70426624": "spot-checked: unique_trainable_parameters == 70426624",
+      "P1-2_schema_valid_join": "spot-checked: fit_outcome_counts requires schema_valid (rejects schema_validity); exact Rate numerators",
+      "P2_gold_audit_and_batch_size": "unchanged contract retained in load_frozen_config and runner"
+    }
+  },
+  "declined_reference_toctou_assessment": {
+    "status": "accepted_as_documented_P3_not_blocking",
+    "honest_assessment": "The residual window between reference verify_reference_checkpoint and subsequent file reads remains. It is narrowed by generate_manifest's in-call re-verification of every checkpoint hash. Exploiting the remainder requires concurrent write access on the remote host during the run. No receipt-level binding can exclude a compromised host that rewrites bytes between check and use. The attempt-3 preregistration's conscious acceptance is accurate and consistent with the attempt-2 P3-C standard.",
+    "challenger_multi_load_note": "Challenger snapshots are verified once per arm, then AutoModelForCausalLM.from_pretrained may run twice (two LR fits) without re-verification. The window spanning an entire first fit is longer than the reference window. Exploitation still requires concurrent host write access during the run — the same P3 class, not elevated to P0 under the repository's established TOCTOU standard. Hardening (re-verify before each from_pretrained) is recommended but not required for go."
+  },
+  "fresh_eyes": {
+    "training_loop": "AdamW with frozen betas/eps/weight_decay, bfloat16 autocast, seed-17 deterministic_batches, expected_optimizer_steps=115 independently recomputed as ceil(ceil(7212/21)/3)=115, presentation-once ID check — matches frozen recipe",
+    "lr_screen": "frozen {1e-4, 3e-5}; highest exact-match wins; ties to lower rate; zero-completed rejected — verified",
+    "selection_manifest_integrity": "partition verified against config; selection manifest SHA bound into generate_manifest and challenger scoring paths",
+    "evidence_bundle": "export/config.json, fresh-split artifacts, reference-result.json, per-arm snapshot-verification.json / arm-result.json / fit records, terminal result.json with environment, arms[].snapshot_sha256, reference, and decision — complete for the frozen scope",
+    "denylist_465072_note": "public demo CPU VM 465072 is AGENTS-protected but absent from the frozen 18-ID denylist (verbatim sub100m copy). Not scored P0: the authorized launch creates a fresh barun-scale-sweep-* H200; 465072 cannot satisfy the CUDA+bf16 gate; mutating 465072 is outside this runner's lifecycle commands. Informational only.",
+    "authorization_flags": "all eight flags remain false in the frozen v3 config; this go receipt is the separate launch authorization"
+  },
+  "defects": [
+    {
+      "id": "P3-D",
+      "severity": "P3",
+      "title": "Challenger from_pretrained is not preceded by per-fit re-verification",
+      "detail": "verify_challenger_snapshot runs once per arm; each learning-rate fit reloads weights from the same snapshot path without re-hashing. Concurrent host rewrite between fits could desynchronize the recorded snapshot_sha256 from the bytes actually trained on the second fit. Same exploitation class as the accepted reference TOCTOU (requires concurrent write access on the remote host). Informational; recommended hardening only.",
+      "blocking": false
+    },
+    {
+      "id": "P3-E",
+      "severity": "P3",
+      "title": "Frozen denylist omits later-declared product host 465072",
+      "detail": "AGENTS.md protects CPU VM 465072 (barun-action-demo-public-v1). The v3 denylist is the audited 18-ID sub100m copy and does not include 465072. enforce_machine_id would not reject it, but the runner's CUDA+bf16 requirement makes that host unusable for this sweep, and the authorized launch path creates a fresh H200 rather than reusing 465072. Informational.",
+      "blocking": false
+    }
+  ],
+  "checks_performed": [
+    {"check": "recompute v3 config SHA-256 and verify bindings (runner CONFIG_SHA256, attempt-3 prereg, ledger)", "result": "pass"},
+    {"check": "recompute attempt-3 preregistration SHA-256; verify lineage cites both prior no-go hashes and v2 config hash", "result": "pass"},
+    {"check": "tamper: authorization flag flip rejected by config hash gate", "result": "pass"},
+    {"check": "independent HF REST + local-hash rederivation of all 17 snapshot pins", "result": "all match"},
+    {"check": "verify_challenger_snapshot / validate_snapshot_pins attack battery (8 crafted variants + positive control)", "result": "all rejected / accept path works"},
+    {"check": "verification precedes tokenizer and weight load; verified hashes bound into arm-result and result.json", "result": "pass"},
+    {"check": "pythia generation_config.json pinned absent; attacker-added file rejected; SmolLM2 generation_config benign bos/eos only", "result": "pass"},
+    {"check": "frozen decoding_kwargs at every challenger generate() site", "result": "pass"},
+    {"check": "per-fit measured failure, zero-completed exclusion, all-arms-falsified decision, integrity abort, partial-run non-masquerade", "result": "pass"},
+    {"check": "declined reference TOCTOU rationale", "result": "accepted as documented P3"},
+    {"check": "attempt-1/attempt-2 fix spot-checks (reference path, denylist, pythia 70426624, schema_valid join)", "result": "intact"},
+    {"check": "fresh-eyes: training loop / LR screen / selection manifest / evidence bundle / pin script", "result": "pass"},
+    {"check": "sweep suite", "result": "53 passed"},
+    {"check": "full repository suite", "result": "1848 passed, 0 failed"},
+    {"check": "ruff check + format on changed Python files", "result": "clean"},
+    {"check": "commit 2774389 staged exactly the eight claimed files; ledger append-only; no secrets; push landed (HEAD == origin)", "result": "pass"},
+    {"check": "v1/v2 configs, both prior preregistrations, and both no-go receipts byte-identical at HEAD", "result": "pass"}
+  ],
+  "constraints_honored": {
+    "cpu_local_only": true,
+    "gpu_cuda_jarvislabs_commands": 0,
+    "weight_downloads": 0,
+    "network_access": "read-only Hugging Face REST tree metadata for LFS sha256 of three model.safetensors files plus download of small non-LFS JSON metadata files for local hashing; git fetch/push for audit receipt only",
+    "official_961_rows_parsed": 0,
+    "protected_machine_ids_touched": 0,
+    "credentials_exposed": 0
+  },
+  "authorization": {
+    "launch_authorized": true,
+    "authorized_scope": "creation of a single fresh exact-ID barun-scale-sweep-* H200 executing the frozen configs/mobile_scale_sweep_v3.json (SHA-256 a67959b9b95aa72a6c9153234bb502490c800dba2c539ba9163e37cf4e539451) end-to-end: environment/tests gate, data audit, in-run hash-verified candidate-v2 reference evaluation on the fresh selection split, per-arm LR screen {1e-4, 3e-5}, three challenger arms with snapshot verification, scoring, evidence download, and pause-verify of that exact ID",
+    "explicitly_not_authorized": [
+      "official-961 access or scoring",
+      "adoption or release of any challenger checkpoint",
+      "candidate-v2 retraining or weight mutation",
+      "reuse of any protected or pre-existing JarvisLabs machine ID",
+      "a second H200 or a retry under this same frozen attempt without a new audit",
+      "flipping authorization flags inside the immutable v3 config (this receipt is the authorization document)"
+    ],
+    "gpu_authorized_for_authorized_scope_only": true,
+    "cuda_authorized_for_authorized_scope_only": true,
+    "jarvislabs_single_fresh_h200_creation_authorized": true,
+    "training_authorized_for_frozen_v3_recipe_only": true,
+    "baseline_weight_download_authorized_for_pinned_revisions_only": true,
+    "official_961_access_authorized": false,
+    "adoption_or_release_authorized": false,
+    "candidate_v2_retraining_authorized": false
+  },
+  "what_this_go_means": "Attempt 3 fully and robustly repairs the attempt-2 blocking defect (P0-3) and the non-blocking P2-A/P2-B/P3 items. Every attempt-1 and attempt-2 fix remains intact. Independent pin rederivation matched all 17 files. No P0 defects remain. This receipt authorizes exactly one fresh barun-scale-sweep-* H200 running the frozen v3 config end-to-end as stated in authorization.authorized_scope, and nothing else.",
+  "recorded_at": "2026-08-05T19:41:31+05:30"
+}

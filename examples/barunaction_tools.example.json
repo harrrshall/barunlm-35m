@@ -1,0 +1,43 @@
+[
+  {
+    "additional_arguments": false,
+    "arguments": {},
+    "description": "Turn on the device flashlight.",
+    "name": "turn_on_flashlight",
+    "required": [],
+    "side_effecting": true
+  },
+  {
+    "additional_arguments": false,
+    "arguments": {},
+    "description": "Open the device Wi-Fi settings screen.",
+    "name": "open_wifi_settings",
+    "required": [],
+    "side_effecting": false
+  },
+  {
+    "additional_arguments": false,
+    "arguments": {
+      "body": {
+        "description": "Email body text.",
+        "type": "string"
+      },
+      "subject": {
+        "description": "Email subject line.",
+        "type": "string"
+      },
+      "to": {
+        "description": "Recipient email address.",
+        "type": "string"
+      }
+    },
+    "description": "Draft an email for an external mail client.",
+    "name": "send_email",
+    "required": [
+      "to",
+      "subject",
+      "body"
+    ],
+    "side_effecting": true
+  }
+]

@@ -1,0 +1,47 @@
+{
+  "schema_version": "barun-qwen05b-postrun-source-delta-v1",
+  "run_id": "20260803-2122-mobile-qwen05b-matched-s17",
+  "frozen_source_snapshot_sha256": "f9c187539e097ac21bec8315daf75c48e74c6f3bcc8e9cfe969d3aaf568d9cb6",
+  "scientific_source_changed_after_scoring": false,
+  "unchanged_scientific_identities": {
+    "configs/mobile_qwen05b_matched_v1.json": "6855eaf52c34089d802b8584c566b95619f9ff2780d4f130f333126bc33357e1",
+    "requirements/qwen05b-matched.txt": "8e4ef2e2d49294f62d646ce9e9c57addf45f2481fbe162795c8408a98f788a99",
+    "scripts/run_mobile_qwen05b_matched_baseline.py": "d8dc72bf0b63bf7c59419f54f2fd0df7ad8f1fee04f3f7152d372c8495a1b854",
+    "src/barunlm/baselines/mobile_qwen05b_matched.py": "e652d690691d92639e2e514e35846871a61308fa6b5597dcdb25bed295b32abb",
+    "src/barunlm/evaluation/action_ir.py": "563d40afabd03bc81fdd4e2a0bf0224c5f6e9b686ee8f9f868611043d42642c8",
+    "src/barunlm/evaluation/evaluator.py": "36db751c9b4d791e45ebdd5b6338f3364789aefcd33ebed271c1023dcbf0d3a5",
+    "src/barunlm/evaluation/mobile_actions.py": "4c7fc82d546996d5ba739a24ca59abf805acf44221f65edeccee1c095babb7ac",
+    "src/barunlm/training/data.py": "4d746fbd2f5ceaf371074b41db390d14dd3d2115ec935ddd2ccad3c5d1a4413a"
+  },
+  "postrun_only_changes": {
+    "docs/mobile-qwen05b-matched-baseline.md": {
+      "preregistered_sha256": "41b0a88a68d3181333bc72b37494ed4a707464b1d65bc02121d4e25ba34d321f",
+      "handoff_sha256": "9fb0232f1b9257f45a6fa3a6687a8fe4a328073fe2fe2857ed36b57d078f8085",
+      "reason": "dated result, interpretation, failure, cost, and pause-verified addendum"
+    },
+    "scripts/verify_qwen05b_matched_bundle.py": {
+      "preregistered_sha256": "c226cc74d9be4105cdffac89ea7344a1ad8567664b6b43d604ba25e8719389f7",
+      "handoff_sha256": "355018916f839fdb0b6bfe4cc23b41381200cfa1bde59ed040bba513abdde064",
+      "reason": "post-download compatibility fixes and comprehensive strict independent verification"
+    },
+    "tests/test_qwen05b_bundle_verification.py": {
+      "preregistered_sha256": "cba9364646ad1257015a06ed3b1e0c3149cf00bdc53ac4f8d55b931af63a4a0d",
+      "handoff_sha256": "ccdf66c10562fdbdea7d1d00e10836d35278500995fb18ffc1f4546cb618bade",
+      "reason": "regressions for safetensors keys, JSON normalization, duplicate/non-finite JSON, safe manifest paths, and relative exclusions"
+    },
+    "tests/test_mobile_qwen05b_matched_baseline.py": {
+      "preregistered_sha256": "9dc9c846763ad5d4aadd8b96390a68f93c1e13be9f54b9325a90aa4649d60e4e",
+      "handoff_sha256": "4b25456cbddf6535947118bd8a0203496c10dfb6ec96245b66a0971fb58e4056",
+      "reason": "preserve pre-score doc/test identities from the immutable source receipt while keeping science-critical live hashes exact"
+    }
+  },
+  "postrun_validation": {
+    "pytest_passed": 103,
+    "pytest_log_sha256": "907d9d65001bdd7776a00db93f938f1f3617f3ff172b375ffde5f42143ccca12",
+    "ruff_check_passed": true,
+    "ruff_check_log_sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+    "ruff_format_check_passed": true,
+    "ruff_format_log_sha256": "ef7d13d02214e98ca902b05257cdbe6a8e84f3b4714508efdc19766460b54209",
+    "preserved_failed_provenance_test_log_sha256": "5b5e0b7338a01fe32688dff09e160fae78c0b3ec26628ccbc90d7cf09b260c49"
+  }
+}

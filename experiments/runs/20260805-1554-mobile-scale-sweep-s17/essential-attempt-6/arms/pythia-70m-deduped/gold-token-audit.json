@@ -1,0 +1,60 @@
+{
+  "selection": {
+    "eos_reserved": 1,
+    "max_target_tokens_with_eos": 135,
+    "prompt_tokens": {
+      "count": 725,
+      "max": 437,
+      "min": 193,
+      "p50": 221,
+      "p95": 265,
+      "p99": 279
+    },
+    "rows": 725,
+    "target_tokens": {
+      "count": 725,
+      "max": 134,
+      "min": 29,
+      "p50": 62,
+      "p95": 102,
+      "p99": 116
+    },
+    "total_with_eos": {
+      "count": 725,
+      "max": 561,
+      "min": 223,
+      "p50": 282,
+      "p95": 367,
+      "p99": 401
+    }
+  },
+  "sweep_train": {
+    "eos_reserved": 1,
+    "max_target_tokens_with_eos": 150,
+    "prompt_tokens": {
+      "count": 7212,
+      "max": 413,
+      "min": 192,
+      "p50": 223,
+      "p95": 263,
+      "p99": 279
+    },
+    "rows": 7212,
+    "target_tokens": {
+      "count": 7212,
+      "max": 149,
+      "min": 29,
+      "p50": 63,
+      "p95": 102,
+      "p99": 114
+    },
+    "total_with_eos": {
+      "count": 7212,
+      "max": 529,
+      "min": 222,
+      "p50": 286,
+      "p95": 364,
+      "p99": 392
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "artifacts_preserved": true,
+  "automatic_retry_attempted": false,
+  "error_type": "TemporalPreflightError",
+  "failed_at": "2026-08-03T21:14:58+00:00",
+  "jarvis_resource_id": "463793",
+  "message": "CPU-only pre-CUDA validation failed with exit code 1",
+  "model_or_cuda_loaded": false,
+  "official_961_rows_read": 0,
+  "parent_torch_imported": false,
+  "phase": "stdlib_prebackend",
+  "retry_after_this_attempt": "external_controller_must_verify_eligibility",
+  "reused_756_rows_read": 0,
+  "reused_756_rows_scored": 0,
+  "schema_version": "barun-mobile-temporal-execution-failure-v1",
+  "usable_held_out_artifacts": []
+}

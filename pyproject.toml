@@ -1,35 +1,42 @@
 [build-system]
-requires = ["setuptools>=69", "wheel"]
+requires = ["setuptools>=77", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "barunlm"
-version = "1.0.0"
-description = "Native PyTorch implementation for BarunLM-35M"
+version = "1.1.0"
+description = "Verified local inference and research tooling for BarunLM-35M and BarunAction-35M"
 readme = "README.md"
 requires-python = ">=3.10"
-license = {text = "Apache-2.0"}
+license = "Apache-2.0"
 authors = [{name = "Harshal Singh"}]
-keywords = ["language-model", "pytorch", "small-language-model"]
+keywords = ["action-compiler", "language-model", "pytorch", "small-language-model"]
 classifiers = [
   "Development Status :: 4 - Beta",
-  "License :: OSI Approved :: Apache Software License",
   "Programming Language :: Python :: 3",
   "Topic :: Scientific/Engineering :: Artificial Intelligence",
 ]
 dependencies = [
   "huggingface-hub>=0.26",
+  "numpy>=1.26",
   "safetensors>=0.4.5",
   "tokenizers>=0.20,<1",
   "torch>=2.4",
 ]
+
+[project.scripts]
+barunaction = "barunaction.cli:main"
 
 [project.optional-dependencies]
 dev = ["pytest>=8", "ruff>=0.6"]
 
 [project.urls]
 Homepage = "https://github.com/harrrshall/barunlm-35m"
-Model = "https://huggingface.co/harrrshall/BarunLM-35M"
+BaseSource = "https://github.com/harrrshall/barunlm-35m"
+BaseModel = "https://huggingface.co/harrrshall/BarunLM-35M"
+BarunActionModelCard = "https://github.com/harrrshall/barunlm-35m/blob/barunaction-v1.1.0/docs/barunaction-model-card.md"
+BarunActionRetrieval = "https://github.com/harrrshall/barunlm-35m/blob/barunaction-v1.1.0/docs/barunaction-retrieval.md"
+BarunActionEvidence = "https://github.com/harrrshall/barunlm-35m/blob/barunaction-v1.1.0/docs/barunaction-release-evidence.md"
 
 [tool.setuptools.packages.find]
 where = ["src"]
@@ -37,6 +44,15 @@ where = ["src"]
 [tool.ruff]
 line-length = 100
 target-version = "py310"
+
+# These historical experiment sources are byte-hash-pinned in immutable provenance receipts.
+[tool.ruff.format]
+exclude = [
+  "scripts/run_continual_recovery.py",
+  "scripts/run_interpolation_rescue.py",
+  "src/barunlm/evaluation/interpolation_rescue.py",
+  "src/barunlm/recovery/continual_recovery.py",
+]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

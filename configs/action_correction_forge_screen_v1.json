@@ -1,0 +1,431 @@
+{
+  "schema_version": "barun-action-correction-forge-prefreeze-v1",
+  "run_id": "20260805-0230-action-correction-forge-screen-s17",
+  "status": "cpu_prefreeze_non_authorizing",
+  "canonical_names": {
+    "base_model": "BarunLM-35M",
+    "post_trained_model": "BarunAction-35M",
+    "base_parameter_count": 35072768
+  },
+  "checkpoint_identities": {
+    "canonical_base": {
+      "file_sha256": {
+        "barun_config.json": "9b3a1d71baa95a198744d250f9629231738d942570b8685c44307fd83dd33565",
+        "model.safetensors": "f2a7c88b9f2c2e3584809081407ab136795d82e30e89b730e007781c45d01447",
+        "tokenizer.json": "70ded9605fccd09c2340ca7e225361eab0ae8b4dbbb0d6e26343ab5183979db6"
+      },
+      "parameter_count": 35072768,
+      "repo_id": "harrrshall/BarunLM-35M",
+      "revision": "ef3e483a9fd7d906ecf2a7929babeffaf82d1d16"
+    },
+    "candidate_v2": {
+      "candidate_descriptor_sha256": "ec76e48ab1fe5105482aaad902954ccc3f8f3d23fb98226b66d13b292c2a4ac9",
+      "checkpoint_manifest_sha256": "c743ab7c4d33ae75c6b0aa4547458a961b92766da8fcf85fd148fda2ebb5530a",
+      "file_sha256": {
+        "barun_config.json": "9b3a1d71baa95a198744d250f9629231738d942570b8685c44307fd83dd33565",
+        "model.safetensors": "fdb95ccf58a095e0d321be998924318b35ee59a334f6dd97d8726d2cf80021d3",
+        "tokenizer.json": "70ded9605fccd09c2340ca7e225361eab0ae8b4dbbb0d6e26343ab5183979db6"
+      },
+      "parameter_count": 35072768,
+      "source_run_id": "20260803-1845-mobile-followup-retry-s17",
+      "step": 126
+    }
+  },
+  "hypothesis": "Joint direct and draft-correction SFT will let the same 35,072,768-parameter BarunAction-35M checkpoint recheck argument bindings in a second pass and outperform matched direct continuation, masked value reconstruction, frozen candidate-v2, and untrained two-pass controls on a hypothesis-fresh internal synthetic screen without increasing unsafe actions.",
+  "decision": "Keep only the first treatment in the frozen hierarchy that passes every applicable internal quality, validity, safety, and efficiency gate; otherwise retain BarunAction-35M candidate-v2. This CPU contract cannot launch, access a model, or support a breakthrough or larger-model claim.",
+  "launch_authorized": false,
+  "model_cuda_authorized": false,
+  "population_materialized": false,
+  "jarvislabs_resource_creation_authorized": false,
+  "human_label_access_authorized": false,
+  "distinctness": {
+    "closed_predecessors": {
+      "generate_verify_select_v1": "closed_before_population_or_model_access",
+      "grounded_planir_placeholder_v2": "closed_terminal_no_retry",
+      "month_boundary_counterfactual_v3": "closed_scientific_rejection"
+    },
+    "output_contract": "ACTION_IR_V1",
+    "reopens_closed_run_or_recipe": false,
+    "uses_gvs_population_candidate_set_ranker_or_receipt": false,
+    "uses_k8_candidates": false,
+    "uses_month_boundary_counterfactual_transform": false,
+    "uses_planir_or_placeholder_v2": false,
+    "uses_verifier_or_learned_ranker": false
+  },
+  "population_plan": {
+    "name": "ActionCorrection-Forge-v1",
+    "status": "planned_not_materialized",
+    "t_synth": {
+      "nominal_rows_per_registered_stratum": 1024,
+      "planned_rows": 16384,
+      "registered_descriptive_strata": 16,
+      "text_source": "deterministic_program_first_renderer_only"
+    },
+    "t_replay": {
+      "accepted_rows": 5744,
+      "accepted_membership_order_sha256": "27f9acb8905db132420ddb5d11a20bed138f2e2927aec41672f6852b3895452d",
+      "direct_action_ir_only": true,
+      "exclusion_ledger_sha256": "7593b556b9c096308ca1a9e9d9b89627ebf19710da930bd4dd5794c58879616a",
+      "fresh_or_selection_evidence": false,
+      "known_bad_label_excluded": true,
+      "known_bad_label_id": "mobile-actions-04894-6bd7643b1bc95697",
+      "source_rows": 5745,
+      "source_sha256": "800a3ba0a7f0215e5cf95c77c32e47abed48b2f07f375954b0e0b08296a33d10",
+      "source_membership_order_sha256": "b70f6dfe79cfe49792b6e6f5d414fd509c889d18101f75cd8df6d4e4f146c588"
+    },
+    "d_internal": {
+      "effective_components_claimed": null,
+      "effective_components_verified": false,
+      "freshness_scope": "hypothesis_fresh_internal_synthetic_only",
+      "independent_or_powered_population_claimed": false,
+      "nominal_rows": 4096,
+      "nominal_rows_per_registered_stratum": 256,
+      "old_7937_756_v3_planir_presto_dev_lineage_allowed": false,
+      "registered_descriptive_strata": 16
+    },
+    "manifest_sha256": {
+      "d_internal": null,
+      "t_replay": null,
+      "t_synth": null
+    },
+    "requirements": {
+      "all_requirements_verified": false,
+      "component_split_before_render_required": true,
+      "d_frozen_before_model_output_required": true,
+      "joint_exact_normalized_delexicalized_near_duplicate_closure_required": true,
+      "materialization_and_token_audit_required": true,
+      "no_human_or_model_authored_text_required": true,
+      "role_exclusive_provenance_required": true
+    }
+  },
+  "forbidden_population_access": {
+    "gvs_population_rows_read": 0,
+    "mobile_official_evaluation_961_rows_read": 0,
+    "mobile_reused_development_756_rows_read": 0,
+    "planir_screen_rows_read": 0,
+    "presto_development_rows_read": 0,
+    "private_human_labels_read": 0,
+    "v3_confirmation_rows_read": 0,
+    "v3_selection_rows_read": 0
+  },
+  "role_order": [
+    "A",
+    "B",
+    "C",
+    "G0",
+    "A2",
+    "C1",
+    "C2",
+    "G02",
+    "B0"
+  ],
+  "roles": {
+    "A": {
+      "kind": "trained_arm_and_one_pass_evaluation",
+      "passes": 1,
+      "training_view": "direct_action_ir_repeat",
+      "weights": "arm_A"
+    },
+    "B": {
+      "kind": "trained_arm_and_one_pass_evaluation",
+      "passes": 1,
+      "training_view": "single_semantic_field_masked_full_action_reconstruction",
+      "weights": "arm_B"
+    },
+    "C": {
+      "kind": "trained_arm_weights_only",
+      "passes": 0,
+      "training_view": "exact_or_certified_single_fault_draft_50_50",
+      "weights": "arm_C"
+    },
+    "G0": {
+      "kind": "no_fit_one_pass_reference",
+      "passes": 1,
+      "training_view": "none",
+      "weights": "candidate_v2"
+    },
+    "A2": {
+      "kind": "no_additional_fit_two_pass_process_control",
+      "passes": 2,
+      "training_view": "none",
+      "weights": "arm_A"
+    },
+    "C1": {
+      "kind": "no_additional_fit_one_pass_training_effect_control",
+      "passes": 1,
+      "training_view": "none",
+      "weights": "arm_C"
+    },
+    "C2": {
+      "kind": "no_additional_fit_two_pass_treatment",
+      "passes": 2,
+      "training_view": "none",
+      "weights": "arm_C"
+    },
+    "G02": {
+      "kind": "no_fit_two_pass_untrained_prompt_control",
+      "passes": 2,
+      "training_view": "none",
+      "weights": "candidate_v2"
+    },
+    "B0": {
+      "kind": "no_fit_one_pass_base_probe_reference",
+      "passes": 1,
+      "training_view": "none",
+      "weights": "canonical_base"
+    }
+  },
+  "training": {
+    "training_arms": [
+      "A",
+      "B",
+      "C"
+    ],
+    "seeds": [
+      17,
+      29,
+      43
+    ],
+    "total_fits": 9,
+    "starting_checkpoint": "BarunAction-35M candidate-v2",
+    "parameter_count_per_fit": 35072768,
+    "full_parameter": true,
+    "shared_replay_rows_per_fit": 5744,
+    "shared_direct_synth_rows_per_fit": 16384,
+    "arm_specific_synth_rows_per_fit": 16384,
+    "c_certified_single_fault_draft_rows_per_fit": 8192,
+    "c_exact_draft_rows_per_fit": 8192,
+    "rows_per_fit": 38512,
+    "epochs": 1,
+    "batch_size": 64,
+    "drop_last": false,
+    "last_batch_rows": 48,
+    "optimizer_updates_per_fit": 602,
+    "budget_requirements": {
+      "input_compute_matched_claimed": false,
+      "same_complete_gold_target_by_source_required": true,
+      "same_example_count_required": true,
+      "same_optimizer_updates_required": true,
+      "same_source_ids_required": true,
+      "same_supervised_target_token_total_required": true,
+      "clean_fault_split_verification_passed": false,
+      "every_fault_draft_single_fault_certificate_required": true,
+      "fault_certification_verification_passed": false,
+      "source_and_target_budget_verification_passed": false
+    },
+    "preview_checkpoint_policy": {
+      "best_seed_selection_authorized": false,
+      "maximum_total_fits": 9,
+      "post_D_refit_authorized": false,
+      "predesignated_preview_seed": 17,
+      "replication_only_seeds": [
+        29,
+        43
+      ],
+      "tenth_fit_authorized": false,
+      "weight_averaging_authorized": false
+    },
+    "optimization": {
+      "adam_epsilon": 1e-8,
+      "attention_backend": "deterministic_math_sdpa_only",
+      "beta1": 0.9,
+      "beta2": 0.95,
+      "checkpoint_policy": "unconditional_final_only",
+      "decoding": "unconstrained_greedy",
+      "early_stopping": false,
+      "gradient_accumulation_steps": 1,
+      "gradient_clip_norm": 1.0,
+      "learning_rate": 5e-5,
+      "loss": "response_only_cross_entropy",
+      "max_seq_len": 2048,
+      "min_learning_rate_ratio": 0.1,
+      "packing": false,
+      "precision": "bf16",
+      "scheduler": "cosine",
+      "warmup_steps": 18,
+      "weight_decay": 0.1
+    }
+  },
+  "phase_firewall": {
+    "B0_evaluation_requires_frozen_D_and_phase_open": true,
+    "D_access_before_all_nine_final_checkpoints_frozen": false,
+    "D_loss_used_for_training_early_stop_or_checkpoint_choice": false,
+    "all_nine_checkpoints_frozen_before_first_D_decode": true,
+    "phase_requirements_verified": false
+  },
+  "two_pass_contract": {
+    "canonical_abstain": "{\"decision\":\"ABSTAIN\"}",
+    "decoding_caps_required_before_model_authorization": true,
+    "decoding_caps_resolved": false,
+    "execution_permitted": false,
+    "fallback_order": [
+      "pass2_valid",
+      "pass1_valid",
+      "canonical_abstain"
+    ],
+    "maximum_passes": 2,
+    "pass1_max_new_tokens": null,
+    "pass2_max_new_tokens": null,
+    "real_tool_execution": false,
+    "retry_count": 0,
+    "same_checkpoint_for_both_passes": true,
+    "two_pass_roles": [
+      "G02",
+      "A2",
+      "C2"
+    ],
+    "validity_predicate": [
+      "parse_valid",
+      "schema_valid",
+      "policy_conformant_proposal"
+    ]
+  },
+  "diagnostics_contract": {
+    "allowed_fields": [
+      "parse_valid",
+      "schema_valid",
+      "policy_status",
+      "simulator_status",
+      "error_codes"
+    ],
+    "derivation": "draft_only_recomputed_by_pinned_runtime",
+    "fault_certificate_model_visible": false,
+    "forbidden_semantic_sources": [
+      "expected",
+      "fault_kind",
+      "gold",
+      "label",
+      "oracle",
+      "reference_answer",
+      "target"
+    ],
+    "gold_derived_diagnostics_allowed": false,
+    "runtime_recomputation_verified": false
+  },
+  "gates": {
+    "evaluated": false,
+    "passed": null,
+    "hard_conjunction": true,
+    "statistical_or_independent_component_claim_authorized": false,
+    "base_probe": {
+      "comparator": "B0",
+      "minimum_schema_validity": [
+        95,
+        100
+      ],
+      "minimum_exact_gain_over_base": [
+        25,
+        100
+      ]
+    },
+    "standing_synthetic_tranche_gate": {
+      "hard_development_comparator": "G0",
+      "minimum_hard_development_gain": [
+        5,
+        100
+      ],
+      "maximum_official_development_loss": [
+        2,
+        100
+      ],
+      "official_development_population_authorized": false,
+      "official_development_retention_evaluable": false,
+      "official_development_retention_passed": null
+    },
+    "treatment_quality": {
+      "minimum_execution_gain_C2_vs_G0": [
+        5,
+        100
+      ],
+      "minimum_execution_gain_C2_vs_each_of_A_B_A2_G02": [
+        3,
+        100
+      ],
+      "minimum_ast_exact_gain_C2_vs_each_of_A_B": [
+        3,
+        100
+      ],
+      "minimum_execution_gain_C2_vs_C1": [
+        2,
+        100
+      ],
+      "minimum_argument_value_exact_gain_C2_vs_each_of_A_B": [
+        5,
+        100
+      ],
+      "minimum_positive_seed_comparisons_out_of_three": 2,
+      "minimum_positive_registered_strata_out_of_sixteen": 12,
+      "minimum_correct_draft_retention": [
+        98,
+        100
+      ],
+      "minimum_certified_single_fault_recovery": [
+        40,
+        100
+      ],
+      "minimum_fixes_to_regressions_ratio": [
+        3,
+        1
+      ],
+      "maximum_registered_stratum_regression": [
+        2,
+        100
+      ]
+    },
+    "validity_and_safety": {
+      "minimum_parse_validity": [
+        995,
+        1000
+      ],
+      "minimum_schema_validity": [
+        99,
+        100
+      ],
+      "maximum_false_action_increase": [
+        1,
+        100
+      ],
+      "maximum_catastrophic_unauthorized_actions": 0,
+      "maximum_generation_failures": 0,
+      "maximum_missing_predictions": 0,
+      "maximum_truncations": 0
+    },
+    "efficiency": {
+      "device": "MacBook Pro M5 Pro",
+      "maximum_p95_latency_ratio_vs_candidate_v2": [
+        5,
+        2
+      ],
+      "maximum_peak_rss_ratio_vs_candidate_v2": [
+        5,
+        4
+      ],
+      "maximum_checkpoint_size_ratio_vs_candidate_v2": [
+        101,
+        100
+      ]
+    },
+    "preview_checkpoint": {
+      "predesignated_seed": 17,
+      "seed17_must_individually_pass_all_applicable_quality_validity_safety_efficiency": true
+    },
+    "hierarchical_internal_keep_order": [
+      "C2_if_complete_treatment_conjunction_passes",
+      "B_if_C2_fails_and_B_beats_G0_by_3_points_and_A_by_2_points_with_all_safety_gates",
+      "A_if_C2_and_B_fail_and_A_beats_G0_by_3_points_with_all_safety_gates",
+      "otherwise_keep_candidate_v2"
+    ]
+  },
+  "claims": {
+    "breakthrough_claim_authorized": false,
+    "candidate_v2_remains_public_release_checkpoint": true,
+    "larger_model_superiority_claim_authorized": false,
+    "maximum_claim": "hypothesis_fresh_internal_synthetic_mechanism_evidence",
+    "public_release_replacement_authorized": false
+  },
+  "supersession": {
+    "editing_this_config_can_authorize_launch": false,
+    "materialized_or_model_experiment_requires_new_config_and_run_id": true,
+    "retry_rescue_or_threshold_edit_authorized": false
+  }
+}

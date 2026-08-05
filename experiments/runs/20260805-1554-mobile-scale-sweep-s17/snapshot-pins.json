@@ -1,0 +1,145 @@
+{
+  "arms": [
+    {
+      "allow_patterns": [
+        "config.json",
+        "generation_config.json",
+        "model.safetensors",
+        "model-*.safetensors",
+        "model.safetensors.index.json",
+        "special_tokens_map.json",
+        "tokenizer.json",
+        "tokenizer_config.json"
+      ],
+      "arm_id": "pythia-70m-deduped",
+      "files": {
+        "config.json": {
+          "bytes": 567,
+          "hash_source": "small_metadata_file_downloaded_and_hashed_locally",
+          "sha256": "002050231a9b1ec3ac77aa6b9b3bbdc4d923f4068a7dd33b8da72a9bd6ad9a43"
+        },
+        "model.safetensors": {
+          "bytes": 166029852,
+          "hash_source": "hf_lfs_metadata_no_download",
+          "sha256": "3da388330e4549156d76b58d6d268c63cd005e9336b4f4d2d378421e7b7a33fd"
+        },
+        "special_tokens_map.json": {
+          "bytes": 99,
+          "hash_source": "small_metadata_file_downloaded_and_hashed_locally",
+          "sha256": "6f50ab5a5a509a1c309d6171f339b196a900dc9c99ad0408ff23bb615fdae7ad"
+        },
+        "tokenizer.json": {
+          "bytes": 2113710,
+          "hash_source": "small_metadata_file_downloaded_and_hashed_locally",
+          "sha256": "c24618a1b3e6a38167beff1c72cffd126c3a66254347304b50547d12c5f25624"
+        },
+        "tokenizer_config.json": {
+          "bytes": 396,
+          "hash_source": "small_metadata_file_downloaded_and_hashed_locally",
+          "sha256": "70e38394e494931c6f773ba41e19460dd4436526b852207367f04341b4066d3f"
+        }
+      },
+      "repo_id": "EleutherAI/pythia-70m-deduped",
+      "revision": "e93a9faa9c77e5d09219f6c868bfc7a1bd65593c"
+    },
+    {
+      "allow_patterns": [
+        "config.json",
+        "generation_config.json",
+        "model.safetensors",
+        "model-*.safetensors",
+        "model.safetensors.index.json",
+        "special_tokens_map.json",
+        "tokenizer.json",
+        "tokenizer_config.json"
+      ],
+      "arm_id": "smollm2-135m",
+      "files": {
+        "config.json": {
+          "bytes": 704,
+          "hash_source": "small_metadata_file_downloaded_and_hashed_locally",
+          "sha256": "1d556eab73b69c7f11f64c557a2f9c6f440bd4c6b89bb2584a6b498c92603843"
+        },
+        "generation_config.json": {
+          "bytes": 111,
+          "hash_source": "small_metadata_file_downloaded_and_hashed_locally",
+          "sha256": "2056c988e990b0d13670f63f2f3b87b3b6d07edaf7a3416998ba27dab2d8a059"
+        },
+        "model.safetensors": {
+          "bytes": 269060552,
+          "hash_source": "hf_lfs_metadata_no_download",
+          "sha256": "80521b40281d6ce74e35c9282c22539e75aa0ac8578892b2a59955ef78d55da1"
+        },
+        "special_tokens_map.json": {
+          "bytes": 831,
+          "hash_source": "small_metadata_file_downloaded_and_hashed_locally",
+          "sha256": "e786b595b9a23148bf1630df78d9037a048ea671e48bfd3549a1e3c233742bb3"
+        },
+        "tokenizer.json": {
+          "bytes": 2104556,
+          "hash_source": "small_metadata_file_downloaded_and_hashed_locally",
+          "sha256": "9ca9acddb6525a194ec8ac7a87f24fbba7232a9a15ffa1af0c1224fcd888e47c"
+        },
+        "tokenizer_config.json": {
+          "bytes": 3658,
+          "hash_source": "small_metadata_file_downloaded_and_hashed_locally",
+          "sha256": "4bb9af56a342753d39374f4016a16574cab299fe088e896f425ce3c433f61424"
+        }
+      },
+      "repo_id": "HuggingFaceTB/SmolLM2-135M",
+      "revision": "93efa2f097d58c2a74874c7e644dbc9b0cee75a2"
+    },
+    {
+      "allow_patterns": [
+        "config.json",
+        "generation_config.json",
+        "model.safetensors",
+        "model-*.safetensors",
+        "model.safetensors.index.json",
+        "special_tokens_map.json",
+        "tokenizer.json",
+        "tokenizer_config.json"
+      ],
+      "arm_id": "smollm2-360m",
+      "files": {
+        "config.json": {
+          "bytes": 689,
+          "hash_source": "small_metadata_file_downloaded_and_hashed_locally",
+          "sha256": "34f7801487078de7e434e19162c497e5cc6ff397080e40e8586627cb68a5168a"
+        },
+        "generation_config.json": {
+          "bytes": 111,
+          "hash_source": "small_metadata_file_downloaded_and_hashed_locally",
+          "sha256": "2056c988e990b0d13670f63f2f3b87b3b6d07edaf7a3416998ba27dab2d8a059"
+        },
+        "model.safetensors": {
+          "bytes": 723674912,
+          "hash_source": "hf_lfs_metadata_no_download",
+          "sha256": "7aaff6661428bed033abba9522bec81938678642cca3181fe752b6ca9e1e540f"
+        },
+        "special_tokens_map.json": {
+          "bytes": 831,
+          "hash_source": "small_metadata_file_downloaded_and_hashed_locally",
+          "sha256": "e786b595b9a23148bf1630df78d9037a048ea671e48bfd3549a1e3c233742bb3"
+        },
+        "tokenizer.json": {
+          "bytes": 2104556,
+          "hash_source": "small_metadata_file_downloaded_and_hashed_locally",
+          "sha256": "9ca9acddb6525a194ec8ac7a87f24fbba7232a9a15ffa1af0c1224fcd888e47c"
+        },
+        "tokenizer_config.json": {
+          "bytes": 3658,
+          "hash_source": "small_metadata_file_downloaded_and_hashed_locally",
+          "sha256": "4bb9af56a342753d39374f4016a16574cab299fe088e896f425ce3c433f61424"
+        }
+      },
+      "repo_id": "HuggingFaceTB/SmolLM2-360M",
+      "revision": "f8027fd0eaeea54caa13c31d31b9fdc459c38b49"
+    }
+  ],
+  "attempt": 3,
+  "network_scope": "read-only Hugging Face metadata (files_metadata LFS sha256 for weights; no weight blob downloaded) plus small non-LFS JSON metadata files hashed locally",
+  "recorded_at_utc": "2026-08-05T12:37:43.279893+00:00",
+  "run_id": "20260805-1554-mobile-scale-sweep-s17",
+  "schema_version": "barun-mobile-scale-sweep-snapshot-pins-v1"
+}

@@ -1,0 +1,60 @@
+{
+  "controller_safety_overrides": {
+    "PYTEST_ADDOPTS": "-p no:cacheprovider",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONPATH": "/home/barun-mbcf-v2-stage-nXsSjX/src"
+  },
+  "declared_argv": [
+    "python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/test_mobile_temporal_counterfactual.py",
+    "tests/test_materialize_mobile_temporal_counterfactual_cli.py",
+    "tests/test_mobile_temporal_evaluation.py",
+    "tests/test_mobile_temporal_counterfactual_runner.py",
+    "tests/test_mobile_temporal_experiment_backend.py",
+    "tests/test_training.py",
+    "tests/test_jarvis_safe_run.py"
+  ],
+  "environment_overrides": {
+    "CUDA_VISIBLE_DEVICES": "",
+    "WANDB_MODE": "disabled"
+  },
+  "executed_argv": [
+    "python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/test_mobile_temporal_counterfactual.py",
+    "tests/test_materialize_mobile_temporal_counterfactual_cli.py",
+    "tests/test_mobile_temporal_evaluation.py",
+    "tests/test_mobile_temporal_counterfactual_runner.py",
+    "tests/test_mobile_temporal_experiment_backend.py",
+    "tests/test_training.py",
+    "tests/test_jarvis_safe_run.py"
+  ],
+  "exit_code": 1,
+  "log_bytes": 4363,
+  "log_path": "pre-cuda-validation.log",
+  "log_sha256": "14ad3537446895771778610427d5efdbea88a59cce4cd620b6b125e64bd2650d",
+  "parent_process_torch_imported_before_validation": false,
+  "real_terminal_manifest_referenced": false,
+  "required_exit_code": 0,
+  "runtime_identity": {
+    "expected": {
+      "python_implementation": "CPython",
+      "python_version": "3.11.10",
+      "sys_implementation_name": "cpython"
+    },
+    "observed": {
+      "python_implementation": "CPython",
+      "python_version": "3.11.10",
+      "sys_implementation_name": "cpython"
+    },
+    "status": "matched"
+  },
+  "schema_version": "barun-mobile-temporal-pre-cuda-validation-v1",
+  "status": "failed",
+  "timeout_seconds": 600
+}

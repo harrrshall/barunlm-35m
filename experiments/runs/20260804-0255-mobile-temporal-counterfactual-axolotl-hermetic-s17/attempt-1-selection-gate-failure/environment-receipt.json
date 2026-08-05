@@ -1,0 +1,31 @@
+{
+  "automatic_retry": false,
+  "captured_at": "2026-08-03T21:56:03+00:00",
+  "determinism": {
+    "bf16_supported": true,
+    "configured_before_torch_import": true,
+    "cublas_workspace_config": ":4096:8",
+    "cuda_available": true,
+    "cuda_initialized_before_preflight": false,
+    "cuda_runtime": "13.0",
+    "device_capability": [
+      9,
+      0
+    ],
+    "device_count": 1,
+    "device_name": "NVIDIA H200",
+    "sdpa_backends": {
+      "cudnn": false,
+      "flash": false,
+      "math": true,
+      "memory_efficient": false
+    },
+    "torch_version": "2.13.0+cu130",
+    "wandb_mode": "disabled"
+  },
+  "device": "cuda",
+  "jarvis_resource_id": "463802",
+  "precision": "bf16",
+  "schema_version": "barun-mobile-temporal-environment-v1",
+  "wandb": "disabled"
+}

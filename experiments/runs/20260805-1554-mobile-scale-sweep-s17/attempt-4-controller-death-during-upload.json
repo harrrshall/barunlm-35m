@@ -1,0 +1,61 @@
+{
+  "attempt": 4,
+  "attestation": "passed",
+  "create_summary": {
+    "gpu_type": "H200",
+    "is_spot": false,
+    "machine_id": 465183,
+    "name": "barun-scale-sweep-a4-20260805",
+    "num_gpus": 1,
+    "region": "IN2",
+    "status": "Running",
+    "template": "axolotl"
+  },
+  "hardware_attestation": {
+    "observed": {
+      "gpu_type": "H200",
+      "is_spot": false,
+      "num_gpus": 1,
+      "region": "IN2",
+      "template": "axolotl"
+    },
+    "requested": {
+      "gpu_type": "H200",
+      "is_spot": false,
+      "num_gpus": 1,
+      "region": "IN2",
+      "template": "axolotl"
+    },
+    "verified_at": "2026-08-05T15:12:08.824756+00:00",
+    "verified_before_upload": true
+  },
+  "incident": "local_controller_terminated_during_jl_run_upload",
+  "machine_id": 465183,
+  "observed": {
+    "controller_error_event_absent": true,
+    "jl_runs_stub": "r_6ff0e33d",
+    "last_event": "attached_run_requested",
+    "python": "CPython 3.11.10",
+    "remote_stage_dir_empty": true,
+    "stdout_stderr_bytes": 0,
+    "template": "axolotl"
+  },
+  "python_runtime_attestation": {
+    "machine_id": 465183,
+    "observed": {
+      "implementation": "CPython",
+      "version": "3.11.10"
+    },
+    "requested": {
+      "implementation": "CPython",
+      "version": "3.11.10"
+    },
+    "verified_at": "2026-08-05T15:12:10.857358+00:00",
+    "verified_before_inventory_binding": true,
+    "verified_before_upload": true
+  },
+  "recorded_at": "2026-08-05T15:15:05.754733+00:00",
+  "recovery_plan": "pause exact ID 465183 then safe_run --retry-owned; do not create a second GPU",
+  "run_id": "20260805-1554-mobile-scale-sweep-s17",
+  "schema_version": "barun-mobile-scale-sweep-controller-incident-v1"
+}

@@ -1,0 +1,43 @@
+{
+  "schema_version": "barun-mobile-temporal-infrastructure-failure-classification-v1",
+  "run_id": "20260803-2353-mobile-temporal-counterfactual-s17",
+  "attempt_id": "20260803-2353-mobile-temporal-counterfactual-s17-attempt-1",
+  "attempt_ordinal": 1,
+  "jarvis_machine_id": 463786,
+  "jarvis_run_id": "r_96729b29",
+  "phase": "provider_managed_dependency_resolution_before_runner_entrypoint",
+  "cause": {
+    "remote_python": "3.10.20",
+    "requirement": "numpy==2.4.6",
+    "requirement_python_constraint": ">=3.11",
+    "resolver_result": "unsatisfiable"
+  },
+  "scientific_signal": {
+    "usable_held_out_signals": 0,
+    "runner_entrypoint_started": false,
+    "model_loaded": false,
+    "cuda_accessed": false,
+    "construction_rows_read": 0,
+    "selection_rows_read": 0,
+    "confirmation_rows_read": 0,
+    "reused_756_rows_read": 0,
+    "official_961_rows_read": 0,
+    "predictions_generated": 0,
+    "scores_generated": 0
+  },
+  "retry_adjudication": {
+    "current_ordinal_2_authorized": false,
+    "reason": "The raw lifecycle truthfully records artifact download failure because the runner never created execution/essential. The frozen ordinal-2 validator requires a remotely recovered essential failure artifact, so no synthetic retry receipt was created.",
+    "decision": "Supersede with a newly preregistered provider-compatible run revision before any further H200 launch."
+  },
+  "lifecycle": {
+    "final_instance_status": "Paused",
+    "pause_verified": true,
+    "preexisting_instances_mutated": [],
+    "raw_lifecycle_sha256": "ae2739f5b8598a3382bf45908ee16c376f166940f0f181c84d7fa51adeac9982",
+    "remote_log_sha256": "54e5aaeaa6a321c53dd4c5c489e9af9738798a9c3651132f1860adef59431add",
+    "bound_attempt_preregistration_sha256": "3168fdeffc039bdceae855c34bdf616c71f54ece0aa2b0a79a8bc3642cc64f90",
+    "source_snapshot_sha256": "8d6bf30a1691f22b631ea3493b6efcea51884f92616a5b84f31ce36a72e9fb9c"
+  },
+  "scientific_config_sha256": "8c31c4fee18bf4a19e8fa079eec5448c3b62118a13a3eef5a0ba924bb05d07da"
+}

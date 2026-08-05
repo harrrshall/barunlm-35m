@@ -1,0 +1,194 @@
+{
+  "baseline_downloaded": false,
+  "candidate_reference": {
+    "aggregate_sha256": "5d7244d2fa449a7ce4b2aa3a20fc095fb118a38920b1dd9181f56669a7ddfea1",
+    "identity": "BarunAction-35M candidate-v2 batch63 final checkpoint",
+    "predictions_sha256": "e5aea59e5090e3aa7c9dbd6b1a810c753410a159ce18dc8bb889fde3a58b8665",
+    "sample_scores_sha256": "a29c4d5c83493ec437a9f0fee362ea54cf97c2219844e5b46ba60d0f759f556c",
+    "strict_ast_exact": "602/756"
+  },
+  "claim_limit": "One seed and one public grouped development population. No official Mobile test rows, sealed safety suite, multi-seed uncertainty, equal upstream pretraining, or universal larger-model claim.",
+  "compute": {
+    "bind_attempt_inventory": true,
+    "controller": "infra/jarvis/safe_run.py",
+    "gpu": "H200",
+    "instance_name": "barun-qwen05b-matched-2122-s17",
+    "maximum_runtime_minutes": 240,
+    "num_gpus": 1,
+    "provider": "JarvisLabs",
+    "region": "IN2",
+    "storage_gb": 100
+  },
+  "data_and_evaluator": {
+    "audit_sha256": "dc756f97c0a7ef706ec8ffefe2d57cf7e16d75a6ccd932f906d16b6a6ee2f83c",
+    "dev_rows": 756,
+    "dev_sha256": "988bdce5874d1f1a775feeb5ba2b58cd2bdc128f57e73cb9a63d535fae7c1d55",
+    "official_evaluation_rows": 961,
+    "official_evaluation_rows_available_to_stage": 0,
+    "official_evaluation_rows_read_or_materialized": 0,
+    "scorer_version": "barun-mobile-actions-score-v1",
+    "train_rows": 7937,
+    "train_sha256": "131473ccb5bfb51cac0439b42159e72ec4c598025e50364a52b122b056c2e84e"
+  },
+  "decision": "Produce and preserve exactly one terminal Qwen development result. This comparison cannot modify BarunAction weights, continual-recovery/interpolation work, rescue selection, or official-test claims.",
+  "development_predictions_or_scores_observed": false,
+  "external_metadata_service_contacted": true,
+  "external_model_inference_service_contacted": false,
+  "external_model_or_service_contacted": true,
+  "frozen_adaptation": {
+    "checkpoint_policy": "final_only",
+    "decoding": "unconstrained plain greedy with all pinned Qwen sampling and repetition settings neutralized",
+    "development_trials": 1,
+    "effective_batch": 63,
+    "epochs": 1,
+    "examples_presented": 7937,
+    "generation_batch_size": 64,
+    "gradient_accumulation": 3,
+    "learning_rate": 2e-05,
+    "max_new_tokens": 192,
+    "method": "full_parameter_response_only_sft",
+    "microbatch": 21,
+    "optimizer_steps": 126,
+    "seed": 17
+  },
+  "frozen_implementation": {
+    "action_ir": {
+      "path": "src/barunlm/evaluation/action_ir.py",
+      "sha256": "563d40afabd03bc81fdd4e2a0bf0224c5f6e9b686ee8f9f868611043d42642c8"
+    },
+    "documentation": {
+      "path": "docs/mobile-qwen05b-matched-baseline.md",
+      "sha256": "41b0a88a68d3181333bc72b37494ed4a707464b1d65bc02121d4e25ba34d321f"
+    },
+    "entrypoint": {
+      "path": "scripts/run_mobile_qwen05b_matched_baseline.py",
+      "sha256": "d8dc72bf0b63bf7c59419f54f2fd0df7ad8f1fee04f3f7152d372c8495a1b854"
+    },
+    "evaluator": {
+      "path": "src/barunlm/evaluation/evaluator.py",
+      "sha256": "36db751c9b4d791e45ebdd5b6338f3364789aefcd33ebed271c1023dcbf0d3a5"
+    },
+    "independent_verifier": {
+      "path": "scripts/verify_qwen05b_matched_bundle.py",
+      "sha256": "c226cc74d9be4105cdffac89ea7344a1ad8567664b6b43d604ba25e8719389f7"
+    },
+    "independent_verifier_tests": {
+      "path": "tests/test_qwen05b_bundle_verification.py",
+      "sha256": "cba9364646ad1257015a06ed3b1e0c3149cf00bdc53ac4f8d55b931af63a4a0d"
+    },
+    "jarvis_controller": {
+      "path": "infra/jarvis/safe_run.py",
+      "sha256": "55e3c5b670f200737eb7b60c98bde14c9e6b9b64c37423fe7ff6dea264c915f6"
+    },
+    "mobile_scorer": {
+      "path": "src/barunlm/evaluation/mobile_actions.py",
+      "sha256": "4c7fc82d546996d5ba739a24ca59abf805acf44221f65edeccee1c095babb7ac"
+    },
+    "module": {
+      "path": "src/barunlm/baselines/mobile_qwen05b_matched.py",
+      "sha256": "e652d690691d92639e2e514e35846871a61308fa6b5597dcdb25bed295b32abb"
+    },
+    "requirements": {
+      "path": "requirements/qwen05b-matched.txt",
+      "sha256": "8e4ef2e2d49294f62d646ce9e9c57addf45f2481fbe162795c8408a98f788a99"
+    },
+    "source_snapshot_builder": {
+      "path": "scripts/build_qwen05b_source_snapshot.py",
+      "sha256": "8e7062aa0a139bb4741859a36360414016c359e3b46f016194cd87a614cee42a"
+    },
+    "tests": {
+      "path": "tests/test_mobile_qwen05b_matched_baseline.py",
+      "sha256": "9dc9c846763ad5d4aadd8b96390a68f93c1e13be9f54b9325a90aa4649d60e4e"
+    },
+    "training_data": {
+      "path": "src/barunlm/training/data.py",
+      "sha256": "4d746fbd2f5ceaf371074b41db390d14dd3d2115ec935ddd2ccad3c5d1a4413a"
+    }
+  },
+  "hypothesis": "Under the identical frozen one-epoch Mobile Actions adaptation budget, Qwen2.5-0.5B-Instruct may outperform BarunAction-35M candidate-v2 on strict public development Action IR exact match; either outcome tests whether the existing SmolLM2 result is architecture-family-specific.",
+  "jarvis_resource_created": false,
+  "model": {
+    "architecture_class": "Qwen2ForCausalLM",
+    "expected_unique_parameters": 494032768,
+    "id": "Qwen/Qwen2.5-0.5B-Instruct",
+    "license": "Apache-2.0",
+    "provenance_path": "provenance/qwen2.5-0.5b-instruct.json",
+    "provenance_sha256": "1a1c19cdfacaa25e296ab1c3f92a42ebc8c08802c0cec8047ab581d50669769e",
+    "public_ungated": true,
+    "ratio_to_barunlm_35072768": 14.085936074392531,
+    "revision": "7ae557604adf67be50417f59c2c2f167def9a775"
+  },
+  "official_evaluation_rows_read_or_materialized": 0,
+  "prelaunch_inventory": {
+    "captured_before_project_instance_creation": true,
+    "fresh_project_instance": true,
+    "project_machine_id": 463689,
+    "protected_machine_ids": [
+      438359,
+      455804,
+      456089,
+      456162,
+      456218,
+      456234,
+      456245,
+      456246,
+      456260,
+      456270,
+      456287,
+      456540,
+      456669,
+      458429,
+      458475,
+      458479,
+      458491,
+      458506,
+      458554,
+      460797,
+      461680,
+      463058,
+      463556,
+      463572,
+      463575,
+      463594,
+      463606,
+      463622,
+      463631,
+      463636,
+      463642,
+      463674,
+      463675,
+      463686
+    ]
+  },
+  "preliminary_isolated_preflight": {
+    "pytest": "69 passed and one self-preregistration identity test deferred until this file existed",
+    "ruff_check": "passed",
+    "ruff_format_check": "passed"
+  },
+  "qwen_model_weights_downloaded": false,
+  "registered_at": "2026-08-03T21:22:00+05:30",
+  "retry_policy": "At most one infrastructure-only retry before any Qwen development prediction or score, with identical scientific fields, a parent-attempt chain, preserved logs, and pause verification of the failed exact ID.",
+  "run_id": "20260803-2122-mobile-qwen05b-matched-s17",
+  "schema_version": "barun-qwen05b-matched-attempt-v1",
+  "scientific_recipe": {
+    "path": "configs/mobile_qwen05b_matched_v1.json",
+    "sha256": "6855eaf52c34089d802b8584c566b95619f9ff2780d4f130f333126bc33357e1"
+  },
+  "source_snapshot": {
+    "content_bytes": 21324978,
+    "content_tree_sha256": "1a131cc8bc7a24c73c7c39cacc0c313f6ce7037ef5033077e0e8f4cfbbadeabb",
+    "file_count": 124,
+    "path": "source-snapshot.json",
+    "sha256": "f9c187539e097ac21bec8315daf75c48e74c6f3bcc8e9cfe969d3aaf568d9cb6"
+  },
+  "status": "frozen_before_model_download_or_development_scoring",
+  "uniqueness_audit": {
+    "completed_before_launch": true,
+    "conclusion": "unique independent comparison lane",
+    "existing_jarvis_resource": false,
+    "existing_ledger_record": false,
+    "existing_local_process": false,
+    "existing_run_directory": false,
+    "existing_wandb_identity": false
+  }
+}

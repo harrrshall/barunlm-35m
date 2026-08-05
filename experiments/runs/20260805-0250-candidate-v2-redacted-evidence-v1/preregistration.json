@@ -1,0 +1,57 @@
+{
+  "schema_version": "barunaction-redacted-evidence-publication-preregistration-v1",
+  "run_id": "20260805-0250-candidate-v2-redacted-evidence-v1",
+  "recorded_at": "2026-08-05T02:50:00+05:30",
+  "hypothesis": "The complete immutable candidate-v2 evidence v0 can be mirrored as a privacy-redacted nonauthoritative v1 distribution view while preserving every unmatched byte, scientific metric, prediction, and source hash relationship.",
+  "decision": "Publish exactly one immutable v1 evidence artifact only if the 297-file local view passes the pinned validator; then fresh-download and rehash all files before changing documentation. Never overwrite or hide authoritative v0.",
+  "authorization": {
+    "public_evidence_distribution_authorized": true,
+    "model_artifact_change_authorized": false,
+    "source_v0_mutation_authorized": false,
+    "retry_after_partial_remote_creation_authorized": false
+  },
+  "source": {
+    "artifact": "harshalsingh1223-gladium-ai/barunaction-35m/barunaction-35m-candidate-v2-evidence:v0",
+    "wandb_digest": "b5e2cb35698e36bc1a97095c6c2d8565",
+    "public_file_count": 296,
+    "public_total_bytes": 135926068,
+    "release_manifest_sha256": "cbb29c4921855031bfeee1c1f5e9ed1a33a932b902a875c21f255fac793c2165"
+  },
+  "derived_view": {
+    "authoritative_evidence": false,
+    "distribution_view": "redacted",
+    "source_receipt_sha256": "141203cff6491f9e23a3bbf62e4c6e0ae9c62bc0c4503e14e9b3702db5564a4e",
+    "tree_sha256": "c01de7b30c516bfb7c44625cf46ddd9bf2034ccd171f3af0f841383a94b73827",
+    "derived_file_count": 296,
+    "upload_file_count_including_receipt": 297,
+    "changed_files": 44,
+    "redaction_occurrences": 339,
+    "credential_markers_found": 0
+  },
+  "remote_contract": {
+    "project": "barunaction-35m",
+    "artifact_name": "barunaction-35m-candidate-v2-evidence",
+    "artifact_type": "evaluation",
+    "required_version": "v1",
+    "expected_qualified_name": "harshalsingh1223-gladium-ai/barunaction-35m/barunaction-35m-candidate-v2-evidence:v1",
+    "wandb_version": "0.28.1",
+    "publication_receipt": "experiments/runs/20260805-0250-candidate-v2-redacted-evidence-v1/publication-receipt.json",
+    "download_verification_receipt": "experiments/runs/20260805-0250-candidate-v2-redacted-evidence-v1/download-verification.json"
+  },
+  "required_gates": {
+    "local_dry_run_passed": false,
+    "one_upload_attempt_completed": false,
+    "committed_identity_and_digest_rechecked": false,
+    "fresh_download_all_297_files_passed": false,
+    "anonymous_public_read_passed": false,
+    "documentation_update_allowed": false
+  },
+  "access": {
+    "model_loaded": false,
+    "cuda_accessed": false,
+    "jarvislabs_accessed": false,
+    "human_labels_read": 0,
+    "mobile_reused_development_756_rows_read": 0,
+    "mobile_official_evaluation_961_rows_read": 0
+  }
+}

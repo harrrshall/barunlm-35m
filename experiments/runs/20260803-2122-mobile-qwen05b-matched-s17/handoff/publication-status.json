@@ -1,0 +1,13 @@
+{
+  "schema_version": "barun-qwen05b-publication-status-v1",
+  "run_id": "20260803-2122-mobile-qwen05b-matched-s17",
+  "weights_and_biases_used": false,
+  "hugging_face_upload_attempted": false,
+  "public_github_push_attempted": false,
+  "private_github_target": "harrrshall/kimi_100M",
+  "private_visibility_proven_in_this_attempt": false,
+  "private_authentication_proven_in_this_attempt": false,
+  "private_push_attempted": false,
+  "local_bundle_retained": true,
+  "reason": "The operating contract requires a local handoff when private visibility or authentication cannot be proved without inspecting protected credentials. No credential file was opened, copied, printed, or hashed."
+}

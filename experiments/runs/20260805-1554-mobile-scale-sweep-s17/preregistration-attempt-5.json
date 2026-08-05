@@ -1,0 +1,128 @@
+{
+  "schema_version": "barun-mobile-scale-sweep-preregistration-v5",
+  "run_id": "20260805-1554-mobile-scale-sweep-s17",
+  "attempt": 5,
+  "created_at": "2026-08-05T21:01:00+05:30",
+  "status": "cpu_prefreeze_blocked_pending_independent_prelaunch_audit",
+  "run_identity_decision": {
+    "choice": "same_run_directory_attempt_5",
+    "rationale": "Attempt 4 received an independent go and created H200 lineage 465183→465186 under template=axolotl with live CPython 3.11.10. After axolotl attestation, env/tests, and the in-run candidate-v2 reference evaluation (590/725 exact), the first challenger aborted because jl run created uv venv --system-site-packages and Transformers imported the axolotl image flash_attn_2_cuda ABI-mismatched against venv torch 2.13.0. The immutable run directory retains the spent go, infrastructure-failure receipt, reference evidence, pause proof, and lifecycle. This attempt-5 successor corrects only the venv-isolation / flash_attn fail-closed contract and protected denylist; scientific bindings remain those attempt-3/4 audits accepted. The 590/725 reference score is attempt-4 evidence only and must never become an unauthenticated CLI float."
+  },
+  "supersedes": {
+    "attempt_4_preregistration": "experiments/runs/20260805-1554-mobile-scale-sweep-s17/preregistration-attempt-4.json",
+    "attempt_4_config_path": "configs/mobile_scale_sweep_v4.json",
+    "attempt_4_config_sha256": "c89b5c77a5531f617f1acc23e754c27336cf039830e9de7f00d44c8353e8dcb0",
+    "spent_attempt_4_go_path": "experiments/runs/20260805-1554-mobile-scale-sweep-s17/prelaunch-audit-attempt-4-go.json",
+    "spent_attempt_4_go_sha256": "9bf60db79cc543e35eb5e664d1a79e761337720c0dbd663da64a8b62c6f4dac2",
+    "spent_attempt_4_go_reuse_authorized": false,
+    "attempt_4_infrastructure_failure_path": "experiments/runs/20260805-1554-mobile-scale-sweep-s17/attempt-4-infrastructure-failure.json",
+    "attempt_4_infrastructure_failure_sha256": "adad51dad1e3216272496dd83072c6d0514d6585da16fe66d56d4944184fa5e0",
+    "attempt_4_create_machine_id": 465183,
+    "attempt_4_resume_migrant_machine_id": 465186,
+    "attempt_1_infrastructure_failure_path": "experiments/runs/20260805-1554-mobile-scale-sweep-s17/attempt-1-infrastructure-failure.json",
+    "attempt_1_infrastructure_failure_sha256": "429ba84586a9b1ea503138e8defab9e595bdad7a08ec4fd148eee2743eee2855",
+    "attempt_1_infrastructure_failure_machine_id": 465155,
+    "spent_attempt_3_go_sha256": "d74d01e2078322c969db1158c54ebdc7343432635d223d78523226bae452f03b",
+    "attempt_3_lineage": {
+      "config_path": "configs/mobile_scale_sweep_v3.json",
+      "config_sha256": "a67959b9b95aa72a6c9153234bb502490c800dba2c539ba9163e37cf4e539451"
+    },
+    "attempt_2_lineage": {
+      "config_path": "configs/mobile_scale_sweep_v2.json",
+      "config_sha256": "c8d57f84013198094c27d06d35851e5320f66a5106e6f1cbc6407bfd5e78f593",
+      "no_go_sha256": "e693302843678bd6622b149a74320d8ca3bbbba77ea8ab4fb8a065b986ec8ef3"
+    },
+    "attempt_1_lineage": {
+      "config_path": "configs/mobile_scale_sweep_v1.json",
+      "config_sha256": "d3ee897f9afeefe1e01ec32fe9b2721479b7496785e742d0954ad081758953b8",
+      "no_go_sha256": "9bc9d3af9e633b08b6e0d0e1c3bfeedfa660cbe7755443ad58987f47e86e99e0"
+    }
+  },
+  "hypothesis": "The candidate-v2 (35M, 602/756) versus Qwen2.5-0.5B (663/756) gap cannot currently be attributed to parameter count versus pretraining-token budget. A matched-adaptation sweep over pinned base checkpoints (pythia-70m-deduped ~3e11 tokens; SmolLM2-135M ~2e12; SmolLM2-360M ~4e12) on the identical frozen Mobile Actions SFT recipe, scored on a fresh grouped selection split, separates the axes.",
+  "decision": "Which base-model scale, and which axis (tokens versus parameters), the project adopts for the next post-training phase: the smallest configuration clearing a +3.0-point exact-match margin over the in-run candidate-v2 reference on the fresh selection split with schema validity >= 0.95 and zero truncations, missing predictions, and generation failures; otherwise explicit per-axis falsification.",
+  "config_path": "configs/mobile_scale_sweep_v5.json",
+  "config_sha256": "57dcfe573c17759404545c272f1fc945aabb82b2893f697615eb7fe428d1f2d7",
+  "runner_module": "src/barunlm/baselines/mobile_scale_sweep.py",
+  "attempt_5_corrections": {
+    "INFRA-1": "freeze project venv isolation with include-system-site-packages=false. JarvisLabs jl run hardcodes uv venv --system-site-packages on the axolotl image, which exposed image flash_attn_2_cuda into Transformers on attempt-4. Launch packaging must recreate the project .venv without --system-site-packages after the provider's initial creation (safe_run --isolated-project-venv) and reinstall the frozen requirements, which pin torch==2.13.0 so CUDA torch is present without system-site inheritance.",
+    "INFRA-2": "runner enforce_venv_isolation fail-closes before Torch/CUDA import and before any challenger AutoModelForCausalLM.from_pretrained: active VIRTUAL_ENV pyvenv.cfg must read include-system-site-packages = false exactly, and import flash_attn must raise ImportError/ModuleNotFoundError. A CPU-hermetic unit test synthesizes contaminated and isolated pyvenv.cfg cases and would have rejected attempt-4.",
+    "INFRA-3": "add 465183 (attempt-4 pre-resume create ID) and 465186 (attempt-4 resume-migrant evidence H200) to compute.protected_machine_ids; keep 465155, 465072, and the full prior denylist",
+    "INFRA-4": "cite attempt-4 infrastructure-failure SHA-256 adad51dad1e3216272496dd83072c6d0514d6585da16fe66d56d4944184fa5e0 and spent attempt-4 go SHA-256 9bf60db79cc543e35eb5e664d1a79e761337720c0dbd663da64a8b62c6f4dac2; explicitly state that v5 does NOT reuse the spent go and requires a new independent audit cycle; a third GPU under the spent go is forbidden",
+    "INFRA-5": "retain axolotl / CPython 3.11.10 attestation unchanged; the 590/725 reference score from attempt-4 is evidence only and cannot substitute for the mandatory in-run hash-verified candidate-v2 reference evaluation"
+  },
+  "isolation_approach_chosen": {
+    "name": "isolated_project_venv_without_system_site_packages",
+    "why": "Preferred over a flash_attn stub or uninstall-only shadow because a durable pyvenv.cfg include-system-site-packages=false check is least forgeable, matches the temporal-lane torch==2.13.0 pin pattern, and removes the entire system-site ABI surface (not only flash_attn) from the Transformers import path. The runner independently re-checks the live pyvenv.cfg and that import flash_attn fails before any model work."
+  },
+  "carried_forward_verified": "every attempt-3/4 scientific binding (complete challenger snapshot pins, explicit decoding overrides, per-fit measured-failure semantics, global torch seed, environment version binding, in-run hash-verified candidate-v2 reference, protected-machine-ID enforcement base, pythia unique trainable recount, exact scorer-numerator join, full-field gold-audit drift check, config-bound generation batch size, axolotl/CPython 3.11.10 attestation) plus the fresh split hashes and counts, roster revision pins, recipe, LR screen, decision thresholds, and authorization-all-false flags are byte-identical to the values the attempt-3/4 audits verified",
+  "fresh_split": {
+    "derivation_path": "held_out_from_train",
+    "policy_version": "barun-mobile-scale-sweep-selection-v1",
+    "folds": 10,
+    "fold": 0,
+    "sweep_train_rows": 7212,
+    "selection_rows": 725,
+    "sweep_train_clusters": 4716,
+    "selection_clusters": 589,
+    "sweep_train_manifest_sha256": "3328654532d7e767e2cb87becc6c5869a65044bba7aadb62a69582be34c04183",
+    "selection_manifest_sha256": "3bd2281fce6d6910de8e42b843562a060e1d4e654bfd3ce95c850189b9f00cfb",
+    "sweep_train_membership_sha256": "3e0a64bb31ce3c4571d66b6983906e01c457edf6e53b99170b5943f7afea214e",
+    "selection_membership_sha256": "5838748633d408ab93a57b89fef17c6e4446dbbe14889215b60606d257f8ebf9",
+    "frozen_source_verification": "unchanged from attempts 1-4; independently rederived and confirmed by prior audits"
+  },
+  "reference_evaluation": {
+    "candidate_id": "candidate-v2",
+    "checkpoint_sha256": {
+      "barun_config.json": "9b3a1d71baa95a198744d250f9629231738d942570b8685c44307fd83dd33565",
+      "model.safetensors": "fdb95ccf58a095e0d321be998924318b35ee59a334f6dd97d8726d2cf80021d3",
+      "tokenizer.json": "70ded9605fccd09c2340ca7e225361eab0ae8b4dbbb0d6e26343ab5183979db6"
+    },
+    "scored_before_challenger_arms": true,
+    "cli_override_forbidden": true,
+    "attempt_4_evidence_note": "attempt-4 produced 590/725 exact on the fresh selection split under the same contract; that number is evidence only and must never unlock a CLI float or skip the mandatory in-run reference evaluation"
+  },
+  "provider_runtime": {
+    "template": "axolotl",
+    "python_implementation": "CPython",
+    "python_version": "3.11.10",
+    "gpu": "H200",
+    "num_gpus": 1,
+    "region": "IN2",
+    "is_spot": false,
+    "storage_gb": 100,
+    "max_gpu_job_minutes": 360,
+    "isolated_project_venv": true,
+    "include_system_site_packages": false,
+    "safe_run_flag": "--isolated-project-venv",
+    "evidence": "Matches successful prior H200 scientific runs (MBCF hermetic v3 machine 463802; PlanIR screen machine 463843) and the axolotl-template probe that observed CPython 3.11.10. Attempt-4 additionally proved axolotl/3.11.10 attestation and reference evaluation work; the remaining hazard is jl's hardcoded --system-site-packages flash_attn path, corrected here."
+  },
+  "challenger_snapshot_pins": {
+    "receipt_path": "experiments/runs/20260805-1554-mobile-scale-sweep-s17/snapshot-pins.json",
+    "note": "unchanged from attempt 3; scientific snapshot binding is not part of the infrastructure correction"
+  },
+  "roster_metadata_receipt": "experiments/runs/20260805-1554-mobile-scale-sweep-s17/roster-metadata.json",
+  "gold_token_audit": "experiments/runs/20260805-1554-mobile-scale-sweep-s17/gold-token-audit.json",
+  "max_new_tokens": 256,
+  "official_961": "sealed and unread; the preparation audit proves opacity",
+  "reused_756_probe": "not a selection metric; descriptive post-hoc reporting only",
+  "authorization": {
+    "launch_authorized": false,
+    "gpu_authorized": false,
+    "cuda_authorized": false,
+    "jarvislabs_resource_creation_authorized": false,
+    "training_authorized": false,
+    "baseline_weight_download_authorized": false,
+    "official_961_access_authorized": false,
+    "independent_prelaunch_audit_passed": false
+  },
+  "access_this_phase": {
+    "gpu": 0,
+    "cuda": 0,
+    "jarvislabs_mutations": 0,
+    "model_weights_downloaded": 0,
+    "official_961_rows_read": 0,
+    "protected_machine_ids_touched": 0,
+    "third_gpu_created": 0,
+    "network": "none for this CPU prefreeze; no weight download, no JarvisLabs command"
+  }
+}

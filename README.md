@@ -1,8 +1,101 @@
-# BarunLM-35M
+# BarunLM-35M and BarunAction-35M
 
 > **[Read the whole training recipe](https://harrrshall.github.io/barunlm-35m/blog/)** — design rationale, architecture, data, and trade-offs, explained end to end.
 
-**The world's best language model under 100 million parameters**
+## BarunAction-35M candidate-v2 research release
+
+BarunAction-35M is a 35,072,768-parameter, proposal-only compiler that maps a request, explicit
+tool schemas, context, and a timezone-aware reference time to strict Action IR JSON. The package
+verifies checkpoint hashes, rejects malformed inputs and outputs, never invokes a real tool, and
+ships an in-memory-only simulator. It is useful for local research and narrow action compilation;
+it is not an autonomous assistant or permission to execute side effects.
+
+The selected float checkpoint achieved 602/756 (79.63%) strict AST exact on a grouped Mobile
+Actions development split derived only from public training rows. Its Darwin ARM64/PyTorch
+2.13.0/QNNPACK dynamic-int8 artifact passed a frozen retention gate at 607/756 (80.29%), with
+755/756 schema-valid outputs, zero generation failures, and zero truncations. The int8 payload is
+58.56% smaller than float. These are reused all-`CALL` development results—not the opaque official
+Mobile evaluation, a hidden safety test, or evidence of broad function-calling quality.
+
+The independently verified, locally imported Qwen matched baseline scored 663/756 (87.70%) strict
+AST exact, compared with candidate-v2's 602/756
+(79.63%). The Qwen checkpoint contains 494,032,768 BF16 parameters across 290 tensors—0.494B, not
+500B. BarunAction is 14.09 times smaller and retains 90.80% of its exact-match accuracy, but trails
+by 61 rows, or 8.07 percentage points. Qwen produced 755 parse-valid and 754 schema-valid outputs;
+the paired comparison records 80 Qwen-only wins, 19 Barun-only wins, and 657 ties. The 961 official
+rows remained untouched. The hypothesis that candidate-v2 beats a strong larger matched baseline
+therefore failed on this development probe. An earlier SmolLM2 result of 0/756 remains
+model-and-recipe-specific and cannot support a general larger-model claim. A separate frozen
+Mobile-plus-PRESTO rescue also found no joint passer. The
+[exact handoff and next experiment](https://github.com/harrrshall/barunlm-35m/blob/barunaction-v1.1.0/docs/current-status-and-next-experiment.md)
+are documented publicly.
+
+A later, independently replayed Month-Boundary Counterfactual SFT experiment taught a real but
+localized repair: across three seeds, the 35M intervention improved cross-month calendar-datetime
+exact by 31.82 points over standard SFT and 51.52 points over an equal-budget repeat control. It
+was not promoted. Overall gains were only 1.60 and 2.44 points versus a frozen 3-point minimum,
+same-month accuracy regressed 2.49 points versus the repeat control, schema validity was one output
+short of 99%, and two of 3,072 outputs truncated. The gate stopped before confirmation, full
+refit, reused-756 scoring, or any official-961 access; no checkpoint was retained. This negative
+result is preserved because the targeted success does not override the complete product gate.
+
+The candidate-v2 float, Darwin ARM64 int8, and evidence bundles are publicly available as
+immutable W&B `v0` artifacts. For example:
+
+```console
+uv run --with 'wandb==0.28.1' wandb artifact get \
+  --root ./barunaction-35m-candidate-v2-float \
+  --type model \
+  harshalsingh1223-gladium-ai/barunaction-35m/barunaction-35m-candidate-v2-float:v0
+```
+
+The release was independently re-downloaded and all 310 files were hash-verified. See the
+[retrieval instructions](https://github.com/harrrshall/barunlm-35m/blob/barunaction-v1.1.0/docs/barunaction-retrieval.md)
+for the int8 and evidence identities, digests, and verification receipts.
+The immutable evidence `v0` also contains non-secret workstation paths and protected-resource
+mentions that an early privacy summary overlooked. No credential marker or signed endpoint was
+found. A proposed redacted W&B version was stopped before upload because its version reservation
+was not atomic; `v0` remains the complete authoritative mirror.
+
+Try the installed safety contract without weights, a checkpoint, a network connection, or files
+from this repository:
+
+```console
+barunaction demo
+```
+
+The deterministic JSON result validates one proposal, rejects one malformed output, and blocks the
+side-effecting proposal in the in-memory-only simulator. Its top-level
+`execution_permitted: false` and `external_side_effects: false` fields are the safety summary. The
+demo exercises validation and simulation only; it does not claim to demonstrate model quality.
+
+```console
+uv sync --python 3.11
+
+uv run --python 3.11 barunaction verify \
+  --checkpoint PATH/TO/BARUNACTION-FLOAT
+
+uv run --python 3.11 barunaction infer \
+  --checkpoint PATH/TO/BARUNACTION-FLOAT \
+  --tools examples/barunaction_tools.example.json \
+  --context examples/barunaction_empty_context.example.json \
+  --now 2026-08-03T20:00:00+05:30 \
+  --request "Turn on the flashlight" \
+  --device cpu
+```
+
+Every successful proposal still returns `execution_permitted: false`. See the
+[model card](https://github.com/harrrshall/barunlm-35m/blob/barunaction-v1.1.0/docs/barunaction-model-card.md),
+[data card](https://github.com/harrrshall/barunlm-35m/blob/barunaction-v1.1.0/docs/barunaction-data-card.md),
+[retrieval instructions](https://github.com/harrrshall/barunlm-35m/blob/barunaction-v1.1.0/docs/barunaction-retrieval.md), and
+[int8 evidence](https://github.com/harrrshall/barunlm-35m/blob/barunaction-v1.1.0/docs/int8-quantization.md)
+before use.
+
+## BarunLM-35M base model
+
+The original BarunLM-35M release reported the strongest score among its evaluated sub-100M base
+models under its fixed nine-task protocol. That historical comparison is not a claim over every
+model or a current global leaderboard.
 
 BarunLM-35M achieves **41.01%** on a fixed, decontaminated nine-task zero-shot benchmark at **35,072,768 parameters**. It outperforms **LFM2.5-230M-Base** by **1.81 percentage points** while using **6.55× fewer parameters**, leading every evaluated sub-100M base model under the same protocol.
 

@@ -1,0 +1,41 @@
+{
+  "schema_version": "barun-jarvis-pause-proof-v1",
+  "attempt_id": "20260804-0255-mobile-temporal-counterfactual-axolotl-hermetic-s17-attempt-1",
+  "provider": "JarvisLabs",
+  "machine": {
+    "machine_id": 463802,
+    "name": "barun-mbcf-axolotl-hermetic-v3-a1",
+    "gpu_type": "H200",
+    "num_gpus": 1,
+    "region": "IN2",
+    "is_spot": false,
+    "template": "axolotl",
+    "created_by_safe_run": true
+  },
+  "managed_run": {
+    "run_id": "r_fe346e61",
+    "state": "succeeded",
+    "exit_code": 0,
+    "terminal_status_recorded_at": "2026-08-03T22:03:27.636298+00:00"
+  },
+  "evidence_collection": {
+    "artifact_status": "succeeded",
+    "artifact_downloaded_at": "2026-08-03T22:04:45.762444+00:00",
+    "log_status": "succeeded",
+    "log_collected_at": "2026-08-03T22:04:49.396774+00:00"
+  },
+  "pause": {
+    "verified": true,
+    "verified_at": "2026-08-03T22:04:56.393070+00:00",
+    "final_status": "Paused",
+    "watchdog_status": "disarmed"
+  },
+  "evidence_sha256": {
+    "raw_lifecycle_private": "9372997a377dd472569c5514a8ce45b06183e110d000b377dee2f0be07d95cc0",
+    "remote_log_private": "8ade82c84781323f670330dfc8279b4ab3cf6337ad440d3edbefbd3ef4e56565"
+  },
+  "protection": {
+    "machine_id_added_to_private_permanent_denylist": true,
+    "resume_or_reuse_forbidden": true
+  }
+}

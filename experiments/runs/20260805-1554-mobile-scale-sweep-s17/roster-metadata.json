@@ -1,0 +1,119 @@
+{
+  "models": [
+    {
+      "architecture": [
+        "GPTNeoXForCausalLM"
+      ],
+      "bos_token": "<|endoftext|>",
+      "bos_token_id_config": 0,
+      "chat_template_present": false,
+      "downloaded_metadata_files": {
+        "config.json": {
+          "bytes": 567,
+          "sha256": "002050231a9b1ec3ac77aa6b9b3bbdc4d923f4068a7dd33b8da72a9bd6ad9a43"
+        },
+        "special_tokens_map.json": {
+          "bytes": 99,
+          "sha256": "6f50ab5a5a509a1c309d6171f339b196a900dc9c99ad0408ff23bb615fdae7ad"
+        },
+        "tokenizer.json": {
+          "bytes": 2113710,
+          "sha256": "c24618a1b3e6a38167beff1c72cffd126c3a66254347304b50547d12c5f25624"
+        },
+        "tokenizer_config.json": {
+          "bytes": 396,
+          "sha256": "70e38394e494931c6f773ba41e19460dd4436526b852207367f04341b4066d3f"
+        }
+      },
+      "eos_token": "<|endoftext|>",
+      "eos_token_id_config": 0,
+      "hidden_size": 512,
+      "license": "apache-2.0",
+      "max_position_embeddings": 2048,
+      "num_hidden_layers": 6,
+      "pinned_revision": "e93a9faa9c77e5d09219f6c868bfc7a1bd65593c",
+      "repo_id": "EleutherAI/pythia-70m-deduped",
+      "safetensors_total_parameters": 95592496,
+      "tokenizer_class": "GPTNeoXTokenizer",
+      "vocab_size": 50304
+    },
+    {
+      "architecture": [
+        "LlamaForCausalLM"
+      ],
+      "bos_token": "<|endoftext|>",
+      "bos_token_id_config": 0,
+      "chat_template_present": false,
+      "downloaded_metadata_files": {
+        "config.json": {
+          "bytes": 704,
+          "sha256": "1d556eab73b69c7f11f64c557a2f9c6f440bd4c6b89bb2584a6b498c92603843"
+        },
+        "special_tokens_map.json": {
+          "bytes": 831,
+          "sha256": "e786b595b9a23148bf1630df78d9037a048ea671e48bfd3549a1e3c233742bb3"
+        },
+        "tokenizer.json": {
+          "bytes": 2104556,
+          "sha256": "9ca9acddb6525a194ec8ac7a87f24fbba7232a9a15ffa1af0c1224fcd888e47c"
+        },
+        "tokenizer_config.json": {
+          "bytes": 3658,
+          "sha256": "4bb9af56a342753d39374f4016a16574cab299fe088e896f425ce3c433f61424"
+        }
+      },
+      "eos_token": "<|endoftext|>",
+      "eos_token_id_config": 0,
+      "hidden_size": 576,
+      "license": "apache-2.0",
+      "max_position_embeddings": 8192,
+      "num_hidden_layers": 30,
+      "pinned_revision": "93efa2f097d58c2a74874c7e644dbc9b0cee75a2",
+      "repo_id": "HuggingFaceTB/SmolLM2-135M",
+      "safetensors_total_parameters": 134515008,
+      "tokenizer_class": "GPT2Tokenizer",
+      "vocab_size": 49152
+    },
+    {
+      "architecture": [
+        "LlamaForCausalLM"
+      ],
+      "bos_token": "<|endoftext|>",
+      "bos_token_id_config": 0,
+      "chat_template_present": false,
+      "downloaded_metadata_files": {
+        "config.json": {
+          "bytes": 689,
+          "sha256": "34f7801487078de7e434e19162c497e5cc6ff397080e40e8586627cb68a5168a"
+        },
+        "special_tokens_map.json": {
+          "bytes": 831,
+          "sha256": "e786b595b9a23148bf1630df78d9037a048ea671e48bfd3549a1e3c233742bb3"
+        },
+        "tokenizer.json": {
+          "bytes": 2104556,
+          "sha256": "9ca9acddb6525a194ec8ac7a87f24fbba7232a9a15ffa1af0c1224fcd888e47c"
+        },
+        "tokenizer_config.json": {
+          "bytes": 3658,
+          "sha256": "4bb9af56a342753d39374f4016a16574cab299fe088e896f425ce3c433f61424"
+        }
+      },
+      "eos_token": "<|endoftext|>",
+      "eos_token_id_config": 0,
+      "hidden_size": 960,
+      "license": "apache-2.0",
+      "max_position_embeddings": 8192,
+      "num_hidden_layers": 32,
+      "pinned_revision": "f8027fd0eaeea54caa13c31d31b9fdc459c38b49",
+      "repo_id": "HuggingFaceTB/SmolLM2-360M",
+      "safetensors_total_parameters": 361821120,
+      "tokenizer_class": "GPT2Tokenizer",
+      "vocab_size": 49152
+    }
+  ],
+  "network_scope": "read-only public Hugging Face metadata and small text/JSON files; no weights",
+  "recorded_at_utc": "2026-08-05T10:26:41.265843+00:00",
+  "run_id": "20260805-1554-mobile-scale-sweep-s17",
+  "schema_version": 1
+}

@@ -1,0 +1,12 @@
+{
+  "schema_version": "barun-verification-failure-v1",
+  "attempt": 1,
+  "failed_at_utc": "2026-08-03T16:35:15Z",
+  "stage": "downloaded-checkpoint-shape-audit",
+  "exception_type": "TypeError",
+  "exception": "'builtins.safe_open' object is not iterable",
+  "cause": "The verifier iterated safe_open directly; safetensors 0.8.0 exposes tensor names through keys().",
+  "artifact_implication": "none; the failure occurred in verifier compatibility before metric acceptance",
+  "resolution": "Changed the verifier to use sorted(handle.keys()) and added a regression test.",
+  "output_policy": "This failed output directory was preserved; the corrected verifier uses a new directory."
+}

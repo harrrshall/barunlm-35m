@@ -1,0 +1,256 @@
+{
+  "abstention": {
+    "f1": 0.0,
+    "false_negative": 0,
+    "false_positive": 0,
+    "precision": 0.0,
+    "recall": 0.0,
+    "true_positive": 0
+  },
+  "argument_key_macro_f1": 0.8962456776939538,
+  "argument_key_micro": {
+    "f1": 0.9042782394582948,
+    "false_negative": 282,
+    "false_positive": 29,
+    "precision": 0.9806408544726302,
+    "recall": 0.8389491719017704,
+    "true_positive": 1469
+  },
+  "argument_value_macro_f1": 0.7593008600594815,
+  "argument_value_micro": {
+    "f1": 0.7750076946752846,
+    "false_negative": 492,
+    "false_positive": 239,
+    "precision": 0.8404539385847797,
+    "recall": 0.7190177041690463,
+    "true_positive": 1259
+  },
+  "ast_exact_match": {
+    "denominator": 725,
+    "numerator": 422,
+    "value": 0.5820689655172414
+  },
+  "call_simulator_assessment": {
+    "denominator": 655,
+    "numerator": 655,
+    "value": 1.0
+  },
+  "catastrophic_unauthorized_actions": 0,
+  "clarification_accuracy": {
+    "denominator": 0,
+    "numerator": 0,
+    "value": 0.0
+  },
+  "confirmation_accuracy": {
+    "denominator": 0,
+    "numerator": 0,
+    "value": 0.0
+  },
+  "decision_accuracy": {
+    "denominator": 725,
+    "numerator": 655,
+    "value": 0.903448275862069
+  },
+  "evaluator_version": "action-ir-v1.0.0",
+  "failure_counts": {
+    "ast_mismatch": 233,
+    "duplicate_key": 1,
+    "extra_argument": 19,
+    "invalid_call_count": 4,
+    "invalid_json": 5,
+    "missing_argument": 26,
+    "missing_field": 3,
+    "mobile_actions_ast_mismatch": 233,
+    "parse_failure": 6,
+    "schema_failure": 64,
+    "simulator_failure": 233,
+    "truncated": 1,
+    "unknown_tool": 12
+  },
+  "false_action": {
+    "denominator": 0,
+    "numerator": 0,
+    "value": 0.0
+  },
+  "missing_prediction": {
+    "denominator": 725,
+    "numerator": 0,
+    "value": 0.0
+  },
+  "parse_failure": {
+    "denominator": 725,
+    "numerator": 6,
+    "value": 0.008275862068965517
+  },
+  "parse_valid": {
+    "denominator": 725,
+    "numerator": 719,
+    "value": 0.9917241379310345
+  },
+  "per_gold_tool_success": {
+    "create_calendar_event": {
+      "denominator": 279,
+      "numerator": 114,
+      "value": 0.40860215053763443
+    },
+    "create_contact": {
+      "denominator": 142,
+      "numerator": 65,
+      "value": 0.45774647887323944
+    },
+    "open_wifi_settings": {
+      "denominator": 120,
+      "numerator": 88,
+      "value": 0.7333333333333333
+    },
+    "send_email": {
+      "denominator": 172,
+      "numerator": 97,
+      "value": 0.563953488372093
+    },
+    "show_map": {
+      "denominator": 143,
+      "numerator": 56,
+      "value": 0.3916083916083916
+    },
+    "turn_off_flashlight": {
+      "denominator": 65,
+      "numerator": 51,
+      "value": 0.7846153846153846
+    },
+    "turn_on_flashlight": {
+      "denominator": 81,
+      "numerator": 51,
+      "value": 0.6296296296296297
+    }
+  },
+  "per_scenario_success": {
+    "create_calendar_event": {
+      "denominator": 174,
+      "numerator": 84,
+      "value": 0.4827586206896552
+    },
+    "create_contact": {
+      "denominator": 111,
+      "numerator": 52,
+      "value": 0.46846846846846846
+    },
+    "open_wifi_settings": {
+      "denominator": 116,
+      "numerator": 87,
+      "value": 0.75
+    },
+    "send_email": {
+      "denominator": 100,
+      "numerator": 60,
+      "value": 0.6
+    },
+    "show_map": {
+      "denominator": 79,
+      "numerator": 37,
+      "value": 0.46835443037974683
+    },
+    "turn_off_flashlight": {
+      "denominator": 65,
+      "numerator": 51,
+      "value": 0.7846153846153846
+    },
+    "turn_on_flashlight": {
+      "denominator": 80,
+      "numerator": 51,
+      "value": 0.6375
+    }
+  },
+  "per_tool": {
+    "create_calendar_event": {
+      "balanced_accuracy": 0.9283154121863799,
+      "f1": 0.9227799227799228,
+      "false_negative": 40,
+      "false_positive": 0,
+      "precision": 1.0,
+      "recall": 0.8566308243727598,
+      "true_negative": 446,
+      "true_positive": 239
+    },
+    "create_contact": {
+      "balanced_accuracy": 0.926056338028169,
+      "f1": 0.9201520912547528,
+      "false_negative": 21,
+      "false_positive": 0,
+      "precision": 1.0,
+      "recall": 0.852112676056338,
+      "true_negative": 583,
+      "true_positive": 121
+    },
+    "open_wifi_settings": {
+      "balanced_accuracy": 0.9125,
+      "f1": 0.9041095890410958,
+      "false_negative": 21,
+      "false_positive": 0,
+      "precision": 1.0,
+      "recall": 0.825,
+      "true_negative": 605,
+      "true_positive": 99
+    },
+    "send_email": {
+      "balanced_accuracy": 0.9186046511627908,
+      "f1": 0.9113924050632911,
+      "false_negative": 28,
+      "false_positive": 0,
+      "precision": 1.0,
+      "recall": 0.8372093023255814,
+      "true_negative": 553,
+      "true_positive": 144
+    },
+    "show_map": {
+      "balanced_accuracy": 0.8942457885756855,
+      "f1": 0.8793774319066148,
+      "false_negative": 30,
+      "false_positive": 1,
+      "precision": 0.9912280701754386,
+      "recall": 0.7902097902097902,
+      "true_negative": 581,
+      "true_positive": 113
+    },
+    "turn_off_flashlight": {
+      "balanced_accuracy": 0.9538461538461538,
+      "f1": 0.9516129032258065,
+      "false_negative": 6,
+      "false_positive": 0,
+      "precision": 1.0,
+      "recall": 0.9076923076923077,
+      "true_negative": 660,
+      "true_positive": 59
+    },
+    "turn_on_flashlight": {
+      "balanced_accuracy": 0.9382716049382716,
+      "f1": 0.9342105263157895,
+      "false_negative": 10,
+      "false_positive": 0,
+      "precision": 1.0,
+      "recall": 0.8765432098765432,
+      "true_negative": 644,
+      "true_positive": 71
+    }
+  },
+  "policy_safe_executable_success": {
+    "denominator": 725,
+    "numerator": 422,
+    "value": 0.5820689655172414
+  },
+  "risk_coverage": [],
+  "sample_count": 725,
+  "schema_valid": {
+    "denominator": 725,
+    "numerator": 655,
+    "value": 0.903448275862069
+  },
+  "schema_version": "barun-mobile-actions-score-v1",
+  "tool_macro_balanced_accuracy": 0.92454856410535,
+  "tool_macro_f1": 0.9176621242267533,
+  "truncation": {
+    "denominator": 725,
+    "numerator": 1,
+    "value": 0.001379310344827586
+  }
+}

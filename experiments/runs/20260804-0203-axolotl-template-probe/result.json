@@ -1,0 +1,34 @@
+{
+  "schema_version": "barun-jarvis-template-probe-v1",
+  "purpose": "Resolve the provider Python version without spending another H200 or reading any model or dataset.",
+  "jarvis_machine_id": 463788,
+  "jarvis_run_id": "r_31557d3c",
+  "template": "axolotl",
+  "gpu": "L4",
+  "region": "IN2",
+  "is_spot": false,
+  "observed_python": {
+    "implementation": "CPython",
+    "version": "3.11.10",
+    "evidence": "The managed-run environment creation line precedes the provider project-install failure."
+  },
+  "probe_payload": {
+    "bytes": 330,
+    "sha256": "8c54b642de937eea04e1916df2ced467447d7614c2e75117157f40564f0b7c18",
+    "model_or_dataset_access": false
+  },
+  "managed_run": {
+    "state": "failed",
+    "exit_code": 2,
+    "reason": "The provider attempted an editable project install even though the isolated probe directory intentionally had no pyproject.toml or setup.py.",
+    "scientific_signal": 0
+  },
+  "lifecycle": {
+    "final_instance_status": "Paused",
+    "pause_verified": true,
+    "preexisting_instances_mutated": [],
+    "raw_lifecycle_sha256": "c2727275ef97d4e3bb64d4fec67edbe245a04ac2b9f2df55057c5c6c1c88a828",
+    "remote_log_sha256": "9e8d0e1c559d8378f44f3dae919b020942a22069e2a11a888ffdde0374e293a0"
+  },
+  "decision": "Bind the next preregistration to the Axolotl template and explicitly validate the provider-created active root .venv while keeping it outside the scientific content tree."
+}

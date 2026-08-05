@@ -1,0 +1,28 @@
+{
+  "file_count": 5,
+  "files": {
+    "controller/attempt-preregistration.json": {
+      "bytes": 3259,
+      "sha256": "e8b17a73601fca0d16d340cda22f1c1b01a091ee150e1b0207446b0668bcb126"
+    },
+    "controller/pre-cuda-validation.json": {
+      "bytes": 1878,
+      "sha256": "3a3f6c13c077ed162d0ae5b6229c2ce68182c305c3105343c08d3ec29e0755c1"
+    },
+    "controller/pre-cuda-validation.log": {
+      "bytes": 4363,
+      "sha256": "14ad3537446895771778610427d5efdbea88a59cce4cd620b6b125e64bd2650d"
+    },
+    "controller/source-snapshot.json": {
+      "bytes": 53497,
+      "sha256": "56a537189ddf3612f17b7547bb3cc7c76dffdc1a06d6994c37558d4fd784dd43"
+    },
+    "failure.json": {
+      "bytes": 629,
+      "sha256": "f79117f9d17e3432fbfcf598516492d886ac00383ac191e07aede46ac90fb580"
+    }
+  },
+  "schema_version": "barun-mobile-temporal-essential-v1",
+  "status": "prebackend_failure",
+  "total_bytes": 63626
+}

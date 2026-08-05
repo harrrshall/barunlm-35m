@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "run_id": "20260804-2237-jarvis-unused-barun-cleanup",
+  "kind": "user_authorized_exact_id_resource_cleanup",
+  "recorded_at": "2026-08-04T17:07:33Z",
+  "authorization": "Delete unused Strata/BarunLM instances; do not touch Kroda-related instances.",
+  "precondition": {
+    "safe_projected_inventory_used": true,
+    "matching_running_instances": 0,
+    "matching_paused_instances": 18,
+    "local_run_directories_verified_for_destroyed_instances": true
+  },
+  "destroyed": {
+    "provider": "JarvisLabs",
+    "machine_ids": [
+      463556,
+      463572,
+      463575,
+      463594,
+      463606,
+      463622,
+      463631,
+      463636,
+      463642,
+      463674,
+      463675,
+      463686
+    ],
+    "count": 12,
+    "all_destroy_commands_exit_zero": true,
+    "post_cleanup_safe_inventory_absent": true,
+    "recoverability": "Remote instances and their remote files are permanently deleted; local run evidence remains."
+  },
+  "retained_protected_evidence": {
+    "machine_ids": [463689, 463786, 463788, 463793, 463802, 463843],
+    "count": 6,
+    "observed_status": "Paused",
+    "reason": "These remain active audit evidence under the operating contract and are not classified as unused."
+  },
+  "out_of_scope_untouched": {
+    "kroda": {
+      "machine_id": 463058,
+      "observed_status": "Running"
+    },
+    "non_barun_resources": true
+  },
+  "safety": {
+    "raw_inventory_persisted": false,
+    "endpoint_identifiers_used_as_targets": false,
+    "bulk_lifecycle_command_used": false,
+    "exact_ids_only": true
+  },
+  "conclusion": "complete"
+}

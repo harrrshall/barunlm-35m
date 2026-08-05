@@ -1,0 +1,119 @@
+{
+  "schema_version": "barun-experiment-preregistration-v1",
+  "run_id": "20260803-1930-mobile-smollm2-matched-s17",
+  "status": "frozen_not_launched",
+  "registered_at": "2026-08-03T19:30:00+05:30",
+  "hypothesis_and_decision": {
+    "config_path": "configs/mobile_smollm2_matched_v1.json",
+    "config_sha256": "eca8135ff6cc58e14ddd7ddae210becb43462646e7f32d7de5c57fe624bb2f21",
+    "hypothesis": "A fairly adapted 361,821,120-parameter SmolLM2 baseline may outperform BarunAction-35M candidate-v2 on strict Mobile Actions development Action IR exact match.",
+    "decision": "Preserve one final-checkpoint result as first matched public-development evidence. Do not tune from it inside this run and do not treat it as a larger-model-superiority test.",
+    "trial_budget": "one full-SFT recipe, one seed, one final development score",
+    "checkpoint_policy": "final only"
+  },
+  "baseline": {
+    "id": "HuggingFaceTB/SmolLM2-360M-Instruct",
+    "revision": "a10cc1512eabd3dde888204e902eca88bddb4951",
+    "license": "Apache-2.0",
+    "expected_unique_parameters": 361821120,
+    "parameter_count_gate": "deduplicate exact tied storage views after loading; abort unless measured count is exactly 361,821,120 and all unique parameters are trainable",
+    "trust_remote_code": false,
+    "native_chat_template": "required and hashed at runtime"
+  },
+  "matched_information": {
+    "train_rows": 7937,
+    "train_manifest_sha256": "131473ccb5bfb51cac0439b42159e72ec4c598025e50364a52b122b056c2e84e",
+    "train_membership_sha256": "4cdfc3649c21a9f0d3dc4d8d9cffcae3cb5c6abc4414a9fb09636e9220afe96f",
+    "dev_rows": 756,
+    "dev_manifest_sha256": "988bdce5874d1f1a775feeb5ba2b58cd2bdc128f57e73cb9a63d535fae7c1d55",
+    "dev_membership_sha256": "31e0170c1de49d9c4591064587c405f0cb9f981e7026ac457f6fa2902b3647de",
+    "adapter_audit_sha256": "dc756f97c0a7ef706ec8ffefe2d57cf7e16d75a6ccd932f906d16b6a6ee2f83c",
+    "semantic_contract": "same IDs, schemas, tool order, descriptions, timestamp, user text, Action IR labels, no augmentations, no teacher information, and exactly one presentation of every training row",
+    "model_specific_difference": "only native chat control tokens and tokenizer tokenization",
+    "response_only_loss": true
+  },
+  "official_eval_firewall": {
+    "official_rows": 961,
+    "source_sha256": "91d251ee958cfd295af6c4504c236a3a1ad19517de240c3bc680bacfcbf7e7d9",
+    "runner_accepts_source_path": false,
+    "runner_accepts_official_eval_path": false,
+    "remote_stage_policy": "stage train manifest, dev manifest, and audit only; do not stage the combined source or any official-eval artifact",
+    "required_audit_state": "opaque, unparsed, unmaterialized, untokenized, unsummarized, and excluded from overlap calculations",
+    "official_eval_rows_read_or_materialized_during_local_verification": 0
+  },
+  "optimization": {
+    "method": "full-parameter response-only SFT",
+    "seed": 17,
+    "epochs": 1,
+    "precision": "bfloat16",
+    "per_device_batch_size": 21,
+    "gradient_accumulation_steps": 3,
+    "effective_batch_size": 63,
+    "expected_optimizer_steps": 126,
+    "optimizer": "AdamW",
+    "learning_rate": 0.00002,
+    "warmup_steps": 12,
+    "minimum_learning_rate_ratio": 0.1,
+    "weight_decay": 0.1,
+    "gradient_checkpointing": true,
+    "max_seq_len": 2048,
+    "packing": false,
+    "truncation_or_drop": false
+  },
+  "evaluation": {
+    "population": "frozen grouped 756-row Mobile Actions development manifest",
+    "scorer_version": "barun-mobile-actions-score-v1",
+    "primary_metric": "ast_exact_match.value",
+    "decoding": "unconstrained deterministic greedy",
+    "max_new_tokens": 192,
+    "sample_level_raw_predictions": "required",
+    "sample_level_scores": "required",
+    "failure_accounting": "missing, OOM, context-overflow, truncated, parse-invalid, and schema-invalid outputs remain failures"
+  },
+  "frozen_implementation": {
+    "git_base": "fe4ee1b773160c9bfdf648f9da5bacd7a481fb16",
+    "module": {
+      "path": "src/barunlm/baselines/mobile_matched.py",
+      "sha256": "a9a1c6c3994c55e469eb134b324bad23c4a6537c701fc0ae13eb3eb0c1bb4573"
+    },
+    "package_init": {
+      "path": "src/barunlm/baselines/__init__.py",
+      "sha256": "75bf5c72a7a10ee9d3b8c68a4757d60e126268ba473a19d5e2db8be4b5978293"
+    },
+    "entrypoint": {
+      "path": "scripts/run_mobile_matched_baseline.py",
+      "sha256": "b19ce3ef70db4b25e994d6b69b4e2a7374bfc8e19d3b54342f94f153acbb81af"
+    },
+    "requirements": {
+      "path": "requirements/matched-baseline.txt",
+      "sha256": "1f6334bede0c22579ffeac9d2e2a7258dd36c012d191d0f5702183146b8a8fab"
+    },
+    "tests": {
+      "path": "tests/test_mobile_matched_baseline.py",
+      "sha256": "113792d5ea3548006629dcb41cd3dd17fdd5501f9a1fc26a158dc619870d18cd"
+    },
+    "documentation": {
+      "path": "docs/mobile-matched-baseline.md",
+      "sha256": "9d786a55a170f69b3d6b914fe0eb48b04040a7ec8bcf5a8559acb8078297238c"
+    },
+    "local_verification": "180 full repository tests passed at freeze time; repository-wide Ruff check passed; matched-baseline files passed Ruff format check; all 8,693 permitted train/dev prompts passed strict semantic-wrapper parsing",
+    "external_model_or_service_contacted": false,
+    "baseline_downloaded": false,
+    "jarvis_resource_created": false
+  },
+  "compute": {
+    "provider": "JarvisLabs",
+    "plan": "after a fresh read-only inventory and clean-stage hash, create one new project-owned H200 in IN2 through infra/jarvis/safe_run.py, download essential evidence, and pause-verify only its exact recorded ID",
+    "instance_name": "barun-mobile-smollm2-matched-1930-s17",
+    "gpu": "H200",
+    "num_gpus": 1,
+    "storage_gb": 100,
+    "maximum_runtime_minutes": 240,
+    "protected_running_instance": {
+      "machine_id": 463058,
+      "name": "Kroda",
+      "policy": "do not use or mutate"
+    }
+  },
+  "claim_limit": "This one-seed, one-recipe public-development comparison cannot establish official-test performance, safety, a matched training-procedure advantage, or that BarunAction-35M beats a larger model."
+}

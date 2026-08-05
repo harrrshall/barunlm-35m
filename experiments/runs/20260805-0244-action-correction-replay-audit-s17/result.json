@@ -1,0 +1,66 @@
+{
+  "schema_version": "barun-action-correction-replay-audit-v1",
+  "run_id": "20260805-0244-action-correction-replay-audit-s17",
+  "recorded_at": "2026-08-05T02:44:30+05:30",
+  "hypothesis": "The exact accepted 5,744-row former-v3 construction subset can be reconstructed as byte-preserving direct Action IR training replay without importing PlanIR, MBCF, selection, confirmation, development, or official-evaluation targets.",
+  "decision": "Keep the fail-closed replay materializer as a training-only input primitive for a separately authorized Generate-Correct SFT experiment; this audit cannot authorize population materialization, model access, CUDA, JarvisLabs, selection, or release promotion.",
+  "inputs": {
+    "construction_manifest": {
+      "path": "experiments/runs/20260803-2353-mobile-temporal-counterfactual-s17/materialized-screening-v1/construction-train.jsonl",
+      "rows": 5745,
+      "sha256": "800a3ba0a7f0215e5cf95c77c32e47abed48b2f07f375954b0e0b08296a33d10",
+      "membership_sha256": "b70f6dfe79cfe49792b6e6f5d414fd509c889d18101f75cd8df6d4e4f146c588",
+      "ordered_membership_sha256": "3cc37d0bf7c452c7b7e13066cf2b74f19c1e61d6932b1c4a05fec6759de114bc"
+    },
+    "exclusion_ledger": {
+      "path": "experiments/runs/20260804-0545-mobile-planir-construction-screen-s17/materialized-v1/exclusion.jsonl",
+      "rows": 1,
+      "sha256": "7593b556b9c096308ca1a9e9d9b89627ebf19710da930bd4dd5794c58879616a",
+      "excluded_id": "mobile-actions-04894-6bd7643b1bc95697"
+    }
+  },
+  "output": {
+    "rows": 5744,
+    "manifest_sha256": "f964587bbed79f451c2d5360677c22d176ed9a96c750fff6e12852e57530d863",
+    "membership_sha256": "27f9acb8905db132420ddb5d11a20bed138f2e2927aec41672f6852b3895452d",
+    "ordered_membership_sha256": "b4a909a1f666cb34f5baccc0e9ebd57c00e05f5a9ff9271cf3bf2c85923ce29e",
+    "direct_target_commitment_sha256": "131b7b3094fcfc3cbf919cdf2cd5fb8062ac7a492fc57a8eff45fbdcfe163389",
+    "receipt_sha256": "3df25123e1761c54fa0e0b01ca501fd1913ec65abece38683c2b3706cb7a15f5",
+    "manifest_written": false,
+    "target_bytes_preserved": true,
+    "source_order_preserved": true,
+    "training_only": true,
+    "fresh_evaluation": false,
+    "selection_eligible": false,
+    "authorizes_model_access": false
+  },
+  "implementation": {
+    "source": "src/barunlm/datasets/mobile_construction_replay.py",
+    "source_sha256": "9b6c3094475351b4af9537bd498da239811f13c970ee02304efd5dbc7f3fb89e",
+    "test": "tests/test_mobile_construction_replay.py",
+    "test_sha256": "c6d054688e5e87a90755055fd2bf1eb1075238153f74fe12da0c6c9a4416b0fe"
+  },
+  "verification": {
+    "focused_tests_passed": 18,
+    "independent_combined_tests_passed": 91,
+    "independent_combined_test_wall_seconds": 12.02,
+    "ruff_passed": true,
+    "format_check_passed": true,
+    "whitespace_check_passed": true,
+    "real_replay_recomputed": true,
+    "receipt_recomputed": true
+  },
+  "access": {
+    "model_loaded": false,
+    "cuda_accessed": false,
+    "jarvislabs_accessed": false,
+    "human_labels_read": 0,
+    "mobile_reused_development_756_rows_read": 0,
+    "mobile_official_evaluation_961_rows_read": 0,
+    "v3_selection_rows_read": 0,
+    "v3_confirmation_rows_read": 0,
+    "planir_screen_rows_read": 0
+  },
+  "scope": "CPU-only replay-boundary verification, not a model or scientific-quality experiment",
+  "conclusion": "keep"
+}

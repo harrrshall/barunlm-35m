@@ -1,0 +1,50 @@
+{
+  "schema_version": "barun-qwen05b-checkpoint-manifest-v1",
+  "run_id": "20260803-2122-mobile-qwen05b-matched-s17",
+  "root": "essential/checkpoint",
+  "files": {
+    "added_tokens.json": {
+      "bytes": 605,
+      "sha256": "58b54bbe36fc752f79a24a271ef66a0a0830054b4dfad94bde757d851968060b"
+    },
+    "config.json": {
+      "bytes": 806,
+      "sha256": "ca17f5fb7fd1acdd0a7b4668680fc25ee73801c3e442e81b5e8217b5eb74ed24"
+    },
+    "generation_config.json": {
+      "bytes": 242,
+      "sha256": "0b69aa62af0e081a1a5ce1400b09f77603f56ed7250e0e1e160f33be1b555ea9"
+    },
+    "merges.txt": {
+      "bytes": 1671853,
+      "sha256": "8831e4f1a044471340f7c0a83d7bd71306a5b867e95fd870f74d0c5308a904d5"
+    },
+    "model.safetensors": {
+      "bytes": 988097824,
+      "sha256": "21f3f234ce9bfc2fa387cf396807fa35f5eb72e311f23a89cd98c98224c78793"
+    },
+    "special_tokens_map.json": {
+      "bytes": 613,
+      "sha256": "76862e765266b85aa9459767e33cbaf13970f327a0e88d1c65846c2ddd3a1ecd"
+    },
+    "tokenizer.json": {
+      "bytes": 11421896,
+      "sha256": "9c5ae00e602b8860cbd784ba82a8aa14e8feecec692e7076590d014d7b7fdafa"
+    },
+    "tokenizer_config.json": {
+      "bytes": 7336,
+      "sha256": "57fea41fa99fce34f91450643e48b3bfbb078c32c6831a3c06834f122c200510"
+    },
+    "vocab.json": {
+      "bytes": 2776833,
+      "sha256": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910"
+    }
+  },
+  "file_count": 9,
+  "model_tensor_count": 290,
+  "model_dtype": "BF16",
+  "unique_parameters": 494032768,
+  "optimizer_state_included": false,
+  "canonical_hash_source": "essential/training/summary.json.checkpoint_files_sha256",
+  "independently_verified": true
+}

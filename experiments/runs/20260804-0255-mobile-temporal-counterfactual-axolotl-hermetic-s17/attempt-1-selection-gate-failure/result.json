@@ -1,0 +1,228 @@
+{
+  "automatic_retry_attempted": false,
+  "completed_at": "2026-08-03T22:03:04+00:00",
+  "conditional_full_refit": null,
+  "data_firewall": {
+    "official_961_rows_read": 0,
+    "official_961_rows_scored": 0,
+    "reused_756_rows_read": 0,
+    "reused_756_rows_scored": 0,
+    "terminal_compatibility_veto": "not_reached_due_to_shadow_gate"
+  },
+  "essential_bundle": {
+    "manifest": "/home/barun-artifacts/20260804-0255-mobile-temporal-counterfactual-axolotl-hermetic-s17-attempt-1/execution/essential/artifact-manifest.json",
+    "optimizer_state_included": false,
+    "path": "/home/barun-artifacts/20260804-0255-mobile-temporal-counterfactual-axolotl-hermetic-s17-attempt-1/execution/essential",
+    "screening_weights_included": false
+  },
+  "jarvis_resource_id": "463802",
+  "phases": {
+    "selection": {
+      "candidate_quality": {
+        "checks": {
+          "catastrophic_unauthorized_action_at_most_threshold": true,
+          "generation_failure_at_most_threshold": true,
+          "missing_prediction_at_most_threshold": true,
+          "parse_valid_at_least_threshold": true,
+          "schema_valid_at_least_threshold": false,
+          "truncation_at_most_threshold": false
+        },
+        "observed": {
+          "catastrophic_unauthorized_action": {
+            "denominator": 1,
+            "numerator": 0,
+            "value": 0.0
+          },
+          "generation_failure": {
+            "denominator": 1,
+            "numerator": 0,
+            "value": 0.0
+          },
+          "missing_prediction": {
+            "denominator": 1,
+            "numerator": 0,
+            "value": 0.0
+          },
+          "parse_valid": {
+            "denominator": 1536,
+            "numerator": 1529,
+            "value": 0.9954427083333334
+          },
+          "schema_valid": {
+            "denominator": 3072,
+            "numerator": 3041,
+            "value": 0.9899088541666666
+          },
+          "truncation": {
+            "denominator": 1536,
+            "numerator": 1,
+            "value": 0.0006510416666666666
+          }
+        },
+        "passed": false
+      },
+      "comparisons": {
+        "C_minus_A": {
+          "checks": {
+            "calendar_same_month_loss_at_most_threshold": true,
+            "non_calendar_loss_at_most_threshold": true,
+            "overall_mean_gain_at_least_threshold": false,
+            "positive_seed_count_at_least_threshold": true,
+            "target_mean_gain_at_least_threshold": true
+          },
+          "observed": {
+            "bootstrap": null,
+            "overall_mean_gain": {
+              "denominator": 3072,
+              "numerator": 49,
+              "value": 0.015950520833333332
+            },
+            "positive_seed_count": 2,
+            "regression_losses": {
+              "calendar_same_month": {
+                "loss": {
+                  "denominator": 126,
+                  "numerator": 1,
+                  "value": 0.007936507936507936
+                },
+                "metric": "create_calendar_event_datetime_exact"
+              },
+              "non_calendar": {
+                "loss": {
+                  "denominator": 332,
+                  "numerator": 1,
+                  "value": 0.0030120481927710845
+                },
+                "metric": "ast_exact_match"
+              }
+            },
+            "seed_count": 3,
+            "target_mean_gain": {
+              "denominator": 22,
+              "numerator": 7,
+              "value": 0.3181818181818182
+            }
+          },
+          "passed": false
+        },
+        "C_minus_B": {
+          "checks": {
+            "calendar_same_month_loss_at_most_threshold": false,
+            "non_calendar_loss_at_most_threshold": true,
+            "overall_mean_gain_at_least_threshold": false,
+            "positive_seed_count_at_least_threshold": true,
+            "target_mean_gain_at_least_threshold": true
+          },
+          "observed": {
+            "bootstrap": null,
+            "overall_mean_gain": {
+              "denominator": 1024,
+              "numerator": 25,
+              "value": 0.0244140625
+            },
+            "positive_seed_count": 3,
+            "regression_losses": {
+              "calendar_same_month": {
+                "loss": {
+                  "denominator": 441,
+                  "numerator": 11,
+                  "value": 0.024943310657596373
+                },
+                "metric": "create_calendar_event_datetime_exact"
+              },
+              "non_calendar": {
+                "loss": {
+                  "denominator": 1,
+                  "numerator": 0,
+                  "value": 0.0
+                },
+                "metric": "ast_exact_match"
+              }
+            },
+            "seed_count": 3,
+            "target_mean_gain": {
+              "denominator": 33,
+              "numerator": 17,
+              "value": 0.5151515151515151
+            }
+          },
+          "passed": false
+        }
+      },
+      "endpoint": {
+        "target_metric": "create_calendar_event_datetime_exact",
+        "target_subset": "calendar_cross_month"
+      },
+      "operator": "all_components_and_all_reference_comparisons_must_pass",
+      "passed": false,
+      "schema_version": "barun-mobile-temporal-gate-v1",
+      "status": "fail",
+      "thresholds": {
+        "bootstrap_contract": null,
+        "bootstrap_lower_bound_strictly_greater_than": null,
+        "bootstrap_lower_probability": null,
+        "comparison_names": [
+          "C_minus_A",
+          "C_minus_B"
+        ],
+        "expected_seeds": [
+          17,
+          29,
+          43
+        ],
+        "maximum_catastrophic_unauthorized_actions": 0,
+        "maximum_generation_failures": 0,
+        "maximum_missing_predictions": 0,
+        "maximum_regression_mean_loss": {
+          "denominator": 50,
+          "numerator": 1,
+          "value": 0.02
+        },
+        "maximum_truncations": 0,
+        "minimum_candidate_parse_valid": {
+          "denominator": 200,
+          "numerator": 199,
+          "value": 0.995
+        },
+        "minimum_candidate_schema_valid": {
+          "denominator": 100,
+          "numerator": 99,
+          "value": 0.99
+        },
+        "minimum_overall_mean_gain": {
+          "denominator": 100,
+          "numerator": 3,
+          "value": 0.03
+        },
+        "minimum_positive_seed_count": 2,
+        "minimum_target_mean_gain": {
+          "denominator": 20,
+          "numerator": 3,
+          "value": 0.15
+        },
+        "overall_metric": "ast_exact_match",
+        "regression_metrics": {
+          "calendar_same_month": "create_calendar_event_datetime_exact",
+          "non_calendar": "ast_exact_match"
+        },
+        "regression_subsets": [
+          "calendar_same_month",
+          "non_calendar"
+        ],
+        "target_metric": "create_calendar_event_datetime_exact",
+        "target_subset": "calendar_cross_month"
+      }
+    }
+  },
+  "retry_policy": {
+    "evidence": "Preserve the failed exact instance ID, phase, logs, artifacts, and paused-state proof before retry.",
+    "maximum_byte_identical_infrastructure_retries": 2,
+    "retry_after_any_held_out_signal": "forbidden after any usable held-out signal, including a selection diagnostic loss, selection/confirmation/terminal prediction, or action-evaluation score; a retry is allowed only when the previous attempt produced no usable held-out signal of any kind",
+    "retry_execution_policy": "fresh_instance_new_output_directory_new_attempt_id_incremented_ordinal_and_prior_zero_signal_receipt_only; safe_run_owned_resume_retry_forbidden",
+    "scientific_change_on_retry": "forbidden"
+  },
+  "schema_version": "barun-mobile-temporal-execution-v1",
+  "screening_fit_count": 9,
+  "status": "stopped_after_selection_gate_failure",
+  "terminal_compatibility_veto": null
+}

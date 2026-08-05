@@ -1,0 +1,111 @@
+{
+  "schema_version": "barunaction-github-release-result-v1",
+  "run_id": "20260805-0347-barunaction-github-release-v1",
+  "recorded_at": "2026-08-05T03:47:30+05:30",
+  "conclusion": "keep",
+  "release": {
+    "repository": "harrrshall/barunlm-35m",
+    "visibility": "public",
+    "url": "https://github.com/harrrshall/barunlm-35m/releases/tag/barunaction-v1.1.0",
+    "github_release_id": 365186269,
+    "tag": "barunaction-v1.1.0",
+    "tag_kind": "annotated",
+    "tag_object_sha": "cd1c102c04ed30db08c5694dfede047a834b8b32",
+    "peeled_commit_sha": "ea26b83eba1a1819ab0088c611dad977265669f7",
+    "commit_tree_sha": "01069ada84a34c39ed018d74853ccaddadcc2292",
+    "published_at": "2026-08-04T22:15:05Z",
+    "draft": false,
+    "prerelease": false,
+    "server_target_commitish_metadata": "main",
+    "exact_tag_peel_verified_locally_and_remotely": true
+  },
+  "assets": [
+    {
+      "name": "barunlm-1.1.0-py3-none-any.whl",
+      "size_bytes": 649580,
+      "sha256": "43c6f420f87f41e1f438217578cadaaf13de7f8797a35f28f4a43b33a3bdf970",
+      "github_asset_id": 501877316
+    },
+    {
+      "name": "barunlm-1.1.0.tar.gz",
+      "size_bytes": 889721,
+      "sha256": "156ed7b9571129a47bd38ab55cd08e771961f78dc392c4e356aef27523d14eed",
+      "github_asset_id": 501877318
+    },
+    {
+      "name": "SHA256SUMS",
+      "size_bytes": 184,
+      "sha256": "f6cdcdb23c39abffddbf054904203811abeeeb53c0936119688c2c631cf5e1f4",
+      "github_asset_id": 501877320
+    }
+  ],
+  "build": {
+    "source_commit_sha": "ea26b83eba1a1819ab0088c611dad977265669f7",
+    "clean_remote_clone_verified": true,
+    "source_date_epoch": 1785881330,
+    "wheel_built_from_sdist": true,
+    "twine_check_wheel_passed": true,
+    "twine_check_sdist_passed": true,
+    "wheel_rebuilt_from_independent_clean_clone_sha256": "43c6f420f87f41e1f438217578cadaaf13de7f8797a35f28f4a43b33a3bdf970",
+    "wheel_byte_reproducible_across_two_clean_clones": true,
+    "sdist_byte_reproducible_across_two_clean_clones": false,
+    "sdist_reproducibility_claim_made": false,
+    "full_research_bundle": "GitHub tag and generated source archive",
+    "python_sdist_scope": "installable Python package; not every repository artifact"
+  },
+  "validation": {
+    "repository_tests_passed": 1499,
+    "repository_tests_failed": 0,
+    "repository_warnings": 16,
+    "ruff_check_passed": true,
+    "ruff_format_check_passed": true,
+    "json_validation_passed": true,
+    "provenance_closure_passed": true,
+    "staged_diff_check_passed": true,
+    "secret_scan_passed": true,
+    "independent_staged_release_audit_passed": true,
+    "installed_wheel_python_versions": [
+      "3.10.20",
+      "3.11.15"
+    ],
+    "network_denied_demo_passed": true,
+    "demo_checkpoint_required": false,
+    "demo_model_loaded": false,
+    "demo_execution_permitted": false,
+    "demo_external_side_effects": false,
+    "anonymous_release_page_and_tagged_doc_http_200": true,
+    "anonymous_asset_downloads_passed": true,
+    "anonymous_downloaded_asset_hashes_matched": true
+  },
+  "benchmark_boundary": {
+    "barunaction_parameters": 35072768,
+    "barunaction_exact": "602/756",
+    "qwen_parameters": 494032768,
+    "qwen_exact": "663/756",
+    "barunaction_is_times_smaller": 14.09,
+    "barunaction_retains_qwen_exact_rate_percent": 90.80,
+    "qwen_lead_rows": 61,
+    "qwen_lead_percentage_points": 8.07,
+    "larger_model_outperformance_claim_supported": false,
+    "official_961_rows_read_or_materialized": 0
+  },
+  "external_state": {
+    "github_branch_push_performed": true,
+    "github_tag_created_and_pushed": true,
+    "github_release_created": true,
+    "draft_pr_2_metadata_updated": true,
+    "draft_pr_2_merged": false,
+    "wandb_accessed_for_this_release": false,
+    "hugging_face_accessed_for_this_release": false,
+    "model_loaded": false,
+    "cuda_accessed": false,
+    "jarvislabs_accessed": false,
+    "jarvislabs_resource_created_or_mutated": false,
+    "protected_resources_mutated": []
+  },
+  "immutability": {
+    "move_or_replace_tag_forbidden": true,
+    "replace_release_assets_in_place_forbidden": true,
+    "future_changes_require_a_new_versioned_release": true
+  }
+}

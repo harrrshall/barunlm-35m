@@ -1,0 +1,62 @@
+{
+  "schema_version": "barun-action-correction-runtime-adversarial-audit-v1",
+  "run_id": "20260805-0418-action-correction-runtime-audit-s17",
+  "attempt": 3,
+  "recorded_at": "2026-08-05T04:58:56+05:30",
+  "conclusion": "go_for_narrow_cpu_raw_transport_only",
+  "scope": "Independent read-only re-audit of the second corrected CPU raw-draft runtime after two preserved no-go revisions",
+  "audited": {
+    "runtime_sha256": "8cad30fc58a9e67ab83cf9a845b7811f5a088a60abdefed8ab4b15d901f59e86",
+    "test_sha256": "ef182db2b39b71ec85d13bbadb65d415871d3eead43b3c17f04a47a82a8082d8",
+    "sim_program_sha256": "9dca211ef1a4e76e76f58abefe6cd12cebd296fc24f71cd3ba4582c65fd6a910"
+  },
+  "passed_findings": {
+    "CorrectionPrompt_direct_constructor_fully_rederived": true,
+    "CorrectionPrompt_object_new_and_object_setattr_tamper_rejected": true,
+    "CorrectionPrompt_post_audit_tamper_rejected": true,
+    "dependency_export_rebinding_returns_stable_runtime_identity": true,
+    "authorization_flag_rebinding_rejected_before_evidence_return": true,
+    "deriver_and_selector_rebinding_rejected_before_evidence_return": true,
+    "runtime_dependency_constant_callable_and_source_identity_guarded": true,
+    "raw_invalid_duplicate_suffix_empty_nonobject_noncanonical_and_unicode_preserved": true,
+    "truncated_missing_and_failed_generations_ineligible": true,
+    "pass2_pass1_canonical_abstain_fallback_rederived": true,
+    "reserved_control_tokens_invalid_utf8_and_size_limits_fail_closed": true,
+    "fresh_import_socket_http_subprocess_model_or_jarvis_modules": 0,
+    "fresh_import_socket_audit_events": 0,
+    "focused_tests_passed": 45,
+    "adjacent_tests_passed": 126,
+    "ruff_passed": true,
+    "format_check_passed": true,
+    "git_diff_check_passed": true
+  },
+  "narrow_limits": {
+    "CorrectionPrompt_proves_internal_derivation_not_external_population_authenticity": true,
+    "PassAssessment_is_transport_only_not_an_accepted_receipt": true,
+    "TwoPassSelection_is_transport_only_not_an_accepted_receipt": true,
+    "P_futility_prompt_shape_supported": false,
+    "tokenizer_or_static_generation_caps_resolved": false,
+    "hostile_same_uid_or_public_api_replacement_security_boundary": false,
+    "model_population_phase_or_launch_authorized": false
+  },
+  "access": {
+    "population_or_dataset_read": false,
+    "model_or_tokenizer_loaded": false,
+    "cuda_accessed": false,
+    "jarvislabs_accessed": false,
+    "network_request_made": false,
+    "mobile_reused_development_756_rows_read": 0,
+    "mobile_official_evaluation_961_rows_read": 0,
+    "private_labels_read": 0,
+    "protected_resources_mutated": []
+  },
+  "authorization": {
+    "audited_runtime_hashes_accepted_for_narrow_raw_transport": true,
+    "population_materialization": false,
+    "model_or_tokenizer_access": false,
+    "training_or_inference": false,
+    "cuda_or_jarvislabs": false,
+    "phase_or_launch": false,
+    "P_renderer_pass_receipt_token_caps_and_full_prelaunch_audit_still_required": true
+  }
+}

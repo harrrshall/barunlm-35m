@@ -1,0 +1,10 @@
+{
+  "gpu_type": "H200",
+  "is_spot": false,
+  "machine_id": 465183,
+  "name": "barun-scale-sweep-a4-20260805",
+  "num_gpus": 1,
+  "region": "IN2",
+  "status": "Paused",
+  "template": "axolotl"
+}

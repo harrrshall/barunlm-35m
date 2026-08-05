@@ -1,0 +1,23 @@
+{
+  "batch_size": 64,
+  "decoding": "unconstrained_deterministic_greedy",
+  "elapsed_seconds": 18.84165497869253,
+  "examples": 756,
+  "failed": 0,
+  "generated": 756,
+  "generation_config_overrides": {
+    "do_sample": false,
+    "length_penalty": 1.0,
+    "no_repeat_ngram_size": 0,
+    "num_beams": 1,
+    "repetition_penalty": 1.0,
+    "temperature": null,
+    "top_k": null,
+    "top_p": null
+  },
+  "grammar_constrained": false,
+  "max_new_tokens": 192,
+  "predictions_sha256": "836788091d08b931bf37565d197c4053e6e6f4664d379c38e7668ae9b8739b08",
+  "schema_version": "barun-native-chat-generation-v1",
+  "truncated": 0
+}

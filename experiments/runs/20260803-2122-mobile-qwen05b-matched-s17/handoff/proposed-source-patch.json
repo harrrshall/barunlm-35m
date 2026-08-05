@@ -1,0 +1,21 @@
+{
+  "schema_version": "barun-qwen05b-proposed-source-patch-v1",
+  "path": "proposed-source.patch",
+  "sha256": "24b9244c9f7f9cd046bac9058f772d30f76975acc87a3b12387b66469832a835",
+  "files": 10,
+  "lines": 3851,
+  "new_files_only": true,
+  "apply_strip_components": 1,
+  "git_apply_check_in_fresh_empty_directory": "passed",
+  "applied_files_byte_identical_to_source_files": true,
+  "excludes": [
+    "checkpoint and tokenizer binaries",
+    "optimizer state",
+    "training and evaluation data",
+    "official evaluation material",
+    "virtual environments and caches",
+    "credentials and environment files",
+    "W&B artifacts",
+    "main ledger and mistakes log mutations"
+  ]
+}

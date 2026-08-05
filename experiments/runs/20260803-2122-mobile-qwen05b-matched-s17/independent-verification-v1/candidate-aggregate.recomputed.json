@@ -1,0 +1,248 @@
+{
+  "abstention": {
+    "f1": 0.0,
+    "false_negative": 0,
+    "false_positive": 0,
+    "precision": 0.0,
+    "recall": 0.0,
+    "true_positive": 0
+  },
+  "argument_key_macro_f1": 0.997089947089947,
+  "argument_key_micro": {
+    "f1": 0.9973002159827213,
+    "false_negative": 8,
+    "false_positive": 2,
+    "precision": 0.9989183342347214,
+    "recall": 0.9956873315363881,
+    "true_positive": 1847
+  },
+  "argument_value_macro_f1": 0.9033383723859914,
+  "argument_value_micro": {
+    "f1": 0.9087473002159827,
+    "false_negative": 172,
+    "false_positive": 166,
+    "precision": 0.9102217414818821,
+    "recall": 0.907277628032345,
+    "true_positive": 1683
+  },
+  "ast_exact_match": {
+    "denominator": 756,
+    "numerator": 602,
+    "value": 0.7962962962962963
+  },
+  "call_simulator_assessment": {
+    "denominator": 755,
+    "numerator": 755,
+    "value": 1.0
+  },
+  "catastrophic_unauthorized_actions": 0,
+  "clarification_accuracy": {
+    "denominator": 0,
+    "numerator": 0,
+    "value": 0.0
+  },
+  "confirmation_accuracy": {
+    "denominator": 0,
+    "numerator": 0,
+    "value": 0.0
+  },
+  "decision_accuracy": {
+    "denominator": 756,
+    "numerator": 755,
+    "value": 0.9986772486772487
+  },
+  "evaluator_version": "action-ir-v1.0.0",
+  "failure_counts": {
+    "ast_mismatch": 153,
+    "invalid_call_count": 1,
+    "mobile_actions_ast_mismatch": 153,
+    "schema_failure": 1,
+    "simulator_failure": 153
+  },
+  "false_action": {
+    "denominator": 0,
+    "numerator": 0,
+    "value": 0.0
+  },
+  "missing_prediction": {
+    "denominator": 756,
+    "numerator": 0,
+    "value": 0.0
+  },
+  "parse_failure": {
+    "denominator": 756,
+    "numerator": 0,
+    "value": 0.0
+  },
+  "parse_valid": {
+    "denominator": 756,
+    "numerator": 756,
+    "value": 1.0
+  },
+  "per_gold_tool_success": {
+    "create_calendar_event": {
+      "denominator": 299,
+      "numerator": 185,
+      "value": 0.6187290969899666
+    },
+    "create_contact": {
+      "denominator": 156,
+      "numerator": 126,
+      "value": 0.8076923076923077
+    },
+    "open_wifi_settings": {
+      "denominator": 121,
+      "numerator": 114,
+      "value": 0.9421487603305785
+    },
+    "send_email": {
+      "denominator": 170,
+      "numerator": 142,
+      "value": 0.8352941176470589
+    },
+    "show_map": {
+      "denominator": 148,
+      "numerator": 100,
+      "value": 0.6756756756756757
+    },
+    "turn_off_flashlight": {
+      "denominator": 77,
+      "numerator": 69,
+      "value": 0.8961038961038961
+    },
+    "turn_on_flashlight": {
+      "denominator": 82,
+      "numerator": 71,
+      "value": 0.8658536585365854
+    }
+  },
+  "per_scenario_success": {
+    "create_calendar_event": {
+      "denominator": 178,
+      "numerator": 114,
+      "value": 0.6404494382022472
+    },
+    "create_contact": {
+      "denominator": 128,
+      "numerator": 104,
+      "value": 0.8125
+    },
+    "open_wifi_settings": {
+      "denominator": 117,
+      "numerator": 111,
+      "value": 0.9487179487179487
+    },
+    "send_email": {
+      "denominator": 85,
+      "numerator": 77,
+      "value": 0.9058823529411765
+    },
+    "show_map": {
+      "denominator": 92,
+      "numerator": 58,
+      "value": 0.6304347826086957
+    },
+    "turn_off_flashlight": {
+      "denominator": 74,
+      "numerator": 67,
+      "value": 0.9054054054054054
+    },
+    "turn_on_flashlight": {
+      "denominator": 82,
+      "numerator": 71,
+      "value": 0.8658536585365854
+    }
+  },
+  "per_tool": {
+    "create_calendar_event": {
+      "balanced_accuracy": 0.9983277591973244,
+      "f1": 0.998324958123953,
+      "false_negative": 1,
+      "false_positive": 0,
+      "precision": 1.0,
+      "recall": 0.9966555183946488,
+      "true_negative": 457,
+      "true_positive": 298
+    },
+    "create_contact": {
+      "balanced_accuracy": 1.0,
+      "f1": 1.0,
+      "false_negative": 0,
+      "false_positive": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "true_negative": 600,
+      "true_positive": 156
+    },
+    "open_wifi_settings": {
+      "balanced_accuracy": 0.9958677685950413,
+      "f1": 0.995850622406639,
+      "false_negative": 1,
+      "false_positive": 0,
+      "precision": 1.0,
+      "recall": 0.9917355371900827,
+      "true_negative": 635,
+      "true_positive": 120
+    },
+    "send_email": {
+      "balanced_accuracy": 0.9970588235294118,
+      "f1": 0.9970501474926253,
+      "false_negative": 1,
+      "false_positive": 0,
+      "precision": 1.0,
+      "recall": 0.9941176470588236,
+      "true_negative": 586,
+      "true_positive": 169
+    },
+    "show_map": {
+      "balanced_accuracy": 0.9966216216216216,
+      "f1": 0.9966101694915254,
+      "false_negative": 1,
+      "false_positive": 0,
+      "precision": 1.0,
+      "recall": 0.9932432432432432,
+      "true_negative": 608,
+      "true_positive": 147
+    },
+    "turn_off_flashlight": {
+      "balanced_accuracy": 0.9935064935064934,
+      "f1": 0.9934640522875817,
+      "false_negative": 1,
+      "false_positive": 0,
+      "precision": 1.0,
+      "recall": 0.987012987012987,
+      "true_negative": 679,
+      "true_positive": 76
+    },
+    "turn_on_flashlight": {
+      "balanced_accuracy": 1.0,
+      "f1": 1.0,
+      "false_negative": 0,
+      "false_positive": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "true_negative": 674,
+      "true_positive": 82
+    }
+  },
+  "policy_safe_executable_success": {
+    "denominator": 756,
+    "numerator": 602,
+    "value": 0.7962962962962963
+  },
+  "risk_coverage": [],
+  "sample_count": 756,
+  "schema_valid": {
+    "denominator": 756,
+    "numerator": 755,
+    "value": 0.9986772486772487
+  },
+  "schema_version": "barun-mobile-actions-score-v1",
+  "tool_macro_balanced_accuracy": 0.9973403523499847,
+  "tool_macro_f1": 0.997328564257475,
+  "truncation": {
+    "denominator": 756,
+    "numerator": 0,
+    "value": 0.0
+  }
+}

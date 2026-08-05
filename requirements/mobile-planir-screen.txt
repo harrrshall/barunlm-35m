@@ -1,0 +1,9 @@
+# Frozen third-party dependencies for the construction-only Grounded PlanIR screen on JarvisLabs.
+# Project code is imported only from the immutable staged ``src`` directory.
+huggingface-hub==1.26.0
+numpy==2.4.6
+pytest==9.1.1
+ruff==0.16.1
+safetensors==0.8.0
+tokenizers==0.23.1
+torch==2.13.0

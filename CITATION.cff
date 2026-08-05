@@ -1,12 +1,12 @@
 cff-version: 1.2.0
-message: "If you use BarunLM-35M, please cite this release."
-title: "BarunLM-35M"
+message: "If you use BarunLM-35M or the BarunAction-35M research release, please cite this release."
+title: "BarunLM-35M and BarunAction-35M"
 type: software
-version: 1.0.0
-date-released: 2026-07-31
+version: 1.1.0
+date-released: 2026-08-03
 authors:
   - family-names: Singh
     given-names: Harshal
 repository-code: "https://github.com/harrrshall/barunlm-35m"
-url: "https://huggingface.co/harrrshall/BarunLM-35M"
+url: "https://wandb.ai/harshalsingh1223-gladium-ai/barunaction-35m"
 license: Apache-2.0

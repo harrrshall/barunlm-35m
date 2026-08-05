@@ -1,0 +1,4 @@
+# Frozen launch additions for the one-shot BarunAction continual-recovery stage.
+# The editable project entry is required because --requirements overrides auto-detection.
+-e .
+pytest==8.4.1

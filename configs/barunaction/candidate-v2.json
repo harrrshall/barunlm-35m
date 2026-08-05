@@ -1,0 +1,15 @@
+{
+  "arm_id": "batch63",
+  "candidate_id": "candidate-v2",
+  "checkpoint_manifest_sha256": "c743ab7c4d33ae75c6b0aa4547458a961b92766da8fcf85fd148fda2ebb5530a",
+  "checkpoint_relative_path": "experiments/runs/20260803-1845-mobile-followup-retry-s17/essential/arms/batch63/checkpoint",
+  "file_sha256": {
+    "barun_config.json": "9b3a1d71baa95a198744d250f9629231738d942570b8685c44307fd83dd33565",
+    "model.safetensors": "fdb95ccf58a095e0d321be998924318b35ee59a334f6dd97d8726d2cf80021d3",
+    "tokenizer.json": "70ded9605fccd09c2340ca7e225361eab0ae8b4dbbb0d6e26343ab5183979db6"
+  },
+  "run_id": "20260803-1845-mob-batch63-s17",
+  "schema_version": "barunaction-candidate-provenance-v1",
+  "selection_run_id": "20260803-1845-mobile-followup-retry-s17",
+  "step": 126
+}

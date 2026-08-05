@@ -1,0 +1,1295 @@
+{
+  "artifacts": {
+    "evidence": {
+      "digest": "b5e2cb35698e36bc1a97095c6c2d8565",
+      "download_directory": "evidence",
+      "file_count": 296,
+      "files": {
+        "LICENSE": {
+          "bytes": 11343,
+          "sha256": "8b96eada4fe29753eb19f40b48a5fd4d801f77807f5eea0b99558c7cec092cda"
+        },
+        "NOTICE": {
+          "bytes": 2105,
+          "sha256": "5c250037884e285a8ca4adc956a9e8ff2e0a777abc3c115a283447e3db310422"
+        },
+        "configs/barunaction/candidate-v1.json": {
+          "bytes": 555,
+          "sha256": "b3af6cecb954c681470afdeda4d98ddf326a636768d19023a2aa46aad3972e48"
+        },
+        "configs/barunaction/candidate-v2-arm64-int8-retention-v1.json": {
+          "bytes": 5041,
+          "sha256": "7229572bea461a7899b09c0310a77b9b4d8af74211d1b9ac8b2b5f77dc6b67cb"
+        },
+        "configs/barunaction/candidate-v2.json": {
+          "bytes": 767,
+          "sha256": "ec76e48ab1fe5105482aaad902954ccc3f8f3d23fb98226b66d13b292c2a4ac9"
+        },
+        "configs/barunaction/release-evidence-files-v1.txt": {
+          "bytes": 28236,
+          "sha256": "b09c603dace4a73a8aabc8e4cbb0e9b63e7b3cbbf5b2ccec7f32302476d3974c"
+        },
+        "configs/continual_recovery_v1.json": {
+          "bytes": 8358,
+          "sha256": "b45f6efb28af44e0a2772b9239aff3f321a38765b964f1925e5bfc47c24fbf0d"
+        },
+        "configs/interpolation_rescue_v1.json": {
+          "bytes": 8253,
+          "sha256": "1e2f005f61bf8f8cb62c01928c23266023e2e20760321832f80bc4dbe3c9ee3c"
+        },
+        "configs/mobile_followup_sweep_v1.json": {
+          "bytes": 3212,
+          "sha256": "67396bf8e40d8076a54232946eb7817d34a7239d172cf32782fd5f5989172d92"
+        },
+        "configs/mobile_qwen05b_matched_v1.json": {
+          "bytes": 8698,
+          "sha256": "6855eaf52c34089d802b8584c566b95619f9ff2780d4f130f333126bc33357e1"
+        },
+        "configs/mobile_regression_v1.json": {
+          "bytes": 4148,
+          "sha256": "96afa0ac407c53fd375ed0910a08ec66463718e3b826cf02b73f8bbc87a3c47e"
+        },
+        "configs/mobile_smollm2_matched_v1.json": {
+          "bytes": 6425,
+          "sha256": "eca8135ff6cc58e14ddd7ddae210becb43462646e7f32d7de5c57fe624bb2f21"
+        },
+        "configs/parallel_rescue_selection_v1.json": {
+          "bytes": 4953,
+          "sha256": "68bb6132a486dfbd6c9ad478db9c87ae9f2350bfc1d302193169fd7f5c290130"
+        },
+        "configs/presto_stage_v1.json": {
+          "bytes": 5029,
+          "sha256": "62c1222e8b9d348fa6b9aa9582001a5a06675f541e630a08b0d35f0efcd53cd9"
+        },
+        "configs/presto_taxonomy_posthoc_v1.json": {
+          "bytes": 3500,
+          "sha256": "64a02c519b259c76f3dcee00fef74c0221342797185773602cca72a7154e89d0"
+        },
+        "configs/presto_taxonomy_posthoc_v2.json": {
+          "bytes": 4339,
+          "sha256": "71a15ca2ad31914e21f5a9d75ea8ee68370085434d12ef6feb961da6670bb7ca"
+        },
+        "docs/barunaction-data-card.md": {
+          "bytes": 6202,
+          "sha256": "05676d3343f4514ac6edb8dce02be2e19c0c0c3b5298bdeac06d8916407527c7"
+        },
+        "docs/barunaction-model-card.md": {
+          "bytes": 13314,
+          "sha256": "b24bbe47e734da975f725773dbfecc1f0bee341a6609e02bd0409ec6df0070d7"
+        },
+        "docs/barunaction-release-evidence.md": {
+          "bytes": 4281,
+          "sha256": "05fa1416d57fa16c10b1afef681469fdea53503726bbb583e7c21b302a094390"
+        },
+        "docs/continual-recovery.md": {
+          "bytes": 16580,
+          "sha256": "425e880128358686cd2b40ebca0e7c5545124ebb890d6858ab3484fe1cbe3dc8"
+        },
+        "docs/current-status-and-next-experiment.md": {
+          "bytes": 9717,
+          "sha256": "fc415306039fd0bf9029349fedede838e4f88df5b99bc277e499c601649c9f47"
+        },
+        "docs/evaluation-protocol.md": {
+          "bytes": 17490,
+          "sha256": "cccc0c6da5e5023ffc4d417f46254f619322e04d0b8c01110132899791d4402b"
+        },
+        "docs/int8-quantization.md": {
+          "bytes": 10326,
+          "sha256": "71b08fb1575d2dc6c4ab869ceb8056ea46398873c50733cdee957ec2da750638"
+        },
+        "docs/interpolation-rescue.md": {
+          "bytes": 14305,
+          "sha256": "570197d332e19f5734d6bbef6d5e836629c73d9aad94f656568471562d3a9794"
+        },
+        "docs/mobile-matched-baseline-result.md": {
+          "bytes": 3623,
+          "sha256": "594a504b73d0ce930dc49efea8103be34cd9dfdbac57b361b01a1cddef314f0a"
+        },
+        "docs/mobile-qwen05b-matched-baseline.md": {
+          "bytes": 7062,
+          "sha256": "9fb0232f1b9257f45a6fa3a6687a8fe4a328073fe2fe2857ed36b57d078f8085"
+        },
+        "docs/mobile-regression.md": {
+          "bytes": 4626,
+          "sha256": "3248786312943f393a85bf5680f51da6a1e9955e1521a24c6cd8813d37819253"
+        },
+        "docs/presto-bundle-audit.md": {
+          "bytes": 3851,
+          "sha256": "fc00290a6fe71448adc14d8cf1e708a9011d7d9608a64e80f52d515f7eddf639"
+        },
+        "docs/presto-stage.md": {
+          "bytes": 8898,
+          "sha256": "4e0e99dd04481fdf598b96dfa3beb8208858366c0870929a0f2d5ec0ef6cf897"
+        },
+        "docs/presto-taxonomy-correction.md": {
+          "bytes": 6296,
+          "sha256": "24e55654075bce5cefd173afe143f117595eee5853c06b1f58d2d1b248c5fdb2"
+        },
+        "docs/research-decision.md": {
+          "bytes": 20908,
+          "sha256": "bdfddac3040e017cf4ca6dba04340abc06acc4c5384c695c8e0b71bdbfe7669b"
+        },
+        "experiments/ledger.jsonl": {
+          "bytes": 50790,
+          "sha256": "d6402253b4fd759fabb8077b8b81f20eef215a8eb2fd48c5c01610c829c84942"
+        },
+        "experiments/mistakes.md": {
+          "bytes": 14642,
+          "sha256": "f31fa5c8f56d7f57f7703f9919e080beb1ea5c6acc6b2972841fb7d147ce916e"
+        },
+        "experiments/runs/20260803-1810-mobile-blind-s17/essential/artifact-sha256.json": {
+          "bytes": 5520,
+          "sha256": "eca0e276089f5449ced395496aa20c9ce21a1be767bb62622cc6c5393aa43d54"
+        },
+        "experiments/runs/20260803-1810-mobile-blind-s17/essential/post-eval/predictions.jsonl": {
+          "bytes": 281927,
+          "sha256": "6d52702a7d59693bbfde66570e7ac2ed775769d69b185cb9f963059fc8ef5a10"
+        },
+        "experiments/runs/20260803-1810-mobile-blind-s17/essential/post-eval/predictions.jsonl.manifest.json": {
+          "bytes": 1278,
+          "sha256": "81d46ca0138662edb7965d27db053b1660d18a7f0c6e04f2149b610e84803987"
+        },
+        "experiments/runs/20260803-1810-mobile-blind-s17/essential/post-eval/scores/aggregate.json": {
+          "bytes": 5950,
+          "sha256": "9b8118746b363209488fbccb71635d41da74acd26c9a3f7b5c61cc1fbe5a693f"
+        },
+        "experiments/runs/20260803-1810-mobile-blind-s17/essential/post-eval/scores/sample_scores.jsonl": {
+          "bytes": 1029647,
+          "sha256": "5380feed0bc34e32f34a4fdb32b9509eb2997c53421774c7afd7a26b0a9eb9f9"
+        },
+        "experiments/runs/20260803-1810-mobile-blind-s17/essential/result.json": {
+          "bytes": 16643,
+          "sha256": "d358c7b96f3cc4c863f3618684c40afa39797ccb831ef90e0f7f3d4a417566ea"
+        },
+        "experiments/runs/20260803-1810-mobile-blind-s17/essential/training/best_checkpoint.json": {
+          "bytes": 205,
+          "sha256": "2d27a5ebf929de58e21fea713ff1d0ea407f0fc1b870915726ba60885da301cc"
+        },
+        "experiments/runs/20260803-1810-mobile-blind-s17/essential/training/metrics.jsonl": {
+          "bytes": 15743,
+          "sha256": "3227c3b311a1532d0bcd49da187e1981445f0956412414a572aac00e66226d20"
+        },
+        "experiments/runs/20260803-1810-mobile-blind-s17/essential/training/run_manifest.json": {
+          "bytes": 3658,
+          "sha256": "10ba7d7154fabe3960a1838e107b6ac9948131ed43a16372e487f03308721d62"
+        },
+        "experiments/runs/20260803-1810-mobile-blind-s17/essential/training/summary.json": {
+          "bytes": 720,
+          "sha256": "a291f3afb94b7c0be7072993c9c2f94137d4f81892dffe4b8658c8e2a6f07546"
+        },
+        "experiments/runs/20260803-1810-mobile-blind-s17/preregistration.json": {
+          "bytes": 2220,
+          "sha256": "e89301c24b599507f07bf23f6f776b373d4ef2a64a0ce18aca4fdcae3b459ddc"
+        },
+        "experiments/runs/20260803-1810-mobile-blind-s17/remote/data/audit.json": {
+          "bytes": 12522,
+          "sha256": "dc756f97c0a7ef706ec8ffefe2d57cf7e16d75a6ccd932f906d16b6a6ee2f83c"
+        },
+        "experiments/runs/20260803-1810-mobile-blind-s17/remote/environment.json": {
+          "bytes": 687,
+          "sha256": "b3ed952d87ab1a4aa0dadc12299f315c48fb44fd712f461bb4eb07cf3bf2b579"
+        },
+        "experiments/runs/20260803-1835-mobile-followup-s17/essential/environment.json": {
+          "bytes": 687,
+          "sha256": "cc4d98ddd86d8025a923f3ab2f9adf2e704df93e92f1824d1b6e51d00f54a228"
+        },
+        "experiments/runs/20260803-1835-mobile-followup-s17/essential/preregistration.json": {
+          "bytes": 3212,
+          "sha256": "67396bf8e40d8076a54232946eb7817d34a7239d172cf32782fd5f5989172d92"
+        },
+        "experiments/runs/20260803-1835-mobile-followup-s17/preregistration.json": {
+          "bytes": 4160,
+          "sha256": "4ab52824a850f9b7e8283c62ccc26c673ab01a98d8be35931a5b2cfadeb9c6bf"
+        },
+        "experiments/runs/20260803-1835-mobile-followup-s17/source-snapshot.json": {
+          "bytes": 1513,
+          "sha256": "54b9765ca665eea71fed2bece16a57c5b86be17c927dfbde831b3603c8a904d4"
+        },
+        "experiments/runs/20260803-1845-mobile-followup-retry-s17/essential/arms/batch63/bundle-manifest.json": {
+          "bytes": 1591,
+          "sha256": "7145d722e490371f1469837708c197e4b1fb980a37ba979f4e314574b62f77b5"
+        },
+        "experiments/runs/20260803-1845-mobile-followup-retry-s17/essential/arms/batch63/final-eval/predictions.jsonl": {
+          "bytes": 282046,
+          "sha256": "e5aea59e5090e3aa7c9dbd6b1a810c753410a159ce18dc8bb889fde3a58b8665"
+        },
+        "experiments/runs/20260803-1845-mobile-followup-retry-s17/essential/arms/batch63/final-eval/predictions.jsonl.manifest.json": {
+          "bytes": 1331,
+          "sha256": "badbb1dc91daa78a7807b998c7c3042a6b35523e4bd3024b7714ab6fdb69ba06"
+        },
+        "experiments/runs/20260803-1845-mobile-followup-retry-s17/essential/arms/batch63/final-eval/scores/aggregate.json": {
+          "bytes": 5841,
+          "sha256": "5d7244d2fa449a7ce4b2aa3a20fc095fb118a38920b1dd9181f56669a7ddfea1"
+        },
+        "experiments/runs/20260803-1845-mobile-followup-retry-s17/essential/arms/batch63/final-eval/scores/sample_scores.jsonl": {
+          "bytes": 1029012,
+          "sha256": "a29c4d5c83493ec437a9f0fee362ea54cf97c2219844e5b46ba60d0f759f556c"
+        },
+        "experiments/runs/20260803-1845-mobile-followup-retry-s17/essential/arms/batch63/int8-qnnpack-smoke.json": {
+          "bytes": 4321,
+          "sha256": "1007b8ea9c5db56f1298893729a12e065fe21d91f232187864fddcd3882797ab"
+        },
+        "experiments/runs/20260803-1845-mobile-followup-retry-s17/essential/arms/batch63/result.json": {
+          "bytes": 9475,
+          "sha256": "3c71495a441932f97b648602da851713eb2198e0828b08d67ad0d31875b21ace"
+        },
+        "experiments/runs/20260803-1845-mobile-followup-retry-s17/essential/arms/batch63/training-config.json": {
+          "bytes": 2201,
+          "sha256": "c3dca54a9830fbb4c0e5f69fea43cf819281baace045560423f4d70aa57db80d"
+        },
+        "experiments/runs/20260803-1845-mobile-followup-retry-s17/essential/arms/batch63/training/best_checkpoint.json": {
+          "bytes": 227,
+          "sha256": "fa6b2e6ebbd4668d59abe7adb3471534e8c76daba07531de6f9b1ea81b219bd1"
+        },
+        "experiments/runs/20260803-1845-mobile-followup-retry-s17/essential/arms/batch63/training/metrics.jsonl": {
+          "bytes": 30011,
+          "sha256": "983ba31118214c8a7e5e75dc3c021ea03968e0536425a5df03c6d2fa6c4a9b14"
+        },
+        "experiments/runs/20260803-1845-mobile-followup-retry-s17/essential/arms/batch63/training/run_manifest.json": {
+          "bytes": 3581,
+          "sha256": "9984530f134ff13c18a1256d7dd166f2d81a1ce59b6bf08ca0b5e0da0829bf14"
+        },
+        "experiments/runs/20260803-1845-mobile-followup-retry-s17/essential/arms/batch63/training/summary.json": {
+          "bytes": 784,
+          "sha256": "b201fc29a92a7236041023bfcd572e412097210df751eff145d7be4509e23308"
+        },
+        "experiments/runs/20260803-1845-mobile-followup-retry-s17/essential/arms/hardmix70/bundle-manifest.json": {
+          "bytes": 1593,
+          "sha256": "e16faf3856100e19297c42e60f538339bbba0564a200cb425062d8e87574291b"
+        },
+        "experiments/runs/20260803-1845-mobile-followup-retry-s17/essential/arms/hardmix70/final-eval/predictions.jsonl": {
+          "bytes": 281771,
+          "sha256": "be1bf8796fb077cf51f2c893c763163df3d1daa62dcdb7435d1c20bb73e576c4"
+        },
+        "experiments/runs/20260803-1845-mobile-followup-retry-s17/essential/arms/hardmix70/final-eval/predictions.jsonl.manifest.json": {
+          "bytes": 1337,
+          "sha256": "be070cdee6db7a3df29d596c8f529eac90a14384f2c40e9726767d63008b3ca8"
+        },
+        "experiments/runs/20260803-1845-mobile-followup-retry-s17/essential/arms/hardmix70/final-eval/scores/aggregate.json": {
+          "bytes": 5935,
+          "sha256": "a9e08cfc4e56e8ceccb8577239064eedd9ba532bd18ee2a3139346e043bc698e"
+        },
+        "experiments/runs/20260803-1845-mobile-followup-retry-s17/essential/arms/hardmix70/final-eval/scores/sample_scores.jsonl": {
+          "bytes": 1030593,
+          "sha256": "5b974c9ba53c5b981bc4ed7a9d9d054899f821468b125636135081b167b7cf7e"
+        },
+        "experiments/runs/20260803-1845-mobile-followup-retry-s17/essential/arms/hardmix70/result.json": {
+          "bytes": 10009,
+          "sha256": "ab297f75dfb65dbd04afe65fb56b53916573639f5500141df52f03b74298e6b1"
+        },
+        "experiments/runs/20260803-1845-mobile-followup-retry-s17/essential/arms/hardmix70/training-config.json": {
+          "bytes": 2238,
+          "sha256": "24c326ca60e46ead7ac50829ffd5b17ddf01df16209dee284ad63c68d58e870c"
+        },
+        "experiments/runs/20260803-1845-mobile-followup-retry-s17/essential/arms/hardmix70/training/metrics.jsonl": {
+          "bytes": 15607,
+          "sha256": "3270011866fb9f212a445d62d98c906149715004f5c6dd803860b945f0a72d3e"
+        },
+        "experiments/runs/20260803-1845-mobile-followup-retry-s17/essential/arms/hardmix70/training/run_manifest.json": {
+          "bytes": 3621,
+          "sha256": "096bfa5c3b5ca400a1ad8e24ca071bc3c23927ce491a97266627bb05bb230ee5"
+        },
+        "experiments/runs/20260803-1845-mobile-followup-retry-s17/essential/arms/hardmix70/training/summary.json": {
+          "bytes": 796,
+          "sha256": "f514c6332e11821238aa53eb204f3c1db00f4e3dcaef044536d9aafb324ce0cf"
+        },
+        "experiments/runs/20260803-1845-mobile-followup-retry-s17/essential/artifact-sha256.json": {
+          "bytes": 4085,
+          "sha256": "abf5402f9e78573e73324552fe60a0756315f8f54e42fbe62d19712dfed5875a"
+        },
+        "experiments/runs/20260803-1845-mobile-followup-retry-s17/essential/bundle-manifest.json": {
+          "bytes": 289,
+          "sha256": "e19a7973504e0b2709ec76f084cadae7fd84190cfdf5a3d4591438a0448fc525"
+        },
+        "experiments/runs/20260803-1845-mobile-followup-retry-s17/essential/data/audit.json": {
+          "bytes": 12522,
+          "sha256": "dc756f97c0a7ef706ec8ffefe2d57cf7e16d75a6ccd932f906d16b6a6ee2f83c"
+        },
+        "experiments/runs/20260803-1845-mobile-followup-retry-s17/essential/environment.json": {
+          "bytes": 687,
+          "sha256": "61855bd145b9fc6c0e5bec1a0e08fc1d05ddf75fbe995747097150997c1f673b"
+        },
+        "experiments/runs/20260803-1845-mobile-followup-retry-s17/essential/preregistration.json": {
+          "bytes": 3212,
+          "sha256": "67396bf8e40d8076a54232946eb7817d34a7239d172cf32782fd5f5989172d92"
+        },
+        "experiments/runs/20260803-1845-mobile-followup-retry-s17/essential/result.json": {
+          "bytes": 30563,
+          "sha256": "d2c49399f765ccc7d6d16a9d87369842203f268beadb6864145025bb36841131"
+        },
+        "experiments/runs/20260803-1845-mobile-followup-retry-s17/essential/selection.json": {
+          "bytes": 637,
+          "sha256": "3a19043444ea6a303b68fd2e1260f05a4f55a41c6503918515153ea6446b3f3d"
+        },
+        "experiments/runs/20260803-1845-mobile-followup-retry-s17/preregistration.json": {
+          "bytes": 3528,
+          "sha256": "bc35b885bcfeacf9d4d80a1293fedd70888f1103491b4970aa7a3271613b9bcf"
+        },
+        "experiments/runs/20260803-1845-mobile-followup-retry-s17/source-snapshot.json": {
+          "bytes": 2051,
+          "sha256": "841d9e0d1199d9d10083d52dbdcd8d996a97dcd4f4ba4a7c85134eed3931a3c1"
+        },
+        "experiments/runs/20260803-1920-presto-stage-s17/essential/artifact-sha256.json": {
+          "bytes": 2585,
+          "sha256": "6f7ae0b10337cf89ffe9cbecbc75ac32f69b96630a605a538cbfbf682b03bd7a"
+        },
+        "experiments/runs/20260803-1920-presto-stage-s17/essential/base-eval/predictions.jsonl": {
+          "bytes": 5454948,
+          "sha256": "97c5f6751a29f5def91b04d8a64c69e63c3cd5873fa3de5f5cba67cc52d40d9d"
+        },
+        "experiments/runs/20260803-1920-presto-stage-s17/essential/base-eval/predictions.jsonl.manifest.json": {
+          "bytes": 1103,
+          "sha256": "014936ab732a412565e3325cdb4810b773e879a717db7e8fed0b548c624c6a0c"
+        },
+        "experiments/runs/20260803-1920-presto-stage-s17/essential/base-eval/scores/aggregate.json": {
+          "bytes": 30433,
+          "sha256": "11df7546b3c5e589fd24f87561038f82bcd82872f07d475e44abde17a3cf5dec"
+        },
+        "experiments/runs/20260803-1920-presto-stage-s17/essential/base-eval/scores/sample_scores.jsonl": {
+          "bytes": 12617034,
+          "sha256": "fdf6fa1dba73dbd64c4593b18b1d56602ef6d35ac7522d85cf6777af95a3608d"
+        },
+        "experiments/runs/20260803-1920-presto-stage-s17/essential/bundle-manifest.json": {
+          "bytes": 280,
+          "sha256": "f24e98b22daa9844870c2e02be6b89dbaf0277afeadb1e9413357e83ede8bd68"
+        },
+        "experiments/runs/20260803-1920-presto-stage-s17/essential/data/audit.json": {
+          "bytes": 12411,
+          "sha256": "8e1f035809c14baf6f247f1bd8bf0f4b874ff4b117dc6dd217fbc732c1d8b7c4"
+        },
+        "experiments/runs/20260803-1920-presto-stage-s17/essential/data/train-focus-audit.json": {
+          "bytes": 1791,
+          "sha256": "e7e92dc5590357a60d7c77e0090fb0f321435b8d6e88474a95a9f87640697ecd"
+        },
+        "experiments/runs/20260803-1920-presto-stage-s17/essential/environment.json": {
+          "bytes": 718,
+          "sha256": "a69d9bdd4e6581fb849fe069632e804c3150df904118208aaa83458fddb6912b"
+        },
+        "experiments/runs/20260803-1920-presto-stage-s17/essential/post-eval/predictions.jsonl": {
+          "bytes": 5394130,
+          "sha256": "787114908c1faf8f7fa459b18eb2f40b16f80291ecbf795aad2ec5704d622fb1"
+        },
+        "experiments/runs/20260803-1920-presto-stage-s17/essential/post-eval/predictions.jsonl.manifest.json": {
+          "bytes": 1281,
+          "sha256": "49b34325ada7745cab1706ce074059b2393d5cb7c3d33a99107db81840f439d8"
+        },
+        "experiments/runs/20260803-1920-presto-stage-s17/essential/post-eval/scores/aggregate.json": {
+          "bytes": 31491,
+          "sha256": "21fe8ca97a2eb3210e0e7b5e12b06795609c65bd281d5b7cbd1b695ca9618a19"
+        },
+        "experiments/runs/20260803-1920-presto-stage-s17/essential/post-eval/scores/sample_scores.jsonl": {
+          "bytes": 14606748,
+          "sha256": "d0127158399383d429f86e6d76c2d2c3efadf14a780f4625a92a0a88ab576335"
+        },
+        "experiments/runs/20260803-1920-presto-stage-s17/essential/preregistration.json": {
+          "bytes": 6298,
+          "sha256": "b13867d0b5b2e8114cbffffd331eccb0ffde4768a82354f056296a6a147c5145"
+        },
+        "experiments/runs/20260803-1920-presto-stage-s17/essential/recipe.json": {
+          "bytes": 5029,
+          "sha256": "62c1222e8b9d348fa6b9aa9582001a5a06675f541e630a08b0d35f0efcd53cd9"
+        },
+        "experiments/runs/20260803-1920-presto-stage-s17/essential/result.json": {
+          "bytes": 74770,
+          "sha256": "b40d41cfb3d93cfab2af285e8780626402c6ad600e1698623dbc0f5ca6e162f2"
+        },
+        "experiments/runs/20260803-1920-presto-stage-s17/essential/training-config.json": {
+          "bytes": 2520,
+          "sha256": "47d9884efb0d944957db6f26c0c6c1a2627926daac3b5237c4be44ac18597161"
+        },
+        "experiments/runs/20260803-1920-presto-stage-s17/essential/training/metrics.jsonl": {
+          "bytes": 219590,
+          "sha256": "acd923880937239675801ca1cc412ac3f961665b9007f5a724c96e3aa00d9ab1"
+        },
+        "experiments/runs/20260803-1920-presto-stage-s17/essential/training/run_manifest.json": {
+          "bytes": 4236,
+          "sha256": "fd0ee09f72feeedc64f14db2e6e063f1de267baecae233aa06f56c50bd4a6aa0"
+        },
+        "experiments/runs/20260803-1920-presto-stage-s17/essential/training/summary.json": {
+          "bytes": 719,
+          "sha256": "b401f70208624abd0a6a0eb484dac1a8d1f3ed21eb73124e814a6769216e0d2f"
+        },
+        "experiments/runs/20260803-1920-presto-stage-s17/preregistration.json": {
+          "bytes": 3243,
+          "sha256": "d5edee776b7f26a1841d5c4f56074e71d46945421a3a2810451bf27f6cab40c4"
+        },
+        "experiments/runs/20260803-1920-presto-stage-s17/source-snapshot.json": {
+          "bytes": 2641,
+          "sha256": "e62f6902bf8a7ae01a2ab552275b9aecee8dc04d998f10b97e3a22703b3a80a6"
+        },
+        "experiments/runs/20260803-1955-mobile-smollm2-matched-retry-s17/essential/artifact-sha256.json": {
+          "bytes": 2568,
+          "sha256": "d6c58c75f4cbba2704516a42ffa805effcd2285329ff5c7fb4972a8c523ec211"
+        },
+        "experiments/runs/20260803-1955-mobile-smollm2-matched-retry-s17/essential/bundle-manifest.json": {
+          "bytes": 2687,
+          "sha256": "006ed3db8ebe77b61c173ba05ccab888b75b1aa3aa78a24c682f0bca93ee1f03"
+        },
+        "experiments/runs/20260803-1955-mobile-smollm2-matched-retry-s17/essential/data/audit.json": {
+          "bytes": 12522,
+          "sha256": "dc756f97c0a7ef706ec8ffefe2d57cf7e16d75a6ccd932f906d16b6a6ee2f83c"
+        },
+        "experiments/runs/20260803-1955-mobile-smollm2-matched-retry-s17/essential/data/identity.json": {
+          "bytes": 697,
+          "sha256": "679874c4dd928f32a99a2e58b31a9c90fd2b3e5ed9ff15098acb5852a068dd75"
+        },
+        "experiments/runs/20260803-1955-mobile-smollm2-matched-retry-s17/essential/environment.json": {
+          "bytes": 1061,
+          "sha256": "584afa5b492b5d5e36ef35032c7784c0e62855510e894c31a0413dd99f376a01"
+        },
+        "experiments/runs/20260803-1955-mobile-smollm2-matched-retry-s17/essential/evaluation/predictions.jsonl": {
+          "bytes": 453756,
+          "sha256": "d0fc10c1bafff4ec5434a450240b2794a3c3870e68f24e73860f8a68a7dd2cc8"
+        },
+        "experiments/runs/20260803-1955-mobile-smollm2-matched-retry-s17/essential/evaluation/predictions.jsonl.manifest.json": {
+          "bytes": 394,
+          "sha256": "1a3030309ad88303e5f91e9dd28d8fe01537ad8a8b465c8f3e12cb0989d47350"
+        },
+        "experiments/runs/20260803-1955-mobile-smollm2-matched-retry-s17/essential/evaluation/scores/aggregate.json": {
+          "bytes": 5259,
+          "sha256": "29d5892a3166103e3b417d6159511100cfed8dbababf3d97ac54ff726404f9e1"
+        },
+        "experiments/runs/20260803-1955-mobile-smollm2-matched-retry-s17/essential/evaluation/scores/sample_scores.jsonl": {
+          "bytes": 917001,
+          "sha256": "0a6182bea51f99127e79d6695449dda3c9577c3c9ce620da4bb8859fde428b2c"
+        },
+        "experiments/runs/20260803-1955-mobile-smollm2-matched-retry-s17/essential/model-identity.json": {
+          "bytes": 386,
+          "sha256": "223c7df384ebc0b2846e3707fddecf1e05a73d98d5c386c8de062ce231293468"
+        },
+        "experiments/runs/20260803-1955-mobile-smollm2-matched-retry-s17/essential/preregistration.json": {
+          "bytes": 6425,
+          "sha256": "eca8135ff6cc58e14ddd7ddae210becb43462646e7f32d7de5c57fe624bb2f21"
+        },
+        "experiments/runs/20260803-1955-mobile-smollm2-matched-retry-s17/essential/result.json": {
+          "bytes": 10338,
+          "sha256": "175839947c6a0d9bc3df7ed7a3479c06ac7c6a9c98abd3df1ff126bea36a6065"
+        },
+        "experiments/runs/20260803-1955-mobile-smollm2-matched-retry-s17/essential/training/metrics.jsonl": {
+          "bytes": 23822,
+          "sha256": "fb74aae8f83b31c574ab12934a22159c8b51c4931f98c92d3ed59ed5b72fdcf8"
+        },
+        "experiments/runs/20260803-1955-mobile-smollm2-matched-retry-s17/essential/training/render-audit.json": {
+          "bytes": 1536,
+          "sha256": "5aaf9a7316bfc63d7a30eb32cd76900624aaa2d7c606c79b2706266f688f09aa"
+        },
+        "experiments/runs/20260803-1955-mobile-smollm2-matched-retry-s17/essential/training/summary.json": {
+          "bytes": 1379,
+          "sha256": "0d472ce04994d23fe953d9151f3fb6246dded6e28e3e420d1de05ea679fefdd3"
+        },
+        "experiments/runs/20260803-1955-mobile-smollm2-matched-retry-s17/preregistration.json": {
+          "bytes": 3076,
+          "sha256": "b664b4f3fd7ce19fdfa423338e2d23389cc08b0757fcdf1429be72d4db0bdd7e"
+        },
+        "experiments/runs/20260803-1955-mobile-smollm2-matched-retry-s17/source-snapshot.json": {
+          "bytes": 2975,
+          "sha256": "6cbc8ea8ce9bf6b0acc51ad33d42e477d27870251cc59aaae71a53312a8f3269"
+        },
+        "experiments/runs/20260803-2005-mobile-presto-regression-s17/essential/artifact-sha256.json": {
+          "bytes": 1432,
+          "sha256": "39239cce9064fb06d66349826cb0c05d34ed575ce8a49e67a80ade98c6fa8f99"
+        },
+        "experiments/runs/20260803-2005-mobile-presto-regression-s17/essential/attempt-result.json": {
+          "bytes": 1206,
+          "sha256": "d8fb6e44715acce9c38b7b4d37ae3adf5feb3bb33153a7b98cfc803f950a6bc0"
+        },
+        "experiments/runs/20260803-2005-mobile-presto-regression-s17/essential/evaluation/artifact-sha256.json": {
+          "bytes": 864,
+          "sha256": "892a2970c26692aa6b9b2f854bc53f460b842137804c2bb49a3dc652d50dfe1d"
+        },
+        "experiments/runs/20260803-2005-mobile-presto-regression-s17/essential/evaluation/paired-samples.jsonl": {
+          "bytes": 170892,
+          "sha256": "708cd0d0b058e33825d12ce9bdebe35675a5cb613501cafdd023d82cabb9b478"
+        },
+        "experiments/runs/20260803-2005-mobile-presto-regression-s17/essential/evaluation/predictions.jsonl": {
+          "bytes": 273857,
+          "sha256": "5b2f9d6f6012015c7cb05fc0e4fc347c20609e157dbf3ac419f17131d7a1c9cd"
+        },
+        "experiments/runs/20260803-2005-mobile-presto-regression-s17/essential/evaluation/predictions.jsonl.manifest.json": {
+          "bytes": 1140,
+          "sha256": "b482b633bb6ce0f000908e11bbd975d9f097df41b6d6bc07df9e8a786184a94e"
+        },
+        "experiments/runs/20260803-2005-mobile-presto-regression-s17/essential/evaluation/preregistration.json": {
+          "bytes": 4148,
+          "sha256": "96afa0ac407c53fd375ed0910a08ec66463718e3b826cf02b73f8bbc87a3c47e"
+        },
+        "experiments/runs/20260803-2005-mobile-presto-regression-s17/essential/evaluation/result.json": {
+          "bytes": 4383,
+          "sha256": "681212a8b46783c2c05aa7b8c6f3bf74d9a4261a423508498570408522fda4ea"
+        },
+        "experiments/runs/20260803-2005-mobile-presto-regression-s17/essential/evaluation/runtime-environment.json": {
+          "bytes": 425,
+          "sha256": "d0cd28955e72c8ac47f4275e1ff05cbc725e0bd9e960614ba09a2068cdb8e879"
+        },
+        "experiments/runs/20260803-2005-mobile-presto-regression-s17/essential/evaluation/scores/aggregate.json": {
+          "bytes": 5517,
+          "sha256": "cd4c72c07e3082120d9d9c530ee37181e7d60ae240a743fb206fb54aa6608cd0"
+        },
+        "experiments/runs/20260803-2005-mobile-presto-regression-s17/essential/evaluation/scores/sample_scores.jsonl": {
+          "bytes": 734487,
+          "sha256": "dc6ba4940dec36cd06268965b54bfa696f6faf5ced208ea689ce904da79f9e86"
+        },
+        "experiments/runs/20260803-2005-mobile-presto-regression-s17/essential/preregistration.json": {
+          "bytes": 5691,
+          "sha256": "4b9c01a4c076e0a8a511899923c2e5eeaa81fcfd29657651a76b0a70231b3f77"
+        },
+        "experiments/runs/20260803-2005-mobile-presto-regression-s17/preregistration.json": {
+          "bytes": 5691,
+          "sha256": "4b9c01a4c076e0a8a511899923c2e5eeaa81fcfd29657651a76b0a70231b3f77"
+        },
+        "experiments/runs/20260803-2005-mobile-presto-regression-s17/source-snapshot.json": {
+          "bytes": 4174,
+          "sha256": "fcb0c88fe29853511821341bcf2a403936c351f1762b2571674dbf294924f1d7"
+        },
+        "experiments/runs/20260803-2102-interpolation-rescue-s17/essential/artifact-sha256.json": {
+          "bytes": 9385,
+          "sha256": "ab62f07da4607c3d48a637161fcd2b9fe05f79a2577ebab5d35c9033bf469bad"
+        },
+        "experiments/runs/20260803-2102-interpolation-rescue-s17/essential/interpolation-arms/alpha-025/interpolation-arm-result.json": {
+          "bytes": 43471,
+          "sha256": "ed058028208e51c2f7a2905ed82e8d86f7b1fa3898ac159047e2723df64b7318"
+        },
+        "experiments/runs/20260803-2102-interpolation-rescue-s17/essential/interpolation-arms/alpha-025/interpolation-mobile-evaluation/artifact-sha256.json": {
+          "bytes": 864,
+          "sha256": "cf7eec69781def54d8cc45fbe733fd9500c51afc658fd64de47e23a7ef3795c3"
+        },
+        "experiments/runs/20260803-2102-interpolation-rescue-s17/essential/interpolation-arms/alpha-025/interpolation-mobile-evaluation/paired-samples.jsonl": {
+          "bytes": 174200,
+          "sha256": "aa0fa28976297e435e8c7d8743f11bd331ad766656f8cff4c9acdaa263918168"
+        },
+        "experiments/runs/20260803-2102-interpolation-rescue-s17/essential/interpolation-arms/alpha-025/interpolation-mobile-evaluation/predictions.jsonl": {
+          "bytes": 281937,
+          "sha256": "da6035969fcd7dfeecb5e7d6c263823aa4ff5258da5d5b3faab5d488326161ad"
+        },
+        "experiments/runs/20260803-2102-interpolation-rescue-s17/essential/interpolation-arms/alpha-025/interpolation-mobile-evaluation/predictions.jsonl.manifest.json": {
+          "bytes": 1205,
+          "sha256": "d511c060a6031d485a19a319c4b5f14dd026056e43b66d09d3d7bc6498adfec2"
+        },
+        "experiments/runs/20260803-2102-interpolation-rescue-s17/essential/interpolation-arms/alpha-025/interpolation-mobile-evaluation/preregistration.json": {
+          "bytes": 4148,
+          "sha256": "96afa0ac407c53fd375ed0910a08ec66463718e3b826cf02b73f8bbc87a3c47e"
+        },
+        "experiments/runs/20260803-2102-interpolation-rescue-s17/essential/interpolation-arms/alpha-025/interpolation-mobile-evaluation/result.json": {
+          "bytes": 4681,
+          "sha256": "ce8fd737909cfb2abce74345c9a1a3b6c50de779fdc31a981e2c318090e861e6"
+        },
+        "experiments/runs/20260803-2102-interpolation-rescue-s17/essential/interpolation-arms/alpha-025/interpolation-mobile-evaluation/runtime-environment.json": {
+          "bytes": 638,
+          "sha256": "e6b5cc8e0b2b3991fd4a87665ad66872375faba6b26f4fd5cee73a026373802c"
+        },
+        "experiments/runs/20260803-2102-interpolation-rescue-s17/essential/interpolation-arms/alpha-025/interpolation-mobile-evaluation/scores/aggregate.json": {
+          "bytes": 5943,
+          "sha256": "56d6460e2c947720f5524a454883b99be6010767ec326bb45c704f966cbe5973"
+        },
+        "experiments/runs/20260803-2102-interpolation-rescue-s17/essential/interpolation-arms/alpha-025/interpolation-mobile-evaluation/scores/sample_scores.jsonl": {
+          "bytes": 1024793,
+          "sha256": "caaa17497b49446542f386e5ba8bbbc6244a007f00e2742c61d083ace5a33818"
+        },
+        "experiments/runs/20260803-2102-interpolation-rescue-s17/essential/interpolation-arms/alpha-025/interpolation-presto-evaluation/interpolation-predictions.jsonl": {
+          "bytes": 5086269,
+          "sha256": "0baf6804144be4a860a3ad2e471c27bcf289a575686a154ce264c376f952ba7a"
+        },
+        "experiments/runs/20260803-2102-interpolation-rescue-s17/essential/interpolation-arms/alpha-025/interpolation-presto-evaluation/interpolation-predictions.jsonl.manifest.json": {
+          "bytes": 1243,
+          "sha256": "30a3f0d06f01c23ae7f9beb263b9de413f25f4e8cc8c56f79eb4de722cb50205"
+        },
+        "experiments/runs/20260803-2102-interpolation-rescue-s17/essential/interpolation-arms/alpha-025/interpolation-presto-evaluation/interpolation-scores/aggregate.json": {
+          "bytes": 30989,
+          "sha256": "f37a91553fdd294521d1a65ae43efb103ecca14ef81d6304d7b16481a3fee308"
+        },
+        "experiments/runs/20260803-2102-interpolation-rescue-s17/essential/interpolation-arms/alpha-025/interpolation-presto-evaluation/interpolation-scores/sample_scores.jsonl": {
+          "bytes": 12286869,
+          "sha256": "a1053c96b6b20b3c5a6f3b559e633d85388de7aaeedee108cf730f4c53b35f6c"
+        },
+        "experiments/runs/20260803-2102-interpolation-rescue-s17/essential/interpolation-arms/alpha-050/interpolation-arm-result.json": {
+          "bytes": 45270,
+          "sha256": "355231003f803bd96d7d097c65b985064c6fe88681979cc9ada7cbc569d08d6c"
+        },
+        "experiments/runs/20260803-2102-interpolation-rescue-s17/essential/interpolation-arms/alpha-050/interpolation-mobile-evaluation/artifact-sha256.json": {
+          "bytes": 864,
+          "sha256": "52b57340d3fc0325d9baabb171eed17bd06de5efd7631e45ded9a19e5c980b16"
+        },
+        "experiments/runs/20260803-2102-interpolation-rescue-s17/essential/interpolation-arms/alpha-050/interpolation-mobile-evaluation/paired-samples.jsonl": {
+          "bytes": 173324,
+          "sha256": "612e62b4a7078952b967040a445e214ba3be93e2054bbfded429903de67c9284"
+        },
+        "experiments/runs/20260803-2102-interpolation-rescue-s17/essential/interpolation-arms/alpha-050/interpolation-mobile-evaluation/predictions.jsonl": {
+          "bytes": 276479,
+          "sha256": "c088037b1561678a2313a176d67f5abc495107005d4a4acef1444a035519c149"
+        },
+        "experiments/runs/20260803-2102-interpolation-rescue-s17/essential/interpolation-arms/alpha-050/interpolation-mobile-evaluation/predictions.jsonl.manifest.json": {
+          "bytes": 1205,
+          "sha256": "c54662d6fec07fa81465622e072946fc6126acf0559a67895904fdc10324e1ac"
+        },
+        "experiments/runs/20260803-2102-interpolation-rescue-s17/essential/interpolation-arms/alpha-050/interpolation-mobile-evaluation/preregistration.json": {
+          "bytes": 4148,
+          "sha256": "96afa0ac407c53fd375ed0910a08ec66463718e3b826cf02b73f8bbc87a3c47e"
+        },
+        "experiments/runs/20260803-2102-interpolation-rescue-s17/essential/interpolation-arms/alpha-050/interpolation-mobile-evaluation/result.json": {
+          "bytes": 4710,
+          "sha256": "74f5a4ad2da6cfde8cb422759598d282a6d492b7892787e7ca8109438582e49a"
+        },
+        "experiments/runs/20260803-2102-interpolation-rescue-s17/essential/interpolation-arms/alpha-050/interpolation-mobile-evaluation/runtime-environment.json": {
+          "bytes": 638,
+          "sha256": "e6b5cc8e0b2b3991fd4a87665ad66872375faba6b26f4fd5cee73a026373802c"
+        },
+        "experiments/runs/20260803-2102-interpolation-rescue-s17/essential/interpolation-arms/alpha-050/interpolation-mobile-evaluation/scores/aggregate.json": {
+          "bytes": 6086,
+          "sha256": "4725ab461ca8d289c43cf748cb74f8a691e2349bef76afed3cf985850e9f96ff"
+        },
+        "experiments/runs/20260803-2102-interpolation-rescue-s17/essential/interpolation-arms/alpha-050/interpolation-mobile-evaluation/scores/sample_scores.jsonl": {
+          "bytes": 992832,
+          "sha256": "a47336c1cd72c461a49fc7e905ea0032c8c46c5c55bcf054b4b6c30965888af3"
+        },
+        "experiments/runs/20260803-2102-interpolation-rescue-s17/essential/interpolation-arms/alpha-050/interpolation-presto-evaluation/interpolation-predictions.jsonl": {
+          "bytes": 5686609,
+          "sha256": "4db9907e4cd0e8a103a0521de02e014505c52eb4ff61ea24b73ff62d9f516faa"
+        },
+        "experiments/runs/20260803-2102-interpolation-rescue-s17/essential/interpolation-arms/alpha-050/interpolation-presto-evaluation/interpolation-predictions.jsonl.manifest.json": {
+          "bytes": 1242,
+          "sha256": "0ecdda5355eb3d1e5fb6d2a3dac4abcc25dbe358991a2f392e60be250686f8a4"
+        },
+        "experiments/runs/20260803-2102-interpolation-rescue-s17/essential/interpolation-arms/alpha-050/interpolation-presto-evaluation/interpolation-scores/aggregate.json": {
+          "bytes": 32633,
+          "sha256": "4b39578283b34ac394ac4902dc0bd3e25b8e2e34fdeeea66883785fc735e4601"
+        },
+        "experiments/runs/20260803-2102-interpolation-rescue-s17/essential/interpolation-arms/alpha-050/interpolation-presto-evaluation/interpolation-scores/sample_scores.jsonl": {
+          "bytes": 13383794,
+          "sha256": "5266e210efc66b3932f7b807fbaa429538efedc603d05825daed023d77fe45be"
+        },
+        "experiments/runs/20260803-2102-interpolation-rescue-s17/essential/interpolation-arms/alpha-075/interpolation-arm-result.json": {
+          "bytes": 45259,
+          "sha256": "4cae8a8fcfd663a893740926fe20562d438d4115550d60c013a9bf126961c514"
+        },
+        "experiments/runs/20260803-2102-interpolation-rescue-s17/essential/interpolation-arms/alpha-075/interpolation-mobile-evaluation/artifact-sha256.json": {
+          "bytes": 864,
+          "sha256": "f8ace5247393983f05c10fd818632b0df5b318c23f3055ce618869fa664b3fc6"
+        },
+        "experiments/runs/20260803-2102-interpolation-rescue-s17/essential/interpolation-arms/alpha-075/interpolation-mobile-evaluation/paired-samples.jsonl": {
+          "bytes": 170920,
+          "sha256": "19fabc8ec34a0805f6afe03e1253997bc202982dbecd492439f1ae8a8982dac9"
+        },
+        "experiments/runs/20260803-2102-interpolation-rescue-s17/essential/interpolation-arms/alpha-075/interpolation-mobile-evaluation/predictions.jsonl": {
+          "bytes": 264442,
+          "sha256": "857fbec3179e90f962fafdd5b2f78e5b35e69d2f72a3bba81502651d8eab2e4e"
+        },
+        "experiments/runs/20260803-2102-interpolation-rescue-s17/essential/interpolation-arms/alpha-075/interpolation-mobile-evaluation/predictions.jsonl.manifest.json": {
+          "bytes": 1205,
+          "sha256": "ecff18d1188c176bb993be1ddf78b083f3f7742371177c2a707e4c7bc5d60d6b"
+        },
+        "experiments/runs/20260803-2102-interpolation-rescue-s17/essential/interpolation-arms/alpha-075/interpolation-mobile-evaluation/preregistration.json": {
+          "bytes": 4148,
+          "sha256": "96afa0ac407c53fd375ed0910a08ec66463718e3b826cf02b73f8bbc87a3c47e"
+        },
+        "experiments/runs/20260803-2102-interpolation-rescue-s17/essential/interpolation-arms/alpha-075/interpolation-mobile-evaluation/result.json": {
+          "bytes": 4707,
+          "sha256": "c01672566170c00d7835b8b95f4a3c8b436b9f2498ae790317d8f0cf84ef285b"
+        },
+        "experiments/runs/20260803-2102-interpolation-rescue-s17/essential/interpolation-arms/alpha-075/interpolation-mobile-evaluation/runtime-environment.json": {
+          "bytes": 638,
+          "sha256": "e6b5cc8e0b2b3991fd4a87665ad66872375faba6b26f4fd5cee73a026373802c"
+        },
+        "experiments/runs/20260803-2102-interpolation-rescue-s17/essential/interpolation-arms/alpha-075/interpolation-mobile-evaluation/scores/aggregate.json": {
+          "bytes": 5874,
+          "sha256": "70c6bbfaf0df58999d60532dc9aff7a13892b9a4f063e94e6dae0bdfdd659f10"
+        },
+        "experiments/runs/20260803-2102-interpolation-rescue-s17/essential/interpolation-arms/alpha-075/interpolation-mobile-evaluation/scores/sample_scores.jsonl": {
+          "bytes": 782922,
+          "sha256": "6df28d426da811165b6fb206cf3ca40c0d4b4aff420347cd37bf57152549f633"
+        },
+        "experiments/runs/20260803-2102-interpolation-rescue-s17/essential/interpolation-arms/alpha-075/interpolation-presto-evaluation/interpolation-predictions.jsonl": {
+          "bytes": 5421829,
+          "sha256": "c55e6b0055780bec3d005cb9a0fee9255448094870faab33cf58c2a7e844cfb6"
+        },
+        "experiments/runs/20260803-2102-interpolation-rescue-s17/essential/interpolation-arms/alpha-075/interpolation-presto-evaluation/interpolation-predictions.jsonl.manifest.json": {
+          "bytes": 1241,
+          "sha256": "e4b047133e4df63b302ca5fd96e01a5f38143cf5e1abedd4c582f9954c9e8f76"
+        },
+        "experiments/runs/20260803-2102-interpolation-rescue-s17/essential/interpolation-arms/alpha-075/interpolation-presto-evaluation/interpolation-scores/aggregate.json": {
+          "bytes": 32634,
+          "sha256": "0b481a9867db086fdde6b20d7a6b8ac6c7892661179e45b1dbdfddafa45f800e"
+        },
+        "experiments/runs/20260803-2102-interpolation-rescue-s17/essential/interpolation-arms/alpha-075/interpolation-presto-evaluation/interpolation-scores/sample_scores.jsonl": {
+          "bytes": 14664722,
+          "sha256": "070f44dd01ba48bba353f9c47285572341e863598316e09e1f7e6d62c82a73af"
+        },
+        "experiments/runs/20260803-2102-interpolation-rescue-s17/essential/interpolation-attempt-preregistration.json": {
+          "bytes": 1584,
+          "sha256": "aeae3df7ee1dbd11c12c30a10006960675f1db423eb6fff8ab2f0c2f54b3e0e1"
+        },
+        "experiments/runs/20260803-2102-interpolation-rescue-s17/essential/interpolation-bundle-manifest.json": {
+          "bytes": 356,
+          "sha256": "2197583165f8488d5a16c5c309c75c82e478a24c0e85980e4c383a673a9cfde9"
+        },
+        "experiments/runs/20260803-2102-interpolation-rescue-s17/essential/interpolation-data/interpolation-presto-audit.json": {
+          "bytes": 12411,
+          "sha256": "8e1f035809c14baf6f247f1bd8bf0f4b874ff4b117dc6dd217fbc732c1d8b7c4"
+        },
+        "experiments/runs/20260803-2102-interpolation-rescue-s17/essential/interpolation-environment.json": {
+          "bytes": 638,
+          "sha256": "e6b5cc8e0b2b3991fd4a87665ad66872375faba6b26f4fd5cee73a026373802c"
+        },
+        "experiments/runs/20260803-2102-interpolation-rescue-s17/essential/interpolation-progress.jsonl": {
+          "bytes": 2160,
+          "sha256": "6300e6bee0bf4905ae537e5a78bd699624c394665656514d239ef1fa29cf1519"
+        },
+        "experiments/runs/20260803-2102-interpolation-rescue-s17/essential/interpolation-protocol.json": {
+          "bytes": 8253,
+          "sha256": "1e2f005f61bf8f8cb62c01928c23266023e2e20760321832f80bc4dbe3c9ee3c"
+        },
+        "experiments/runs/20260803-2102-interpolation-rescue-s17/essential/interpolation-provenance-verification.json": {
+          "bytes": 2156,
+          "sha256": "e15cfa02d03ab99e8bb851ae1dcdc6c6b975c5842b369905f586b66e147a6783"
+        },
+        "experiments/runs/20260803-2102-interpolation-rescue-s17/essential/interpolation-result.json": {
+          "bytes": 159852,
+          "sha256": "a98e06d9e1f92ce30576c86ec8ecf0f35bcfbb4f26a87d3d70858fd1fbb11f97"
+        },
+        "experiments/runs/20260803-2102-interpolation-rescue-s17/essential/interpolation-source-snapshot.json": {
+          "bytes": 1821,
+          "sha256": "81482702b3ec39f91233b9f5f77fc2142db09e93bc6b7ca43d348e7129173c32"
+        },
+        "experiments/runs/20260803-2122-mobile-qwen05b-matched-s17/HANDOFF.md": {
+          "bytes": 7625,
+          "sha256": "6452d23b48dc860293f7c297a07676171c6657fde909603e4f0b098d2363ec46"
+        },
+        "experiments/runs/20260803-2122-mobile-qwen05b-matched-s17/artifact-sha256.txt": {
+          "bytes": 9230,
+          "sha256": "0d434ab3378e396fb0a254d3cafae8ad0ba107336060f5ea9647526824869096"
+        },
+        "experiments/runs/20260803-2122-mobile-qwen05b-matched-s17/essential/artifact-sha256.json": {
+          "bytes": 2866,
+          "sha256": "e9c3540186693d778dbba1535f607c0fcfb6da0172faf7fb56834c0891b53b43"
+        },
+        "experiments/runs/20260803-2122-mobile-qwen05b-matched-s17/essential/attempt-preregistration.json": {
+          "bytes": 7694,
+          "sha256": "d569b463346304b00249588c9f42f6a784a2d7e8f55b1340d27b270603cac05c"
+        },
+        "experiments/runs/20260803-2122-mobile-qwen05b-matched-s17/essential/bundle-manifest.json": {
+          "bytes": 2991,
+          "sha256": "72d89b9de38c41835518904608130c5619699379619c2542fd6779274c4ef1fe"
+        },
+        "experiments/runs/20260803-2122-mobile-qwen05b-matched-s17/essential/data/audit.json": {
+          "bytes": 12522,
+          "sha256": "dc756f97c0a7ef706ec8ffefe2d57cf7e16d75a6ccd932f906d16b6a6ee2f83c"
+        },
+        "experiments/runs/20260803-2122-mobile-qwen05b-matched-s17/essential/data/identity.json": {
+          "bytes": 697,
+          "sha256": "679874c4dd928f32a99a2e58b31a9c90fd2b3e5ed9ff15098acb5852a068dd75"
+        },
+        "experiments/runs/20260803-2122-mobile-qwen05b-matched-s17/essential/environment.json": {
+          "bytes": 1212,
+          "sha256": "5c129a8b96c581bb70ca6c14fb1ed027c31d455761afd64c66526c5c437010c6"
+        },
+        "experiments/runs/20260803-2122-mobile-qwen05b-matched-s17/essential/evaluation/predictions.jsonl": {
+          "bytes": 282394,
+          "sha256": "836788091d08b931bf37565d197c4053e6e6f4664d379c38e7668ae9b8739b08"
+        },
+        "experiments/runs/20260803-2122-mobile-qwen05b-matched-s17/essential/evaluation/predictions.jsonl.manifest.json": {
+          "bytes": 626,
+          "sha256": "260f45f31b029f226018b625e803900b709b638ac79364e84a066ddefc213366"
+        },
+        "experiments/runs/20260803-2122-mobile-qwen05b-matched-s17/essential/evaluation/scores/aggregate.json": {
+          "bytes": 5822,
+          "sha256": "2184b93d383f1136c050d95e71fb129bbe083b3fea4de86da6bdf5ec7f3e1756"
+        },
+        "experiments/runs/20260803-2122-mobile-qwen05b-matched-s17/essential/evaluation/scores/sample_scores.jsonl": {
+          "bytes": 1023356,
+          "sha256": "5ed69b469de56f8afd3b73dedf9bad2009a0fb21ce01ee91a346167ed0d47bda"
+        },
+        "experiments/runs/20260803-2122-mobile-qwen05b-matched-s17/essential/model-identity.json": {
+          "bytes": 629,
+          "sha256": "97bbfbdb4afc1f337cf4cb1779f1abe249de876ecf3adf17cd64c457033bd680"
+        },
+        "experiments/runs/20260803-2122-mobile-qwen05b-matched-s17/essential/preregistration.json": {
+          "bytes": 8698,
+          "sha256": "6855eaf52c34089d802b8584c566b95619f9ff2780d4f130f333126bc33357e1"
+        },
+        "experiments/runs/20260803-2122-mobile-qwen05b-matched-s17/essential/repository-tests.log": {
+          "bytes": 625,
+          "sha256": "a202b7307875ab17d8110bc5201e2cefb4820fe80c40c9f25f068447f1dc6b35"
+        },
+        "experiments/runs/20260803-2122-mobile-qwen05b-matched-s17/essential/result.json": {
+          "bytes": 12367,
+          "sha256": "ed733c35d54add1e956dcc1506b2434c01ebd3c707b8bcff3dac4ad760e9c17f"
+        },
+        "experiments/runs/20260803-2122-mobile-qwen05b-matched-s17/essential/snapshot-manifest.json": {
+          "bytes": 1396,
+          "sha256": "a186a5b67e0f8db50228005a13d527bb9f5b4be9d68081505ec076982da6be3c"
+        },
+        "experiments/runs/20260803-2122-mobile-qwen05b-matched-s17/essential/source-snapshot.json": {
+          "bytes": 20559,
+          "sha256": "f9c187539e097ac21bec8315daf75c48e74c6f3bcc8e9cfe969d3aaf568d9cb6"
+        },
+        "experiments/runs/20260803-2122-mobile-qwen05b-matched-s17/essential/training/metrics.jsonl": {
+          "bytes": 24297,
+          "sha256": "ac7995539f39cc23502247272a8bd751b7980eaa21c9605fe453382cd308d3e5"
+        },
+        "experiments/runs/20260803-2122-mobile-qwen05b-matched-s17/essential/training/render-audit.json": {
+          "bytes": 1536,
+          "sha256": "461e2d6da2e7da7b89c18963a9585c4fa842b0d41881ff811db91d6ab176c44e"
+        },
+        "experiments/runs/20260803-2122-mobile-qwen05b-matched-s17/essential/training/rendered-dev.jsonl": {
+          "bytes": 238189,
+          "sha256": "b1202ee151804982fea24126a9197410157f4c42cf9968a74af279aa6e88af7d"
+        },
+        "experiments/runs/20260803-2122-mobile-qwen05b-matched-s17/essential/training/rendered-train.jsonl": {
+          "bytes": 2500644,
+          "sha256": "31d33028855b85baceb7d026cfe748fb6f56f0f74c9de9ad7bb243864d395c49"
+        },
+        "experiments/runs/20260803-2122-mobile-qwen05b-matched-s17/essential/training/summary.json": {
+          "bytes": 1472,
+          "sha256": "b1b43823eff3350df8e5f977a38525dc1fc27a8fa0f113e4660323e5d2d92da8"
+        },
+        "experiments/runs/20260803-2122-mobile-qwen05b-matched-s17/final-pause-recheck.json": {
+          "bytes": 680,
+          "sha256": "f82bd2557d0418ab7ad0532638a309a499735980cfaacf2e52c0c476c5b3ffe9"
+        },
+        "experiments/runs/20260803-2122-mobile-qwen05b-matched-s17/handoff/checkpoint-audit.json": {
+          "bytes": 3302,
+          "sha256": "8a39700d16bf2c41de5100c179da834a7ebf7fb88b1b0cc641a9f713770e7aa9"
+        },
+        "experiments/runs/20260803-2122-mobile-qwen05b-matched-s17/handoff/checkpoint-manifest.json": {
+          "bytes": 1679,
+          "sha256": "7615047b60c5dd80c05af78227b1981d3c608589797f6665c18f59c7e9432061"
+        },
+        "experiments/runs/20260803-2122-mobile-qwen05b-matched-s17/handoff/completion-audit.json": {
+          "bytes": 5869,
+          "sha256": "28b76bb10575a8c137e014835b5e18e6c03356e374ce112125ab1245b1e63a72"
+        },
+        "experiments/runs/20260803-2122-mobile-qwen05b-matched-s17/handoff/duration-cost.json": {
+          "bytes": 1111,
+          "sha256": "5adb0bfa035bea5b773edda28c6ad42d6e1f6541a4b92673c153f13db0973878"
+        },
+        "experiments/runs/20260803-2122-mobile-qwen05b-matched-s17/handoff/failure-analysis.json": {
+          "bytes": 1324,
+          "sha256": "4a5df25aaa87e02da695ceb542f19275550bdf5139ef06c5a22627471713c7ac"
+        },
+        "experiments/runs/20260803-2122-mobile-qwen05b-matched-s17/handoff/non-interference.json": {
+          "bytes": 1251,
+          "sha256": "fefa1727b340d5f12ca3ebd4fc4ec24942bd52b5452f09b89a6651e07d63b4ab"
+        },
+        "experiments/runs/20260803-2122-mobile-qwen05b-matched-s17/handoff/postrun-ruff-check.log": {
+          "bytes": 19,
+          "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+        },
+        "experiments/runs/20260803-2122-mobile-qwen05b-matched-s17/handoff/postrun-ruff-format-check.log": {
+          "bytes": 26,
+          "sha256": "ef7d13d02214e98ca902b05257cdbe6a8e84f3b4714508efdc19766460b54209"
+        },
+        "experiments/runs/20260803-2122-mobile-qwen05b-matched-s17/handoff/postrun-source-delta.json": {
+          "bytes": 3261,
+          "sha256": "f43812ac28a4017a074d99a910fc80a5b4ca85aa889b8d87d775a8144d3dab2d"
+        },
+        "experiments/runs/20260803-2122-mobile-qwen05b-matched-s17/handoff/postrun-verification-tests-attempt-1.log": {
+          "bytes": 2032,
+          "sha256": "5b5e0b7338a01fe32688dff09e160fae78c0b3ec26628ccbc90d7cf09b260c49"
+        },
+        "experiments/runs/20260803-2122-mobile-qwen05b-matched-s17/handoff/postrun-verification-tests.log": {
+          "bytes": 689,
+          "sha256": "907d9d65001bdd7776a00db93f938f1f3617f3ff172b375ffde5f42143ccca12"
+        },
+        "experiments/runs/20260803-2122-mobile-qwen05b-matched-s17/handoff/prelaunch/candidate-reference-audit.json": {
+          "bytes": 1542,
+          "sha256": "c8b2a174eb0978f6ee3eba56c465c6c475731b4314618d71782e9b094533177f"
+        },
+        "experiments/runs/20260803-2122-mobile-qwen05b-matched-s17/handoff/prelaunch/launch-command.json": {
+          "bytes": 1700,
+          "sha256": "91fdc27abe6072983541529cbfaae727bc7964eaf0e11ac6e5acd36ad037e5f7"
+        },
+        "experiments/runs/20260803-2122-mobile-qwen05b-matched-s17/handoff/prelaunch/local-environment-freeze.txt": {
+          "bytes": 630,
+          "sha256": "a30dc23c63c6d295d5a5a92e0711a45624ae76974e01b72a1ad7078db01db62b"
+        },
+        "experiments/runs/20260803-2122-mobile-qwen05b-matched-s17/handoff/prelaunch/prelaunch-report.json": {
+          "bytes": 3107,
+          "sha256": "d61d7a33ca921df7fe0d8a54deb786c248e625a6ddf6015a70bcd46392c2b8c9"
+        },
+        "experiments/runs/20260803-2122-mobile-qwen05b-matched-s17/handoff/prelaunch/pytest-prelaunch.log": {
+          "bytes": 663,
+          "sha256": "93c6d5f9f2943e06a01d9d185269c5db46ec8cf4bb160d89380f39d101247236"
+        },
+        "experiments/runs/20260803-2122-mobile-qwen05b-matched-s17/handoff/prelaunch/ruff-check.log": {
+          "bytes": 19,
+          "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+        },
+        "experiments/runs/20260803-2122-mobile-qwen05b-matched-s17/handoff/prelaunch/ruff-format-check.log": {
+          "bytes": 26,
+          "sha256": "ef7d13d02214e98ca902b05257cdbe6a8e84f3b4714508efdc19766460b54209"
+        },
+        "experiments/runs/20260803-2122-mobile-qwen05b-matched-s17/handoff/prelaunch/source-copy-manifest.json": {
+          "bytes": 61837,
+          "sha256": "b0c86bad1d6d0cd8a230c98a925b1041b3408de2ea35503c3192ce807e9b0b34"
+        },
+        "experiments/runs/20260803-2122-mobile-qwen05b-matched-s17/handoff/prelaunch/tokenizer-audit-artifact-sha256.json": {
+          "bytes": 290,
+          "sha256": "ecab53f7bd53d87b848ceef94e1a9b3e57d97b5720c6e57823a9cddc63ae2c01"
+        },
+        "experiments/runs/20260803-2122-mobile-qwen05b-matched-s17/handoff/prelaunch/tokenizer-render-audit.json": {
+          "bytes": 2525,
+          "sha256": "435d17ba43b956cbe1de5aa37964efc041fb3c3a50821becc11bb1f5ba5bf1db"
+        },
+        "experiments/runs/20260803-2122-mobile-qwen05b-matched-s17/handoff/proposed-ledger-entry.jsonl": {
+          "bytes": 5455,
+          "sha256": "bdf96b488a79182e4edf4b84ae8d7cee6a341b707c50854af7c50e2ec855f2af"
+        },
+        "experiments/runs/20260803-2122-mobile-qwen05b-matched-s17/handoff/proposed-mistakes-addendum.md": {
+          "bytes": 3426,
+          "sha256": "66dac6dbec1f9d152b4841310746534fde80596bafd546aaadca042fe7906276"
+        },
+        "experiments/runs/20260803-2122-mobile-qwen05b-matched-s17/handoff/proposed-source-patch.json": {
+          "bytes": 684,
+          "sha256": "ceba307975eabdd3529ff5ed8455e7f0d8e9c0df2dd9ebc1531a7a38f72dddf0"
+        },
+        "experiments/runs/20260803-2122-mobile-qwen05b-matched-s17/handoff/publication-status.json": {
+          "bytes": 691,
+          "sha256": "288007ed4dd21e6ba64c7efcd192499b0aa81863fb45775d51b640e8f21cd657"
+        },
+        "experiments/runs/20260803-2122-mobile-qwen05b-matched-s17/handoff/result-summary.json": {
+          "bytes": 6967,
+          "sha256": "dcc10e86cf59a49aebe160436657db4623faf2104e61dfa708566a4a04fa89ee"
+        },
+        "experiments/runs/20260803-2122-mobile-qwen05b-matched-s17/handoff/verification-command.json": {
+          "bytes": 1333,
+          "sha256": "3278024006858fd735805d259b784793128fd2c7e8a2b440bb5adacc21198676"
+        },
+        "experiments/runs/20260803-2122-mobile-qwen05b-matched-s17/import-receipt.json": {
+          "bytes": 1631,
+          "sha256": "35e13d6e677fd5d750b1dc74e1ed3b9302ce29f58f1cf273c75ccb78519af546"
+        },
+        "experiments/runs/20260803-2122-mobile-qwen05b-matched-s17/independent-verification-attempt-1/failure.json": {
+          "bytes": 685,
+          "sha256": "fbceefbf6bbcee0dacd072e8bdaf4f1717c397b0b50a09d4f78c3f187b78d196"
+        },
+        "experiments/runs/20260803-2122-mobile-qwen05b-matched-s17/independent-verification-attempt-2/failure.json": {
+          "bytes": 796,
+          "sha256": "2f70f3cdc6daa96fe1393e7eca360e01eff7a7a1246f1bf8ccb0f5b1e2bcbbe2"
+        },
+        "experiments/runs/20260803-2122-mobile-qwen05b-matched-s17/independent-verification-v1/artifact-sha256.json": {
+          "bytes": 417,
+          "sha256": "d61081ba74f51ab8a053bdb212b862151c356367df8156b0a2b2824bcba63cf8"
+        },
+        "experiments/runs/20260803-2122-mobile-qwen05b-matched-s17/independent-verification-v1/baseline-aggregate.recomputed.json": {
+          "bytes": 5822,
+          "sha256": "9391df9d7f8d78527b8a1077dc702b33d738053041eecd8331c7e2698d7f6756"
+        },
+        "experiments/runs/20260803-2122-mobile-qwen05b-matched-s17/independent-verification-v1/candidate-aggregate.recomputed.json": {
+          "bytes": 5841,
+          "sha256": "79a1203b4489e495548a055953e89afecb6993859686c16a5225aea52ddedbbc"
+        },
+        "experiments/runs/20260803-2122-mobile-qwen05b-matched-s17/independent-verification-v1/independent-verification.json": {
+          "bytes": 2665,
+          "sha256": "01bc02202cf44b7f971f465f3359817b52f66319a79e38b1a497b205438f5bc7"
+        },
+        "experiments/runs/20260803-2122-mobile-qwen05b-matched-s17/independent-verification-v1/paired-samples.jsonl": {
+          "bytes": 95113,
+          "sha256": "ad5d44e741f9b98a0a0ffaadfa147c142cdaf8fea8801a11b62b7d323e93730a"
+        },
+        "experiments/runs/20260803-2122-mobile-qwen05b-matched-s17/independent-verification/artifact-sha256.json": {
+          "bytes": 417,
+          "sha256": "b7118411c14d211d5315cf5c2b53de732f02d7e541702fb77f50bf854c30a9d2"
+        },
+        "experiments/runs/20260803-2122-mobile-qwen05b-matched-s17/independent-verification/baseline-aggregate.recomputed.json": {
+          "bytes": 5822,
+          "sha256": "9391df9d7f8d78527b8a1077dc702b33d738053041eecd8331c7e2698d7f6756"
+        },
+        "experiments/runs/20260803-2122-mobile-qwen05b-matched-s17/independent-verification/candidate-aggregate.recomputed.json": {
+          "bytes": 5841,
+          "sha256": "79a1203b4489e495548a055953e89afecb6993859686c16a5225aea52ddedbbc"
+        },
+        "experiments/runs/20260803-2122-mobile-qwen05b-matched-s17/independent-verification/independent-verification.json": {
+          "bytes": 5192,
+          "sha256": "3fd3a0ba4c33ae3a707b7be05a8b98511eb12226da29f571c9fbf8a5f7ba5b8c"
+        },
+        "experiments/runs/20260803-2122-mobile-qwen05b-matched-s17/independent-verification/paired-samples.jsonl": {
+          "bytes": 95113,
+          "sha256": "ad5d44e741f9b98a0a0ffaadfa147c142cdaf8fea8801a11b62b7d323e93730a"
+        },
+        "experiments/runs/20260803-2122-mobile-qwen05b-matched-s17/pause-proof.json": {
+          "bytes": 395,
+          "sha256": "9efc725130de593c3a0b720fbf78ecf00f0b46bf877f4a70424d8496adafb1d5"
+        },
+        "experiments/runs/20260803-2122-mobile-qwen05b-matched-s17/posthoc-paired-error-analysis.json": {
+          "bytes": 3081,
+          "sha256": "9b5a6a612f54886308a83f6ebaff98d9ee1328e767253d2caabb0c770ce9e8aa"
+        },
+        "experiments/runs/20260803-2122-mobile-qwen05b-matched-s17/selected-artifact-sha256.txt": {
+          "bytes": 6713,
+          "sha256": "0ca5c9458e8e2b3e2d2930f8d4ec21e29b0f4744e6c8057a2e1e76b9f5a424e0"
+        },
+        "experiments/runs/20260803-2131-continual-recovery-infra-retry-s17/essential/artifact-sha256.json": {
+          "bytes": 3277,
+          "sha256": "6baa0ab6a57c2921f570947c23d40e09e5d00114063a91e62eb38f76aa131f08"
+        },
+        "experiments/runs/20260803-2131-continual-recovery-infra-retry-s17/essential/attempt-preregistration.json": {
+          "bytes": 4279,
+          "sha256": "9350eba7f2fb1810d52c6d62f25c29250c4e75d0434aff3a49883270f535d536"
+        },
+        "experiments/runs/20260803-2131-continual-recovery-infra-retry-s17/essential/data/continual-recovery-view-audit.json": {
+          "bytes": 6436,
+          "sha256": "ce6068a7938f33f8aefe4631e3eff5e2e168b4c87e2a6f2468e2148c6c1dad37"
+        },
+        "experiments/runs/20260803-2131-continual-recovery-infra-retry-s17/essential/data/mobile-audit.json": {
+          "bytes": 12522,
+          "sha256": "dc756f97c0a7ef706ec8ffefe2d57cf7e16d75a6ccd932f906d16b6a6ee2f83c"
+        },
+        "experiments/runs/20260803-2131-continual-recovery-infra-retry-s17/essential/data/presto-audit.json": {
+          "bytes": 12411,
+          "sha256": "8e1f035809c14baf6f247f1bd8bf0f4b874ff4b117dc6dd217fbc732c1d8b7c4"
+        },
+        "experiments/runs/20260803-2131-continual-recovery-infra-retry-s17/essential/environment.json": {
+          "bytes": 1092,
+          "sha256": "1cd139e94ea7f88b5854aab2eca83d1c201459a92abebbf67bc7730e8356d129"
+        },
+        "experiments/runs/20260803-2131-continual-recovery-infra-retry-s17/essential/preregistration.json": {
+          "bytes": 8358,
+          "sha256": "b45f6efb28af44e0a2772b9239aff3f321a38765b964f1925e5bfc47c24fbf0d"
+        },
+        "experiments/runs/20260803-2131-continual-recovery-infra-retry-s17/essential/progress.jsonl": {
+          "bytes": 1686,
+          "sha256": "b66a65346ddabe327d82231fafe4489e3151243d636af7b1ebb7cc2dda918cab"
+        },
+        "experiments/runs/20260803-2131-continual-recovery-infra-retry-s17/essential/provenance-validation.json": {
+          "bytes": 3189,
+          "sha256": "7ea5ecb2d7871ce749997555dbf5d77c084b0f43985c89c2af8153de34f31f12"
+        },
+        "experiments/runs/20260803-2131-continual-recovery-infra-retry-s17/essential/result.json": {
+          "bytes": 69089,
+          "sha256": "9a909cc59b2b5bf01a38f1ab4dcbbb07fc6dac12c2aabd578e2a3cf3a9fe3cb8"
+        },
+        "experiments/runs/20260803-2131-continual-recovery-infra-retry-s17/essential/source-snapshot.json": {
+          "bytes": 2610,
+          "sha256": "1390dd7001065e4e4e136b11893d4a8067b648c00a3c9d961f3db94836fd09f0"
+        },
+        "experiments/runs/20260803-2131-continual-recovery-infra-retry-s17/essential/terminal-evaluation/mobile/artifact-sha256.json": {
+          "bytes": 864,
+          "sha256": "698bce14040afb948619420670f4dd9dec3a6978bf2cbc2a7a90d92230da9568"
+        },
+        "experiments/runs/20260803-2131-continual-recovery-infra-retry-s17/essential/terminal-evaluation/mobile/paired-samples.jsonl": {
+          "bytes": 173624,
+          "sha256": "85ea2600bde9eb9caaa8a1a1a0ef9d6a449262c35bb4fcbb0f89c0f8fa2b2eab"
+        },
+        "experiments/runs/20260803-2131-continual-recovery-infra-retry-s17/essential/terminal-evaluation/mobile/predictions.jsonl": {
+          "bytes": 282316,
+          "sha256": "efb36dda2d37105c6ad9823d77537180d0184bd319345f6ba9b05d6be374bb24"
+        },
+        "experiments/runs/20260803-2131-continual-recovery-infra-retry-s17/essential/terminal-evaluation/mobile/predictions.jsonl.manifest.json": {
+          "bytes": 1178,
+          "sha256": "e4e41d5a6844f1cb1449b9a086138b355df3e1077f7bd7623e320b3143fbaeab"
+        },
+        "experiments/runs/20260803-2131-continual-recovery-infra-retry-s17/essential/terminal-evaluation/mobile/preregistration.json": {
+          "bytes": 4148,
+          "sha256": "96afa0ac407c53fd375ed0910a08ec66463718e3b826cf02b73f8bbc87a3c47e"
+        },
+        "experiments/runs/20260803-2131-continual-recovery-infra-retry-s17/essential/terminal-evaluation/mobile/result.json": {
+          "bytes": 4585,
+          "sha256": "b880467446825f39effcf8101ad5c43a6acc91278c70545c7200c011ac13f23a"
+        },
+        "experiments/runs/20260803-2131-continual-recovery-infra-retry-s17/essential/terminal-evaluation/mobile/runtime-environment.json": {
+          "bytes": 1092,
+          "sha256": "1cd139e94ea7f88b5854aab2eca83d1c201459a92abebbf67bc7730e8356d129"
+        },
+        "experiments/runs/20260803-2131-continual-recovery-infra-retry-s17/essential/terminal-evaluation/mobile/scores/aggregate.json": {
+          "bytes": 5767,
+          "sha256": "df2afbc0cee19b3445341d22fc0260914c0c5c4f8dc76a44478f513f313ea30c"
+        },
+        "experiments/runs/20260803-2131-continual-recovery-infra-retry-s17/essential/terminal-evaluation/mobile/scores/sample_scores.jsonl": {
+          "bytes": 1024766,
+          "sha256": "0f58f7b7ff93af650168c9fa130d3e3e3e2277c06d26a9a1ddcbab69f3568efc"
+        },
+        "experiments/runs/20260803-2131-continual-recovery-infra-retry-s17/essential/terminal-evaluation/presto/predictions.jsonl": {
+          "bytes": 5399602,
+          "sha256": "fdc7fef0066ba9c70ddb3f38767e1d4f28619613eb37ba40ba7e99619f93fa16"
+        },
+        "experiments/runs/20260803-2131-continual-recovery-infra-retry-s17/essential/terminal-evaluation/presto/predictions.jsonl.manifest.json": {
+          "bytes": 1139,
+          "sha256": "4d6b4d8d55890e3f836a9459cf74921aab4f5f4a0308f4309aaf97653ad6dc82"
+        },
+        "experiments/runs/20260803-2131-continual-recovery-infra-retry-s17/essential/terminal-evaluation/presto/scores/aggregate.json": {
+          "bytes": 32526,
+          "sha256": "a5b1ddae52d266029977d8da0a824a1d5e62db70bbddc3a1fb022fe488506ca3"
+        },
+        "experiments/runs/20260803-2131-continual-recovery-infra-retry-s17/essential/terminal-evaluation/presto/scores/sample_scores.jsonl": {
+          "bytes": 14624808,
+          "sha256": "0ff6430ca1c452267d7238fa241c3873d5e9104758b2e40071765a117a1a636f"
+        },
+        "experiments/runs/20260803-2131-continual-recovery-infra-retry-s17/essential/training/metrics.jsonl": {
+          "bytes": 33991,
+          "sha256": "7c5c8ee5b1e6339efd0f6878e95b00d7614dc7560d9d91f84b0e5a23151095b7"
+        },
+        "experiments/runs/20260803-2131-continual-recovery-infra-retry-s17/essential/training/summary.json": {
+          "bytes": 2861,
+          "sha256": "20f4fbcfb7a89995daa35b80873ed4a50b8a53513fc3903c4a5c775902b58e79"
+        },
+        "experiments/runs/20260803-2203-parallel-rescue-selection-s17/selection-receipt.json": {
+          "bytes": 15047,
+          "sha256": "e021eff97cf4816ac299dc55cf6d2c356b07754639fe136540acef5987897582"
+        },
+        "experiments/runs/20260803-2224-candidate-v2-arm64-int8-retention-s17/evaluation/predictions.jsonl": {
+          "bytes": 282049,
+          "sha256": "ad6ea7d41762ccdc34d018ef1158642c6bcada2c2c0682e356bebed9180fb4fc"
+        },
+        "experiments/runs/20260803-2224-candidate-v2-arm64-int8-retention-s17/evaluation/predictions.jsonl.manifest.json": {
+          "bytes": 1833,
+          "sha256": "7d1f73c7c531cd35b0df8ce4853a3fef322c477c42a7733cbbdf557129277b83"
+        },
+        "experiments/runs/20260803-2224-candidate-v2-arm64-int8-retention-s17/evaluation/scores/aggregate.json": {
+          "bytes": 5844,
+          "sha256": "481a1e75210fa664cdcd0a55c0cd812393f79f1b74110dd9756f546701c4ef44"
+        },
+        "experiments/runs/20260803-2224-candidate-v2-arm64-int8-retention-s17/evaluation/scores/sample_scores.jsonl": {
+          "bytes": 1028523,
+          "sha256": "80b4972efe3ea22d2f78887c7c671e6ee2845c642ec3d6b73fecad7c5849a337"
+        },
+        "experiments/runs/20260803-2224-candidate-v2-arm64-int8-retention-s17/float-control-comparison.json": {
+          "bytes": 2600,
+          "sha256": "83eb9e3967aee973cb1ed17e0602ed2e88838a836141ddb5f9ecd22c87a401e1"
+        },
+        "experiments/runs/20260803-2224-candidate-v2-arm64-int8-retention-s17/float-control/predictions.jsonl": {
+          "bytes": 282048,
+          "sha256": "9d8c2936638df42539be751775e41810b47a47cda1b018facac9ddbf0d1af24b"
+        },
+        "experiments/runs/20260803-2224-candidate-v2-arm64-int8-retention-s17/float-control/predictions.jsonl.manifest.json": {
+          "bytes": 1220,
+          "sha256": "0fff63ec754834d4d4edcdde16c4f9f7cba717b82cdcc626da8f4771a88d1aaf"
+        },
+        "experiments/runs/20260803-2224-candidate-v2-arm64-int8-retention-s17/float-control/scores/aggregate.json": {
+          "bytes": 5842,
+          "sha256": "0325b72e47d2f4a99d8d9013975879c5c31f269cf7f21f64364ddfd7704eba66"
+        },
+        "experiments/runs/20260803-2224-candidate-v2-arm64-int8-retention-s17/float-control/scores/sample_scores.jsonl": {
+          "bytes": 1028917,
+          "sha256": "a333b9aa6b91932fe2772f207758ebbb640bf3f7fb6cf51807738163a85155d6"
+        },
+        "int8-retention/artifact-sha256.json": {
+          "bytes": 367,
+          "sha256": "ee2e6b98a4b51c0baf3de9616e46761971d62fcb4d52761625e38f5db019671c"
+        },
+        "int8-retention/paired-samples.jsonl": {
+          "bytes": 169082,
+          "sha256": "e63e48dc8149b615ab03a14fb9fff9b1435ab59c6623e72c16b44d34d7c651ad"
+        },
+        "int8-retention/protocol.json": {
+          "bytes": 5041,
+          "sha256": "7229572bea461a7899b09c0310a77b9b4d8af74211d1b9ac8b2b5f77dc6b67cb"
+        },
+        "int8-retention/result.json": {
+          "bytes": 7622,
+          "sha256": "7e74efc58a52e16fc74e9c48eb64d86c1ce5d0bfd6459a7f1fd8ba66218fd688"
+        },
+        "provenance/qwen2.5-0.5b-instruct.json": {
+          "bytes": 3434,
+          "sha256": "1a1c19cdfacaa25e296ab1c3f92a42ebc8c08802c0cec8047ab581d50669769e"
+        },
+        "release-manifest.json": {
+          "bytes": 76347,
+          "sha256": "cbb29c4921855031bfeee1c1f5e9ed1a33a932b902a875c21f255fac793c2165"
+        },
+        "requirements/qwen05b-matched.txt": {
+          "bytes": 354,
+          "sha256": "8e4ef2e2d49294f62d646ce9e9c57addf45f2481fbe162795c8408a98f788a99"
+        }
+      },
+      "qualified_name": "harshalsingh1223-gladium-ai/barunaction-35m/barunaction-35m-candidate-v2-evidence:v0",
+      "total_bytes": 135926068,
+      "type": "evaluation",
+      "version": "v0"
+    },
+    "float": {
+      "digest": "09c2a608c6f3947854a0f55eafc56b8a",
+      "download_directory": "float",
+      "file_count": 7,
+      "files": {
+        "LICENSE": {
+          "bytes": 11343,
+          "sha256": "8b96eada4fe29753eb19f40b48a5fd4d801f77807f5eea0b99558c7cec092cda"
+        },
+        "MODEL_CARD.md": {
+          "bytes": 13314,
+          "sha256": "b24bbe47e734da975f725773dbfecc1f0bee341a6609e02bd0409ec6df0070d7"
+        },
+        "NOTICE": {
+          "bytes": 2105,
+          "sha256": "5c250037884e285a8ca4adc956a9e8ff2e0a777abc3c115a283447e3db310422"
+        },
+        "barun_config.json": {
+          "bytes": 448,
+          "sha256": "9b3a1d71baa95a198744d250f9629231738d942570b8685c44307fd83dd33565"
+        },
+        "checkpoint_manifest.json": {
+          "bytes": 549,
+          "sha256": "c743ab7c4d33ae75c6b0aa4547458a961b92766da8fcf85fd148fda2ebb5530a"
+        },
+        "model.safetensors": {
+          "bytes": 140304464,
+          "sha256": "fdb95ccf58a095e0d321be998924318b35ee59a334f6dd97d8726d2cf80021d3"
+        },
+        "tokenizer.json": {
+          "bytes": 1136031,
+          "sha256": "70ded9605fccd09c2340ca7e225361eab0ae8b4dbbb0d6e26343ab5183979db6"
+        }
+      },
+      "qualified_name": "harshalsingh1223-gladium-ai/barunaction-35m/barunaction-35m-candidate-v2-float:v0",
+      "total_bytes": 141468254,
+      "type": "model",
+      "version": "v0"
+    },
+    "int8_darwin_arm64_qnnpack": {
+      "digest": "8c3d8d30afc140e8c63461668ecb91a4",
+      "download_directory": "int8_darwin_arm64_qnnpack",
+      "file_count": 7,
+      "files": {
+        "LICENSE": {
+          "bytes": 11343,
+          "sha256": "8b96eada4fe29753eb19f40b48a5fd4d801f77807f5eea0b99558c7cec092cda"
+        },
+        "MODEL_CARD.md": {
+          "bytes": 13314,
+          "sha256": "b24bbe47e734da975f725773dbfecc1f0bee341a6609e02bd0409ec6df0070d7"
+        },
+        "NOTICE": {
+          "bytes": 2105,
+          "sha256": "5c250037884e285a8ca4adc956a9e8ff2e0a777abc3c115a283447e3db310422"
+        },
+        "barun_config.json": {
+          "bytes": 448,
+          "sha256": "9b3a1d71baa95a198744d250f9629231738d942570b8685c44307fd83dd33565"
+        },
+        "model.int8.pt": {
+          "bytes": 57478879,
+          "sha256": "18102649bb4f8507ee754ae0c298e20064580833f05ca515faf5e04eac6f4488"
+        },
+        "quantization_manifest.json": {
+          "bytes": 3898,
+          "sha256": "f45c391d18d78758b0d62eeb562d139d24cfe0be3c8a409e3b40c25945d95c6b"
+        },
+        "tokenizer.json": {
+          "bytes": 1136031,
+          "sha256": "70ded9605fccd09c2340ca7e225361eab0ae8b4dbbb0d6e26343ab5183979db6"
+        }
+      },
+      "qualified_name": "harshalsingh1223-gladium-ai/barunaction-35m/barunaction-35m-candidate-v2-int8-darwin-arm64-qnnpack:v0",
+      "total_bytes": 58646018,
+      "type": "model",
+      "version": "v0"
+    }
+  },
+  "download_root": "/private/tmp/barunaction-wandb-redownload-parent-xTtfUd/download",
+  "package_version": "0.28.1",
+  "schema_version": "barunaction-wandb-download-verification-v1",
+  "security": {
+    "credential_markers_found": 0,
+    "extra_files_found": 0,
+    "symlinks_found": 0
+  },
+  "sources": {
+    "release_manifest": {
+      "path": "experiments/runs/20260803-2303-candidate-v2-public-release-s17/release-manifest.json",
+      "sha256": "cbb29c4921855031bfeee1c1f5e9ed1a33a932b902a875c21f255fac793c2165"
+    },
+    "wandb_upload_receipt": {
+      "path": "experiments/runs/20260803-2303-candidate-v2-public-release-s17/wandb-receipt.json",
+      "sha256": "6ce9a6095a932195f2caf645993f75e507039e6910f63760326c2860ebe3238b"
+    }
+  }
+}

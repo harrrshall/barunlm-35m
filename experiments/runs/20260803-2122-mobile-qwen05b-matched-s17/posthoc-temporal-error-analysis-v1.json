@@ -1,0 +1,68 @@
+{
+  "schema_version": "barun-qwen05b-posthoc-temporal-error-analysis-v1",
+  "run_id": "20260803-2122-mobile-qwen05b-matched-s17",
+  "status": "posthoc_diagnostic_only",
+  "decision_limit": "May motivate a separately preregistered experiment; may not alter either frozen score, select candidate-v2, or support an official-test claim.",
+  "sources": {
+    "development_manifest_path": "experiments/runs/20260803-1810-mobile-blind-s17/remote/data/dev.jsonl",
+    "development_manifest_sha256": "988bdce5874d1f1a775feeb5ba2b58cd2bdc128f57e73cb9a63d535fae7c1d55",
+    "barunaction_sample_scores_path": "experiments/runs/20260803-1845-mobile-followup-retry-s17/essential/arms/batch63/final-eval/scores/sample_scores.jsonl",
+    "barunaction_sample_scores_sha256": "a29c4d5c83493ec437a9f0fee362ea54cf97c2219844e5b46ba60d0f759f556c",
+    "qwen_sample_scores_path": "experiments/runs/20260803-2122-mobile-qwen05b-matched-s17/essential/evaluation/scores/sample_scores.jsonl",
+    "qwen_sample_scores_sha256": "5ed69b469de56f8afd3b73dedf9bad2009a0fb21ce01ee91a346167ed0d47bda"
+  },
+  "method": {
+    "membership": "Require the same 756 unique sample IDs in the development manifest and both score files.",
+    "value_only_failure": "A wrong prediction whose decision, mode, call count, call order, tool names, and per-call argument-key sets match gold; one or more argument values differ.",
+    "aligned_argument_mismatch": "For aligned gold/prediction call indices, count each shared argument key whose value differs. Structural errors remain failures but do not invent missing value pairs.",
+    "calendar_datetime": "Compare each create_calendar_event datetime at its gold call index. A cross-month occurrence has a gold YYYY-MM different from the prompt's sole NOW YYYY-MM.",
+    "now_month_copy": "The predicted datetime YYYY-MM equals the prompt's sole NOW YYYY-MM.",
+    "official_evaluation_rows_read_or_materialized": 0
+  },
+  "barunaction": {
+    "wrong_rows": 154,
+    "value_only_wrong_rows": 149,
+    "aligned_argument_value_mismatches": 164,
+    "mismatches_by_argument": {
+      "body": 3,
+      "datetime": 98,
+      "email": 2,
+      "first_name": 4,
+      "last_name": 3,
+      "phone_number": 6,
+      "query": 33,
+      "subject": 1,
+      "title": 10,
+      "to": 4
+    },
+    "datetime_mismatches_with_correct_time_and_wrong_date": 98,
+    "datetime_mismatches_copying_now_year_month": 98
+  },
+  "qwen": {
+    "wrong_rows": 93,
+    "value_only_wrong_rows": 88,
+    "aligned_argument_value_mismatches": 95,
+    "mismatches_by_argument": {
+      "body": 5,
+      "datetime": 45,
+      "email": 1,
+      "first_name": 1,
+      "query": 34,
+      "title": 9
+    },
+    "datetime_mismatches_with_correct_time_and_wrong_date": 45,
+    "datetime_mismatches_copying_now_year_month": 42
+  },
+  "cross_month_calendar_datetime": {
+    "gold_occurrences": 59,
+    "barunaction_exact": 16,
+    "barunaction_wrong": 43,
+    "barunaction_wrong_copying_now_year_month": 43,
+    "qwen_exact": 52,
+    "qwen_wrong": 7,
+    "qwen_wrong_copying_now_year_month": 4,
+    "qwen_minus_barunaction_exact_occurrences": 36,
+    "share_of_overall_61_row_qwen_lead": 0.5901639344262295
+  },
+  "interpretation": "The dominant BarunAction error is a deterministic NOW-month shortcut in calendar datetime values. Map query mismatches are nearly tied at 33 versus 34, so month-boundary counterevidence is the narrower next intervention. These reused development rows diagnose the failure and cannot validate its repair."
+}

@@ -1,0 +1,69 @@
+{
+  "schema_version": "barun-qwen05b-checkpoint-audit-v1",
+  "run_id": "20260803-2122-mobile-qwen05b-matched-s17",
+  "status": "passed",
+  "checkpoint": {
+    "file": "essential/checkpoint/model.safetensors",
+    "bytes": 988097824,
+    "sha256": "21f3f234ce9bfc2fa387cf396807fa35f5eb72e311f23a89cd98c98224c78793",
+    "header_json_bytes": 32280,
+    "header_sha256": "bd808652be103f0e4e29786b9aa8829e0f38607880486926c7246ee2de577a76",
+    "data_region_bytes": 988065536,
+    "offsets_contiguous": true,
+    "offset_gaps": 0,
+    "offset_overlaps": 0,
+    "truncated": false,
+    "tensor_count": 290,
+    "dtype_inventory": {
+      "BF16": 290
+    },
+    "serialized_parameters": 494032768,
+    "separate_lm_head_weight_present": false,
+    "pinned_source_header_byte_identical": true
+  },
+  "architecture": {
+    "architectures": [
+      "Qwen2ForCausalLM"
+    ],
+    "model_type": "qwen2",
+    "vocab_size": 151936,
+    "hidden_size": 896,
+    "intermediate_size": 4864,
+    "num_hidden_layers": 24,
+    "num_attention_heads": 14,
+    "num_key_value_heads": 2,
+    "tie_word_embeddings": true,
+    "torch_dtype": "bfloat16",
+    "max_position_embeddings": 32768,
+    "expected_tensor_names_missing": 0,
+    "unexpected_tensor_names": 0,
+    "shape_mismatches": 0
+  },
+  "checkpoint_files_sha256": {
+    "added_tokens.json": "58b54bbe36fc752f79a24a271ef66a0a0830054b4dfad94bde757d851968060b",
+    "config.json": "ca17f5fb7fd1acdd0a7b4668680fc25ee73801c3e442e81b5e8217b5eb74ed24",
+    "generation_config.json": "0b69aa62af0e081a1a5ce1400b09f77603f56ed7250e0e1e160f33be1b555ea9",
+    "merges.txt": "8831e4f1a044471340f7c0a83d7bd71306a5b867e95fd870f74d0c5308a904d5",
+    "model.safetensors": "21f3f234ce9bfc2fa387cf396807fa35f5eb72e311f23a89cd98c98224c78793",
+    "special_tokens_map.json": "76862e765266b85aa9459767e33cbaf13970f327a0e88d1c65846c2ddd3a1ecd",
+    "tokenizer.json": "9c5ae00e602b8860cbd784ba82a8aa14e8feecec692e7076590d014d7b7fdafa",
+    "tokenizer_config.json": "57fea41fa99fce34f91450643e48b3bfbb078c32c6831a3c06834f122c200510",
+    "vocab.json": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910"
+  },
+  "tokenizer_semantics": {
+    "native_chat_template_sha256": "cd8e9439f0570856fd70470bf8889ebd8b5d1107207f67a5efb46e342330527f",
+    "eos_token_id": 151645,
+    "pad_token_id": 151643,
+    "vocabulary_semantically_identical_to_pinned_source": true,
+    "merge_pair_count": 151387,
+    "merge_pairs_semantically_identical_to_pinned_source": true
+  },
+  "benign_save_time_config_differences": [
+    "_name_or_path records the remote pinned snapshot cache path",
+    "rope_scaling is explicitly null",
+    "sliding_window is null while use_sliding_window remains false",
+    "Transformers serialization version changed from 4.43.1 to the frozen runtime 4.48.3"
+  ],
+  "generation_warning": "The checkpoint retains the publisher's sampling defaults. The evaluated lane explicitly overrode them with do_sample=false, repetition_penalty=1.0, one beam, no-repeat n-gram zero, length_penalty=1.0, and null temperature/top-k/top-p. Standalone deterministic callers must apply those overrides.",
+  "evidence": "Independent local structural inspection of the downloaded checkpoint plus exact agreement with essential/training/summary.json and essential/artifact-sha256.json."
+}

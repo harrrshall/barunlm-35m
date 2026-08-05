@@ -1,0 +1,22 @@
+{
+  "batch_size": 64,
+  "checkpoint_dir": "/home/barun-scale-sweep-vp7eKG/reference-checkpoint",
+  "checkpoint_sha256": {
+    "barun_config.json": "9b3a1d71baa95a198744d250f9629231738d942570b8685c44307fd83dd33565",
+    "model.safetensors": "fdb95ccf58a095e0d321be998924318b35ee59a334f6dd97d8726d2cf80021d3",
+    "tokenizer.json": "70ded9605fccd09c2340ca7e225361eab0ae8b4dbbb0d6e26343ab5183979db6"
+  },
+  "device": "cuda",
+  "dtype": "torch.bfloat16",
+  "elapsed_seconds": 44.23471149522811,
+  "examples": 725,
+  "failed": 0,
+  "generated": 725,
+  "manifest": "/home/barun-artifacts/20260805-1554-mobile-scale-sweep-s17/export/fresh-split/selection.jsonl",
+  "manifest_sha256": "3bd2281fce6d6910de8e42b843562a060e1d4e654bfd3ce95c850189b9f00cfb",
+  "max_new_tokens": 256,
+  "predictions": "/home/barun-artifacts/20260805-1554-mobile-scale-sweep-s17/export/reference/predictions.jsonl",
+  "predictions_sha256": "600f0116f01818133be54db01146bf49bf244d1b73b7b7185b48ce1d20df8a24",
+  "schema_version": "barun-greedy-generation-v1",
+  "truncated": 0
+}

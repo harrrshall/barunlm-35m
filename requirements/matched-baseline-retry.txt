@@ -1,0 +1,7 @@
+# Infrastructure-only retry additions for the frozen SmolLM2 matched lane.
+# Transformers 4.48.3 imports torchvision while loading Llama; pin the build
+# paired with Torch 2.13 so JarvisLabs' incompatible system package is shadowed.
+-e .
+pytest==8.4.1
+transformers==4.48.3
+torchvision==0.28.0
