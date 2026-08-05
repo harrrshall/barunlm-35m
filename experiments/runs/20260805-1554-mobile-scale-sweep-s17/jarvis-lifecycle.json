@@ -1,0 +1,443 @@
+{
+  "attempt_contract_precreate_validation": {
+    "compute": {
+      "gpu": "H200",
+      "is_spot": false,
+      "max_gpu_job_minutes": 360,
+      "num_gpus": 1,
+      "provider": "JarvisLabs",
+      "python_implementation": "CPython",
+      "python_version": "3.11.10",
+      "region": "IN2",
+      "storage_gb": 100,
+      "template": "pytorch"
+    },
+    "path": "attempt-preregistration.json",
+    "sha256": "d9834ca4883bb96d2e9e2d179e9c755f727e5765ed9aaeec9925d596aca230e5",
+    "unbound_before_instance_creation": true,
+    "verified_at": "2026-08-05T14:21:13.470297+00:00"
+  },
+  "controller": "infra/jarvis/safe_run.py",
+  "controller_finished_at": "2026-08-05T14:21:32.548756+00:00",
+  "controller_sha256": "7ca0536eee69c1a2134411fe5258ce16cbdb4ce1f2ebe3bf7e4927218df6bf4a",
+  "controller_started_at": "2026-08-05T14:21:15.666686+00:00",
+  "create_summary": {
+    "gpu_type": "H200",
+    "is_spot": false,
+    "machine_id": 465155,
+    "name": "barun-scale-sweep-20260805",
+    "num_gpus": 1,
+    "region": "IN2",
+    "status": "Running",
+    "template": "pytorch"
+  },
+  "created_by_safe_run": true,
+  "events": [
+    {
+      "at": "2026-08-05T14:21:15.667366+00:00",
+      "event": "create_requested"
+    },
+    {
+      "at": "2026-08-05T14:21:19.755477+00:00",
+      "event": "machine_created",
+      "machine_id": 465155
+    },
+    {
+      "at": "2026-08-05T14:21:23.008644+00:00",
+      "event": "machine_ssh_ready",
+      "machine_id": 465155
+    },
+    {
+      "at": "2026-08-05T14:21:24.287899+00:00",
+      "event": "hardware_attested_before_upload",
+      "gpu_type": "H200",
+      "is_spot": false,
+      "machine_id": 465155,
+      "num_gpus": 1,
+      "region": "IN2",
+      "template": "pytorch"
+    },
+    {
+      "at": "2026-08-05T14:21:26.418408+00:00",
+      "error": "SafetyError(\"live python runtime differs from requested identity: observed {'implementation': 'CPython', 'version': '3.10.20'}, expected {'implementation': 'CPython', 'version': '3.11.10'}\")",
+      "event": "controller_error"
+    },
+    {
+      "at": "2026-08-05T14:21:32.548783+00:00",
+      "event": "pause_verified",
+      "status": "Paused"
+    }
+  ],
+  "final_instance": {
+    "gpu_type": "H200",
+    "is_spot": false,
+    "machine_id": 465155,
+    "name": "barun-scale-sweep-20260805",
+    "num_gpus": 1,
+    "region": "IN2",
+    "status": "Paused",
+    "template": "pytorch"
+  },
+  "hardware_attestation": {
+    "observed": {
+      "gpu_type": "H200",
+      "is_spot": false,
+      "num_gpus": 1,
+      "region": "IN2",
+      "template": "pytorch"
+    },
+    "requested": {
+      "gpu_type": "H200",
+      "is_spot": false,
+      "num_gpus": 1,
+      "region": "IN2",
+      "template": "pytorch"
+    },
+    "verified_at": "2026-08-05T14:21:24.287881+00:00",
+    "verified_before_upload": true
+  },
+  "instance_name": "barun-scale-sweep-20260805",
+  "machine_id": 465155,
+  "preexisting_resources": [
+    {
+      "gpu_type": "CPU",
+      "is_spot": false,
+      "machine_id": 465072,
+      "name": "barun-action-demo-public-v1",
+      "num_gpus": 0,
+      "region": "IN2",
+      "status": "Running",
+      "template": "vm"
+    },
+    {
+      "gpu_type": "H200",
+      "is_spot": false,
+      "machine_id": 463843,
+      "name": "barun-planir-screen-v1-a1",
+      "num_gpus": 1,
+      "region": "IN2",
+      "status": "Paused",
+      "template": "axolotl"
+    },
+    {
+      "gpu_type": "H200",
+      "is_spot": false,
+      "machine_id": 463802,
+      "name": "barun-mbcf-axolotl-hermetic-v3-a1",
+      "num_gpus": 1,
+      "region": "IN2",
+      "status": "Paused",
+      "template": "axolotl"
+    },
+    {
+      "gpu_type": "H200",
+      "is_spot": false,
+      "machine_id": 463793,
+      "name": "barun-mbcf-axolotl-v2-a1",
+      "num_gpus": 1,
+      "region": "IN2",
+      "status": "Paused",
+      "template": "axolotl"
+    },
+    {
+      "gpu_type": "L4",
+      "is_spot": false,
+      "machine_id": 463788,
+      "name": "barun-template-probe-axolotl",
+      "num_gpus": 1,
+      "region": "IN2",
+      "status": "Paused",
+      "template": "axolotl"
+    },
+    {
+      "gpu_type": "H200",
+      "is_spot": false,
+      "machine_id": 463786,
+      "name": "barun-mbcf-v1-a1",
+      "num_gpus": 1,
+      "region": "IN2",
+      "status": "Paused",
+      "template": "pytorch"
+    },
+    {
+      "gpu_type": "H200",
+      "is_spot": false,
+      "machine_id": 463689,
+      "name": "barun-qwen05b-matched-2122-s17",
+      "num_gpus": 1,
+      "region": "IN2",
+      "status": "Paused",
+      "template": "pytorch"
+    },
+    {
+      "gpu_type": "CPU",
+      "is_spot": false,
+      "machine_id": 463058,
+      "name": "Kroda",
+      "num_gpus": 0,
+      "region": "IN2",
+      "status": "Running",
+      "template": "vm"
+    },
+    {
+      "gpu_type": "L4",
+      "is_spot": false,
+      "machine_id": 461680,
+      "name": "kriti-v61-rnnt-replacement-canary",
+      "num_gpus": 1,
+      "region": "IN2",
+      "status": "Paused",
+      "template": "pytorch"
+    },
+    {
+      "gpu_type": "L4",
+      "is_spot": false,
+      "machine_id": 460797,
+      "name": "kriti-v59-quality-first-production",
+      "num_gpus": 1,
+      "region": "IN2",
+      "status": "Paused",
+      "template": "pytorch"
+    },
+    {
+      "gpu_type": "L4",
+      "is_spot": false,
+      "machine_id": 458554,
+      "name": "kriti-v58-heldout-route-validation",
+      "num_gpus": 1,
+      "region": "IN2",
+      "status": "Paused",
+      "template": "pytorch"
+    },
+    {
+      "gpu_type": "L4",
+      "is_spot": false,
+      "machine_id": 458506,
+      "name": "kriti-v55-fresh-union-validation",
+      "num_gpus": 1,
+      "region": "IN2",
+      "status": "Paused",
+      "template": "pytorch"
+    },
+    {
+      "gpu_type": "L4",
+      "is_spot": false,
+      "machine_id": 458491,
+      "name": "kriti-ten-vad-v52",
+      "num_gpus": 1,
+      "region": "IN2",
+      "status": "Paused",
+      "template": "pytorch"
+    },
+    {
+      "gpu_type": "A100-80GB",
+      "is_spot": false,
+      "machine_id": 458479,
+      "name": "kriti-autonomous-align-cal-v48",
+      "num_gpus": 1,
+      "region": "IN2",
+      "status": "Paused",
+      "template": "pytorch"
+    },
+    {
+      "gpu_type": "A100-80GB",
+      "is_spot": false,
+      "machine_id": 458475,
+      "name": "nepal-asr-benchmark-v1",
+      "num_gpus": 1,
+      "region": "IN2",
+      "status": "Paused",
+      "template": "pytorch"
+    },
+    {
+      "gpu_type": "RTX-PRO6000",
+      "is_spot": false,
+      "machine_id": 458429,
+      "name": "kriti-strict-stability-v2-in1",
+      "num_gpus": 1,
+      "region": "IN1",
+      "status": "Paused",
+      "template": "pytorch"
+    },
+    {
+      "gpu_type": "L4",
+      "is_spot": false,
+      "machine_id": 456669,
+      "name": "kriti-autonomous-local-voters-v1",
+      "num_gpus": 1,
+      "region": "IN2",
+      "status": "Paused",
+      "template": "pytorch"
+    },
+    {
+      "gpu_type": "L4",
+      "is_spot": false,
+      "machine_id": 456540,
+      "name": "kriti-na-multi-ocr-v6",
+      "num_gpus": 1,
+      "region": "IN2",
+      "status": "Paused",
+      "template": "pytorch"
+    },
+    {
+      "gpu_type": "L4",
+      "is_spot": false,
+      "machine_id": 456287,
+      "name": "kriti-openslr54-autonomous-silver-v4",
+      "num_gpus": 1,
+      "region": "IN2",
+      "status": "Paused",
+      "template": "pytorch"
+    },
+    {
+      "gpu_type": "L4",
+      "is_spot": false,
+      "machine_id": 456270,
+      "name": "kriti-openslr54-stability-v3",
+      "num_gpus": 1,
+      "region": "IN2",
+      "status": "Paused",
+      "template": "pytorch"
+    },
+    {
+      "gpu_type": "L4",
+      "is_spot": false,
+      "machine_id": 456260,
+      "name": "kriti-openslr54-source-audit-v3",
+      "num_gpus": 1,
+      "region": "IN2",
+      "status": "Paused",
+      "template": "pytorch"
+    },
+    {
+      "gpu_type": "L4",
+      "is_spot": false,
+      "machine_id": 456246,
+      "name": "kriti-strict-stability-v2",
+      "num_gpus": 1,
+      "region": "IN2",
+      "status": "Paused",
+      "template": "pytorch"
+    },
+    {
+      "gpu_type": "L4",
+      "is_spot": false,
+      "machine_id": 456245,
+      "name": "kriti-strict-consensus-v2",
+      "num_gpus": 1,
+      "region": "IN2",
+      "status": "Paused",
+      "template": "pytorch"
+    },
+    {
+      "gpu_type": "L4",
+      "is_spot": false,
+      "machine_id": 456234,
+      "name": "kriti-ilprl-w2vbert-preflight-v1",
+      "num_gpus": 1,
+      "region": "IN2",
+      "status": "Paused",
+      "template": "pytorch"
+    },
+    {
+      "gpu_type": "L4",
+      "is_spot": false,
+      "machine_id": 456218,
+      "name": "kriti-na-align-pilot-v1",
+      "num_gpus": 1,
+      "region": "IN2",
+      "status": "Paused",
+      "template": "pytorch"
+    },
+    {
+      "gpu_type": "L4",
+      "is_spot": false,
+      "machine_id": 456162,
+      "name": "kriti-autonomous-indicconformer-600m-v1",
+      "num_gpus": 1,
+      "region": "IN2",
+      "status": "Paused",
+      "template": "pytorch"
+    },
+    {
+      "gpu_type": "L4",
+      "is_spot": false,
+      "machine_id": 456089,
+      "name": "kriti-alignment-vad-pilot-v1",
+      "num_gpus": 1,
+      "region": "IN2",
+      "status": "Paused",
+      "template": "pytorch"
+    },
+    {
+      "gpu_type": "A100",
+      "is_spot": false,
+      "machine_id": 455804,
+      "name": "kriti-youtube-stt-pilot-v1",
+      "num_gpus": 1,
+      "region": "IN2",
+      "status": "Paused",
+      "template": "pytorch"
+    },
+    {
+      "gpu_type": "CPU",
+      "is_spot": false,
+      "machine_id": 438359,
+      "name": "Name me",
+      "num_gpus": 0,
+      "region": "IN2",
+      "status": "Paused",
+      "template": "vm"
+    }
+  ],
+  "protected_ids_missing_from_live_inventory": [
+    463697,
+    463719,
+    463904,
+    463912,
+    463936,
+    463964,
+    464346,
+    464367,
+    464377,
+    464378,
+    464382
+  ],
+  "requested": {
+    "append_bound_attempt_sha256": false,
+    "append_jarvis_machine_id": true,
+    "artifact": "/home/barun-artifacts/20260805-1554-mobile-scale-sweep-s17/export",
+    "artifact_dest": "/Users/harshalsingh/Desktop/experiment/stratalm-35m/experiments/runs/20260805-1554-mobile-scale-sweep-s17/essential",
+    "artifact_recursive": true,
+    "bind_attempt_inventory": "attempt-preregistration.json",
+    "gpu": "H200",
+    "max_runtime_minutes": 360,
+    "num_gpus": 1,
+    "python_implementation": "CPython",
+    "python_version": "3.11.10",
+    "region": "IN2",
+    "remote_args": [
+      "--run-id",
+      "20260805-1554-mobile-scale-sweep-s17",
+      "--train-manifest",
+      "data/train.jsonl",
+      "--config",
+      "configs/mobile_scale_sweep_v3.json",
+      "--artifact-root",
+      "/home/barun-artifacts",
+      "--reference-checkpoint",
+      "reference-checkpoint"
+    ],
+    "requirements": {
+      "path": "requirements/mobile-scale-sweep.txt",
+      "sha256": "adb3c84f903e71dd6ccf68f8060a76a36bac1a720bfed7679c279cfa74ab7e43"
+    },
+    "script": "scripts/run_mobile_scale_sweep.py",
+    "setup": null,
+    "spot": false,
+    "storage_gb": 100,
+    "target": "/tmp/barun-scale-sweep-8CV4IW",
+    "template": "pytorch"
+  },
+  "schema_version": 1
+}

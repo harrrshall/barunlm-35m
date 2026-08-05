@@ -1,0 +1,79 @@
+{
+  "access_counts": {
+    "challenger_weight_downloads": 0,
+    "official_961": 0,
+    "reference_evaluation": 0,
+    "selection_predictions": 0
+  },
+  "attempt": 1,
+  "authorization_boundary": {
+    "reason": "prelaunch-audit-attempt-3-go.json explicitly_not_authorized includes 'a second H200 or a retry under this same frozen attempt without a new audit'",
+    "required_next_step": "A distinct successor launch contract must freeze template=axolotl (or another provider image that actually exposes CPython 3.11.10) with matching attempt compute, pass a new independent prelaunch audit, and receive a new create-exclusive authorization before any further JarvisLabs mutation.",
+    "retry_without_new_audit_authorized": false,
+    "second_h200_authorized": false
+  },
+  "conclusion": "inconclusive",
+  "config_sha256": "a67959b9b95aa72a6c9153234bb502490c800dba2c539ba9163e37cf4e539451",
+  "create_summary": {
+    "gpu_type": "H200",
+    "is_spot": false,
+    "machine_id": 465155,
+    "name": "barun-scale-sweep-20260805",
+    "num_gpus": 1,
+    "region": "IN2",
+    "status": "Running",
+    "template": "pytorch"
+  },
+  "cuda_access": false,
+  "error": "safe_run hardware/runtime gate: pytorch template live Python was CPython 3.10.20; safe_run requires CPython 3.11.10. Failure occurred after create and SSH-ready hardware attestation for GPU/template/region, before attempt-inventory bind, source upload, jl run, tests gate, data audit, reference eval, challenger download, training, or scoring.",
+  "evidence_paths": {
+    "failure_record": "experiments/runs/20260805-1554-mobile-scale-sweep-s17/attempt-1-infrastructure-failure.json",
+    "jarvis_lifecycle": "experiments/runs/20260805-1554-mobile-scale-sweep-s17/jarvis-lifecycle.json",
+    "jarvis_lifecycle_sha256": "52136ea6aba6ef4dd264be83e8bcb054f4bf4ca2d9f6859229188fc7d3e74897",
+    "launch_command": "experiments/runs/20260805-1554-mobile-scale-sweep-s17/launch-command.json",
+    "pause_proof": "experiments/runs/20260805-1554-mobile-scale-sweep-s17/pause-proof.json",
+    "pause_proof_sha256": "bf0fe73056883fd0235b00ae41c0069eeb3d7079f9f77b1adca5f8ca1aa043b9",
+    "precreate_inventory": "experiments/runs/20260805-1554-mobile-scale-sweep-s17/precreate-inventory.json",
+    "unbound_attempt": "experiments/runs/20260805-1554-mobile-scale-sweep-s17/attempt-preregistration-unbound.json"
+  },
+  "failure_class": "infrastructure_python_runtime_mismatch",
+  "final_instance": {
+    "gpu_type": "H200",
+    "is_spot": false,
+    "machine_id": 465155,
+    "name": "barun-scale-sweep-20260805",
+    "num_gpus": 1,
+    "region": "IN2",
+    "status": "Paused",
+    "template": "pytorch"
+  },
+  "go_receipt_sha256": "d74d01e2078322c969db1158c54ebdc7343432635d223d78523226bae452f03b",
+  "instance_name": "barun-scale-sweep-20260805",
+  "jarvis_machine_id": 465155,
+  "model_access": false,
+  "official_961_access": false,
+  "pause_proof": {
+    "instance": {
+      "gpu_type": "H200",
+      "is_spot": false,
+      "machine_id": 465155,
+      "name": "barun-scale-sweep-20260805",
+      "num_gpus": 1,
+      "region": "IN2",
+      "status": "Paused",
+      "template": "pytorch"
+    }
+  },
+  "pause_verified": true,
+  "predictions_written": false,
+  "protected_going_forward": {
+    "machine_id": 465155,
+    "reason": "project evidence instance for this zero-signal infrastructure failure; never resume/reuse/rename/stop/delete without explicit new instruction"
+  },
+  "recorded_at": "2026-08-05T14:22:43.334706+00:00",
+  "run_id": "20260805-1554-mobile-scale-sweep-s17",
+  "schema_version": "barun-mobile-scale-sweep-attempt-failure-v1",
+  "scientific_result": null,
+  "training_started": false,
+  "weights_downloaded": false
+}

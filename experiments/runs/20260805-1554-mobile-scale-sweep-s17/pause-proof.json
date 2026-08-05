@@ -1,0 +1,12 @@
+{
+  "instance": {
+    "gpu_type": "H200",
+    "is_spot": false,
+    "machine_id": 465155,
+    "name": "barun-scale-sweep-20260805",
+    "num_gpus": 1,
+    "region": "IN2",
+    "status": "Paused",
+    "template": "pytorch"
+  }
+}

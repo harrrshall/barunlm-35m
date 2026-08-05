@@ -1,0 +1,10 @@
+# Frozen remote additions for the mobile scale-sweep v3 lane.
+# Pin Torch-matched torchvision so Transformers cannot discover an incompatible
+# JarvisLabs system torchvision during optional vision imports.
+-e .
+huggingface-hub==0.36.2
+pytest==8.4.1
+safetensors==0.8.0
+tokenizers==0.21.4
+transformers==4.48.3
+torchvision==0.28.0
