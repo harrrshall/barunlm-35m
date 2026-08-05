@@ -1,0 +1,16 @@
+{
+  "folds": 10,
+  "policy_version": "barun-mobile-scale-sweep-selection-v1",
+  "schema_version": "barun-mobile-scale-sweep-split-v1",
+  "selection_clusters": 589,
+  "selection_fold": 0,
+  "selection_manifest_sha256": "3bd2281fce6d6910de8e42b843562a060e1d4e654bfd3ce95c850189b9f00cfb",
+  "selection_membership_sha256": "5838748633d408ab93a57b89fef17c6e4446dbbe14889215b60606d257f8ebf9",
+  "selection_rows": 725,
+  "source_train_manifest_sha256": "131473ccb5bfb51cac0439b42159e72ec4c598025e50364a52b122b056c2e84e",
+  "source_train_rows": 7937,
+  "sweep_train_clusters": 4716,
+  "sweep_train_manifest_sha256": "3328654532d7e767e2cb87becc6c5869a65044bba7aadb62a69582be34c04183",
+  "sweep_train_membership_sha256": "3e0a64bb31ce3c4571d66b6983906e01c457edf6e53b99170b5943f7afea214e",
+  "sweep_train_rows": 7212
+}

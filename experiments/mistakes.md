@@ -902,9 +902,33 @@ official-961 row was accessed while finding or fixing these issues.
   The deployed form now stores only user-entered feedback, an optional screenshot, and one-way
   SHA-256 fingerprints of the request and result; raw request/result snapshots are not retained.
 
+### 2026-08-05 addendum — direct HTTPS supersedes the intermediate tunnel
+
+- The localhost.run address above was an intermediate transport, not the final release address.
+  Its anonymous hostname later rotated without an application change, confirming that a supervised
+  tunnel process does not make a published URL durable. A subsequent Serveo attempt could not
+  reserve the requested deterministic name and was also rejected.
+- The final public host keeps the Gradio application on loopback and exposes it through Caddy on
+  exact JarvisLabs CPU VM 465072. The canonical public URL is recorded in
+  `experiments/runs/20260805-1758-barunaction-public-demo-v1/caddy-finalization.json`. Root,
+  `/config`, security headers, all five real-checkpoint flows, prompt/checkpoint binding, the
+  proposal-only boundary, and screenshot-feedback minimization passed through that hostname.
+- The abandoned tunnel unit and its dedicated Serveo keypair were removed after Caddy was proven
+  active and enabled. Do not recreate either as a fallback. The remaining durability boundary is
+  explicit: the free wildcard-DNS hostname depends on the VM retaining its bound public IP and on
+  the DNS provider. A lab-owned domain is the next production upgrade, not another tunnel.
+
 ## 2026-08-05 — Mobile scale-sweep attempt 1: pytorch template vs safe_run 3.11.10 gate
 
 - **Symptom:** Fresh H200 `465155` (`barun-scale-sweep-20260805`) was created under the attempt-3 go receipt, then `safe_run` aborted at the live-Python attestation with observed CPython 3.10.20 vs required 3.11.10. The instance was pause-verified. No source upload, jl run, tests gate, data audit, reference eval, challenger download, training, scoring, or official-961 access occurred.
 - **Root cause:** The launch froze `template=pytorch` because the scale-sweep scientific runner is Transformers/HF (matching historical SmolLM2/Qwen matched lanes), while the current `infra/jarvis/safe_run.py` controller only accepts `--python-version 3.11.10`. The JarvisLabs `pytorch` image still exposes 3.10.20; the `axolotl` image is the one previously attested at 3.11.10.
 - **Lesson:** Before creating the sole authorized H200, rehearse the exact `(template, python_version)` pair against a disposable probe or against the live template identity gate. Do not assume the historical matched-lane pytorch default still satisfies the tightened safe_run runtime contract. The attempt-3 go receipt forbids a second H200 or unaudited retry; a successor needs a corrected compute contract (likely `template=axolotl` with CPython 3.11.10) plus a new independent audit/authorization.
 - **Do not:** Resume, reuse, rename, or destroy `465155`; do not create another scale-sweep GPU under the spent attempt-3 go without a new audit.
+
+
+## 2026-08-05 — Mobile scale-sweep attempt 4: axolotl attested, flash_attn system-site ABI abort
+
+- **Symptom:** Authorized attempt-4 created H200 `465183` (`barun-scale-sweep-a4-20260805`) with explicit `template=axolotl`. Live attestation saw CPython 3.11.10. After a local-controller death during the first `jl run` upload and an owned reattach (resume migrated the exact owned lineage to `465186`), managed run `r_28232019` passed the 62-test gate, completed the in-run candidate-v2 reference evaluation at **590/725** exact (schema 723/725, 0 truncations), verified the pythia snapshot, then aborted in `AutoModelForCausalLM.from_pretrained` with `flash_attn_2_cuda` undefined-symbol against the managed uv venv torch. Pause-verified on `465186`. No LR screen and no decision outcome.
+- **Root cause (compound):** (1) Cursor/local shell teardown killed the first `nohup` controller mid-upload before `controller_error` could persist—detach with `start_new_session=True` (or equivalent) is mandatory for paid runs. (2) JarvisLabs `jl run` on the axolotl image creates `uv venv --system-site-packages`, so Transformers imports the image `flash_attn` extension that is ABI-incompatible with the venv's torch 2.13.0.
+- **Lesson:** Axolotl/3.11.10 fixes the prior pytorch/3.10.20 gate but is not sufficient alone. Freeze an isolation contract that prevents system-site `flash_attn` from entering the Transformers import path (venv without system-site-packages, or pin/disable flash-attn before model import), and prove it on a disposable probe before the sole authorized H200. Keep the local controller in a new session for the entire upload→monitor→download→pause path.
+- **Do not:** Create a third GPU under this go; resume/reuse/rename/destroy `465183` or `465186`; treat the 590/725 reference score as a challenger decision; launch a patched retry without a new independent audit that freezes the flash_attn/isolation fix.

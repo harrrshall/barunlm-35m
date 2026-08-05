@@ -1,0 +1,4 @@
+{"event": "run_started", "machine_id": 465186, "run_id": "r_28232019"}
+{"event": "status", "run_id": "r_28232019", "machine_id": 465186, "state": "running", "exit_code": null, "instance_status": "Running", "started_at": "2026-08-05T15:19:08.550497+00:00"}
+{"event": "status", "run_id": "r_28232019", "machine_id": 465186, "state": "failed", "exit_code": 1, "instance_status": "Running", "started_at": "2026-08-05T15:19:08.550497+00:00"}
+{"event": "pause_verified", "machine_id": 465186, "status": "Paused"}

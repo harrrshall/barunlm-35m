@@ -1,0 +1,331 @@
+{
+  "captured_at": "2026-08-03T11:07:21Z",
+  "last_updated_at": "2026-08-05T15:24:53.317665+00:00",
+  "purpose": "Permanent denylist of pre-existing JarvisLabs resources and retained BarunAction evidence instances",
+  "resources": [
+    {
+      "gpu_type_at_capture": "CPU",
+      "machine_id": 438359,
+      "name_at_capture": "Name me",
+      "num_gpus_at_capture": 0,
+      "status_at_capture": "Paused"
+    },
+    {
+      "gpu_type_at_capture": "A100",
+      "machine_id": 455804,
+      "name_at_capture": "kriti-youtube-stt-pilot-v1",
+      "num_gpus_at_capture": 1,
+      "status_at_capture": "Paused"
+    },
+    {
+      "gpu_type_at_capture": "L4",
+      "machine_id": 456089,
+      "name_at_capture": "kriti-alignment-vad-pilot-v1",
+      "num_gpus_at_capture": 1,
+      "status_at_capture": "Paused"
+    },
+    {
+      "gpu_type_at_capture": "L4",
+      "machine_id": 456162,
+      "name_at_capture": "kriti-autonomous-indicconformer-600m-v1",
+      "num_gpus_at_capture": 1,
+      "status_at_capture": "Paused"
+    },
+    {
+      "gpu_type_at_capture": "L4",
+      "machine_id": 456218,
+      "name_at_capture": "kriti-na-align-pilot-v1",
+      "num_gpus_at_capture": 1,
+      "status_at_capture": "Paused"
+    },
+    {
+      "gpu_type_at_capture": "L4",
+      "machine_id": 456234,
+      "name_at_capture": "kriti-ilprl-w2vbert-preflight-v1",
+      "num_gpus_at_capture": 1,
+      "status_at_capture": "Paused"
+    },
+    {
+      "gpu_type_at_capture": "L4",
+      "machine_id": 456245,
+      "name_at_capture": "kriti-strict-consensus-v2",
+      "num_gpus_at_capture": 1,
+      "status_at_capture": "Paused"
+    },
+    {
+      "gpu_type_at_capture": "L4",
+      "machine_id": 456246,
+      "name_at_capture": "kriti-strict-stability-v2",
+      "num_gpus_at_capture": 1,
+      "status_at_capture": "Paused"
+    },
+    {
+      "gpu_type_at_capture": "L4",
+      "machine_id": 456260,
+      "name_at_capture": "kriti-openslr54-source-audit-v3",
+      "num_gpus_at_capture": 1,
+      "status_at_capture": "Paused"
+    },
+    {
+      "gpu_type_at_capture": "L4",
+      "machine_id": 456270,
+      "name_at_capture": "kriti-openslr54-stability-v3",
+      "num_gpus_at_capture": 1,
+      "status_at_capture": "Paused"
+    },
+    {
+      "gpu_type_at_capture": "L4",
+      "machine_id": 456287,
+      "name_at_capture": "kriti-openslr54-autonomous-silver-v4",
+      "num_gpus_at_capture": 1,
+      "status_at_capture": "Paused"
+    },
+    {
+      "gpu_type_at_capture": "L4",
+      "machine_id": 456540,
+      "name_at_capture": "kriti-na-multi-ocr-v6",
+      "num_gpus_at_capture": 1,
+      "status_at_capture": "Paused"
+    },
+    {
+      "gpu_type_at_capture": "L4",
+      "machine_id": 456669,
+      "name_at_capture": "kriti-autonomous-local-voters-v1",
+      "num_gpus_at_capture": 1,
+      "status_at_capture": "Paused"
+    },
+    {
+      "gpu_type_at_capture": "RTX-PRO6000",
+      "machine_id": 458429,
+      "name_at_capture": "kriti-strict-stability-v2-in1",
+      "num_gpus_at_capture": 1,
+      "status_at_capture": "Paused"
+    },
+    {
+      "gpu_type_at_capture": "A100-80GB",
+      "machine_id": 458475,
+      "name_at_capture": "nepal-asr-benchmark-v1",
+      "num_gpus_at_capture": 1,
+      "status_at_capture": "Paused"
+    },
+    {
+      "gpu_type_at_capture": "A100-80GB",
+      "machine_id": 458479,
+      "name_at_capture": "kriti-autonomous-align-cal-v48",
+      "num_gpus_at_capture": 1,
+      "status_at_capture": "Paused"
+    },
+    {
+      "gpu_type_at_capture": "L4",
+      "machine_id": 458491,
+      "name_at_capture": "kriti-ten-vad-v52",
+      "num_gpus_at_capture": 1,
+      "status_at_capture": "Paused"
+    },
+    {
+      "gpu_type_at_capture": "L4",
+      "machine_id": 458506,
+      "name_at_capture": "kriti-v55-fresh-union-validation",
+      "num_gpus_at_capture": 1,
+      "status_at_capture": "Paused"
+    },
+    {
+      "gpu_type_at_capture": "L4",
+      "machine_id": 458554,
+      "name_at_capture": "kriti-v58-heldout-route-validation",
+      "num_gpus_at_capture": 1,
+      "status_at_capture": "Paused"
+    },
+    {
+      "gpu_type_at_capture": "L4",
+      "machine_id": 460797,
+      "name_at_capture": "kriti-v59-quality-first-production",
+      "num_gpus_at_capture": 1,
+      "status_at_capture": "Paused"
+    },
+    {
+      "gpu_type_at_capture": "L4",
+      "machine_id": 461680,
+      "name_at_capture": "kriti-v61-rnnt-replacement-canary",
+      "num_gpus_at_capture": 1,
+      "status_at_capture": "Paused"
+    },
+    {
+      "gpu_type_at_capture": "CPU",
+      "machine_id": 463058,
+      "name_at_capture": "Kroda",
+      "num_gpus_at_capture": 0,
+      "status_at_capture": "Running"
+    },
+    {
+      "gpu_type_at_capture": "H200",
+      "machine_id": 463689,
+      "name_at_capture": "barun-qwen05b-matched-2122-s17",
+      "num_gpus_at_capture": 1,
+      "protection_basis": "completed comparison instance retained as protected evidence",
+      "status_at_capture": "Paused"
+    },
+    {
+      "gpu_type_at_capture": "H200",
+      "machine_id": 463697,
+      "name_at_capture": null,
+      "num_gpus_at_capture": 8,
+      "protection_basis": "unrecognized pre-existing instance observed during project session",
+      "status_at_capture": "Initialised"
+    },
+    {
+      "gpu_type_at_capture": "H200",
+      "machine_id": 463719,
+      "name_at_capture": "kimi-k3-jl-node-a-20260803-1724",
+      "num_gpus_at_capture": 8,
+      "protection_basis": "independent running experiment observed before the next Barun run",
+      "status_at_capture": "Running"
+    },
+    {
+      "gpu_type_at_capture": "H200",
+      "machine_id": 463786,
+      "name_at_capture": "barun-mbcf-v1-a1",
+      "num_gpus_at_capture": 1,
+      "protection_basis": "zero-signal dependency-resolution failure retained as immutable launch evidence",
+      "status_at_capture": "Paused"
+    },
+    {
+      "gpu_type_at_capture": "L4",
+      "machine_id": 463788,
+      "name_at_capture": "barun-template-probe-axolotl",
+      "num_gpus_at_capture": 1,
+      "protection_basis": "provider Python-version probe retained as immutable launch evidence",
+      "status_at_capture": "Paused"
+    },
+    {
+      "gpu_type_at_capture": "H200",
+      "machine_id": 463793,
+      "name_at_capture": "barun-mbcf-axolotl-v2-a1",
+      "num_gpus_at_capture": 1,
+      "protection_basis": "zero-signal remote-validation failure retained as immutable launch evidence",
+      "status_at_capture": "Paused"
+    },
+    {
+      "gpu_type_at_capture": "H200",
+      "machine_id": 463802,
+      "name_at_capture": "barun-mbcf-axolotl-hermetic-v3-a1",
+      "num_gpus_at_capture": 1,
+      "protection_basis": "completed selection-gate failure retained as immutable scientific evidence",
+      "status_at_capture": "Paused"
+    },
+    {
+      "gpu_type_at_capture": "H200",
+      "machine_id": 463843,
+      "name_at_capture": "barun-planir-screen-v1-a1",
+      "num_gpus_at_capture": 1,
+      "protection_basis": "terminal fail-closed PlanIR launch retained as immutable operational evidence",
+      "status_at_capture": "Paused"
+    },
+    {
+      "gpu_type_at_capture": "H200",
+      "machine_id": 463904,
+      "name_at_capture": "kimi-k3-jl-node-opt-20260804 endpoint-derived historical identifier",
+      "num_gpus_at_capture": 8,
+      "protection_basis": "historical endpoint-derived identifier retained fail-closed after exact machine-ID correction",
+      "status_at_capture": "Protected"
+    },
+    {
+      "gpu_type_at_capture": "H200",
+      "machine_id": 463912,
+      "name_at_capture": "kimi-k3-jl-node-opt-20260804",
+      "num_gpus_at_capture": 8,
+      "protection_basis": "historical machine_id of independent adjacent Kimi experiment; retained after a later provider recreation",
+      "status_at_capture": "Running"
+    },
+    {
+      "gpu_type_at_capture": "H200",
+      "machine_id": 463936,
+      "name_at_capture": "kimi-k3-jl-node-opt-20260804",
+      "num_gpus_at_capture": 8,
+      "protection_basis": "historical machine_id of independent adjacent Kimi experiment; later observed paused and retained",
+      "status_at_capture": "Running"
+    },
+    {
+      "gpu_type_at_capture": "H200",
+      "machine_id": 463964,
+      "name_at_capture": "kimi-k3-jl-node-opt128-20260804",
+      "num_gpus_at_capture": 8,
+      "protection_basis": "unrecognized adjacent Kimi resource discovered by safe read-only inventory on 2026-08-04T16:59:39Z; protected by default",
+      "status_at_capture": "Paused"
+    },
+    {
+      "gpu_type_at_capture": "Unknown",
+      "machine_id": 464346,
+      "name_at_capture": "adjacent-project resource",
+      "num_gpus_at_capture": 0,
+      "protection_basis": "adjacent-controller observation documented in AGENTS.md; never inspect or mutate",
+      "status_at_capture": "Protected"
+    },
+    {
+      "gpu_type_at_capture": "Unknown",
+      "machine_id": 464367,
+      "name_at_capture": "adjacent-project resource",
+      "num_gpus_at_capture": 0,
+      "protection_basis": "adjacent-controller observation documented in AGENTS.md; never inspect or mutate",
+      "status_at_capture": "Protected"
+    },
+    {
+      "gpu_type_at_capture": "Unknown",
+      "machine_id": 464377,
+      "name_at_capture": "adjacent-project resource",
+      "num_gpus_at_capture": 0,
+      "protection_basis": "adjacent-controller observation documented in AGENTS.md; never inspect or mutate",
+      "status_at_capture": "Protected"
+    },
+    {
+      "gpu_type_at_capture": "Unknown",
+      "machine_id": 464378,
+      "name_at_capture": "adjacent-project resource",
+      "num_gpus_at_capture": 0,
+      "protection_basis": "adjacent-controller observation documented in AGENTS.md; never inspect or mutate",
+      "status_at_capture": "Protected"
+    },
+    {
+      "gpu_type_at_capture": "Unknown",
+      "machine_id": 464382,
+      "name_at_capture": "adjacent-project resource",
+      "num_gpus_at_capture": 0,
+      "protection_basis": "adjacent-controller observation documented in AGENTS.md; never inspect or mutate",
+      "status_at_capture": "Protected"
+    },
+    {
+      "gpu_type_at_capture": "CPU",
+      "machine_id": 465072,
+      "name_at_capture": "barun-action-demo-public-v1",
+      "num_gpus_at_capture": 0,
+      "protection_basis": "user-authorized long-lived BarunAction public browser demo; operate only through its exact deployment record",
+      "status_at_capture": "Running"
+    },
+    {
+      "machine_id": 465155,
+      "name": "barun-scale-sweep-20260805",
+      "protected_at": "2026-08-05T19:52:00+05:30",
+      "reason": "Mobile scale-sweep attempt-1 zero-signal infrastructure failure (pytorch CPython 3.10.20 vs required 3.11.10); pause-verified project evidence; never resume/reuse/rename/stop/delete"
+    },
+    {
+      "gpu_type_at_capture": "H200",
+      "machine_id": 465183,
+      "name_at_capture": "barun-scale-sweep-a4-20260805",
+      "num_gpus_at_capture": 1,
+      "reason": "Mobile scale-sweep attempt-4 pre-resume create ID; migrated to 465186 on jl resume; never recreate/reuse as available",
+      "status_at_capture": "ABSENT_AFTER_RESUME_MIGRATE",
+      "template_at_capture": "axolotl"
+    },
+    {
+      "gpu_type_at_capture": "H200",
+      "machine_id": 465186,
+      "name_at_capture": "barun-scale-sweep-a4-20260805",
+      "num_gpus_at_capture": 1,
+      "reason": "Mobile scale-sweep attempt-4 evidence H200 (resume migrant of 465183); reference eval completed then flash_attn system-site ABI failure before challenger training; never resume/reuse/rename/stop/delete",
+      "status_at_capture": "Paused",
+      "template_at_capture": "axolotl"
+    }
+  ],
+  "schema_version": 1,
+  "source_command": "initial jl list --json with sensitive fields removed; later updates via infra/jarvis/safe_run.py inventory"
+}

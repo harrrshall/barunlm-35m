@@ -1,0 +1,22 @@
+{
+  "instance": {
+    "gpu_type": "H200",
+    "is_spot": false,
+    "machine_id": 465186,
+    "name": "barun-scale-sweep-a4-20260805",
+    "num_gpus": 1,
+    "region": "IN2",
+    "status": "Paused",
+    "template": "axolotl"
+  },
+  "machine_id": 465186,
+  "machine_id_history": [
+    465183
+  ],
+  "pause_verified_event": {
+    "at": "2026-08-05T15:22:22.535503+00:00",
+    "event": "pause_verified",
+    "status": "Paused"
+  },
+  "run_id": "r_28232019"
+}

@@ -1,0 +1,129 @@
+{
+  "access_counts": {
+    "challenger_training_fits": 0,
+    "challenger_weight_downloads": 1,
+    "official_961": 0,
+    "reference_evaluation": 1,
+    "selection_predictions": 725
+  },
+  "attempt": 4,
+  "authorization_boundary": {
+    "reason": "attempt-4 go authorizes exactly one fresh H200 lineage; resume migration 465183\u2192465186 is the same owned create; further GPU create is forbidden. flash_attn/system-site-packages failure requires a distinct successor contract and new independent audit before any further model access.",
+    "retry_without_new_audit_authorized": false,
+    "second_h200_authorized": false,
+    "third_gpu_authorized": false
+  },
+  "challenger_arms_completed": [],
+  "challenger_weight_downloads": 1,
+  "conclusion": "inconclusive",
+  "config_sha256": "c89b5c77a5531f617f1acc23e754c27336cf039830e9de7f00d44c8353e8dcb0",
+  "create_summary": {
+    "gpu_type": "H200",
+    "is_spot": false,
+    "machine_id": 465183,
+    "name": "barun-scale-sweep-a4-20260805",
+    "num_gpus": 1,
+    "region": "IN2",
+    "status": "Running",
+    "template": "axolotl"
+  },
+  "cuda_access": true,
+  "error": "After axolotl/CPython 3.11.10 attestation, env/tests gate (62 passed), data audit, and in-run hash-verified candidate-v2 reference evaluation on the fresh selection split (590/725 exact; schema_valid 723/725; truncations 0), the first challenger arm (pythia-70m-deduped) failed during AutoModelForCausalLM.from_pretrained: transformers imported flash_attn from the axolotl image system site-packages (/root/miniconda3/envs/py3.11/...) whose flash_attn_2_cuda extension has an undefined symbol against the managed uv venv torch 2.13.0 (jl run used uv venv --system-site-packages). No learning-rate screen completed; no adoption decision.",
+  "evidence_paths": {
+    "controller_death_incident": "experiments/runs/20260805-1554-mobile-scale-sweep-s17/attempt-4-controller-death-during-upload.json",
+    "essential_export": "experiments/runs/20260805-1554-mobile-scale-sweep-s17/essential/",
+    "failure_record": "experiments/runs/20260805-1554-mobile-scale-sweep-s17/attempt-4-infrastructure-failure.json",
+    "jarvis_lifecycle": "experiments/runs/20260805-1554-mobile-scale-sweep-s17/jarvis-attempt-4.json",
+    "launch_command": "experiments/runs/20260805-1554-mobile-scale-sweep-s17/launch-command-attempt-4.json",
+    "pause_proof": "experiments/runs/20260805-1554-mobile-scale-sweep-s17/pause-proof-attempt-4.json",
+    "remote_log": "experiments/runs/20260805-1554-mobile-scale-sweep-s17/jarvis-attempt-4-r_28232019.remote.log"
+  },
+  "failure_class": "infrastructure_flash_attn_system_site_packages_abi_mismatch",
+  "final_instance": {
+    "gpu_type": "H200",
+    "is_spot": false,
+    "machine_id": 465186,
+    "name": "barun-scale-sweep-a4-20260805",
+    "num_gpus": 1,
+    "region": "IN2",
+    "status": "Paused",
+    "template": "axolotl"
+  },
+  "go_receipt_sha256": "9bf60db79cc543e35eb5e664d1a79e761337720c0dbd663da64a8b62c6f4dac2",
+  "hardware_attestation": {
+    "observed": {
+      "gpu_type": "H200",
+      "is_spot": false,
+      "num_gpus": 1,
+      "region": "IN2",
+      "template": "axolotl"
+    },
+    "requested": {
+      "gpu_type": "H200",
+      "is_spot": false,
+      "num_gpus": 1,
+      "region": "IN2",
+      "template": "axolotl"
+    },
+    "verified_at": "2026-08-05T15:18:08.929590+00:00",
+    "verified_before_upload": true
+  },
+  "instance_name": "barun-scale-sweep-a4-20260805",
+  "jarvis_machine_id": 465186,
+  "machine_id_history": [
+    465183
+  ],
+  "managed_run_id": "r_28232019",
+  "model_access": true,
+  "official_961_access": false,
+  "pause_verified": true,
+  "phase_reached": "reference_evaluation_complete_first_challenger_model_load_failed",
+  "predictions_written": true,
+  "protected_going_forward": [
+    {
+      "machine_id": 465183,
+      "reason": "pre-resume create ID for attempt-4; never resume/reuse/rename/stop/delete"
+    },
+    {
+      "machine_id": 465186,
+      "reason": "attempt-4 scientific partial-run evidence H200 (resume migrant); pause-verified; never resume/reuse/rename/stop/delete"
+    }
+  ],
+  "python_runtime_attestation": {
+    "machine_id": 465186,
+    "observed": {
+      "implementation": "CPython",
+      "version": "3.11.10"
+    },
+    "requested": {
+      "implementation": "CPython",
+      "version": "3.11.10"
+    },
+    "verified_at": "2026-08-05T15:18:10.854847+00:00",
+    "verified_before_inventory_binding": true,
+    "verified_before_upload": true
+  },
+  "recorded_at": "2026-08-05T15:24:19.568043+00:00",
+  "reference_evaluation_completed": true,
+  "reference_scores": {
+    "aggregate_ast_exact_match": {
+      "denominator": 725,
+      "numerator": 590,
+      "value": 0.8137931034482758
+    },
+    "aggregate_sha256": "0ecd6735f2e4a464e27f5adddfd8e9e4b4010b50ffb19f9a7c82d50ab262200e",
+    "exact_match_count": 590,
+    "exact_match_percent": 81.37931034482759,
+    "generation_failure_count": 0,
+    "missing_prediction_count": 0,
+    "reference_result_sha256": "ccc9243dc778cb72d10f86451b7435cad63dcf28b915584c188f00b7664030c4",
+    "rows": 725,
+    "schema_valid_count": 723,
+    "truncated_count": 0
+  },
+  "run_id": "20260805-1554-mobile-scale-sweep-s17",
+  "schema_version": "barun-mobile-scale-sweep-attempt-failure-v1",
+  "scientific_result": null,
+  "template": "axolotl",
+  "training_started": false
+}

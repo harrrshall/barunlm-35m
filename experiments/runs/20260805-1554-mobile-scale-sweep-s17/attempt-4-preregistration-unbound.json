@@ -1,0 +1,46 @@
+{
+  "attempt": 4,
+  "authorized_scope_citation": "prelaunch-audit-attempt-4-go.json authorization.authorized_scope",
+  "authorizes_adoption_or_release": false,
+  "authorizes_candidate_v2_retraining": false,
+  "authorizes_model_or_label_access": false,
+  "authorizes_official_961_access": false,
+  "authorizes_second_gpu": false,
+  "compute": {
+    "gpu": "H200",
+    "is_spot": false,
+    "max_gpu_job_minutes": 360,
+    "num_gpus": 1,
+    "provider": "JarvisLabs",
+    "python_implementation": "CPython",
+    "python_version": "3.11.10",
+    "region": "IN2",
+    "storage_gb": 100,
+    "template": "axolotl"
+  },
+  "config_path": "configs/mobile_scale_sweep_v4.json",
+  "config_sha256": "c89b5c77a5531f617f1acc23e754c27336cf039830e9de7f00d44c8353e8dcb0",
+  "decision": "Adopt the smallest arm clearing +3.0 exact-match points over the in-run candidate-v2 reference with schema validity >= 0.95 and zero truncations/missing/generation failures; otherwise per-axis falsification.",
+  "go_receipt_path": "experiments/runs/20260805-1554-mobile-scale-sweep-s17/prelaunch-audit-attempt-4-go.json",
+  "go_receipt_sha256": "9bf60db79cc543e35eb5e664d1a79e761337720c0dbd663da64a8b62c6f4dac2",
+  "hypothesis": "Matched-adaptation base-model size/token sweep separates pretraining-token versus parameter axes for the candidate-v2 versus Qwen gap.",
+  "prelaunch_inventory": {
+    "captured_before_project_instance_creation": true,
+    "fresh_project_instance": true,
+    "project_machine_id": "__SAFE_RUN_MACHINE_ID__",
+    "protected_machine_ids": "__SAFE_RUN_PREEXISTING_IDS__"
+  },
+  "reference_checkpoint": {
+    "files_sha256": {
+      "barun_config.json": "9b3a1d71baa95a198744d250f9629231738d942570b8685c44307fd83dd33565",
+      "model.safetensors": "fdb95ccf58a095e0d321be998924318b35ee59a334f6dd97d8726d2cf80021d3",
+      "tokenizer.json": "70ded9605fccd09c2340ca7e225361eab0ae8b4dbbb0d6e26343ab5183979db6"
+    },
+    "identity": "candidate-v2",
+    "path": "reference-checkpoint"
+  },
+  "run_id": "20260805-1554-mobile-scale-sweep-s17",
+  "runner_module": "src/barunlm/baselines/mobile_scale_sweep.py",
+  "schema_version": "barun-mobile-scale-sweep-attempt-preregistration-v1",
+  "status": "unbound_create_exclusive_pending_fresh_h200"
+}
