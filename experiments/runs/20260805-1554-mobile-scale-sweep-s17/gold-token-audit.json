@@ -1,0 +1,204 @@
+{
+  "context_fit": "verified for every audited tokenizer on both splits",
+  "encoding_rule": "tokenizers.Tokenizer.encode(text, add_special_tokens=False) on the pinned tokenizer.json bytes; prompt and target encoded separately",
+  "global_max_target_tokens_with_eos": 197,
+  "max_new_tokens": 256,
+  "max_new_tokens_rule": "smallest multiple of 64 at or above (max gold target tokens + 1 EOS + 32 margin) across all audited tokenizers",
+  "max_seq_len": 2048,
+  "per_tokenizer": {
+    "barun-16384": {
+      "context_length": 2048,
+      "repo_id": "harrrshall/BarunLM-35M",
+      "revision": "ef3e483a9fd7d906ecf2a7929babeffaf82d1d16",
+      "selection": {
+        "eos_reserved": 1,
+        "max_target_tokens_with_eos": 192,
+        "prompt_tokens": {
+          "count": 725,
+          "max": 487,
+          "min": 214,
+          "p50": 246,
+          "p95": 295,
+          "p99": 311
+        },
+        "rows": 725,
+        "target_tokens": {
+          "count": 725,
+          "max": 191,
+          "min": 45,
+          "p50": 93,
+          "p95": 149,
+          "p99": 166
+        },
+        "total_with_eos": {
+          "count": 725,
+          "max": 660,
+          "min": 260,
+          "p50": 338,
+          "p95": 444,
+          "p99": 476
+        }
+      },
+      "sweep_train": {
+        "eos_reserved": 1,
+        "max_target_tokens_with_eos": 197,
+        "prompt_tokens": {
+          "count": 7212,
+          "max": 471,
+          "min": 213,
+          "p50": 248,
+          "p95": 292,
+          "p99": 310
+        },
+        "rows": 7212,
+        "target_tokens": {
+          "count": 7212,
+          "max": 196,
+          "min": 45,
+          "p50": 94,
+          "p95": 148,
+          "p99": 164
+        },
+        "total_with_eos": {
+          "count": 7212,
+          "max": 637,
+          "min": 259,
+          "p50": 342,
+          "p95": 439,
+          "p99": 471
+        }
+      },
+      "tokenizer_json_sha256": "70ded9605fccd09c2340ca7e225361eab0ae8b4dbbb0d6e26343ab5183979db6"
+    },
+    "gptneox-50304": {
+      "context_length": 2048,
+      "repo_id": "EleutherAI/pythia-70m-deduped",
+      "revision": "e93a9faa9c77e5d09219f6c868bfc7a1bd65593c",
+      "selection": {
+        "eos_reserved": 1,
+        "max_target_tokens_with_eos": 135,
+        "prompt_tokens": {
+          "count": 725,
+          "max": 437,
+          "min": 193,
+          "p50": 221,
+          "p95": 265,
+          "p99": 279
+        },
+        "rows": 725,
+        "target_tokens": {
+          "count": 725,
+          "max": 134,
+          "min": 29,
+          "p50": 62,
+          "p95": 102,
+          "p99": 116
+        },
+        "total_with_eos": {
+          "count": 725,
+          "max": 561,
+          "min": 223,
+          "p50": 282,
+          "p95": 367,
+          "p99": 401
+        }
+      },
+      "sweep_train": {
+        "eos_reserved": 1,
+        "max_target_tokens_with_eos": 150,
+        "prompt_tokens": {
+          "count": 7212,
+          "max": 413,
+          "min": 192,
+          "p50": 223,
+          "p95": 263,
+          "p99": 279
+        },
+        "rows": 7212,
+        "target_tokens": {
+          "count": 7212,
+          "max": 149,
+          "min": 29,
+          "p50": 63,
+          "p95": 102,
+          "p99": 114
+        },
+        "total_with_eos": {
+          "count": 7212,
+          "max": 529,
+          "min": 222,
+          "p50": 286,
+          "p95": 364,
+          "p99": 392
+        }
+      },
+      "tokenizer_json_sha256": "c24618a1b3e6a38167beff1c72cffd126c3a66254347304b50547d12c5f25624"
+    },
+    "smollm2-49152": {
+      "context_length": 8192,
+      "repo_id": "HuggingFaceTB/SmolLM2-135M",
+      "revision": "93efa2f097d58c2a74874c7e644dbc9b0cee75a2",
+      "selection": {
+        "eos_reserved": 1,
+        "max_target_tokens_with_eos": 153,
+        "prompt_tokens": {
+          "count": 725,
+          "max": 451,
+          "min": 196,
+          "p50": 231,
+          "p95": 277,
+          "p99": 293
+        },
+        "rows": 725,
+        "target_tokens": {
+          "count": 725,
+          "max": 152,
+          "min": 31,
+          "p50": 70,
+          "p95": 118,
+          "p99": 128
+        },
+        "total_with_eos": {
+          "count": 725,
+          "max": 585,
+          "min": 228,
+          "p50": 300,
+          "p95": 394,
+          "p99": 417
+        }
+      },
+      "sweep_train": {
+        "eos_reserved": 1,
+        "max_target_tokens_with_eos": 165,
+        "prompt_tokens": {
+          "count": 7212,
+          "max": 439,
+          "min": 195,
+          "p50": 233,
+          "p95": 275,
+          "p99": 292
+        },
+        "rows": 7212,
+        "target_tokens": {
+          "count": 7212,
+          "max": 164,
+          "min": 31,
+          "p50": 72,
+          "p95": 117,
+          "p99": 127
+        },
+        "total_with_eos": {
+          "count": 7212,
+          "max": 566,
+          "min": 227,
+          "p50": 305,
+          "p95": 392,
+          "p99": 418
+        }
+      },
+      "tokenizer_json_sha256": "9ca9acddb6525a194ec8ac7a87f24fbba7232a9a15ffa1af0c1224fcd888e47c"
+    }
+  },
+  "run_id": "20260805-1554-mobile-scale-sweep-s17",
+  "schema_version": "barun-mobile-scale-sweep-gold-token-audit-v1"
+}

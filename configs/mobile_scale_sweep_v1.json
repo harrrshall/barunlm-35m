@@ -1,0 +1,294 @@
+{
+  "schema_version": "barun-mobile-scale-sweep-config-v1",
+  "run_id": "20260805-1554-mobile-scale-sweep-s17",
+  "created_at": "2026-08-05T15:54:00+05:30",
+  "status": "cpu_prefreeze_blocked_pending_independent_prelaunch_audit",
+  "hypothesis": {
+    "statement": "BarunAction candidate-v2 (35M unique parameters, 602/756 on the reused Mobile probe) trails Qwen2.5-0.5B (663/756) and current evidence cannot distinguish whether the gap is driven by parameter count or by pretraining-token budget: BarunLM-35M saw about 5.7e9 pretraining tokens while trillion-token-class small models saw 300-4,500x more. A matched-adaptation sweep over pinned base checkpoints on the identical frozen Mobile Actions SFT recipe, scored on a fresh grouped selection split, separates the two axes.",
+    "token_axis": "EleutherAI/pythia-70m-deduped (~3e11 pretraining tokens) versus HuggingFaceTB/SmolLM2-135M (~2e12 tokens) at near-constant small parameter count.",
+    "parameter_axis": "HuggingFaceTB/SmolLM2-135M versus HuggingFaceTB/SmolLM2-360M (~4e12 tokens) at saturated token budgets, anchored above by the already-measured Qwen2.5-0.5B result (run 20260803-2122-mobile-qwen05b-matched-s17; never rerun) and below by candidate-v2 (never retrained).",
+    "decision_this_run_can_change": "Which base-model scale, and which axis (tokens versus parameters), the project adopts for the next post-training phase."
+  },
+  "decision_rule": {
+    "reference": "BarunAction candidate-v2 evaluated on the fresh selection split in the same run, before any challenger arm is scored, with the identical scorer, greedy decoding, and the frozen 256-token generation budget under the Barun tokenizer.",
+    "reference_bias_note": "candidate-v2 trained on every selection row (it used the full 7,937-row train set), so its reference score is upward-biased and the +3.0-point margin is conservative for challenger arms, which never train on selection rows.",
+    "margin_points": 3.0,
+    "schema_validity_floor": 0.95,
+    "hard_zeroes": ["truncations", "missing_predictions", "generation_failures"],
+    "ordering": "ascending unique parameter count; the smallest arm clearing every gate is adopted",
+    "axis_interpretation": {
+      "token_axis_supported": "SmolLM2-135M passes while pythia-70m-deduped fails, or the 135M-minus-70M exact-match gap on the selection split is at least 3.0 points.",
+      "parameter_axis_supported": "SmolLM2-360M exceeds SmolLM2-135M by at least 3.0 points on the selection split with both arms clearing validity gates.",
+      "falsification": "If no arm clears the margin over the upward-biased candidate-v2 reference, the scaling hypothesis is falsified at these budgets and candidate-v2 remains the release checkpoint; each axis conclusion is reported explicitly from the pairwise gaps regardless of adoption."
+    },
+    "learning_rate_screen_rule": "Each arm runs one full fit per learning rate in {1e-4, 3e-5} on the identical sweep-train rows; the fit with the higher selection-split exact-match count is the arm's headline, ties resolved toward the lower learning rate; a fit that fails to complete can never win and two failed fits make the arm a measured failure."
+  },
+  "anchors": {
+    "candidate_v2": {
+      "model_name": "BarunAction-35M",
+      "candidate_id": "candidate-v2",
+      "run_id": "20260803-1845-mob-batch63-s17",
+      "unique_parameters": 35072768,
+      "pretraining_tokens_claim": {
+        "value": 5699985408,
+        "source": "blog/stratalm-architecture-blog.md (BarunLM-35M pretraining corpus; StrataLM is the former working name)"
+      },
+      "reused_756_exact_match": "602/756 float (descriptive anchor only; not this run's selection metric)",
+      "checkpoint_sha256": {
+        "barun_config.json": "9b3a1d71baa95a198744d250f9629231738d942570b8685c44307fd83dd33565",
+        "model.safetensors": "fdb95ccf58a095e0d321be998924318b35ee59a334f6dd97d8726d2cf80021d3",
+        "tokenizer.json": "70ded9605fccd09c2340ca7e225361eab0ae8b4dbbb0d6e26343ab5183979db6"
+      },
+      "retrain": false
+    },
+    "qwen25_05b": {
+      "run_id": "20260803-2122-mobile-qwen05b-matched-s17",
+      "reused_756_exact_match": "663/756",
+      "rerun": false,
+      "pretraining_tokens_claim": {
+        "value": 1.8e13,
+        "source": "Qwen2.5 technical report, arXiv:2412.15115"
+      }
+    }
+  },
+  "data": {
+    "dataset": "google/mobile-actions",
+    "dataset_revision": "e920309bc2acbc2e99a5e3201cf37df2b9fd9151",
+    "source_sha256": "91d251ee958cfd295af6c4504c236a3a1ad19517de240c3bc680bacfcbf7e7d9",
+    "adapter_schema_version": "barun-mobile-actions-adapter-v2",
+    "split_policy_version": "barun-mobile-actions-connected-components-v1",
+    "train_manifest_sha256": "131473ccb5bfb51cac0439b42159e72ec4c598025e50364a52b122b056c2e84e",
+    "train_membership_sha256": "4cdfc3649c21a9f0d3dc4d8d9cffcae3cb5c6abc4414a9fb09636e9220afe96f",
+    "train_rows": 7937,
+    "dev_manifest_sha256": "988bdce5874d1f1a775feeb5ba2b58cd2bdc128f57e73cb9a63d535fae7c1d55",
+    "dev_membership_sha256": "31e0170c1de49d9c4591064587c405f0cb9f981e7026ac457f6fa2902b3647de",
+    "dev_rows": 756,
+    "audit_sha256": "dc756f97c0a7ef706ec8ffefe2d57cf7e16d75a6ccd932f906d16b6a6ee2f83c",
+    "official_eval_rows": 961,
+    "official_eval_firewall": "The runner accepts no source-dataset or official-eval path beyond the frozen train manifest whose preparation audit proves all 961 official rows remained opaque, unparsed, unmaterialized, un-tokenized, and excluded from overlap analysis. The reused 756-row development probe is not an input to selection; it may be reported descriptively post-hoc only.",
+    "fresh_split": {
+      "derivation_path": "held_out_from_train",
+      "derivation_note": "No untouched Mobile Actions rows exist outside train/756-dev/961-official (9,654 source rows = 8,693 eligible + 961 sealed; 8,693 = 7,937 train + 756 dev). The fresh selection split is therefore a preregistered grouped holdout of whole connected-component clusters from the frozen 7,937-row train manifest, removed identically from every arm's training data so the matched-budget property is preserved. No arm ever trains on a selection row.",
+      "policy_version": "barun-mobile-scale-sweep-selection-v1",
+      "grouping": "existing cluster_id connected components (ordered gold tool-name signature plus entity-delexicalized template families joined by MinHash-LSH verified Jaccard >= 0.8 near-duplicate edges), exactly as frozen by barun-mobile-actions-connected-components-v1",
+      "hash_rule": "sha256(policy_version + ':' + cluster_id), first 8 bytes big-endian, modulo folds; fold 0 is selection",
+      "folds": 10,
+      "fold": 0,
+      "sweep_train_rows": 7212,
+      "selection_rows": 725,
+      "sweep_train_clusters": 4716,
+      "selection_clusters": 589,
+      "sweep_train_manifest_sha256": "3328654532d7e767e2cb87becc6c5869a65044bba7aadb62a69582be34c04183",
+      "selection_manifest_sha256": "3bd2281fce6d6910de8e42b843562a060e1d4e654bfd3ce95c850189b9f00cfb",
+      "sweep_train_membership_sha256": "3e0a64bb31ce3c4571d66b6983906e01c457edf6e53b99170b5943f7afea214e",
+      "selection_membership_sha256": "5838748633d408ab93a57b89fef17c6e4446dbbe14889215b60606d257f8ebf9",
+      "exclusions": "none: every one of the 7,937 train rows is assigned to exactly one side; both partition manifests preserve original row order and exact serialized bytes",
+      "receipt_path": "experiments/runs/20260805-1554-mobile-scale-sweep-s17/split-receipt.json"
+    }
+  },
+  "roster": [
+    {
+      "arm_id": "pythia-70m-deduped",
+      "repo_id": "EleutherAI/pythia-70m-deduped",
+      "revision": "e93a9faa9c77e5d09219f6c868bfc7a1bd65593c",
+      "license": "apache-2.0",
+      "architecture": "GPTNeoXForCausalLM",
+      "safetensors_total_parameters": 95592496,
+      "parameter_note": "the 70m name class counts non-embedding parameters; untied embeddings bring the exact unique trainable count to 95,592,496",
+      "context_length": 2048,
+      "pretraining_tokens_claim": {
+        "value": 3e11,
+        "source": "Biderman et al., Pythia suite, arXiv:2304.01373: all Pythia models trained on ~300B tokens; the deduped Pile is ~207B unique tokens seen for ~1.5 epochs"
+      },
+      "tokenizer": {
+        "audit_key": "gptneox-50304",
+        "class": "GPTNeoXTokenizer",
+        "vocab_size": 50304,
+        "eos_token": "<|endoftext|>",
+        "eos_token_id": 0,
+        "pad_token_id": 0,
+        "tokenizer_json_sha256": "c24618a1b3e6a38167beff1c72cffd126c3a66254347304b50547d12c5f25624",
+        "tokenizer_config_sha256": "70e38394e494931c6f773ba41e19460dd4436526b852207367f04341b4066d3f",
+        "config_json_sha256": "002050231a9b1ec3ac77aa6b9b3bbdc4d923f4068a7dd33b8da72a9bd6ad9a43"
+      },
+      "transport": "raw_prompt_no_chat_template"
+    },
+    {
+      "arm_id": "smollm2-135m",
+      "repo_id": "HuggingFaceTB/SmolLM2-135M",
+      "revision": "93efa2f097d58c2a74874c7e644dbc9b0cee75a2",
+      "license": "apache-2.0",
+      "architecture": "LlamaForCausalLM",
+      "safetensors_total_parameters": 134515008,
+      "parameter_note": "tied input/output embeddings; unique trainable count equals the safetensors total",
+      "context_length": 8192,
+      "pretraining_tokens_claim": {
+        "value": 2e12,
+        "source": "SmolLM2-135M model card and Allal et al., SmolLM2, arXiv:2502.02737: 2 trillion tokens"
+      },
+      "tokenizer": {
+        "audit_key": "smollm2-49152",
+        "class": "GPT2Tokenizer",
+        "vocab_size": 49152,
+        "eos_token": "<|endoftext|>",
+        "eos_token_id": 0,
+        "pad_token_id": 0,
+        "tokenizer_json_sha256": "9ca9acddb6525a194ec8ac7a87f24fbba7232a9a15ffa1af0c1224fcd888e47c",
+        "tokenizer_config_sha256": "4bb9af56a342753d39374f4016a16574cab299fe088e896f425ce3c433f61424",
+        "config_json_sha256": "1d556eab73b69c7f11f64c557a2f9c6f440bd4c6b89bb2584a6b498c92603843"
+      },
+      "transport": "raw_prompt_no_chat_template"
+    },
+    {
+      "arm_id": "smollm2-360m",
+      "repo_id": "HuggingFaceTB/SmolLM2-360M",
+      "revision": "f8027fd0eaeea54caa13c31d31b9fdc459c38b49",
+      "license": "apache-2.0",
+      "architecture": "LlamaForCausalLM",
+      "safetensors_total_parameters": 361821120,
+      "parameter_note": "tied input/output embeddings; unique trainable count equals the safetensors total. This is the base checkpoint, not the Instruct variant whose chat-template recipe artifact produced the prior 0/756 with 407 truncations.",
+      "context_length": 8192,
+      "pretraining_tokens_claim": {
+        "value": 4e12,
+        "source": "SmolLM2-360M model card and Allal et al., SmolLM2, arXiv:2502.02737: 4 trillion tokens"
+      },
+      "tokenizer": {
+        "audit_key": "smollm2-49152",
+        "class": "GPT2Tokenizer",
+        "vocab_size": 49152,
+        "eos_token": "<|endoftext|>",
+        "eos_token_id": 0,
+        "pad_token_id": 0,
+        "tokenizer_json_sha256": "9ca9acddb6525a194ec8ac7a87f24fbba7232a9a15ffa1af0c1224fcd888e47c",
+        "tokenizer_config_sha256": "4bb9af56a342753d39374f4016a16574cab299fe088e896f425ce3c433f61424",
+        "config_json_sha256": "34f7801487078de7e434e19162c497e5cc6ff397080e40e8586627cb68a5168a"
+      },
+      "transport": "raw_prompt_no_chat_template"
+    }
+  ],
+  "transport": {
+    "version": "barun-raw-prompt-transport-v1",
+    "rule": "Every arm is a base (non-chat) checkpoint and receives the byte-identical model-visible prompt used by BarunAction candidate-v2, including the literal role-marker text, encoded with the arm's own pinned tokenizer.json via tokenizers.Tokenizer.encode(text, add_special_tokens=False). Prompt and target are encoded separately, exactly as at generation time; training appends exactly one native EOS token to the target and supervises only target-plus-EOS positions. Rows whose prompt or target already contains the EOS id abort the run.",
+    "termination_contract": "The training-appended EOS id must equal the generation stop id and the padding id for every arm (all three are the native <|endoftext|> id 0 for every roster tokenizer). This is the preregistered guard against the SmolLM2-360M-Instruct 0/756 recipe artifact, where generations never emitted the supervised stop token and 407/756 truncated.",
+    "chat_template_rule": "No chat template is applied anywhere in this sweep; the pinned base checkpoints ship none. The prior matched runs' native-chat transport remains frozen to their own instruct checkpoints."
+  },
+  "gold_token_audit": {
+    "schema_version": "barun-mobile-scale-sweep-gold-token-audit-v1",
+    "artifact_path": "experiments/runs/20260805-1554-mobile-scale-sweep-s17/gold-token-audit.json",
+    "encoding_rule": "tokenizers.Tokenizer.encode(text, add_special_tokens=False) on the pinned tokenizer.json bytes; prompt and target encoded separately",
+    "max_new_tokens_rule": "smallest multiple of 64 at or above (max gold target tokens + 1 EOS + 32 margin) across all audited tokenizers",
+    "global_max_target_tokens_with_eos": 197,
+    "max_new_tokens": 256,
+    "remote_reverification": "the GPU runner recomputes the audit per arm before training and aborts on any drift from these frozen values",
+    "per_tokenizer": {
+      "gptneox-50304": {
+        "sweep_train": {
+          "max_target_tokens_with_eos": 150,
+          "prompt_tokens_max": 413,
+          "total_with_eos_max": 529
+        },
+        "selection": {
+          "max_target_tokens_with_eos": 135,
+          "prompt_tokens_max": 437,
+          "total_with_eos_max": 561
+        }
+      },
+      "smollm2-49152": {
+        "sweep_train": {
+          "max_target_tokens_with_eos": 165,
+          "prompt_tokens_max": 439,
+          "total_with_eos_max": 566
+        },
+        "selection": {
+          "max_target_tokens_with_eos": 153,
+          "prompt_tokens_max": 451,
+          "total_with_eos_max": 585
+        }
+      },
+      "barun-16384": {
+        "sweep_train": {
+          "max_target_tokens_with_eos": 197,
+          "prompt_tokens_max": 471,
+          "total_with_eos_max": 637
+        },
+        "selection": {
+          "max_target_tokens_with_eos": 192,
+          "prompt_tokens_max": 487,
+          "total_with_eos_max": 660
+        }
+      }
+    },
+    "context_fit": "verified on CPU for every audited tokenizer on both splits: longest training row 660 <= 2048 and longest prompt 487 + 256 <= 2048; the prior 192-token budget would have truncated the 197-token Barun-tokenizer gold maximum and is superseded here"
+  },
+  "optimization": {
+    "method": "full_parameter_sft",
+    "seed": 17,
+    "epochs": 1,
+    "max_seq_len": 2048,
+    "precision": "bfloat16",
+    "attention_implementation": "eager",
+    "per_device_batch_size": 21,
+    "gradient_accumulation_steps": 3,
+    "effective_batch_size": 63,
+    "expected_optimizer_steps": 115,
+    "optimizer": "AdamW",
+    "learning_rate_screen": [3e-05, 0.0001],
+    "learning_rate_screen_note": "preregistered two-point screen per arm replacing the single 2e-05 of the matched instruct lane; each rate is one full fit and the screen is scored only on the fresh selection split",
+    "min_learning_rate_ratio": 0.1,
+    "warmup_steps": 12,
+    "weight_decay": 0.1,
+    "beta1": 0.9,
+    "beta2": 0.95,
+    "adam_epsilon": 1e-08,
+    "gradient_clip_norm": 1.0,
+    "gradient_checkpointing": true,
+    "checkpoint_policy": "final_only",
+    "early_stopping": false,
+    "identical_rows_across_arms": "every fit trains on exactly the 7,212 sweep-train rows in the same seed-17 deterministic presentation order over token IDs from its own tokenizer; no arm sees selection rows"
+  },
+  "evaluation": {
+    "population": "fresh_selection_split_only",
+    "population_manifest_sha256": "3bd2281fce6d6910de8e42b843562a060e1d4e654bfd3ce95c850189b9f00cfb",
+    "rows": 725,
+    "scorer_version": "barun-mobile-actions-score-v1",
+    "primary_metric": "ast_exact_match.value",
+    "decoding": "unconstrained_deterministic_greedy",
+    "grammar_constrained": false,
+    "generation_batch_size": 64,
+    "max_new_tokens": 256,
+    "generation_config_overrides": {
+      "do_sample": false,
+      "length_penalty": 1.0,
+      "no_repeat_ngram_size": 0,
+      "num_beams": 1,
+      "repetition_penalty": 1.0,
+      "temperature": null,
+      "top_k": null,
+      "top_p": null
+    },
+    "measured_failures": "missing predictions, truncations, OOMs, parse failures, and generation failures are counted as failures, never dropped",
+    "reference_evaluation": "candidate-v2 is loaded from its hash-pinned checkpoint and scored once on the same selection manifest with the same scorer, greedy decoding, and 256-token budget before any challenger arm is scored",
+    "reused_756_probe": "descriptive post-hoc reporting only; never a selection metric",
+    "official_961": "sealed and unread"
+  },
+  "compute": {
+    "plan": "single fresh exact-ID JarvisLabs H200 created as barun-scale-sweep-20260805 after the independent prelaunch audit passes; read-only safe inventory first, exact-ID lifecycle, pause-verify after artifact download",
+    "gpu": "1x H200",
+    "budget_minutes": 360,
+    "workload": "6 training fits (3 arms x 2 learning rates, 115 optimizer steps each) + 7 greedy generations over 725 rows (6 fits + candidate-v2 reference) + scoring",
+    "estimated_cost_inr": "1500-3300 at typical H200 hourly rates; hard budget 6 hours",
+    "protected_machine_ids": [463058, 463689, 463697, 463719, 463786, 463788, 463793, 463802, 463843, 463904, 463912, 463936, 463964, 464346, 464367, 464377, 464378, 464382],
+    "protected_machine_ids_source": "copied verbatim from configs/mobile_sub100m_off_the_shelf_v1.json compute.protected_machine_ids",
+    "network_scope_this_phase": "CPU/local build only; read-only Hugging Face metadata and small text/JSON files (tokenizer.json, config.json, pinned dataset.jsonl for the frozen manifest rebuild); no model weights downloaded, no GPU, no JarvisLabs mutation"
+  },
+  "authorization": {
+    "launch_authorized": false,
+    "gpu_authorized": false,
+    "cuda_authorized": false,
+    "jarvislabs_resource_creation_authorized": false,
+    "training_authorized": false,
+    "baseline_weight_download_authorized": false,
+    "official_961_access_authorized": false,
+    "independent_prelaunch_audit_passed": false
+  }
+}
