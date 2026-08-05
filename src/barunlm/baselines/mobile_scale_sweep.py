@@ -1,21 +1,18 @@
 """Matched-adaptation base-model size/token sweep for Mobile Actions.
 
 This module is the CPU-buildable core of run ``20260805-1554-mobile-scale-sweep-s17``
-(attempt 3).  It derives the fresh grouped selection split from the frozen
+(attempt 4).  It derives the fresh grouped selection split from the frozen
 7,937-row internal train manifest, audits gold token lengths per roster
 tokenizer, freezes the raw prompt transport and termination contract for base
 (non-chat) checkpoints, and binds the preregistered learning-rate screen and
-adoption decision rule.  Attempt 1 (config ``mobile_scale_sweep_v1.json``) and
-attempt 2 (config ``mobile_scale_sweep_v2.json``) were rejected by independent
-prelaunch audits; this attempt binds the successor ``mobile_scale_sweep_v3.json``
-which additionally pins and enforces the complete challenger snapshot file
-hashes (model.safetensors included, obtained via read-only Hugging Face LFS
-metadata), passes the frozen decoding overrides explicitly to every challenger
-``generate()`` call, implements the preregistered per-fit measured-failure
-semantics, installs the global torch seed, and binds dependency versions into
-the result.  The attempt-2 fixes (in-run candidate-v2 reference evaluation,
-in-code protected-machine-ID enforcement, corrected pythia-70m unique trainable
-parameter count, exact scorer-numerator join) all carry forward verified.
+adoption decision rule.  Attempts 1 and 2 were rejected by independent
+prelaunch audits; attempt 3 received a go and then failed as an inconclusive
+infrastructure mismatch on H200 465155 (``pytorch`` template / CPython 3.10.20
+versus required CPython 3.11.10).  This attempt binds the successor
+``mobile_scale_sweep_v4.json``, which keeps every scientific binding attempt-3
+accepted and freezes provider ``template=axolotl`` with CPython 3.11.10 so
+``safe_run`` and this runner fail closed at the earliest attestation gate.
+The spent attempt-3 go is never reused.
 
 The sealed 961-row official Mobile Actions evaluation tail is never an input:
 this runner accepts only the already-derived, hash-pinned internal-train
@@ -35,6 +32,7 @@ import fnmatch
 import hashlib
 import json
 import math
+import platform
 import re
 import shutil
 import time
@@ -54,21 +52,32 @@ from barunlm.training.data import (
     tokenize_examples,
 )
 
-SCALE_SWEEP_CONFIG_SCHEMA_VERSION = "barun-mobile-scale-sweep-config-v3"
-RESULT_SCHEMA_VERSION = "barun-mobile-scale-sweep-result-v3"
+SCALE_SWEEP_CONFIG_SCHEMA_VERSION = "barun-mobile-scale-sweep-config-v4"
+RESULT_SCHEMA_VERSION = "barun-mobile-scale-sweep-result-v4"
 RAW_TRANSPORT_VERSION = "barun-raw-prompt-transport-v1"
 SELECTION_POLICY_VERSION = "barun-mobile-scale-sweep-selection-v1"
 
 RUN_ID = "20260805-1554-mobile-scale-sweep-s17"
-CONFIG_PATH = Path(__file__).resolve().parents[3] / "configs" / "mobile_scale_sweep_v3.json"
-# Frozen after the attempt-3 CPU build, before any baseline weight download or training.
-CONFIG_SHA256 = "a67959b9b95aa72a6c9153234bb502490c800dba2c539ba9163e37cf4e539451"
+CONFIG_PATH = Path(__file__).resolve().parents[3] / "configs" / "mobile_scale_sweep_v4.json"
+# Frozen after the attempt-4 CPU build, before any baseline weight download or training.
+CONFIG_SHA256 = "c89b5c77a5531f617f1acc23e754c27336cf039830e9de7f00d44c8353e8dcb0"
 
-# Immutable rejected attempt-1/attempt-2 evidence; never edited, never loaded by this runner.
+# Immutable prior evidence; never edited, never loaded by this runner as the active config.
 ATTEMPT_1_CONFIG_SHA256 = "d3ee897f9afeefe1e01ec32fe9b2721479b7496785e742d0954ad081758953b8"
 ATTEMPT_1_NO_GO_SHA256 = "9bc9d3af9e633b08b6e0d0e1c3bfeedfa660cbe7755443ad58987f47e86e99e0"
 ATTEMPT_2_CONFIG_SHA256 = "c8d57f84013198094c27d06d35851e5320f66a5106e6f1cbc6407bfd5e78f593"
 ATTEMPT_2_NO_GO_SHA256 = "e693302843678bd6622b149a74320d8ca3bbbba77ea8ab4fb8a065b986ec8ef3"
+ATTEMPT_3_CONFIG_SHA256 = "a67959b9b95aa72a6c9153234bb502490c800dba2c539ba9163e37cf4e539451"
+ATTEMPT_3_GO_SHA256 = "d74d01e2078322c969db1158c54ebdc7343432635d223d78523226bae452f03b"
+ATTEMPT_1_INFRASTRUCTURE_FAILURE_SHA256 = (
+    "429ba84586a9b1ea503138e8defab9e595bdad7a08ec4fd148eee2743eee2855"
+)
+
+# Frozen provider runtime identity (matches successful axolotl H200 scientific runs).
+REQUIRED_PROVIDER_TEMPLATE = "axolotl"
+REQUIRED_PYTHON_IMPLEMENTATION = "CPython"
+REQUIRED_PYTHON_VERSION = "3.11.10"
+REQUIRED_PROTECTED_EVIDENCE_IDS = (465072, 465155)
 
 # The exact snapshot_download allow patterns; frozen in the config and validated equal.
 SNAPSHOT_ALLOW_PATTERNS = (
@@ -855,6 +864,7 @@ def load_frozen_config(path: str | Path = CONFIG_PATH) -> dict[str, Any]:
     if not isinstance(compute, dict):
         raise ScaleSweepError("config lacks the compute section")
     _validate_protected_ids(compute.get("protected_machine_ids"))
+    _validate_frozen_runtime_attestation(compute)
 
     return payload
 
@@ -868,9 +878,34 @@ def _validate_protected_ids(protected: Any) -> list[int]:
         or any(type(value) is not int or value < 1 for value in protected)
         or protected != sorted(set(protected))
         or 463058 not in protected
+        or any(machine_id not in protected for machine_id in REQUIRED_PROTECTED_EVIDENCE_IDS)
     ):
         raise ScaleSweepError("config protected machine ID denylist is invalid")
     return protected
+
+
+def _validate_frozen_runtime_attestation(compute: Mapping[str, Any]) -> None:
+    """Config load fails closed unless the provider runtime identity is frozen."""
+
+    expected = {
+        "template": REQUIRED_PROVIDER_TEMPLATE,
+        "python_implementation": REQUIRED_PYTHON_IMPLEMENTATION,
+        "python_version": REQUIRED_PYTHON_VERSION,
+        "provider": "JarvisLabs",
+        "gpu": "H200",
+        "num_gpus": 1,
+        "region": "IN2",
+        "is_spot": False,
+        "storage_gb": 100,
+        "max_gpu_job_minutes": 360,
+    }
+    for field, value in expected.items():
+        if compute.get(field) != value:
+            raise ScaleSweepError(
+                f"compute.{field} must be frozen to {value!r} "
+                f"(axolotl / CPython 3.11.10 attestation contract); "
+                f"got {compute.get(field)!r}"
+            )
 
 
 def enforce_machine_id(machine_id: Any, protected_machine_ids: Any) -> int:
@@ -888,6 +923,56 @@ def enforce_machine_id(machine_id: Any, protected_machine_ids: Any) -> int:
     if machine_id in protected:
         raise ScaleSweepError(f"jarvis machine ID {machine_id} is protected; refusing to run on it")
     return machine_id
+
+
+def enforce_runtime_attestation(
+    *,
+    compute: Mapping[str, Any],
+    observed_template: Any,
+    observed_python_implementation: Any | None = None,
+    observed_python_version: Any | None = None,
+) -> dict[str, str]:
+    """Fail closed at the earliest gate when live template/Python differ from freeze.
+
+    ``safe_run`` already attests the live JarvisLabs template and remote Python
+    identity before upload.  This runner independently re-checks the same
+    contract from the frozen config plus the live process identity so a
+    mismatched ``pytorch`` / 3.10 host cannot reach CUDA, download, training, or
+    scoring even if the controller gate were bypassed.
+    """
+
+    _validate_frozen_runtime_attestation(compute)
+    if observed_template != REQUIRED_PROVIDER_TEMPLATE:
+        raise ScaleSweepError(
+            "live provider template attestation does not match the frozen "
+            f"axolotl contract: observed {observed_template!r}, "
+            f"expected {REQUIRED_PROVIDER_TEMPLATE!r}"
+        )
+    implementation = (
+        REQUIRED_PYTHON_IMPLEMENTATION
+        if observed_python_implementation is None
+        else observed_python_implementation
+    )
+    version = (
+        platform.python_version() if observed_python_version is None else observed_python_version
+    )
+    if implementation != REQUIRED_PYTHON_IMPLEMENTATION:
+        raise ScaleSweepError(
+            "live Python implementation attestation does not match the frozen "
+            f"CPython contract: observed {implementation!r}, "
+            f"expected {REQUIRED_PYTHON_IMPLEMENTATION!r}"
+        )
+    if version != REQUIRED_PYTHON_VERSION:
+        raise ScaleSweepError(
+            "live Python version attestation does not match the frozen "
+            f"3.11.10 contract: observed {version!r}, "
+            f"expected {REQUIRED_PYTHON_VERSION!r}"
+        )
+    return {
+        "template": REQUIRED_PROVIDER_TEMPLATE,
+        "python_implementation": REQUIRED_PYTHON_IMPLEMENTATION,
+        "python_version": REQUIRED_PYTHON_VERSION,
+    }
 
 
 # ---------------------------------------------------------------------------
@@ -1532,15 +1617,26 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
     separate signed authorization. Never reads the sealed official rows.
     """
 
-    import torch
-
     config = load_frozen_config(args.config)
     if args.run_id != config["run_id"]:
         raise ScaleSweepError("CLI run_id differs from the frozen configuration")
+    # Earliest attestation gates: protected ID, then axolotl/CPython 3.11.10.
+    # Both must pass before Torch/CUDA is imported.
     enforce_machine_id(args.jarvis_machine_id, config["compute"]["protected_machine_ids"])
+    runtime_attestation = enforce_runtime_attestation(
+        compute=config["compute"],
+        observed_template=args.jarvis_template,
+        observed_python_implementation=platform.python_implementation(),
+        observed_python_version=platform.python_version(),
+    )
+
+    import torch
+
     if not torch.cuda.is_available() or not torch.cuda.is_bf16_supported():
         raise ScaleSweepError("the scale sweep requires CUDA with bfloat16 support")
     environment = environment_versions()
+    environment["provider_template"] = runtime_attestation["template"]
+    environment["python_implementation"] = runtime_attestation["python_implementation"]
     # No stochastic module exists on the honest path (no dropout, greedy decoding,
     # no weight init), but the global torch seed is installed anyway so the frozen
     # seed governs every torch RNG, not only the data presentation order.
@@ -1821,6 +1917,12 @@ def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--run-id", type=_run_id_argument, required=True)
     parser.add_argument("--jarvis-machine-id", type=_machine_id_argument, required=True)
+    parser.add_argument(
+        "--jarvis-template",
+        required=True,
+        help="live JarvisLabs provider template attested by safe_run before upload; "
+        "must equal the frozen axolotl contract or the runner aborts before CUDA work",
+    )
     parser.add_argument("--train-manifest", type=Path, required=True)
     parser.add_argument("--config", type=Path, default=CONFIG_PATH)
     parser.add_argument("--artifact-root", type=Path, required=True)
@@ -1845,9 +1947,12 @@ def main() -> None:
 
 __all__ = [
     "ATTEMPT_1_CONFIG_SHA256",
+    "ATTEMPT_1_INFRASTRUCTURE_FAILURE_SHA256",
     "ATTEMPT_1_NO_GO_SHA256",
     "ATTEMPT_2_CONFIG_SHA256",
     "ATTEMPT_2_NO_GO_SHA256",
+    "ATTEMPT_3_CONFIG_SHA256",
+    "ATTEMPT_3_GO_SHA256",
     "AUDIT_SHA256",
     "CONFIG_PATH",
     "CONFIG_SHA256",
@@ -1858,6 +1963,10 @@ __all__ = [
     "OFFICIAL_EVAL_ROWS",
     "OFFICIAL_SOURCE_SHA256",
     "RAW_TRANSPORT_VERSION",
+    "REQUIRED_PROTECTED_EVIDENCE_IDS",
+    "REQUIRED_PROVIDER_TEMPLATE",
+    "REQUIRED_PYTHON_IMPLEMENTATION",
+    "REQUIRED_PYTHON_VERSION",
     "RESULT_SCHEMA_VERSION",
     "RUN_ID",
     "SCALE_SWEEP_CONFIG_SCHEMA_VERSION",
@@ -1880,6 +1989,7 @@ __all__ = [
     "decide_adoption",
     "decoding_kwargs",
     "enforce_machine_id",
+    "enforce_runtime_attestation",
     "environment_versions",
     "fit_outcome_counts",
     "gold_token_length_audit",

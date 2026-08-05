@@ -1,14 +1,15 @@
-"""CPU-hermetic tests for the matched-adaptation scale-sweep rules (attempt 3).
+"""CPU-hermetic tests for the matched-adaptation scale-sweep rules (attempt 4).
 
 Covers the fresh grouped split derivation, the gold token-length audit and
 generation-budget rule, the raw prompt transport and termination contract, the
 preregistered learning-rate screen, the adoption decision rule, the immutable
-v3 configuration binding, the in-run candidate-v2 reference contract, the
-protected-machine-ID enforcement, the real-scorer outcome join, the complete
-challenger snapshot hash binding, the explicit frozen decoding overrides, the
-per-fit measured-failure semantics, and the environment version binding.  No
-network, GPU, or workstation-specific paths are used; committed repository
-files are the only fixtures.
+v4 configuration binding, the in-run candidate-v2 reference contract, the
+protected-machine-ID enforcement, the axolotl/CPython 3.11.10 runtime
+attestation gate, the real-scorer outcome join, the complete challenger
+snapshot hash binding, the explicit frozen decoding overrides, the per-fit
+measured-failure semantics, and the environment version binding.  No network,
+GPU, or workstation-specific paths are used; committed repository files are
+the only fixtures.
 """
 
 from __future__ import annotations
@@ -23,13 +24,20 @@ import pytest
 from barunaction.candidate import CANDIDATE_CHECKPOINT_SHA256
 from barunlm.baselines.mobile_scale_sweep import (
     ATTEMPT_1_CONFIG_SHA256,
+    ATTEMPT_1_INFRASTRUCTURE_FAILURE_SHA256,
     ATTEMPT_1_NO_GO_SHA256,
     ATTEMPT_2_CONFIG_SHA256,
     ATTEMPT_2_NO_GO_SHA256,
+    ATTEMPT_3_CONFIG_SHA256,
+    ATTEMPT_3_GO_SHA256,
     CONFIG_PATH,
     CONFIG_SHA256,
     ENVIRONMENT_PACKAGES,
     GOLD_AUDIT_FROZEN_FIELDS,
+    REQUIRED_PROTECTED_EVIDENCE_IDS,
+    REQUIRED_PROVIDER_TEMPLATE,
+    REQUIRED_PYTHON_IMPLEMENTATION,
+    REQUIRED_PYTHON_VERSION,
     RUN_ID,
     SCALE_SWEEP_CONFIG_SCHEMA_VERSION,
     SELECTION_POLICY_VERSION,
@@ -45,6 +53,7 @@ from barunlm.baselines.mobile_scale_sweep import (
     decide_adoption,
     decoding_kwargs,
     enforce_machine_id,
+    enforce_runtime_attestation,
     environment_versions,
     fit_outcome_counts,
     gold_token_length_audit,
@@ -581,12 +590,16 @@ def test_config_optimizer_step_budget_matches_sweep_rows() -> None:
     )
 
 
-def test_config_protected_ids_copied_from_sub100m_config() -> None:
+def test_config_protected_ids_extend_prior_denylist() -> None:
     config = load_frozen_config()
     source = json.loads(
         (REPO / "configs" / "mobile_sub100m_off_the_shelf_v1.json").read_text(encoding="utf-8")
     )
-    assert config["compute"]["protected_machine_ids"] == source["compute"]["protected_machine_ids"]
+    prior = source["compute"]["protected_machine_ids"]
+    protected = config["compute"]["protected_machine_ids"]
+    assert protected == sorted(set(prior) | set(REQUIRED_PROTECTED_EVIDENCE_IDS))
+    assert 465072 in protected
+    assert 465155 in protected
 
 
 def test_config_roster_is_pinned_and_matches_metadata_receipt() -> None:
@@ -628,11 +641,11 @@ def test_verify_partition_against_config_detects_drift(tmp_path: Path) -> None:
 
 
 # ---------------------------------------------------------------------------
-# Attempt-3 lineage: v1/v2 artifacts immutable, v3 successor cites both no-gos
+# Attempt-4 lineage: v1/v2/v3 artifacts immutable; v4 cites infra failure + spent go
 # ---------------------------------------------------------------------------
 
 
-def test_v1_v2_artifacts_untouched_and_v3_cites_lineage() -> None:
+def test_v1_v2_v3_artifacts_untouched_and_v4_cites_lineage() -> None:
     repo_v1 = REPO / "configs" / "mobile_scale_sweep_v1.json"
     assert hashlib.sha256(repo_v1.read_bytes()).hexdigest() == ATTEMPT_1_CONFIG_SHA256
     no_go_1 = RUN_DIR / "prelaunch-audit-attempt-1-no-go.json"
@@ -641,22 +654,64 @@ def test_v1_v2_artifacts_untouched_and_v3_cites_lineage() -> None:
     assert hashlib.sha256(repo_v2.read_bytes()).hexdigest() == ATTEMPT_2_CONFIG_SHA256
     no_go_2 = RUN_DIR / "prelaunch-audit-attempt-2-no-go.json"
     assert hashlib.sha256(no_go_2.read_bytes()).hexdigest() == ATTEMPT_2_NO_GO_SHA256
+    repo_v3 = REPO / "configs" / "mobile_scale_sweep_v3.json"
+    assert hashlib.sha256(repo_v3.read_bytes()).hexdigest() == ATTEMPT_3_CONFIG_SHA256
+    go_3 = RUN_DIR / "prelaunch-audit-attempt-3-go.json"
+    assert hashlib.sha256(go_3.read_bytes()).hexdigest() == ATTEMPT_3_GO_SHA256
+    infra = RUN_DIR / "attempt-1-infrastructure-failure.json"
+    assert hashlib.sha256(infra.read_bytes()).hexdigest() == ATTEMPT_1_INFRASTRUCTURE_FAILURE_SHA256
 
     config = load_frozen_config()
-    assert CONFIG_PATH.name == "mobile_scale_sweep_v3.json"
+    assert CONFIG_PATH.name == "mobile_scale_sweep_v4.json"
     assert (
         config["schema_version"]
         == SCALE_SWEEP_CONFIG_SCHEMA_VERSION
-        == ("barun-mobile-scale-sweep-config-v3")
+        == ("barun-mobile-scale-sweep-config-v4")
     )
     supersedes = config["supersedes"]
-    assert supersedes["config_sha256"] == ATTEMPT_2_CONFIG_SHA256
-    assert supersedes["prelaunch_audit_no_go_sha256"] == ATTEMPT_2_NO_GO_SHA256
-    assert supersedes["attempt"] == 3
+    assert supersedes["config_sha256"] == ATTEMPT_3_CONFIG_SHA256
+    assert supersedes["attempt"] == 4
+    assert supersedes["spent_attempt_3_go"]["sha256"] == ATTEMPT_3_GO_SHA256
+    assert supersedes["spent_attempt_3_go"]["reuse_authorized"] is False
+    assert (
+        supersedes["attempt_1_infrastructure_failure"]["sha256"]
+        == ATTEMPT_1_INFRASTRUCTURE_FAILURE_SHA256
+    )
+    assert supersedes["attempt_2_lineage"]["config_sha256"] == ATTEMPT_2_CONFIG_SHA256
+    assert supersedes["attempt_2_lineage"]["prelaunch_audit_no_go_sha256"] == ATTEMPT_2_NO_GO_SHA256
     lineage = supersedes["attempt_1_lineage"]
     assert lineage["config_sha256"] == ATTEMPT_1_CONFIG_SHA256
     assert lineage["prelaunch_audit_no_go_sha256"] == ATTEMPT_1_NO_GO_SHA256
-    assert len({CONFIG_SHA256, ATTEMPT_1_CONFIG_SHA256, ATTEMPT_2_CONFIG_SHA256}) == 3
+    assert (
+        len(
+            {
+                CONFIG_SHA256,
+                ATTEMPT_1_CONFIG_SHA256,
+                ATTEMPT_2_CONFIG_SHA256,
+                ATTEMPT_3_CONFIG_SHA256,
+            }
+        )
+        == 4
+    )
+
+
+def test_v4_scientific_bindings_match_attempt_3() -> None:
+    v3 = json.loads((REPO / "configs" / "mobile_scale_sweep_v3.json").read_text(encoding="utf-8"))
+    v4 = load_frozen_config()
+    for key in (
+        "hypothesis",
+        "decision_rule",
+        "reference_evaluation",
+        "anchors",
+        "data",
+        "roster",
+        "transport",
+        "gold_token_audit",
+        "optimization",
+        "evaluation",
+    ):
+        assert v4[key] == v3[key], key
+    assert all(value is False for value in v4["authorization"].values())
 
 
 # ---------------------------------------------------------------------------
@@ -688,6 +743,81 @@ def test_enforce_machine_id_rejects_malformed_inputs() -> None:
         enforce_machine_id(999_999, [1, 2, 3])
     with pytest.raises(ScaleSweepError, match="denylist"):
         enforce_machine_id(999_999, [463058, 400000])
+    # Prior denylist without the new evidence IDs is rejected at validation.
+    prior_only = [mid for mid in protected if mid not in REQUIRED_PROTECTED_EVIDENCE_IDS]
+    with pytest.raises(ScaleSweepError, match="denylist"):
+        enforce_machine_id(999_999, prior_only)
+
+
+# ---------------------------------------------------------------------------
+# Attempt-4 INFRA: axolotl / CPython 3.11.10 runtime attestation
+# ---------------------------------------------------------------------------
+
+
+def test_config_freezes_axolotl_cpython_31110_runtime() -> None:
+    config = load_frozen_config()
+    compute = config["compute"]
+    assert compute["template"] == REQUIRED_PROVIDER_TEMPLATE == "axolotl"
+    assert compute["python_implementation"] == REQUIRED_PYTHON_IMPLEMENTATION == "CPython"
+    assert compute["python_version"] == REQUIRED_PYTHON_VERSION == "3.11.10"
+    assert compute["provider"] == "JarvisLabs"
+    assert compute["gpu"] == "H200"
+    assert compute["num_gpus"] == 1
+    assert compute["region"] == "IN2"
+    assert compute["is_spot"] is False
+    assert compute["storage_gb"] == 100
+    assert compute["max_gpu_job_minutes"] == 360
+
+
+def test_enforce_runtime_attestation_accepts_frozen_axolotl_identity() -> None:
+    config = load_frozen_config()
+    receipt = enforce_runtime_attestation(
+        compute=config["compute"],
+        observed_template="axolotl",
+        observed_python_implementation="CPython",
+        observed_python_version="3.11.10",
+    )
+    assert receipt == {
+        "template": "axolotl",
+        "python_implementation": "CPython",
+        "python_version": "3.11.10",
+    }
+
+
+@pytest.mark.parametrize(
+    ("field", "bad_value", "match"),
+    [
+        ("observed_template", "pytorch", "template"),
+        ("observed_python_implementation", "PyPy", "implementation"),
+        ("observed_python_version", "3.10.20", "version"),
+        ("observed_python_version", "3.11.9", "version"),
+    ],
+)
+def test_enforce_runtime_attestation_rejects_mismatched_live_identity(
+    field: str, bad_value: str, match: str
+) -> None:
+    config = load_frozen_config()
+    kwargs = {
+        "observed_template": "axolotl",
+        "observed_python_implementation": "CPython",
+        "observed_python_version": "3.11.10",
+    }
+    kwargs[field] = bad_value
+    with pytest.raises(ScaleSweepError, match=match):
+        enforce_runtime_attestation(compute=config["compute"], **kwargs)
+
+
+def test_enforce_runtime_attestation_rejects_tampered_compute_contract() -> None:
+    config = load_frozen_config()
+    tampered = dict(config["compute"])
+    tampered["template"] = "pytorch"
+    with pytest.raises(ScaleSweepError, match="compute.template"):
+        enforce_runtime_attestation(
+            compute=tampered,
+            observed_template="axolotl",
+            observed_python_implementation="CPython",
+            observed_python_version="3.11.10",
+        )
 
 
 # ---------------------------------------------------------------------------
@@ -701,6 +831,8 @@ def _base_cli(tmp_path: Path) -> list[str]:
         RUN_ID,
         "--jarvis-machine-id",
         "999999",
+        "--jarvis-template",
+        "axolotl",
         "--train-manifest",
         str(tmp_path / "train.jsonl"),
         "--artifact-root",
@@ -714,9 +846,28 @@ def test_cli_rejects_reference_float_and_batch_size_overrides(tmp_path: Path) ->
     parser = build_parser()
     args = parser.parse_args(_base_cli(tmp_path))
     assert args.jarvis_machine_id == 999_999
+    assert args.jarvis_template == "axolotl"
     assert args.reference_checkpoint == tmp_path / "checkpoint"
     assert not hasattr(args, "reference_exact_percent")
     assert not hasattr(args, "generation_batch_size")
+
+
+def test_cli_requires_jarvis_template(tmp_path: Path) -> None:
+    parser = build_parser()
+    base = [
+        "--run-id",
+        RUN_ID,
+        "--jarvis-machine-id",
+        "999999",
+        "--train-manifest",
+        str(tmp_path / "train.jsonl"),
+        "--artifact-root",
+        str(tmp_path / "artifacts"),
+        "--reference-checkpoint",
+        str(tmp_path / "checkpoint"),
+    ]
+    with pytest.raises(SystemExit):
+        parser.parse_args(base)
     with pytest.raises(SystemExit):
         parser.parse_args([*_base_cli(tmp_path), "--reference-exact-percent", "83.0"])
     with pytest.raises(SystemExit):

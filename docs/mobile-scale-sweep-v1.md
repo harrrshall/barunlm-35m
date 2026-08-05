@@ -1,16 +1,49 @@
 # Mobile scale sweep: matched-adaptation base-model size/token sweep
 
 Run ID: `20260805-1554-mobile-scale-sweep-s17` (immutable).
-Status: attempt-3 CPU prefreeze complete; **blocked pending a fresh independent prelaunch
-audit**. No GPU, JarvisLabs resource, CUDA context, training step, or baseline weight download
-has occurred in any attempt.
+Status: attempt-4 CPU prefreeze complete; **blocked pending a fresh independent prelaunch
+audit of v4**. No second GPU was created. The spent attempt-3 go is not reused. H200
+**465155** remains permanently protected after the attempt-1 infrastructure failure.
 
-Frozen scientific config (attempt 3, current): `configs/mobile_scale_sweep_v3.json`, SHA-256
-`a67959b9b95aa72a6c9153234bb502490c800dba2c539ba9163e37cf4e539451`.
+Frozen scientific config (attempt 4, current): `configs/mobile_scale_sweep_v4.json`, SHA-256
+`c89b5c77a5531f617f1acc23e754c27336cf039830e9de7f00d44c8353e8dcb0`.
 
 Naming note: StrataLM is only the former working name of the base model; the canonical names are
 BarunLM-35M (base) and BarunAction-35M (post-trained). The pretraining evidence file
 `blog/stratalm-architecture-blog.md` keeps its historical path.
+
+## Attempt-3 go spent by infrastructure failure; attempt-4 runtime correction
+
+Attempt 3 (config `configs/mobile_scale_sweep_v3.json`, SHA-256
+`a67959b9b95aa72a6c9153234bb502490c800dba2c539ba9163e37cf4e539451`) passed its independent
+prelaunch audit (go SHA-256
+`d74d01e2078322c969db1158c54ebdc7343432635d223d78523226bae452f03b`) and created fresh H200
+**465155** (`barun-scale-sweep-20260805`) under `template=pytorch`. `safe_run` aborted before
+upload because live CPython was **3.10.20** while the controller requires **3.11.10** — the
+same failure class as Month-Boundary Counterfactual v1. Pause-verified; zero
+upload/tests/training/scoring/official-961. Immutable receipt:
+`experiments/runs/20260805-1554-mobile-scale-sweep-s17/attempt-1-infrastructure-failure.json`,
+SHA-256 `429ba84586a9b1ea503138e8defab9e595bdad7a08ec4fd148eee2743eee2855`. The attempt-3 go is
+**spent** and must never authorize a second H200 or an unaudited retry.
+
+Attempt 4 keeps the same immutable run directory with
+`preregistration-attempt-4.json` binding the successor v4 config. Scientific bindings
+(roster/snapshot/split/recipe/LR/decision/reference/decoding/measured-failure) are
+byte-identical to attempt 3. Infrastructure corrections only:
+
+- **INFRA-1** — freeze `template=axolotl` and `CPython 3.11.10` (plus the matching safe_run
+  fields: JarvisLabs, H200, `num_gpus=1`, `region=IN2`, `is_spot=false`, `storage_gb=100`,
+  `max_gpu_job_minutes=360`), matching successful prior H200 runs (MBCF hermetic v3 /
+  PlanIR / axolotl-template probe).
+- **INFRA-2** — add **465155** and **465072** to `compute.protected_machine_ids`; keep the full
+  prior denylist.
+- **INFRA-3** — cite the infrastructure-failure and spent-go hashes; state explicitly that v4
+  does **not** reuse the spent go — a new independent audit cycle is required.
+- **INFRA-4** — the runner validates frozen runtime fields at config load and refuses live
+  template/Python attestation that is not axolotl + CPython 3.11.10 before Torch/CUDA import,
+  download, training, or scoring (`--jarvis-template` required).
+
+All authorization flags remain false.
 
 ## Attempt-1 no-go and attempt-2 corrections
 
@@ -195,7 +228,7 @@ dropped rows.
 ## Decision rule
 
 Reference: candidate-v2 evaluated on the same selection split in the same run before any
-challenger arm is scored, through the in-run hash-verified path bound in the v3 config's
+challenger arm is scored, through the in-run hash-verified path bound in the v3/v4 config's
 `reference_evaluation` section (checkpoint pins from `src/barunaction/candidate.py`, greedy
 decoding, 256-token budget, same scorer; predictions and scores bound into `result.json`). An
 arm passes if its screen-selected fit clears **all** of: exact match at least reference + 3.0
@@ -207,32 +240,35 @@ these budgets and candidate-v2 remains the release checkpoint.
 
 ## Phase gates
 
-1. **CPU build (this phase, complete):** split derivation, roster pinning, token audit, frozen
-   config, runner, hermetic tests. All authorization flags are false.
-2. **Independent prelaunch audit:** a separate adversarial review of the config, split, runner,
-   and hygiene rules. Only its pass unlocks any compute action.
-3. **Single GPU launch:** one fresh exact-ID `barun-scale-sweep-*` H200 (read-only safe inventory
-   first; the 18-ID protected denylist is copied verbatim from
-   `configs/mobile_sub100m_off_the_shelf_v1.json`), hard budget 360 minutes, pause-verified by
-   exact ID after artifact download.
+1. **CPU build (this phase, complete for attempt 4):** split derivation, roster pinning, token
+   audit, frozen v4 config with axolotl/3.11.10 attestation, runner, hermetic tests. All
+   authorization flags are false.
+2. **Independent prelaunch audit of v4:** a separate adversarial review. The spent attempt-3 go
+   does not authorize launch. Only a fresh v4 go unlocks any compute action.
+3. **Single GPU launch (not authorized yet):** one fresh exact-ID `barun-scale-sweep-*` H200
+   under `template=axolotl` / CPython 3.11.10 (read-only safe inventory first; the protected
+   denylist includes 465072 and 465155), hard budget 360 minutes, pause-verified by exact ID
+   after artifact download. Never reuse 465155.
 
 ## Files
 
-- `configs/mobile_scale_sweep_v3.json` — immutable attempt-3 scientific config (hash above; the
-  runner binds it inline).
-- `configs/mobile_scale_sweep_v2.json`, `configs/mobile_scale_sweep_v1.json` — immutable
-  rejected attempt-2/attempt-1 configs; never loaded.
+- `configs/mobile_scale_sweep_v4.json` — immutable attempt-4 scientific+runtime config (hash
+  above; the runner binds it inline).
+- `configs/mobile_scale_sweep_v3.json`, `configs/mobile_scale_sweep_v2.json`,
+  `configs/mobile_scale_sweep_v1.json` — immutable prior configs; never loaded by the active
+  runner.
 - `src/barunlm/baselines/mobile_scale_sweep.py` — split derivation, audit, transport,
-  termination contract, LR screen, decision rule, machine-ID enforcement, in-run reference
-  evaluation, challenger snapshot verification, explicit decoding overrides, per-fit
-  measured-failure semantics, GPU runner (binds the v3 config hash).
-- `tests/test_mobile_scale_sweep.py` — 53 CPU-hermetic tests for every rule, including the
-  attempt-2 and attempt-3 corrections.
+  termination contract, LR screen, decision rule, machine-ID enforcement, axolotl/CPython
+  3.11.10 runtime attestation, in-run reference evaluation, challenger snapshot verification,
+  explicit decoding overrides, per-fit measured-failure semantics, GPU runner (binds the v4
+  config hash).
+- `tests/test_mobile_scale_sweep.py` — CPU-hermetic tests for every rule, including the
+  attempt-2/3 scientific corrections and the attempt-4 infrastructure attestation gate.
 - `experiments/runs/20260805-1554-mobile-scale-sweep-s17/` — `preregistration.json` (attempt 1,
-  immutable), `preregistration-attempt-2.json` (immutable), `preregistration-attempt-3.json`,
-  `prelaunch-audit-attempt-1-no-go.json` and `prelaunch-audit-attempt-2-no-go.json` (immutable),
-  `split-receipt.json`, `sweep-train-membership.txt`, `selection-membership.txt`,
-  `gold-token-audit.json`, `roster-metadata.json`, `snapshot-pins.json`, plus the build scripts
-  (`pin_roster_metadata.py`, `derive_fresh_split_and_audit.py`, `pin_snapshot_hashes.py`).
-- Ledger: the attempt-1 preregistration entry, both independent reject entries, and the
-  attempt-2/attempt-3 prefreeze entries appended to `experiments/ledger.jsonl`.
+  immutable), `preregistration-attempt-2.json` / `preregistration-attempt-3.json` (immutable),
+  `preregistration-attempt-4.json`, `prelaunch-audit-attempt-1-no-go.json` /
+  `prelaunch-audit-attempt-2-no-go.json` (immutable), `prelaunch-audit-attempt-3-go.json`
+  (spent), `attempt-1-infrastructure-failure.json`, `split-receipt.json`, membership files,
+  `gold-token-audit.json`, `roster-metadata.json`, `snapshot-pins.json`, plus the build scripts.
+- Ledger: prior attempt entries plus the attempt-4 prefreeze
+  `blocked_pending_independent_prelaunch_audit` entry appended to `experiments/ledger.jsonl`.
