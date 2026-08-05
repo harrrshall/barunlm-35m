@@ -1,10 +1,12 @@
-"""CPU-hermetic tests for the matched-adaptation scale-sweep rules (attempt 2).
+"""CPU-hermetic tests for the matched-adaptation scale-sweep rules (attempt 3).
 
 Covers the fresh grouped split derivation, the gold token-length audit and
 generation-budget rule, the raw prompt transport and termination contract, the
 preregistered learning-rate screen, the adoption decision rule, the immutable
-v2 configuration binding, the in-run candidate-v2 reference contract, the
-protected-machine-ID enforcement, and the real-scorer outcome join.  No
+v3 configuration binding, the in-run candidate-v2 reference contract, the
+protected-machine-ID enforcement, the real-scorer outcome join, the complete
+challenger snapshot hash binding, the explicit frozen decoding overrides, the
+per-fit measured-failure semantics, and the environment version binding.  No
 network, GPU, or workstation-specific paths are used; committed repository
 files are the only fixtures.
 """
@@ -22,19 +24,28 @@ from barunaction.candidate import CANDIDATE_CHECKPOINT_SHA256
 from barunlm.baselines.mobile_scale_sweep import (
     ATTEMPT_1_CONFIG_SHA256,
     ATTEMPT_1_NO_GO_SHA256,
+    ATTEMPT_2_CONFIG_SHA256,
+    ATTEMPT_2_NO_GO_SHA256,
     CONFIG_PATH,
     CONFIG_SHA256,
+    ENVIRONMENT_PACKAGES,
     GOLD_AUDIT_FROZEN_FIELDS,
     RUN_ID,
     SCALE_SWEEP_CONFIG_SCHEMA_VERSION,
     SELECTION_POLICY_VERSION,
+    SNAPSHOT_ALLOW_PATTERNS,
+    SNAPSHOT_REQUIRED_FILES,
     TRAIN_ROWS,
     ArmOutcome,
     LearningRateFit,
+    MeasuredFitFailure,
     ScaleSweepError,
+    build_decision,
     build_parser,
     decide_adoption,
+    decoding_kwargs,
     enforce_machine_id,
+    environment_versions,
     fit_outcome_counts,
     gold_token_length_audit,
     load_frozen_config,
@@ -43,6 +54,8 @@ from barunlm.baselines.mobile_scale_sweep import (
     select_learning_rate,
     selection_fold_for_cluster,
     tokenize_raw_rows,
+    validate_snapshot_pins,
+    verify_challenger_snapshot,
     verify_context_fit,
     verify_gold_audit_frozen,
     verify_partition_against_config,
@@ -615,28 +628,35 @@ def test_verify_partition_against_config_detects_drift(tmp_path: Path) -> None:
 
 
 # ---------------------------------------------------------------------------
-# Attempt-2 lineage: v1 artifacts immutable, v2 successor cites the no-go
+# Attempt-3 lineage: v1/v2 artifacts immutable, v3 successor cites both no-gos
 # ---------------------------------------------------------------------------
 
 
-def test_v1_artifacts_untouched_and_v2_cites_lineage() -> None:
+def test_v1_v2_artifacts_untouched_and_v3_cites_lineage() -> None:
     repo_v1 = REPO / "configs" / "mobile_scale_sweep_v1.json"
     assert hashlib.sha256(repo_v1.read_bytes()).hexdigest() == ATTEMPT_1_CONFIG_SHA256
-    no_go = RUN_DIR / "prelaunch-audit-attempt-1-no-go.json"
-    assert hashlib.sha256(no_go.read_bytes()).hexdigest() == ATTEMPT_1_NO_GO_SHA256
+    no_go_1 = RUN_DIR / "prelaunch-audit-attempt-1-no-go.json"
+    assert hashlib.sha256(no_go_1.read_bytes()).hexdigest() == ATTEMPT_1_NO_GO_SHA256
+    repo_v2 = REPO / "configs" / "mobile_scale_sweep_v2.json"
+    assert hashlib.sha256(repo_v2.read_bytes()).hexdigest() == ATTEMPT_2_CONFIG_SHA256
+    no_go_2 = RUN_DIR / "prelaunch-audit-attempt-2-no-go.json"
+    assert hashlib.sha256(no_go_2.read_bytes()).hexdigest() == ATTEMPT_2_NO_GO_SHA256
 
     config = load_frozen_config()
-    assert CONFIG_PATH.name == "mobile_scale_sweep_v2.json"
+    assert CONFIG_PATH.name == "mobile_scale_sweep_v3.json"
     assert (
         config["schema_version"]
         == SCALE_SWEEP_CONFIG_SCHEMA_VERSION
-        == ("barun-mobile-scale-sweep-config-v2")
+        == ("barun-mobile-scale-sweep-config-v3")
     )
     supersedes = config["supersedes"]
-    assert supersedes["config_sha256"] == ATTEMPT_1_CONFIG_SHA256
-    assert supersedes["prelaunch_audit_no_go_sha256"] == ATTEMPT_1_NO_GO_SHA256
-    assert supersedes["attempt"] == 2
-    assert CONFIG_SHA256 != ATTEMPT_1_CONFIG_SHA256
+    assert supersedes["config_sha256"] == ATTEMPT_2_CONFIG_SHA256
+    assert supersedes["prelaunch_audit_no_go_sha256"] == ATTEMPT_2_NO_GO_SHA256
+    assert supersedes["attempt"] == 3
+    lineage = supersedes["attempt_1_lineage"]
+    assert lineage["config_sha256"] == ATTEMPT_1_CONFIG_SHA256
+    assert lineage["prelaunch_audit_no_go_sha256"] == ATTEMPT_1_NO_GO_SHA256
+    assert len({CONFIG_SHA256, ATTEMPT_1_CONFIG_SHA256, ATTEMPT_2_CONFIG_SHA256}) == 3
 
 
 # ---------------------------------------------------------------------------
@@ -931,3 +951,302 @@ def test_generation_batch_size_is_frozen_in_config() -> None:
     config = load_frozen_config()
     assert config["evaluation"]["generation_batch_size"] == 64
     assert "no CLI" in config["evaluation"]["generation_batch_size_binding"]
+
+
+# ---------------------------------------------------------------------------
+# P0-3: complete challenger snapshot hash binding
+# ---------------------------------------------------------------------------
+
+_SYNTHETIC_SNAPSHOT_CONTENTS = {
+    "config.json": b'{"architectures": ["SyntheticForCausalLM"]}',
+    "generation_config.json": b'{"eos_token_id": 0}',
+    "model.safetensors": b"synthetic weight bytes",
+    "special_tokens_map.json": b"{}",
+    "tokenizer.json": b'{"model": {}}',
+    "tokenizer_config.json": b'{"eos_token": "<x>"}',
+}
+
+
+def _synthetic_snapshot(tmp_path: Path) -> tuple[dict[str, object], Path]:
+    snapshot = tmp_path / "snapshot"
+    snapshot.mkdir(parents=True, exist_ok=True)
+    pins: dict[str, dict[str, object]] = {}
+    for name, payload in _SYNTHETIC_SNAPSHOT_CONTENTS.items():
+        (snapshot / name).write_bytes(payload)
+        pins[name] = {"sha256": hashlib.sha256(payload).hexdigest(), "bytes": len(payload)}
+    arm = {
+        "arm_id": "synthetic",
+        "snapshot_allow_patterns": list(SNAPSHOT_ALLOW_PATTERNS),
+        "snapshot_files": pins,
+        "tokenizer": {
+            "tokenizer_json_sha256": pins["tokenizer.json"]["sha256"],
+            "tokenizer_config_sha256": pins["tokenizer_config.json"]["sha256"],
+            "config_json_sha256": pins["config.json"]["sha256"],
+        },
+    }
+    return arm, snapshot
+
+
+def test_verify_challenger_snapshot_accepts_exact_pins(tmp_path: Path) -> None:
+    arm, snapshot = _synthetic_snapshot(tmp_path)
+    verified = verify_challenger_snapshot(snapshot, arm)
+    assert verified == {name: entry["sha256"] for name, entry in arm["snapshot_files"].items()}
+
+
+def test_every_pinned_snapshot_file_is_enforced(tmp_path: Path) -> None:
+    """Enforcement iterates the pin table itself: corrupting any single pinned
+    file (same byte length, different bytes) is rejected by name, so no
+    advertised pin can be left unenforced."""
+
+    arm, _snapshot = _synthetic_snapshot(tmp_path / "reference")
+    assert set(arm["snapshot_files"]) >= set(SNAPSHOT_REQUIRED_FILES)
+    for index, name in enumerate(sorted(arm["snapshot_files"])):
+        _, snapshot = _synthetic_snapshot(tmp_path / f"case-{index}")
+        original = _SYNTHETIC_SNAPSHOT_CONTENTS[name]
+        corrupted = bytes(byte ^ 0xFF for byte in original)
+        assert len(corrupted) == len(original)
+        (snapshot / name).write_bytes(corrupted)
+        with pytest.raises(ScaleSweepError, match=name.replace(".", r"\.")):
+            verify_challenger_snapshot(snapshot, arm)
+
+
+def test_verify_challenger_snapshot_rejects_set_and_size_drift(tmp_path: Path) -> None:
+    arm, snapshot = _synthetic_snapshot(tmp_path / "extra")
+    (snapshot / "model-00001-of-00002.safetensors").write_bytes(b"smuggled shard")
+    with pytest.raises(ScaleSweepError, match="file set"):
+        verify_challenger_snapshot(snapshot, arm)
+
+    arm, snapshot = _synthetic_snapshot(tmp_path / "missing")
+    (snapshot / "model.safetensors").unlink()
+    with pytest.raises(ScaleSweepError, match="file set"):
+        verify_challenger_snapshot(snapshot, arm)
+
+    arm, snapshot = _synthetic_snapshot(tmp_path / "size")
+    payload = _SYNTHETIC_SNAPSHOT_CONTENTS["model.safetensors"] + b"!"
+    (snapshot / "model.safetensors").write_bytes(payload)
+    with pytest.raises(ScaleSweepError, match="bytes"):
+        verify_challenger_snapshot(snapshot, arm)
+
+
+def test_validate_snapshot_pins_rejects_malformed_tables(tmp_path: Path) -> None:
+    def broken(mutate) -> dict[str, object]:
+        arm, _snapshot = _synthetic_snapshot(tmp_path / "template")
+        mutate(arm)
+        return arm
+
+    with pytest.raises(ScaleSweepError, match="snapshot_files"):
+        validate_snapshot_pins(broken(lambda arm: arm.pop("snapshot_files")))
+    with pytest.raises(ScaleSweepError, match="model.safetensors"):
+        validate_snapshot_pins(broken(lambda arm: arm["snapshot_files"].pop("model.safetensors")))
+    with pytest.raises(ScaleSweepError, match="64-hex"):
+        validate_snapshot_pins(
+            broken(lambda arm: arm["snapshot_files"]["config.json"].update(sha256="ABC123"))
+        )
+    with pytest.raises(ScaleSweepError, match="byte size"):
+        validate_snapshot_pins(
+            broken(lambda arm: arm["snapshot_files"]["config.json"].update(bytes=0))
+        )
+    with pytest.raises(ScaleSweepError, match="allow pattern"):
+        validate_snapshot_pins(
+            broken(
+                lambda arm: arm["snapshot_files"].update(
+                    {"vocab.json": {"sha256": "0" * 64, "bytes": 1}}
+                )
+            )
+        )
+    with pytest.raises(ScaleSweepError, match="snapshot_allow_patterns"):
+        validate_snapshot_pins(broken(lambda arm: arm.update(snapshot_allow_patterns=[])))
+    # An advertised tokenizer/config hash that disagrees with the snapshot pin
+    # is exactly the advertised-but-unenforced defect class; it must be rejected.
+    with pytest.raises(ScaleSweepError, match="config_json_sha256"):
+        validate_snapshot_pins(
+            broken(lambda arm: arm["tokenizer"].update(config_json_sha256="0" * 64))
+        )
+    with pytest.raises(ScaleSweepError, match="tokenizer_json_sha256"):
+        validate_snapshot_pins(
+            broken(lambda arm: arm["tokenizer"].update(tokenizer_json_sha256="0" * 64))
+        )
+
+
+def test_config_pins_full_challenger_snapshots_and_matches_receipts() -> None:
+    config = load_frozen_config()
+    receipt = json.loads((RUN_DIR / "snapshot-pins.json").read_text(encoding="utf-8"))
+    receipt_by_arm = {entry["arm_id"]: entry for entry in receipt["arms"]}
+    roster_receipt = json.loads((RUN_DIR / "roster-metadata.json").read_text(encoding="utf-8"))
+    roster_by_repo = {entry["repo_id"]: entry for entry in roster_receipt["models"]}
+    weight_hashes = set()
+    for arm in config["roster"]:
+        pins = arm["snapshot_files"]
+        pinned_receipt = receipt_by_arm[arm["arm_id"]]
+        assert pinned_receipt["revision"] == arm["revision"]
+        assert arm["snapshot_allow_patterns"] == list(SNAPSHOT_ALLOW_PATTERNS)
+        assert pinned_receipt["allow_patterns"] == list(SNAPSHOT_ALLOW_PATTERNS)
+        # The frozen pin table equals the read-only HF metadata receipt exactly.
+        assert set(pins) == set(pinned_receipt["files"])
+        for name, entry in pins.items():
+            assert entry["sha256"] == pinned_receipt["files"][name]["sha256"], name
+            assert entry["bytes"] == pinned_receipt["files"][name]["bytes"], name
+        for required in SNAPSHOT_REQUIRED_FILES:
+            assert required in pins
+        weight_hashes.add(pins["model.safetensors"]["sha256"])
+        # Attempt-1 roster metadata hashes stay consistent with the pin table.
+        downloaded = roster_by_repo[arm["repo_id"]]["downloaded_metadata_files"]
+        for name, meta in downloaded.items():
+            assert pins[name]["sha256"] == meta["sha256"], name
+            assert pins[name]["bytes"] == meta["bytes"], name
+    assert len(weight_hashes) == 3, "each arm pins a distinct model.safetensors"
+    arms = {arm["arm_id"]: arm for arm in config["roster"]}
+    # pythia has no generation_config.json at its pinned revision: its absence is
+    # pinned through exact file-set equality, never silently tolerated.
+    assert "generation_config.json" not in arms["pythia-70m-deduped"]["snapshot_files"]
+    for arm_id in ("smollm2-135m", "smollm2-360m"):
+        assert "generation_config.json" in arms[arm_id]["snapshot_files"]
+
+
+# ---------------------------------------------------------------------------
+# P2-A: frozen decoding overrides are validated and passed explicitly
+# ---------------------------------------------------------------------------
+
+
+def test_decoding_kwargs_passes_frozen_greedy_contract() -> None:
+    config = load_frozen_config()
+    kwargs = decoding_kwargs(config["evaluation"])
+    assert kwargs == {
+        "do_sample": False,
+        "length_penalty": 1.0,
+        "no_repeat_ngram_size": 0,
+        "num_beams": 1,
+        "repetition_penalty": 1.0,
+    }
+    assert None not in kwargs.values()
+
+
+def test_decoding_kwargs_rejects_any_contract_drift() -> None:
+    config = load_frozen_config()
+    frozen = config["evaluation"]["generation_config_overrides"]
+
+    def evaluation_with(overrides: dict[str, object]) -> dict[str, object]:
+        return {"generation_config_overrides": overrides}
+
+    for mutate in (
+        lambda o: o.update(do_sample=True),
+        lambda o: o.update(temperature=0.7),
+        lambda o: o.update(num_beams=4),
+        lambda o: o.update(repetition_penalty=1.2),
+        lambda o: o.pop("no_repeat_ngram_size"),
+        lambda o: o.update(extra_field=1),
+    ):
+        overrides = dict(frozen)
+        mutate(overrides)
+        with pytest.raises(ScaleSweepError, match="frozen greedy contract"):
+            decoding_kwargs(evaluation_with(overrides))
+    with pytest.raises(ScaleSweepError, match="frozen greedy contract"):
+        decoding_kwargs({})
+
+
+# ---------------------------------------------------------------------------
+# P2-B: per-fit measured-failure semantics
+# ---------------------------------------------------------------------------
+
+
+def test_measured_fit_failure_is_a_scale_sweep_error_subclass() -> None:
+    assert issubclass(MeasuredFitFailure, ScaleSweepError)
+    with pytest.raises(ScaleSweepError):
+        raise MeasuredFitFailure("non-finite training loss at optimizer step 1")
+
+
+def test_config_freezes_per_fit_measured_failure_semantics() -> None:
+    config = load_frozen_config()
+    semantics = config["optimization"]["fit_failure_semantics"]
+    assert semantics["per_fit_measured_failure"] is True
+    assert semantics["measured_failure_classes"] == [
+        "cuda_out_of_memory",
+        "non_finite_training_loss",
+    ]
+    assert "abort" in semantics["rule"]
+    assert "manual_seed" in config["optimization"]["seed_scope"]
+
+
+def test_build_decision_records_measured_failed_arms() -> None:
+    decision = build_decision(
+        [
+            _outcome("smollm2-135m", 134_515_008, 640),
+            _outcome("smollm2-360m", 361_821_120, 700),
+        ],
+        measured_failed_arm_ids=["pythia-70m-deduped"],
+        reference_exact_percent=80.0,
+        margin_points=3.0,
+        schema_validity_floor=0.95,
+    )
+    assert decision["adopted_arm_id"] == "smollm2-135m"
+    assert decision["measured_failed_arm_ids"] == ["pythia-70m-deduped"]
+    assert "never be adopted" in decision["measured_failure_rule"]
+
+
+def test_build_decision_handles_all_arms_measured_failure() -> None:
+    decision = build_decision(
+        [],
+        measured_failed_arm_ids=["a", "b", "c"],
+        reference_exact_percent=80.0,
+        margin_points=3.0,
+        schema_validity_floor=0.95,
+    )
+    assert decision["adopted_arm_id"] is None
+    assert decision["all_arms_falsified"] is True
+    assert decision["arms"] == []
+    assert decision["measured_failed_arm_ids"] == ["a", "b", "c"]
+
+
+def test_build_decision_rejects_overlap_duplicates_and_empty() -> None:
+    with pytest.raises(ScaleSweepError, match="unique"):
+        build_decision(
+            [],
+            measured_failed_arm_ids=["a", "a"],
+            reference_exact_percent=80.0,
+            margin_points=3.0,
+            schema_validity_floor=0.95,
+        )
+    with pytest.raises(ScaleSweepError, match="at least one"):
+        build_decision(
+            [],
+            measured_failed_arm_ids=[],
+            reference_exact_percent=80.0,
+            margin_points=3.0,
+            schema_validity_floor=0.95,
+        )
+    with pytest.raises(ScaleSweepError, match="both scored and measured"):
+        build_decision(
+            [_outcome("a", 1, 700)],
+            measured_failed_arm_ids=["a"],
+            reference_exact_percent=80.0,
+            margin_points=3.0,
+            schema_validity_floor=0.95,
+        )
+    with pytest.raises(ScaleSweepError, match="\\[0, 100\\]"):
+        build_decision(
+            [],
+            measured_failed_arm_ids=["a"],
+            reference_exact_percent=101.0,
+            margin_points=3.0,
+            schema_validity_floor=0.95,
+        )
+
+
+# ---------------------------------------------------------------------------
+# P3-B: environment version binding
+# ---------------------------------------------------------------------------
+
+
+def test_environment_versions_bind_required_packages() -> None:
+    assert ENVIRONMENT_PACKAGES == (
+        "huggingface_hub",
+        "safetensors",
+        "tokenizers",
+        "torch",
+        "transformers",
+    )
+    versions = environment_versions(packages=("tokenizers",))
+    assert set(versions) == {"python", "tokenizers"}
+    assert all(isinstance(value, str) and value for value in versions.values())
+    with pytest.raises(ScaleSweepError, match="not installed"):
+        environment_versions(packages=("barun-nonexistent-package",))

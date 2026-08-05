@@ -1,16 +1,21 @@
 """Matched-adaptation base-model size/token sweep for Mobile Actions.
 
 This module is the CPU-buildable core of run ``20260805-1554-mobile-scale-sweep-s17``
-(attempt 2).  It derives the fresh grouped selection split from the frozen
+(attempt 3).  It derives the fresh grouped selection split from the frozen
 7,937-row internal train manifest, audits gold token lengths per roster
 tokenizer, freezes the raw prompt transport and termination contract for base
 (non-chat) checkpoints, and binds the preregistered learning-rate screen and
-adoption decision rule.  Attempt 1 (config ``mobile_scale_sweep_v1.json``) was
-rejected by the independent prelaunch audit; this attempt binds the successor
-``mobile_scale_sweep_v2.json`` with an in-run candidate-v2 reference evaluation
-(no CLI float can supply the decision-critical reference score), in-code
-protected-machine-ID enforcement, and the corrected pythia-70m unique trainable
-parameter count.
+adoption decision rule.  Attempt 1 (config ``mobile_scale_sweep_v1.json``) and
+attempt 2 (config ``mobile_scale_sweep_v2.json``) were rejected by independent
+prelaunch audits; this attempt binds the successor ``mobile_scale_sweep_v3.json``
+which additionally pins and enforces the complete challenger snapshot file
+hashes (model.safetensors included, obtained via read-only Hugging Face LFS
+metadata), passes the frozen decoding overrides explicitly to every challenger
+``generate()`` call, implements the preregistered per-fit measured-failure
+semantics, installs the global torch seed, and binds dependency versions into
+the result.  The attempt-2 fixes (in-run candidate-v2 reference evaluation,
+in-code protected-machine-ID enforcement, corrected pythia-70m unique trainable
+parameter count, exact scorer-numerator join) all carry forward verified.
 
 The sealed 961-row official Mobile Actions evaluation tail is never an input:
 this runner accepts only the already-derived, hash-pinned internal-train
@@ -26,6 +31,7 @@ rule CPU-testable without network access.
 from __future__ import annotations
 
 import argparse
+import fnmatch
 import hashlib
 import json
 import math
@@ -48,19 +54,40 @@ from barunlm.training.data import (
     tokenize_examples,
 )
 
-SCALE_SWEEP_CONFIG_SCHEMA_VERSION = "barun-mobile-scale-sweep-config-v2"
-RESULT_SCHEMA_VERSION = "barun-mobile-scale-sweep-result-v2"
+SCALE_SWEEP_CONFIG_SCHEMA_VERSION = "barun-mobile-scale-sweep-config-v3"
+RESULT_SCHEMA_VERSION = "barun-mobile-scale-sweep-result-v3"
 RAW_TRANSPORT_VERSION = "barun-raw-prompt-transport-v1"
 SELECTION_POLICY_VERSION = "barun-mobile-scale-sweep-selection-v1"
 
 RUN_ID = "20260805-1554-mobile-scale-sweep-s17"
-CONFIG_PATH = Path(__file__).resolve().parents[3] / "configs" / "mobile_scale_sweep_v2.json"
-# Frozen after the attempt-2 CPU build, before any baseline weight download or training.
-CONFIG_SHA256 = "c8d57f84013198094c27d06d35851e5320f66a5106e6f1cbc6407bfd5e78f593"
+CONFIG_PATH = Path(__file__).resolve().parents[3] / "configs" / "mobile_scale_sweep_v3.json"
+# Frozen after the attempt-3 CPU build, before any baseline weight download or training.
+CONFIG_SHA256 = "a67959b9b95aa72a6c9153234bb502490c800dba2c539ba9163e37cf4e539451"
 
-# Immutable rejected attempt-1 evidence; never edited, never loaded by this runner.
+# Immutable rejected attempt-1/attempt-2 evidence; never edited, never loaded by this runner.
 ATTEMPT_1_CONFIG_SHA256 = "d3ee897f9afeefe1e01ec32fe9b2721479b7496785e742d0954ad081758953b8"
 ATTEMPT_1_NO_GO_SHA256 = "9bc9d3af9e633b08b6e0d0e1c3bfeedfa660cbe7755443ad58987f47e86e99e0"
+ATTEMPT_2_CONFIG_SHA256 = "c8d57f84013198094c27d06d35851e5320f66a5106e6f1cbc6407bfd5e78f593"
+ATTEMPT_2_NO_GO_SHA256 = "e693302843678bd6622b149a74320d8ca3bbbba77ea8ab4fb8a065b986ec8ef3"
+
+# The exact snapshot_download allow patterns; frozen in the config and validated equal.
+SNAPSHOT_ALLOW_PATTERNS = (
+    "config.json",
+    "generation_config.json",
+    "model.safetensors",
+    "model-*.safetensors",
+    "model.safetensors.index.json",
+    "special_tokens_map.json",
+    "tokenizer.json",
+    "tokenizer_config.json",
+)
+# Every challenger snapshot must pin at least these evidence-affecting files.
+SNAPSHOT_REQUIRED_FILES = (
+    "config.json",
+    "model.safetensors",
+    "tokenizer.json",
+    "tokenizer_config.json",
+)
 
 # Every frozen gold-token-audit field the GPU runner must re-verify per arm.
 GOLD_AUDIT_FROZEN_FIELDS = (
@@ -88,6 +115,16 @@ _RUN_ID_PATTERN = re.compile(r"\d{8}-\d{4}-[a-z0-9]+(?:-[a-z0-9]+)*-s\d+")
 
 class ScaleSweepError(RuntimeError):
     """A frozen scale-sweep invariant was violated."""
+
+
+class MeasuredFitFailure(ScaleSweepError):
+    """One learning-rate fit failed in a preregistered measured-failure class.
+
+    Raised for training divergence (non-finite loss); the run loop also maps
+    CUDA out-of-memory errors during a fit into this class.  Integrity
+    violations (hash mismatches, budget drift, contract violations) stay plain
+    :class:`ScaleSweepError` and abort the whole run.
+    """
 
 
 class ExistingScaleSweepRunError(FileExistsError):
@@ -723,6 +760,7 @@ def load_frozen_config(path: str | Path = CONFIG_PATH) -> dict[str, Any]:
                 f"arm {arm.get('arm_id')!r} safetensors_total_parameters must be an integer "
                 "at or above the unique trainable count (buffers are non-trainable)"
             )
+        validate_snapshot_pins(arm)
 
     optimization = payload.get("optimization")
     if not isinstance(optimization, dict):
@@ -739,6 +777,20 @@ def load_frozen_config(path: str | Path = CONFIG_PATH) -> dict[str, Any]:
     ):
         if optimization.get(label) != expected:
             raise ScaleSweepError(f"optimization.{label} changed from the frozen value")
+    fit_semantics = optimization.get("fit_failure_semantics")
+    if (
+        not isinstance(fit_semantics, dict)
+        or fit_semantics.get("per_fit_measured_failure") is not True
+    ):
+        raise ScaleSweepError(
+            "config must freeze per-fit measured-failure semantics "
+            "(optimization.fit_failure_semantics.per_fit_measured_failure)"
+        )
+    if fit_semantics.get("measured_failure_classes") != [
+        "cuda_out_of_memory",
+        "non_finite_training_loss",
+    ]:
+        raise ScaleSweepError("frozen measured-failure classes changed")
 
     evaluation = payload.get("evaluation")
     if not isinstance(evaluation, dict):
@@ -756,6 +808,7 @@ def load_frozen_config(path: str | Path = CONFIG_PATH) -> dict[str, Any]:
                 f"evaluation.{label} must be a positive frozen integer; the runner "
                 "accepts no CLI override for it"
             )
+    decoding_kwargs(evaluation)
 
     reference = payload.get("reference_evaluation")
     if not isinstance(reference, dict):
@@ -835,6 +888,219 @@ def enforce_machine_id(machine_id: Any, protected_machine_ids: Any) -> int:
     if machine_id in protected:
         raise ScaleSweepError(f"jarvis machine ID {machine_id} is protected; refusing to run on it")
     return machine_id
+
+
+# ---------------------------------------------------------------------------
+# Challenger snapshot binding (attempt-3 P0-3 correction)
+# ---------------------------------------------------------------------------
+
+_SHA256_PATTERN = re.compile(r"[0-9a-f]{64}")
+
+
+def validate_snapshot_pins(arm: Mapping[str, Any]) -> dict[str, dict[str, Any]]:
+    """Validate one roster arm's frozen snapshot pin table.
+
+    Every pinned file must carry an exact lowercase SHA-256 and a positive
+    byte size and must be reachable through the frozen download allow
+    patterns; the evidence-affecting files (config.json, model.safetensors,
+    tokenizer.json, tokenizer_config.json) must all be pinned; and the arm's
+    tokenizer/config hash bindings must agree with the pin table, so the
+    config cannot advertise a binding that enforcement does not cover.
+    """
+
+    arm_id = arm.get("arm_id")
+    if arm.get("snapshot_allow_patterns") != list(SNAPSHOT_ALLOW_PATTERNS):
+        raise ScaleSweepError(
+            f"arm {arm_id!r} snapshot_allow_patterns differ from the frozen download patterns"
+        )
+    pins = arm.get("snapshot_files")
+    if not isinstance(pins, Mapping) or not pins:
+        raise ScaleSweepError(f"arm {arm_id!r} lacks the snapshot_files pin table")
+    for name, entry in pins.items():
+        if not isinstance(name, str) or not any(
+            fnmatch.fnmatchcase(name, pattern) for pattern in SNAPSHOT_ALLOW_PATTERNS
+        ):
+            raise ScaleSweepError(
+                f"arm {arm_id!r} pins {name!r}, which no frozen allow pattern covers"
+            )
+        if not isinstance(entry, Mapping):
+            raise ScaleSweepError(f"arm {arm_id!r} snapshot pin {name!r} must be an object")
+        digest = entry.get("sha256")
+        if not isinstance(digest, str) or _SHA256_PATTERN.fullmatch(digest) is None:
+            raise ScaleSweepError(
+                f"arm {arm_id!r} snapshot pin {name!r} lacks a 64-hex lowercase sha256"
+            )
+        if type(entry.get("bytes")) is not int or entry["bytes"] < 1:
+            raise ScaleSweepError(
+                f"arm {arm_id!r} snapshot pin {name!r} lacks a positive byte size"
+            )
+    for required in SNAPSHOT_REQUIRED_FILES:
+        if required not in pins:
+            raise ScaleSweepError(
+                f"arm {arm_id!r} does not pin required snapshot file {required!r}"
+            )
+    tokenizer_block = arm.get("tokenizer")
+    if not isinstance(tokenizer_block, Mapping):
+        raise ScaleSweepError(f"arm {arm_id!r} lacks the tokenizer block")
+    for key, filename in (
+        ("tokenizer_json_sha256", "tokenizer.json"),
+        ("tokenizer_config_sha256", "tokenizer_config.json"),
+        ("config_json_sha256", "config.json"),
+    ):
+        if tokenizer_block.get(key) != pins[filename]["sha256"]:
+            raise ScaleSweepError(
+                f"arm {arm_id!r} tokenizer.{key} disagrees with the snapshot pin for {filename!r}"
+            )
+    return {str(name): dict(entry) for name, entry in pins.items()}
+
+
+def verify_challenger_snapshot(snapshot_dir: str | Path, arm: Mapping[str, Any]) -> dict[str, str]:
+    """Verify every downloaded challenger snapshot file against the frozen pins.
+
+    Enforcement iterates the config's own ``snapshot_files`` table, so no
+    advertised pin can be left unenforced.  Exact file-set equality proves
+    both pinned absences (pythia-70m-deduped has no generation_config.json at
+    its pinned revision) and the absence of unexpected model-affecting files;
+    each present file must match its pinned byte size and SHA-256.  A
+    pre-staged cache directory with substituted challenger bytes therefore
+    aborts here, before any tokenizer or weight load, and the verified hashes
+    are returned for binding into arm-result.json and result.json.
+    """
+
+    snapshot = Path(snapshot_dir)
+    pins = validate_snapshot_pins(arm)
+    arm_id = arm.get("arm_id")
+    actual_files = sorted(
+        path.relative_to(snapshot).as_posix() for path in snapshot.rglob("*") if path.is_file()
+    )
+    expected_files = sorted(pins)
+    if actual_files != expected_files:
+        raise ScaleSweepError(
+            f"arm {arm_id!r}: snapshot file set {actual_files} does not equal the "
+            f"pinned set {expected_files}"
+        )
+    verified: dict[str, str] = {}
+    for name in expected_files:
+        file_path = snapshot / name
+        size = file_path.stat().st_size
+        if size != pins[name]["bytes"]:
+            raise ScaleSweepError(
+                f"arm {arm_id!r}: snapshot file {name!r} is {size} bytes; the pin "
+                f"froze {pins[name]['bytes']}"
+            )
+        digest = sha256_file(file_path)
+        if digest != pins[name]["sha256"]:
+            raise ScaleSweepError(
+                f"arm {arm_id!r}: snapshot file {name!r} hash {digest} differs from "
+                f"the pinned {pins[name]['sha256']}"
+            )
+        verified[name] = digest
+    return verified
+
+
+def decoding_kwargs(evaluation: Mapping[str, Any]) -> dict[str, Any]:
+    """Explicit frozen decoding parameters for every challenger ``generate()`` call.
+
+    Every decoding-affecting field is passed explicitly at the call site so a
+    snapshot's ``generation_config.json`` (verified or pinned-absent) can never
+    influence decoding.  The frozen overrides must stay exactly the greedy
+    contract below; the null-valued fields are sampling-only and must remain
+    unset under greedy decoding, so they are excluded from the kwargs.
+    """
+
+    overrides = evaluation.get("generation_config_overrides")
+    frozen = {
+        "do_sample": False,
+        "length_penalty": 1.0,
+        "no_repeat_ngram_size": 0,
+        "num_beams": 1,
+        "repetition_penalty": 1.0,
+        "temperature": None,
+        "top_k": None,
+        "top_p": None,
+    }
+    if not isinstance(overrides, Mapping) or dict(overrides) != frozen:
+        raise ScaleSweepError(
+            "evaluation.generation_config_overrides changed from the frozen greedy contract"
+        )
+    return {key: value for key, value in overrides.items() if value is not None}
+
+
+def build_decision(
+    outcomes: Sequence[ArmOutcome],
+    *,
+    measured_failed_arm_ids: Sequence[str],
+    reference_exact_percent: float,
+    margin_points: float,
+    schema_validity_floor: float,
+) -> dict[str, Any]:
+    """Assemble the final decision with per-fit measured-failure capture.
+
+    Scored arms flow through :func:`decide_adoption` unchanged.  An arm whose
+    every learning-rate fit ended in a measured failure can never be adopted
+    and is recorded explicitly; if every arm failed, the sweep is falsified by
+    measured failure with no adopted arm rather than by silent omission.
+    """
+
+    failed = [str(arm_id) for arm_id in measured_failed_arm_ids]
+    if len(set(failed)) != len(failed):
+        raise ScaleSweepError("measured-failed arm IDs must be unique")
+    if not outcomes and not failed:
+        raise ScaleSweepError("decision requires at least one scored or measured-failed arm")
+    if outcomes:
+        decision = decide_adoption(
+            outcomes,
+            reference_exact_percent=reference_exact_percent,
+            margin_points=margin_points,
+            schema_validity_floor=schema_validity_floor,
+        )
+    else:
+        if not math.isfinite(reference_exact_percent) or not 0 <= reference_exact_percent <= 100:
+            raise ScaleSweepError("reference exact-match percent must be in [0, 100]")
+        decision = {
+            "schema_version": "barun-mobile-scale-sweep-decision-v1",
+            "reference_exact_percent": reference_exact_percent,
+            "margin_points": margin_points,
+            "schema_validity_floor": schema_validity_floor,
+            "ordering": "ascending unique parameter count; smallest passing arm is adopted",
+            "arms": [],
+            "adopted_arm_id": None,
+            "all_arms_falsified": True,
+        }
+    scored_ids = {entry["arm_id"] for entry in decision["arms"]}
+    overlap = scored_ids.intersection(failed)
+    if overlap:
+        raise ScaleSweepError(f"arms {sorted(overlap)} cannot be both scored and measured failures")
+    decision["measured_failed_arm_ids"] = sorted(failed)
+    decision["measured_failure_rule"] = (
+        "an arm whose every learning-rate fit ended in a measured failure "
+        "(non-finite training loss or CUDA out-of-memory) can never be adopted; "
+        "the run continues past it and records the failure"
+    )
+    return decision
+
+
+# Evidence-affecting packages whose exact versions are bound into result.json.
+ENVIRONMENT_PACKAGES = ("huggingface_hub", "safetensors", "tokenizers", "torch", "transformers")
+
+
+def environment_versions(packages: Sequence[str] = ENVIRONMENT_PACKAGES) -> dict[str, str]:
+    """Bind the evidence-affecting dependency versions into the result.
+
+    A missing required package is an abort, never a silent omission; the
+    launch tooling's environment.json remains the complete environment record.
+    """
+
+    import platform
+    from importlib import metadata
+
+    versions = {"python": platform.python_version()}
+    for package in packages:
+        try:
+            versions[package] = metadata.version(package)
+        except metadata.PackageNotFoundError as error:
+            raise ScaleSweepError(f"required package {package!r} is not installed") from error
+    return versions
 
 
 # ---------------------------------------------------------------------------
@@ -952,7 +1218,7 @@ def _train_one_fit(
                         use_cache=False,
                     )
                 if not bool(torch.isfinite(output.loss).item()):
-                    raise ScaleSweepError(
+                    raise MeasuredFitFailure(
                         f"non-finite training loss at optimizer step {optimizer_step}"
                     )
                 scaled_loss = output.loss * (batch.target_tokens / total_target_tokens)
@@ -1010,9 +1276,15 @@ def _generate_selection(
     max_seq_len: int,
     max_new_tokens: int,
     batch_size: int,
+    decoding: Mapping[str, Any],
     output_path: Path,
 ) -> dict[str, Any]:
-    """Greedy deterministic generation over the fresh selection split."""
+    """Greedy deterministic generation over the fresh selection split.
+
+    ``decoding`` is the exact output of :func:`decoding_kwargs`: every frozen
+    decoding-affecting parameter is passed explicitly to ``model.generate`` so
+    no snapshot-side generation_config.json default can influence decoding.
+    """
 
     import torch
 
@@ -1051,11 +1323,11 @@ def _generate_selection(
             output_ids = model.generate(
                 input_ids=input_ids,
                 attention_mask=attention_mask,
-                do_sample=False,
                 max_new_tokens=max_new_tokens,
                 eos_token_id=adapter.eos_token_id,
                 pad_token_id=adapter.pad_token_id,
                 use_cache=True,
+                **decoding,
             )
         for batch_index, row in enumerate(batch):
             continuation = output_ids[batch_index, width:].tolist()
@@ -1085,6 +1357,7 @@ def _generate_selection(
     return {
         "schema_version": "barun-mobile-scale-sweep-generation-v1",
         "decoding": "unconstrained_deterministic_greedy",
+        "decoding_overrides_passed_explicitly": dict(decoding),
         "grammar_constrained": False,
         "batch_size": batch_size,
         "max_new_tokens": max_new_tokens,
@@ -1267,6 +1540,12 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
     enforce_machine_id(args.jarvis_machine_id, config["compute"]["protected_machine_ids"])
     if not torch.cuda.is_available() or not torch.cuda.is_bf16_supported():
         raise ScaleSweepError("the scale sweep requires CUDA with bfloat16 support")
+    environment = environment_versions()
+    # No stochastic module exists on the honest path (no dropout, greedy decoding,
+    # no weight init), but the global torch seed is installed anyway so the frozen
+    # seed governs every torch RNG, not only the data presentation order.
+    torch.manual_seed(int(config["optimization"]["seed"]))
+    torch.cuda.manual_seed_all(int(config["optimization"]["seed"]))
 
     try:
         from huggingface_hub import snapshot_download
@@ -1307,6 +1586,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
     max_seq_len = int(optimization["max_seq_len"])
     max_new_tokens = int(evaluation["max_new_tokens"])
     generation_batch_size = int(evaluation["generation_batch_size"])
+    decoding = decoding_kwargs(evaluation)
     selection_manifest_path = split_dir / "selection.jsonl"
 
     # The decision-critical reference number exists only through this in-run,
@@ -1324,6 +1604,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
 
     arm_results: list[dict[str, Any]] = []
     outcomes: list[ArmOutcome] = []
+    measured_failed_arm_ids: list[str] = []
     for arm in config["roster"]:
         arm_id = arm["arm_id"]
         arm_dir = export / "arms" / arm_id
@@ -1332,24 +1613,16 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
             snapshot_download(
                 repo_id=arm["repo_id"],
                 revision=arm["revision"],
-                allow_patterns=[
-                    "config.json",
-                    "generation_config.json",
-                    "model.safetensors",
-                    "model-*.safetensors",
-                    "model.safetensors.index.json",
-                    "special_tokens_map.json",
-                    "tokenizer.json",
-                    "tokenizer_config.json",
-                ],
+                allow_patterns=list(SNAPSHOT_ALLOW_PATTERNS),
                 cache_dir=args.cache_dir,
             )
         ).resolve()
-        tokenizer_path = snapshot / "tokenizer.json"
-        actual_tokenizer_sha = sha256_file(tokenizer_path)
-        if actual_tokenizer_sha != arm["tokenizer"]["tokenizer_json_sha256"]:
-            raise ScaleSweepError(f"arm {arm_id!r}: pinned tokenizer.json hash changed")
-        tokenizer = Tokenizer.from_file(str(tokenizer_path))
+        # Every snapshot file the loader can read is verified against the frozen
+        # pins before any tokenizer or weight load; the verified hashes are bound
+        # into arm-result.json and result.json.
+        verified_snapshot = verify_challenger_snapshot(snapshot, arm)
+        _write_json(arm_dir / "snapshot-verification.json", verified_snapshot)
+        tokenizer = Tokenizer.from_file(str(snapshot / "tokenizer.json"))
         eos_token_id = int(arm["tokenizer"]["eos_token_id"])
         adapter = _RawTokenizerAdapter(tokenizer, eos_token_id=eos_token_id)
         verify_termination_contract(
@@ -1391,44 +1664,75 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
             fit_key = f"lr{learning_rate:.0e}"
             fit_dir = arm_dir / fit_key
             fit_dir.mkdir()
-            model = AutoModelForCausalLM.from_pretrained(
-                snapshot,
-                local_files_only=True,
-                trust_remote_code=False,
-                torch_dtype=torch.bfloat16,
-                attn_implementation="eager",
-            ).to(torch.device("cuda", 0))
-            unique_parameters = count_unique_parameters(model)
-            if unique_parameters != int(arm["unique_trainable_parameters"]):
-                raise ScaleSweepError(
-                    f"arm {arm_id!r}: unique trainable parameter count changed: expected "
-                    f"{arm['unique_trainable_parameters']}, got {unique_parameters}"
+            model = None
+            try:
+                model = AutoModelForCausalLM.from_pretrained(
+                    snapshot,
+                    local_files_only=True,
+                    trust_remote_code=False,
+                    torch_dtype=torch.bfloat16,
+                    attn_implementation="eager",
+                ).to(torch.device("cuda", 0))
+                unique_parameters = count_unique_parameters(model)
+                if unique_parameters != int(arm["unique_trainable_parameters"]):
+                    raise ScaleSweepError(
+                        f"arm {arm_id!r}: unique trainable parameter count changed: expected "
+                        f"{arm['unique_trainable_parameters']}, got {unique_parameters}"
+                    )
+                training = _train_one_fit(
+                    model=model,
+                    examples=tokenized,
+                    pad_token_id=adapter.pad_token_id,
+                    optimization=optimization,
+                    learning_rate=float(learning_rate),
+                    expected_rows=len(sweep_rows),
+                    expected_optimizer_steps=int(optimization["expected_optimizer_steps"]),
+                    output_dir=fit_dir,
                 )
-            training = _train_one_fit(
-                model=model,
-                examples=tokenized,
-                pad_token_id=adapter.pad_token_id,
-                optimization=optimization,
-                learning_rate=float(learning_rate),
-                expected_rows=len(sweep_rows),
-                expected_optimizer_steps=int(optimization["expected_optimizer_steps"]),
-                output_dir=fit_dir,
-            )
-            predictions_path = fit_dir / "predictions.jsonl"
-            generation = _generate_selection(
-                model=model,
-                adapter=adapter,
-                rows=prompt_rows,
-                max_seq_len=max_seq_len,
-                max_new_tokens=max_new_tokens,
-                batch_size=generation_batch_size,
-                output_path=predictions_path,
-            )
+                predictions_path = fit_dir / "predictions.jsonl"
+                generation = _generate_selection(
+                    model=model,
+                    adapter=adapter,
+                    rows=prompt_rows,
+                    max_seq_len=max_seq_len,
+                    max_new_tokens=max_new_tokens,
+                    batch_size=generation_batch_size,
+                    decoding=decoding,
+                    output_path=predictions_path,
+                )
+            except MeasuredFitFailure as error:
+                failure = {"class": "non_finite_training_loss", "reason": str(error)}
+            except torch.cuda.OutOfMemoryError as error:
+                failure = {"class": "cuda_out_of_memory", "reason": str(error)}
+            else:
+                failure = None
+            finally:
+                if model is not None:
+                    del model
+                torch.cuda.empty_cache()
+            if failure is not None:
+                # Preregistered per-fit measured failure: the fit can never win,
+                # the run continues, and the failure is bound into the evidence.
+                fit_records[fit_key] = {
+                    "learning_rate": float(learning_rate),
+                    "completed": False,
+                    "measured_failure": failure,
+                }
+                _write_json(fit_dir / "measured-failure.json", fit_records[fit_key])
+                fits.append(
+                    LearningRateFit(
+                        learning_rate=float(learning_rate),
+                        exact_match_count=0,
+                        completed=False,
+                    )
+                )
+                continue
             write_scores(selection_manifest_path, predictions_path, fit_dir / "scores")
             aggregate = _score_aggregate(fit_dir / "scores")
             counts = fit_outcome_counts(generation, aggregate)
             fit_records[fit_key] = {
                 "learning_rate": float(learning_rate),
+                "completed": True,
                 "training": training,
                 "generation": generation,
                 "aggregate": aggregate,
@@ -1441,37 +1745,42 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
                     completed=True,
                 )
             )
-            del model
-            torch.cuda.empty_cache()
-        selected_rate = select_learning_rate(
-            fits, allowed_rates=list(optimization["learning_rate_screen"])
-        )
-        selected_key = f"lr{selected_rate:.0e}"
-        selected_counts = fit_records[selected_key]["counts"]
-        outcomes.append(
-            ArmOutcome(
-                arm_id=arm_id,
-                unique_parameters=int(arm["unique_trainable_parameters"]),
-                rows=selected_counts["rows"],
-                exact_match_count=selected_counts["exact_match_count"],
-                schema_valid_count=selected_counts["schema_valid_count"],
-                truncated_count=selected_counts["truncated_count"],
-                missing_prediction_count=selected_counts["missing_prediction_count"],
-                generation_failure_count=selected_counts["generation_failure_count"],
+        if any(fit.completed for fit in fits):
+            selected_rate = select_learning_rate(
+                fits, allowed_rates=list(optimization["learning_rate_screen"])
             )
-        )
+            selected_key = f"lr{selected_rate:.0e}"
+            selected_counts = fit_records[selected_key]["counts"]
+            outcomes.append(
+                ArmOutcome(
+                    arm_id=arm_id,
+                    unique_parameters=int(arm["unique_trainable_parameters"]),
+                    rows=selected_counts["rows"],
+                    exact_match_count=selected_counts["exact_match_count"],
+                    schema_valid_count=selected_counts["schema_valid_count"],
+                    truncated_count=selected_counts["truncated_count"],
+                    missing_prediction_count=selected_counts["missing_prediction_count"],
+                    generation_failure_count=selected_counts["generation_failure_count"],
+                )
+            )
+        else:
+            selected_rate = None
+            measured_failed_arm_ids.append(arm_id)
         arm_record = {
             "arm_id": arm_id,
             "repo_id": arm["repo_id"],
             "revision": arm["revision"],
+            "snapshot_sha256": verified_snapshot,
+            "measured_failure": selected_rate is None,
             "selected_learning_rate": selected_rate,
             "fits": fit_records,
         }
         _write_json(arm_dir / "arm-result.json", arm_record)
         arm_results.append(arm_record)
 
-    decision = decide_adoption(
+    decision = build_decision(
         outcomes,
+        measured_failed_arm_ids=measured_failed_arm_ids,
         reference_exact_percent=reference_exact_percent,
         margin_points=float(config["decision_rule"]["margin_points"]),
         schema_validity_floor=float(config["decision_rule"]["schema_validity_floor"]),
@@ -1482,6 +1791,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         "jarvis_machine_id": args.jarvis_machine_id,
         "status": "completed",
         "config_sha256": CONFIG_SHA256,
+        "environment": environment,
         "fresh_split": partition.receipt(),
         "arms": arm_results,
         "reference": reference_record,
@@ -1536,9 +1846,12 @@ def main() -> None:
 __all__ = [
     "ATTEMPT_1_CONFIG_SHA256",
     "ATTEMPT_1_NO_GO_SHA256",
+    "ATTEMPT_2_CONFIG_SHA256",
+    "ATTEMPT_2_NO_GO_SHA256",
     "AUDIT_SHA256",
     "CONFIG_PATH",
     "CONFIG_SHA256",
+    "ENVIRONMENT_PACKAGES",
     "GOLD_AUDIT_FROZEN_FIELDS",
     "GOLD_AUDIT_SPLITS",
     "MOBILE_DATASET_REVISION",
@@ -1551,17 +1864,23 @@ __all__ = [
     "SELECTION_FOLD",
     "SELECTION_FOLDS",
     "SELECTION_POLICY_VERSION",
+    "SNAPSHOT_ALLOW_PATTERNS",
+    "SNAPSHOT_REQUIRED_FILES",
     "TRAIN_MANIFEST_SHA256",
     "TRAIN_MEMBERSHIP_SHA256",
     "TRAIN_ROWS",
     "ArmOutcome",
     "ExistingScaleSweepRunError",
     "LearningRateFit",
+    "MeasuredFitFailure",
     "ScaleSweepError",
     "TrainPartition",
+    "build_decision",
     "build_parser",
     "decide_adoption",
+    "decoding_kwargs",
     "enforce_machine_id",
+    "environment_versions",
     "fit_outcome_counts",
     "gold_token_length_audit",
     "load_frozen_config",
@@ -1571,6 +1890,8 @@ __all__ = [
     "select_learning_rate",
     "selection_fold_for_cluster",
     "tokenize_raw_rows",
+    "validate_snapshot_pins",
+    "verify_challenger_snapshot",
     "verify_context_fit",
     "verify_gold_audit_frozen",
     "verify_partition_against_config",

@@ -1,12 +1,12 @@
 # Mobile scale sweep: matched-adaptation base-model size/token sweep
 
 Run ID: `20260805-1554-mobile-scale-sweep-s17` (immutable).
-Status: attempt-2 CPU prefreeze complete; **blocked pending a fresh independent prelaunch
+Status: attempt-3 CPU prefreeze complete; **blocked pending a fresh independent prelaunch
 audit**. No GPU, JarvisLabs resource, CUDA context, training step, or baseline weight download
-has occurred in either attempt.
+has occurred in any attempt.
 
-Frozen scientific config (attempt 2, current): `configs/mobile_scale_sweep_v2.json`, SHA-256
-`c8d57f84013198094c27d06d35851e5320f66a5106e6f1cbc6407bfd5e78f593`.
+Frozen scientific config (attempt 3, current): `configs/mobile_scale_sweep_v3.json`, SHA-256
+`a67959b9b95aa72a6c9153234bb502490c800dba2c539ba9163e37cf4e539451`.
 
 Naming note: StrataLM is only the former working name of the base model; the canonical names are
 BarunLM-35M (base) and BarunAction-35M (post-trained). The pretraining evidence file
@@ -50,6 +50,51 @@ Corrections, each covered by a CPU test:
 - **P3** — dead prompt-prefix invariant removed, empty-target guard raises `ScaleSweepError`,
   and the exported config in the evidence bundle is named `config.json`, not
   `preregistration.json`.
+
+## Attempt-2 no-go and attempt-3 corrections
+
+The attempt-2 CPU prefreeze (config `configs/mobile_scale_sweep_v2.json`, SHA-256
+`c8d57f84013198094c27d06d35851e5320f66a5106e6f1cbc6407bfd5e78f593`, commit `315070b`) was also
+rejected. The immutable receipt is
+`experiments/runs/20260805-1554-mobile-scale-sweep-s17/prelaunch-audit-attempt-2-no-go.json`,
+SHA-256 `e693302843678bd6622b149a74320d8ca3bbbba77ea8ab4fb8a065b986ec8ef3`. Every attempt-1 fix
+verified genuine and survived nine crafted attacks; the sole blocking defect was the unbound
+challenger snapshot evidence. The v2 config, `preregistration-attempt-2.json`, and the receipt
+are immutable rejected evidence: never edit or load them.
+
+Attempt 3 keeps the same immutable run directory (attempt 2 again never reached a compute
+action) with `preregistration-attempt-3.json` binding the successor v3 config. Corrections,
+each covered by a CPU test:
+
+- **P0-3** — every challenger arm's complete downloadable snapshot is now hash-pinned in the v3
+  config (`snapshot_files` per arm): `model.safetensors` SHA-256 obtained via **read-only
+  Hugging Face LFS metadata** (`files_metadata`; no weight downloaded locally), plus
+  `config.json`, `tokenizer.json`, `tokenizer_config.json`, `special_tokens_map.json`, and
+  `generation_config.json` where it exists at the pinned revision (pythia-70m-deduped has none;
+  its absence is pinned through exact file-set equality). `verify_challenger_snapshot` enforces
+  exact file-set equality plus per-file byte size and SHA-256 after `snapshot_download`, before
+  any tokenizer or weight load, iterating the config's own pin table so advertisement and
+  enforcement cannot drift; the previously advertised-but-unenforced
+  `config_json_sha256`/`tokenizer_config_sha256` pins are cross-validated against the pin table
+  at config load. Verified hashes are bound into `snapshot-verification.json`,
+  `arm-result.json`, and `result.json`. Pin receipt:
+  `experiments/runs/20260805-1554-mobile-scale-sweep-s17/snapshot-pins.json`.
+- **P2-A** — the frozen `generation_config_overrides` are validated against the exact greedy
+  contract at config load (`decoding_kwargs`) and passed explicitly to every challenger
+  `model.generate` call, so no snapshot-side generation default can influence decoding; the
+  generation summary records the explicitly passed overrides.
+- **P2-B** — per-fit measured-failure semantics are implemented as preregistered: non-finite
+  training loss (`MeasuredFitFailure`) or CUDA out-of-memory during one fit records that fit as
+  a measured failure and the run continues; an arm with zero completed fits enters the
+  decision's `measured_failed_arm_ids` (`build_decision`) and can never be adopted; if every arm
+  fails the decision is explicit all-arms falsification. Integrity violations (hash mismatch,
+  budget drift, contract violations) still abort the whole run.
+- **P3** — the global torch seed is installed (`torch.manual_seed` /
+  `torch.cuda.manual_seed_all`) with its exact scope documented in the config;
+  `environment_versions` binds python/torch/transformers/tokenizers/huggingface_hub/safetensors
+  versions into `result.json`; the residual reference-verification TOCTOU window is consciously
+  accepted with rationale in the attempt-3 preregistration (in-call re-verification narrows it;
+  the remainder requires concurrent host compromise).
 
 ## Hypothesis and evidence basis
 
@@ -150,7 +195,7 @@ dropped rows.
 ## Decision rule
 
 Reference: candidate-v2 evaluated on the same selection split in the same run before any
-challenger arm is scored, through the in-run hash-verified path bound in the v2 config's
+challenger arm is scored, through the in-run hash-verified path bound in the v3 config's
 `reference_evaluation` section (checkpoint pins from `src/barunaction/candidate.py`, greedy
 decoding, 256-token budget, same scorer; predictions and scores bound into `result.json`). An
 arm passes if its screen-selected fit clears **all** of: exact match at least reference + 3.0
@@ -173,19 +218,21 @@ these budgets and candidate-v2 remains the release checkpoint.
 
 ## Files
 
-- `configs/mobile_scale_sweep_v2.json` — immutable attempt-2 scientific config (hash above; the
+- `configs/mobile_scale_sweep_v3.json` — immutable attempt-3 scientific config (hash above; the
   runner binds it inline).
-- `configs/mobile_scale_sweep_v1.json` — immutable rejected attempt-1 config; never loaded.
+- `configs/mobile_scale_sweep_v2.json`, `configs/mobile_scale_sweep_v1.json` — immutable
+  rejected attempt-2/attempt-1 configs; never loaded.
 - `src/barunlm/baselines/mobile_scale_sweep.py` — split derivation, audit, transport,
   termination contract, LR screen, decision rule, machine-ID enforcement, in-run reference
-  evaluation, GPU runner (binds the v2 config hash).
-- `tests/test_mobile_scale_sweep.py` — 40 CPU-hermetic tests for every rule, including the
-  attempt-2 corrections.
+  evaluation, challenger snapshot verification, explicit decoding overrides, per-fit
+  measured-failure semantics, GPU runner (binds the v3 config hash).
+- `tests/test_mobile_scale_sweep.py` — 53 CPU-hermetic tests for every rule, including the
+  attempt-2 and attempt-3 corrections.
 - `experiments/runs/20260805-1554-mobile-scale-sweep-s17/` — `preregistration.json` (attempt 1,
-  immutable), `preregistration-attempt-2.json`,
-  `prelaunch-audit-attempt-1-no-go.json` (immutable), `split-receipt.json`,
-  `sweep-train-membership.txt`, `selection-membership.txt`, `gold-token-audit.json`,
-  `roster-metadata.json`, plus the build scripts (`pin_roster_metadata.py`,
-  `derive_fresh_split_and_audit.py`).
-- Ledger: the attempt-1 preregistration entry, the independent reject entry, and the attempt-2
-  prefreeze entry appended to `experiments/ledger.jsonl`.
+  immutable), `preregistration-attempt-2.json` (immutable), `preregistration-attempt-3.json`,
+  `prelaunch-audit-attempt-1-no-go.json` and `prelaunch-audit-attempt-2-no-go.json` (immutable),
+  `split-receipt.json`, `sweep-train-membership.txt`, `selection-membership.txt`,
+  `gold-token-audit.json`, `roster-metadata.json`, `snapshot-pins.json`, plus the build scripts
+  (`pin_roster_metadata.py`, `derive_fresh_split_and_audit.py`, `pin_snapshot_hashes.py`).
+- Ledger: the attempt-1 preregistration entry, both independent reject entries, and the
+  attempt-2/attempt-3 prefreeze entries appended to `experiments/ledger.jsonl`.
