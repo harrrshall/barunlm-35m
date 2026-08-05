@@ -1,0 +1,224 @@
+{
+  "schema_version": "barun-mobile-scale-sweep-prelaunch-audit-v1",
+  "run_id": "20260805-1554-mobile-scale-sweep-s17",
+  "attempt_under_audit": 4,
+  "audit_kind": "independent_adversarial_prelaunch_audit",
+  "auditor_statement": "I audited the attempt-4 CPU prefreeze independently and adversarially after the spent attempt-3 go created H200 465155 under template=pytorch and aborted at CPython 3.10.20 attestation. I recomputed the v4 config and attempt-4 preregistration hashes; verified CONFIG_SHA256 binding, ledger entry, and tamper rejection; deep-diffed v3 versus v4 and confirmed every scientific section (hypothesis, decision_rule, reference_evaluation, anchors, data, roster, transport, gold_token_audit, optimization, evaluation, authorization) is byte-identical with diffs confined to compute runtime/denylist/lineage and schema/created_at; verified axolotl/CPython 3.11.10 against prior project evidence (axolotl-template probe 463788 observed 3.11.10; MBCF hermetic v3 pause-proof machine 463802 template=axolotl with pre-cuda runtime_identity matched 3.11.10); confirmed enforce_runtime_attestation and enforce_machine_id run before Torch/CUDA import on the only execution path; attacked wrong template/Python strings, protected IDs including 465072/465155, auth-flag tamper, missing --jarvis-template, and CLI-pytorch-then-attest; confirmed spent attempt-3 go is cited with reuse_authorized=false and does not authorize launch; confirmed v1/v2/v3 configs, prior preregs, attempt-1/2 no-gos, attempt-3 go, and infrastructure-failure receipt are byte-identical and untouched by commit c091eec; reran 62 sweep tests and 1857 full-suite tests; Ruff clean; selective seven-file staging; no secrets. Zero P0 defects. Verdict: go.",
+  "verdict": "go",
+  "go_criterion": "zero P0 defects (P0 = leakage, forgeable scientific receipt/binding, sealed-data access, denylist gap, silent scientific fallback, authorization-flag escape, reuse of spent go or protected evidence ID)",
+  "artifact_under_audit": {
+    "commit": "c091eec61756a9a260b7503d16985d258ff73390",
+    "branch": "agent/barunaction-release-mbcf-v1",
+    "push_status": "HEAD equaled origin/agent/barunaction-release-mbcf-v1 at audit start",
+    "files_changed_in_attempt_4_prefreeze": [
+      "configs/mobile_scale_sweep_v4.json",
+      "docs/mobile-scale-sweep-v1.md",
+      "experiments/ledger.jsonl",
+      "experiments/runs/20260805-1554-mobile-scale-sweep-s17/preregistration-attempt-4.json",
+      "scripts/run_mobile_scale_sweep.py",
+      "src/barunlm/baselines/mobile_scale_sweep.py",
+      "tests/test_mobile_scale_sweep.py"
+    ],
+    "selective_staging_claim": "verified: exactly the seven claimed files; prior v1/v2/v3 configs and prior audit/prereg/infra-failure receipts not modified; ledger append-only for the attempt-4 prefreeze line; no secrets, no binaries, no bulk staging"
+  },
+  "recomputed_hashes": {
+    "configs/mobile_scale_sweep_v4.json": {
+      "recomputed_sha256": "c89b5c77a5531f617f1acc23e754c27336cf039830e9de7f00d44c8353e8dcb0",
+      "matches_claim": true,
+      "bound_in": [
+        "runner CONFIG_SHA256 constant",
+        "preregistration-attempt-4.json config_sha256",
+        "appended attempt-4 cpu_prefreeze ledger entry config_sha256"
+      ]
+    },
+    "experiments/runs/20260805-1554-mobile-scale-sweep-s17/preregistration-attempt-4.json": {
+      "recomputed_sha256": "69b045dcafddf96b21757730f9b7182f48e7de3e15aa1d4b4409a69531ad2a6e",
+      "matches_claim": true,
+      "spent_attempt_3_go_reuse_authorized": false,
+      "cites_infrastructure_failure_sha256": "429ba84586a9b1ea503138e8defab9e595bdad7a08ec4fd148eee2743eee2855",
+      "cites_spent_attempt_3_go_sha256": "d74d01e2078322c969db1158c54ebdc7343432635d223d78523226bae452f03b",
+      "all_authorization_flags_false": true
+    },
+    "immutable_prior_evidence_byte_identical_at_HEAD": {
+      "configs/mobile_scale_sweep_v1.json": "d3ee897f9afeefe1e01ec32fe9b2721479b7496785e742d0954ad081758953b8",
+      "configs/mobile_scale_sweep_v2.json": "c8d57f84013198094c27d06d35851e5320f66a5106e6f1cbc6407bfd5e78f593",
+      "configs/mobile_scale_sweep_v3.json": "a67959b9b95aa72a6c9153234bb502490c800dba2c539ba9163e37cf4e539451",
+      "preregistration.json": "92882433b14fbcf0b5eda9db7a11632b91afe92fc4995ff8b8c9522da22ab4f3",
+      "preregistration-attempt-2.json": "4f98cc57e45de544e01796ebe19ea66959dfdac1ce18985a81ef4e341d56a98e",
+      "preregistration-attempt-3.json": "5ccd7962a0c3376b9b6382a5f95a098f76caa90139d99f396acb672330fd2a46",
+      "prelaunch-audit-attempt-1-no-go.json": "9bc9d3af9e633b08b6e0d0e1c3bfeedfa660cbe7755443ad58987f47e86e99e0",
+      "prelaunch-audit-attempt-2-no-go.json": "e693302843678bd6622b149a74320d8ca3bbbba77ea8ab4fb8a065b986ec8ef3",
+      "prelaunch-audit-attempt-3-go.json": "d74d01e2078322c969db1158c54ebdc7343432635d223d78523226bae452f03b",
+      "attempt-1-infrastructure-failure.json": "429ba84586a9b1ea503138e8defab9e595bdad7a08ec4fd148eee2743eee2855"
+    },
+    "tamper_rejection": {
+      "authorization_flag_flip_rejected_by_config_sha256_gate": true,
+      "compute_template_tamper_to_pytorch_rejected_at_attestation": true
+    }
+  },
+  "v3_versus_v4_diff_summary": {
+    "scientific_sections_byte_identical": [
+      "hypothesis",
+      "decision_rule",
+      "reference_evaluation",
+      "anchors",
+      "data",
+      "roster",
+      "transport",
+      "gold_token_audit",
+      "optimization",
+      "evaluation",
+      "authorization"
+    ],
+    "silent_scientific_drift": false,
+    "only_changed_classes": [
+      "schema_version / created_at",
+      "compute runtime attestation fields (template=axolotl, CPython 3.11.10, provider/gpu/region/spot/storage/max_gpu_job_minutes)",
+      "compute.protected_machine_ids extended by exactly [465072, 465155] with prior 18-ID prefix preserved",
+      "supersedes lineage (attempt 4, spent-go citation with reuse_authorized=false, infrastructure-failure citation, INFRA-1..4 corrections replacing scientific P0-3/P2/P3 correction text)"
+    ],
+    "gpu_field_rekey": "compute.gpu changed from '1x H200' to 'H200' to match the safe_run/attempt-contract vocabulary; semantically identical single-H200 binding, not a scientific recipe change"
+  },
+  "runtime_stack_evidence": {
+    "required": {"template": "axolotl", "python_implementation": "CPython", "python_version": "3.11.10"},
+    "prior_attested_evidence": [
+      {
+        "source": "experiments/runs/20260804-0203-axolotl-template-probe/result.json",
+        "template": "axolotl",
+        "observed_python": "CPython 3.11.10",
+        "machine_id": 463788,
+        "note": "provider preamble observation; payload itself did not execute"
+      },
+      {
+        "source": "experiments/runs/20260804-0255-mobile-temporal-counterfactual-axolotl-hermetic-s17/attempt-1-selection-gate-failure/pause-proof.json",
+        "template": "axolotl",
+        "machine_id": 463802,
+        "pre_cuda_runtime_identity": "CPython 3.11.10 matched (pre-cuda-validation.json)"
+      },
+      {
+        "source": "experiments/runs/20260803-2122-mobile-qwen05b-matched-s17/essential/environment.json",
+        "note": "historical matched lane recorded python 3.10.20 under the older pytorch stack; not used as the attempt-4 required identity"
+      }
+    ],
+    "spent_failure_identity": {
+      "machine_id": 465155,
+      "template": "pytorch",
+      "observed_python": "CPython 3.10.20",
+      "receipt_sha256": "429ba84586a9b1ea503138e8defab9e595bdad7a08ec4fd148eee2743eee2855"
+    }
+  },
+  "attestation_and_denylist": {
+    "enforce_runtime_attestation_before_torch_import": true,
+    "enforce_machine_id_before_torch_import": true,
+    "only_execution_path": "scripts/run_mobile_scale_sweep.py -> mobile_scale_sweep.main -> run(args); attestation is the first work after load_frozen_config and before import torch",
+    "cli_requires_jarvis_template": true,
+    "protected_ids_include_465072_and_465155": true,
+    "prior_18_id_prefix_preserved": true,
+    "enforce_machine_id_rejects_all_protected_including_new": true,
+    "spent_go_cannot_authorize_launch": {
+      "config_reuse_authorized": false,
+      "prereg_reuse_authorized": false,
+      "config_authorization_flags_all_false": true,
+      "this_receipt_is_a_new_authorization_cycle": true
+    },
+    "attack_outcomes": [
+      {"attack": "observed_template=pytorch", "result": "REJECTED"},
+      {"attack": "observed_template case/whitespace variants (Axolotl, AXOLOTL, 'axolotl ')", "result": "REJECTED"},
+      {"attack": "observed_template empty/None/0", "result": "REJECTED"},
+      {"attack": "observed_python_version=3.10.20 (spent failure class)", "result": "REJECTED"},
+      {"attack": "observed_python_version=3.11.9 / 3.12.0 / trailing space", "result": "REJECTED"},
+      {"attack": "honest axolotl + CPython 3.11.10", "result": "ACCEPTED"},
+      {"attack": "machine_id in {465072,465155,463058,463802,463843,463689}", "result": "REJECTED"},
+      {"attack": "machine_id=999999 fresh positive", "result": "ACCEPTED"},
+      {"attack": "authorization launch_authorized=true file tamper", "result": "REJECTED by CONFIG_SHA256 gate"},
+      {"attack": "CLI omit --jarvis-template", "result": "REJECTED SystemExit"},
+      {"attack": "CLI --jarvis-template pytorch then enforce_runtime_attestation", "result": "REJECTED"},
+      {"attack": "tampered compute.template=pytorch even with matching live string", "result": "REJECTED by frozen contract"}
+    ]
+  },
+  "fresh_eyes": {
+    "could_runner_still_create_pytorch": "The scientific runner cannot create instances. infra/jarvis/safe_run.py build_create_command passes args.template into jl create --template, and the run subparser still defaults --template to pytorch. Attempt-4 does not change that controller default. A launch that omits --template axolotl recreates the spent failure class and fails closed at safe_run's live Python 3.11.10 gate while pytorch remains on 3.10.20.",
+    "does_create_path_pass_axolotl": "Not automatically. Create passes whatever --template the operator supplies (default pytorch). This go authorizes only a create that explicitly passes template=axolotl and whose attempt-inventory compute.template equals axolotl. The spent attempt-preregistration-unbound.json still freezes template=pytorch and must not be reused for the v4 launch.",
+    "path_skipping_attestation": "None found on the remote entrypoint. Torch is imported only inside run() after both gates. Helper training/generate functions import torch locally but are reachable only after those gates on the honest path.",
+    "authorization_flag_escape": "None. load_frozen_config rejects any true authorization flag and any SHA mismatch. This go receipt is the separate authorization document; the immutable v4 config flags remain false.",
+    "cli_template_string_vs_live_template": "Remote --jarvis-template is an operator-supplied string, not auto-appended from the controller's live-attested template (unlike --append-jarvis-machine-id). Mitigated today because safe_run attests live template==args.template before upload and pytorch still exposes 3.10.20 so a pytorch create cannot reach the scientific runner under the required 3.11.10 gate. Residual operational hazard, not a current scientific P0 under the observed provider images.",
+    "attempt_3_go_spent": "Confirmed. Creating a second H200 under d74d01e2... is forbidden; this receipt replaces that spent authorization for frozen v4 only."
+  },
+  "defects": [
+    {
+      "id": "P1-A",
+      "severity": "P1",
+      "title": "safe_run --template still defaults to pytorch; no auto-append of attested template into remote --jarvis-template",
+      "detail": "jl create receives args.template, defaulting to pytorch. The scientific runner requires a separately supplied --jarvis-template string. An operator who copies the spent launch-command.json pattern without changing template recreates the 465155 failure class (fail-closed today). Recommended launch packaging: explicit --template axolotl, attempt-inventory compute.template=axolotl, and remote --jarvis-template axolotl. Not scored P0: scientific work cannot proceed on the observed pytorch/3.10.20 identity, and this go's authorized scope requires axolotl create.",
+      "blocking": false
+    },
+    {
+      "id": "P3-F",
+      "severity": "P3",
+      "title": "Spent attempt-preregistration-unbound.json still freezes template=pytorch",
+      "detail": "The immutable spent launch packaging under the run directory retains template=pytorch from the failed attempt-3 create. A v4 launch must use a distinct unbound attempt document whose compute contract matches axolotl/CPython 3.11.10; reusing the spent unbound file with --template axolotl is rejected by safe_run contract equality, and reusing it with pytorch recreates the infrastructure failure. Informational packaging note for the launch operator.",
+      "blocking": false
+    }
+  ],
+  "checks_performed": [
+    {"check": "recompute v4 config SHA-256; verify runner CONFIG_SHA256, attempt-4 prereg, ledger bindings", "result": "pass"},
+    {"check": "recompute attempt-4 preregistration SHA-256; spent-go reuse_authorized=false; auth flags all false", "result": "pass"},
+    {"check": "deep-diff v3 vs v4; scientific sections byte-identical; only infra/denylist/lineage changed", "result": "pass"},
+    {"check": "tamper: auth flag flip and compute.template=pytorch rejected", "result": "pass"},
+    {"check": "prior stack evidence for axolotl + CPython 3.11.10 (probe + hermetic v3)", "result": "pass"},
+    {"check": "enforce_runtime_attestation and enforce_machine_id before Torch/CUDA on run()", "result": "pass"},
+    {"check": "attestation attack battery (wrong template/python, protected IDs, CLI omit/forge)", "result": "all rejected / honest path accepted; BAD_COUNT=0"},
+    {"check": "465072 and 465155 present in frozen denylist; enforce_machine_id rejects them", "result": "pass"},
+    {"check": "spent attempt-3 go cited and not treated as launch authorization", "result": "pass"},
+    {"check": "v1/v2/v3 configs, prior preregs, attempt-1/2 no-gos, attempt-3 go, infra-failure byte-identical and untouched by c091eec", "result": "pass"},
+    {"check": "sweep suite", "result": "62 passed"},
+    {"check": "full repository suite", "result": "1857 passed, 0 failed"},
+    {"check": "ruff check + format on changed Python files", "result": "clean"},
+    {"check": "commit c091eec selective seven-file staging; no secrets", "result": "pass"},
+    {"check": "fresh-eyes create-path / attestation-skip / auth-escape / spent-go reuse", "result": "pass with documented non-blocking P1-A/P3-F"}
+  ],
+  "tests": {
+    "sweep_suite_passed": 62,
+    "full_repository_suite_passed": 1857,
+    "full_repository_suite_failed": 0,
+    "ruff": "clean"
+  },
+  "constraints_honored": {
+    "cpu_local_only": true,
+    "gpu_cuda_jarvislabs_commands": 0,
+    "weight_downloads": 0,
+    "network_access": "none for this audit beyond local repository reads; no jl create, no Hugging Face weight download, no credential access",
+    "official_961_rows_parsed": 0,
+    "protected_machine_ids_touched": 0,
+    "credentials_exposed": 0,
+    "spent_attempt_3_go_reused": false
+  },
+  "authorization": {
+    "launch_authorized": true,
+    "authorized_scope": "creation of exactly one fresh exact-ID barun-scale-sweep-* JarvisLabs H200 with template=axolotl (not pytorch; not the safe_run default) and live CPython 3.11.10, executing frozen configs/mobile_scale_sweep_v4.json (SHA-256 c89b5c77a5531f617f1acc23e754c27336cf039830e9de7f00d44c8353e8dcb0) end-to-end: environment/tests gate, data audit, in-run hash-verified candidate-v2 reference evaluation on the fresh selection split, per-arm LR screen {1e-4, 3e-5}, three challenger arms with snapshot verification, scoring, evidence download, and pause-verify of that exact new ID",
+    "explicitly_not_authorized": [
+      "reuse of H200 465155 or any other protected/pre-existing JarvisLabs machine ID",
+      "reuse of spent attempt-3 go receipt d74d01e2078322c969db1158c54ebdc7343432635d223d78523226bae452f03b as authorization",
+      "create under template=pytorch or any non-axolotl template",
+      "official-961 access or scoring",
+      "adoption or release of any challenger checkpoint",
+      "candidate-v2 retraining or weight mutation",
+      "a second H200 or a retry under this same frozen attempt without a new audit",
+      "flipping authorization flags inside the immutable v4 config (this receipt is the authorization document)",
+      "reuse of the spent attempt-preregistration-unbound.json that freezes template=pytorch"
+    ],
+    "gpu_authorized_for_authorized_scope_only": true,
+    "cuda_authorized_for_authorized_scope_only": true,
+    "jarvislabs_single_fresh_h200_creation_authorized": true,
+    "required_create_template": "axolotl",
+    "required_python": "CPython 3.11.10",
+    "training_authorized_for_frozen_v4_recipe_only": true,
+    "baseline_weight_download_authorized_for_pinned_revisions_only": true,
+    "official_961_access_authorized": false,
+    "adoption_or_release_authorized": false,
+    "candidate_v2_retraining_authorized": false,
+    "spent_attempt_3_go_reuse_authorized": false
+  },
+  "what_this_go_means": "Attempt 4 corrects only the infrastructure failure class that spent the attempt-3 go: freeze axolotl/CPython 3.11.10, extend the denylist with 465072 and 465155, refuse the spent go, and attest before CUDA. Scientific bindings remain byte-identical to the attempt-3-accepted v3. Zero P0 defects. This receipt authorizes exactly one new fresh barun-scale-sweep-* H200 created with template=axolotl running frozen v4 end-to-end as stated in authorization.authorized_scope, and nothing else.",
+  "recorded_at": "2026-08-05T20:35:06+05:30"
+}
