@@ -1,0 +1,326 @@
+{
+  "schema_version": "barun-mobile-scale-sweep-prelaunch-audit-v1",
+  "run_id": "20260805-1554-mobile-scale-sweep-s17",
+  "attempt_under_audit": 6,
+  "audit_kind": "independent_adversarial_prelaunch_audit",
+  "recorded_at": "2026-08-05T22:53:40+05:30",
+  "verdict": "go",
+  "conclusion": "keep",
+  "go_criterion": "zero P0 defects (P0 = leakage, forgeable scientific receipt/binding, sealed-data access, denylist gap, silent scientific fallback, authorization-flag escape, reuse of spent go or protected evidence ID, or a forgeable/false infrastructure attestation that would authorize CUDA/model work under the claimed fail-closed contract)",
+  "auditor_statement": "I audited the attempt-6 CPU prefreeze independently and adversarially against immutable commit 699bd78 after attempt-5 no-go 05d40c7d… closed v5 for three P0 isolation-attestation defects (Torch-before-gate; VIRTUAL_ENV unbound to sys.prefix; attempt-4 ImportError misclassified as flash_attn absence; compound forge bypass demonstrated). I recomputed the v6 config SHA-256 0885b32f… and attempt-6 preregistration SHA-256 31246e31… (both matched claims); verified runner CONFIG_SHA256 binding, ledger prefreeze entry, and auth-flag tamper rejection; deep-diffed v5 versus v6 and confirmed every scientific section is byte-identical with diffs confined to schema/created_at, compute.spent_authorization_note / venv_isolation / supersedes lineage; confirmed denylist identical including 465183/465186/465155/465072; confirmed spent attempt-4 go and rejected v5 cite reuse_authorized=false; re-attacked all three attempt-5 P0s plus the compound bypass and additional vectors (torch already in sys.modules; VIRTUAL_ENV clean fake vs contaminated sys.prefix; discoverable ABI-failing flash_attn without import execution; ModuleNotFoundError-alone acceptance; baselines-before-loader; broken find_spec finder; package-path require_torch_absent=True after torch import); confirmed production entrypoint scripts/run_mobile_scale_sweep.py uses scale_sweep_stdlib_loader before pytest and before barunlm.baselines package import, and docs/config do not prescribe python -m barunlm.baselines.mobile_scale_sweep; confirmed prior configs/preregs/receipts/failure artifacts byte-identical; reran sweep suite (82) and full repository suite (1879); Ruff clean on freeze Python surfaces; selective nine-file freeze staging; no secrets. Zero P0 defects. Verdict: go.",
+  "artifact_under_audit": {
+    "commit": "699bd782ec51a4174acec4ad65d358744f5be366",
+    "branch": "agent/barunaction-release-mbcf-v1",
+    "push_status": "HEAD equaled origin/agent/barunaction-release-mbcf-v1 at audit start for the freeze commit",
+    "config_path": "configs/mobile_scale_sweep_v6.json",
+    "config_sha256": "0885b32f14751e77539f0bf58cae6f89b7c72e1d80c1b8a6d3fe61cff9c55540",
+    "preregistration_path": "experiments/runs/20260805-1554-mobile-scale-sweep-s17/preregistration-attempt-6.json",
+    "preregistration_sha256": "31246e318e6244731026fd80fa5407393b3b717bd2a56cb6d92f017c0cd363ec",
+    "cites_attempt_5_no_go_sha256": "05d40c7d6ab73594fb8e60fb15de94f676e76d62f97ecae43dfcaba7225c0500",
+    "files_changed_in_attempt_6_prefreeze": [
+      "configs/mobile_scale_sweep_v6.json",
+      "docs/current-status-and-next-experiment.md",
+      "docs/mobile-scale-sweep-v1.md",
+      "experiments/ledger.jsonl",
+      "experiments/runs/20260805-1554-mobile-scale-sweep-s17/preregistration-attempt-6.json",
+      "scripts/run_mobile_scale_sweep.py",
+      "src/barunlm/baselines/mobile_scale_sweep.py",
+      "src/barunlm/scale_sweep_stdlib_loader.py",
+      "tests/test_mobile_scale_sweep.py"
+    ],
+    "selective_staging_claim": "verified: attempt-6 freeze commit 699bd78 touches exactly the nine listed files; prior v1–v5 configs and prior audit/prereg/infra-failure receipts not modified by that commit; no secrets in the freeze; post-freeze dirty working-tree untracked experiment/docs material observed during this audit was excluded from the verdict and is not authorized"
+  },
+  "recomputed_hashes": {
+    "configs/mobile_scale_sweep_v6.json": {
+      "recomputed_sha256": "0885b32f14751e77539f0bf58cae6f89b7c72e1d80c1b8a6d3fe61cff9c55540",
+      "matches_claim": true,
+      "bound_in": [
+        "runner CONFIG_SHA256 constant at 699bd78",
+        "preregistration-attempt-6.json config_sha256",
+        "appended attempt-6 cpu_prefreeze ledger entry config_sha256"
+      ]
+    },
+    "experiments/runs/20260805-1554-mobile-scale-sweep-s17/preregistration-attempt-6.json": {
+      "recomputed_sha256": "31246e318e6244731026fd80fa5407393b3b717bd2a56cb6d92f017c0cd363ec",
+      "matches_claim": true,
+      "attempt_5_reuse_authorized": false,
+      "spent_attempt_4_go_reuse_authorized": false,
+      "cites_attempt_5_no_go_sha256": "05d40c7d6ab73594fb8e60fb15de94f676e76d62f97ecae43dfcaba7225c0500",
+      "cites_spent_attempt_4_go_sha256": "9bf60db79cc543e35eb5e664d1a79e761337720c0dbd663da64a8b62c6f4dac2",
+      "cites_attempt_4_infrastructure_failure_sha256": "adad51dad1e3216272496dd83072c6d0514d6585da16fe66d56d4944184fa5e0",
+      "all_authorization_flags_false": true
+    },
+    "immutable_prior_evidence_byte_identical_at_freeze": {
+      "configs/mobile_scale_sweep_v1.json": "d3ee897f9afeefe1e01ec32fe9b2721479b7496785e742d0954ad081758953b8",
+      "configs/mobile_scale_sweep_v2.json": "c8d57f84013198094c27d06d35851e5320f66a5106e6f1cbc6407bfd5e78f593",
+      "configs/mobile_scale_sweep_v3.json": "a67959b9b95aa72a6c9153234bb502490c800dba2c539ba9163e37cf4e539451",
+      "configs/mobile_scale_sweep_v4.json": "c89b5c77a5531f617f1acc23e754c27336cf039830e9de7f00d44c8353e8dcb0",
+      "configs/mobile_scale_sweep_v5.json": "57dcfe573c17759404545c272f1fc945aabb82b2893f697615eb7fe428d1f2d7",
+      "preregistration.json": "92882433b14fbcf0b5eda9db7a11632b91afe92fc4995ff8b8c9522da22ab4f3",
+      "preregistration-attempt-2.json": "4f98cc57e45de544e01796ebe19ea66959dfdac1ce18985a81ef4e341d56a98e",
+      "preregistration-attempt-3.json": "5ccd7962a0c3376b9b6382a5f95a098f76caa90139d99f396acb672330fd2a46",
+      "preregistration-attempt-4.json": "69b045dcafddf96b21757730f9b7182f48e7de3e15aa1d4b4409a69531ad2a6e",
+      "preregistration-attempt-5.json": "397792732b9456cd3b5592e75c5ad4aeebd62e2cf581dd4ee740cd4bba4ed707",
+      "prelaunch-audit-attempt-1-no-go.json": "9bc9d3af9e633b08b6e0d0e1c3bfeedfa660cbe7755443ad58987f47e86e99e0",
+      "prelaunch-audit-attempt-2-no-go.json": "e693302843678bd6622b149a74320d8ca3bbbba77ea8ab4fb8a065b986ec8ef3",
+      "prelaunch-audit-attempt-3-go.json": "d74d01e2078322c969db1158c54ebdc7343432635d223d78523226bae452f03b",
+      "prelaunch-audit-attempt-4-go.json": "9bf60db79cc543e35eb5e664d1a79e761337720c0dbd663da64a8b62c6f4dac2",
+      "prelaunch-audit-attempt-5-no-go.json": "05d40c7d6ab73594fb8e60fb15de94f676e76d62f97ecae43dfcaba7225c0500",
+      "attempt-1-infrastructure-failure.json": "429ba84586a9b1ea503138e8defab9e595bdad7a08ec4fd148eee2743eee2855",
+      "attempt-4-infrastructure-failure.json": "adad51dad1e3216272496dd83072c6d0514d6585da16fe66d56d4944184fa5e0"
+    },
+    "tamper_rejection": {
+      "authorization_flag_flip_rejected_by_config_sha256_gate": true,
+      "enforce_venv_isolation_rejects_forged_observation_kwarg": true
+    }
+  },
+  "v5_versus_v6_diff_summary": {
+    "scientific_sections_byte_identical": [
+      "hypothesis",
+      "decision_rule",
+      "reference_evaluation",
+      "anchors",
+      "data",
+      "roster",
+      "transport",
+      "gold_token_audit",
+      "optimization",
+      "evaluation",
+      "authorization"
+    ],
+    "scientific_core_identical_after_stripping_infra_fields": true,
+    "silent_scientific_drift": false,
+    "denylist_byte_identical": true,
+    "protected_machine_ids": [
+      463058, 463689, 463697, 463719, 463786, 463788, 463793, 463802, 463843,
+      463904, 463912, 463936, 463964, 464346, 464367, 464377, 464378, 464382,
+      465072, 465155, 465183, 465186
+    ],
+    "axolotl_cpython_31110_retained": true,
+    "safe_run_isolated_project_venv_retained": true,
+    "only_changed_classes": [
+      "schema_version / created_at / status",
+      "compute.spent_authorization_note (cites attempt-5 no-go; v6 does not reuse spent attempt-4 go or rejected v5)",
+      "compute.venv_isolation (INFRA-6..8: stdlib-first, interpreter-bound pyvenv.cfg, ModuleNotFoundError-only / find_spec flash_attn; entrypoint_preflight binding)",
+      "supersedes lineage (attempt 6, attempt-5 no-go citation, INFRA-6..9)"
+    ],
+    "stale_plan_wording_note": "compute.plan text is byte-identical to v5 and still says 'audit of this v5 config'; non-authoritative leftover string; spent_authorization_note and supersedes correctly name v6. Not scientific drift."
+  },
+  "isolation_attack_outcomes": [
+    {
+      "attack": "torch already present in sys.modules before scale_sweep_stdlib_loader",
+      "result": "REJECTED by loader RuntimeError"
+    },
+    {
+      "attack": "import barunlm.baselines (Torch-bearing package init) before stdlib loader",
+      "result": "REJECTED by loader RuntimeError"
+    },
+    {
+      "attack": "COMPOUND P0-2+P0-3: forged clean VIRTUAL_ENV pyvenv.cfg unrelated to sys.prefix + attempt-4-shaped flash_attn ImportError package on sys.path",
+      "result": "REJECTED (VIRTUAL_ENV disagrees with executing sys.prefix); attempt-5 bypass closed"
+    },
+    {
+      "attack": "VIRTUAL_ENV pointing at clean fake tree while sys.prefix is the real interpreter prefix",
+      "result": "REJECTED"
+    },
+    {
+      "attack": "flash_attn find_spec returns a spec but import would ABI-fail; assert absence without executing package",
+      "result": "REJECTED as discoverable; executed=False"
+    },
+    {
+      "attack": "ModuleNotFoundError alone (clean top-level flash_attn absence)",
+      "result": "ACCEPTED by classify_flash_attn_import_error"
+    },
+    {
+      "attack": "attempt-4-shaped ImportError (undefined symbol on flash_attn_2_cuda)",
+      "result": "REJECTED by classify_flash_attn_import_error"
+    },
+    {
+      "attack": "baselines package import loads torch; then stdlib_isolation_preflight(require_torch_absent=True)",
+      "result": "REJECTED (torch already in sys.modules)"
+    },
+    {
+      "attack": "include-system-site-packages=true observation against frozen contract",
+      "result": "REJECTED"
+    },
+    {
+      "attack": "flash_attn discoverable after intentional torch import (run-style require_torch_absent=False re-attest)",
+      "result": "REJECTED by find_spec absence gate"
+    },
+    {
+      "attack": "custom meta_path finder raises during flash_attn find_spec",
+      "result": "REJECTED (flash_attn metadata discovery failed)"
+    },
+    {
+      "attack": "authorization launch_authorized=true file tamper",
+      "result": "REJECTED by CONFIG_SHA256 gate"
+    },
+    {
+      "attack": "enforce_venv_isolation(..., observation=forged)",
+      "result": "REJECTED (unexpected keyword argument)"
+    },
+    {
+      "attack": "python -m barunlm.baselines.mobile_scale_sweep as alternate launch",
+      "result": "module has no __main__ block; -m imports only and does not invoke main/run. Docs/config prescribe scripts/run_mobile_scale_sweep.py only"
+    },
+    {
+      "attack": "entrypoint-shaped stdlib_isolation_preflight with require_torch_absent=True on honest isolated venv",
+      "result": "ACCEPTED; torch remains absent from sys.modules after gate"
+    },
+    {
+      "attack": "machine_id in {465183,465186,465155,465072,463058,463802,463843}",
+      "result": "covered by retained denylist + enforce_machine_id (unchanged from v5; not re-opened)"
+    }
+  ],
+  "attempt_5_p0_closure": [
+    {
+      "id": "P0-1",
+      "title": "Torch imported before isolation gate",
+      "status": "closed",
+      "evidence": "scripts/run_mobile_scale_sweep.py loads via barunlm.scale_sweep_stdlib_loader (file-path module barunlm_scale_sweep_stdlib_preflight) and calls stdlib_isolation_preflight(require_torch_absent=True) before pytest subprocess and before from barunlm.baselines.mobile_scale_sweep import main; loader refuses if torch already in sys.modules or if loading the runner imports torch/mobile_matched/training.data"
+    },
+    {
+      "id": "P0-2",
+      "title": "VIRTUAL_ENV/pyvenv.cfg unbound to executing interpreter",
+      "status": "closed",
+      "evidence": "collect_venv_isolation_observation resolves pyvenv.cfg from sys.prefix; VIRTUAL_ENV when set must equal resolved sys.prefix; executable must lie under prefix; forged clean VIRTUAL_ENV rejected"
+    },
+    {
+      "id": "P0-3",
+      "title": "attempt-4 ImportError treated as flash_attn absence",
+      "status": "closed",
+      "evidence": "discover_flash_attn_spec uses find_spec without import; discoverable packages fail closed; classify_flash_attn_import_error accepts only clean top-level ModuleNotFoundError and rejects ImportError (attempt-4 ABI class)"
+    }
+  ],
+  "entrypoint_and_loader_review": {
+    "production_entrypoint": "scripts/run_mobile_scale_sweep.py",
+    "uses_stdlib_loader": true,
+    "order": [
+      "sys.path[0]=staged repo root",
+      "load_mobile_scale_sweep_stdlib()",
+      "stdlib_isolation_preflight(require_torch_absent=True)",
+      "subprocess pytest tests/test_mobile_scale_sweep.py",
+      "from barunlm.baselines.mobile_scale_sweep import main",
+      "run_main() -> run() re-attests with require_torch_absent=False"
+    ],
+    "docs_prescribe_old_import_path": false,
+    "config_entrypoint_preflight": "scripts/run_mobile_scale_sweep.py -> stdlib_isolation_preflight",
+    "python_dash_m_invokes_main": false,
+    "dual_module_state": {
+      "stdlib_preflight_module_name": "barunlm_scale_sweep_stdlib_preflight",
+      "package_module_name": "barunlm.baselines.mobile_scale_sweep",
+      "same_source_file": true,
+      "CONFIG_SHA256_equal_at_load": true,
+      "mutation_of_stdlib_copy_isolated_from_package_copy": true,
+      "assessment": "intentional to avoid baselines package init; not a forge of the frozen config hash. Authorized launch must use the script entrypoint so the pre-Torch gate runs on the stdlib-loaded copy before the package import."
+    },
+    "safe_run_isolated_project_venv": {
+      "emits": "rm -rf .venv && uv venv --seed .venv && activate && uv pip install -r <requirements>",
+      "system_site_packages_flag_absent": true,
+      "requires_requirements": true
+    }
+  },
+  "spent_authorization_and_denylist": {
+    "spent_attempt_4_go_sha256": "9bf60db79cc543e35eb5e664d1a79e761337720c0dbd663da64a8b62c6f4dac2",
+    "spent_attempt_4_go_reuse_authorized": false,
+    "attempt_5_no_go_sha256": "05d40c7d6ab73594fb8e60fb15de94f676e76d62f97ecae43dfcaba7225c0500",
+    "attempt_5_reuse_authorized": false,
+    "attempt_3_go_spent": true,
+    "protected_evidence_ids_must_never_be_reused": [465183, 465186, 465155, 465072],
+    "denylist_intact": true,
+    "this_receipt_is_a_new_authorization_cycle": true,
+    "third_gpu_under_spent_attempt_4_go_forbidden": true
+  },
+  "tests": {
+    "sweep_suite_passed": 82,
+    "sweep_suite_failed": 0,
+    "full_repository_suite_passed": 1879,
+    "full_repository_suite_failed": 0,
+    "ruff": "clean on src/barunlm/scale_sweep_stdlib_loader.py, src/barunlm/baselines/mobile_scale_sweep.py, scripts/run_mobile_scale_sweep.py, tests/test_mobile_scale_sweep.py; ruff format --check clean"
+  },
+  "blocking_defects": [],
+  "secondary_defects": [
+    {
+      "id": "P1-A",
+      "severity": "P1",
+      "title": "Package-path main()/run() can skip the pre-Torch proof if the script entrypoint is bypassed",
+      "detail": "run() calls stdlib_isolation_preflight(..., require_torch_absent=False) after barunlm.baselines package init may already have imported Torch. On the honest production path the script proves torch absence first. An operator who imports main() directly skips that proof while still obtaining a passing venv/flash_attn receipt. This go authorizes only scripts/run_mobile_scale_sweep.py.",
+      "blocking": false
+    },
+    {
+      "id": "P1-B",
+      "severity": "P1",
+      "title": "safe_run --template still defaults to pytorch; --isolated-project-venv remains a manual flag",
+      "detail": "Carried from attempt-5 P1-A. Authorized launch packaging requires explicit --template axolotl and --isolated-project-venv with frozen requirements.",
+      "blocking": false
+    },
+    {
+      "id": "P1-C",
+      "severity": "P1",
+      "title": "runner_module_sha256 is optional and not frozen in v6 config",
+      "detail": "assess_venv_isolation records the live runner SHA-256 but only cross-checks when compute.venv_isolation.runner_module_sha256 is set; v6 omits that pin. Commit 699bd78 binding remains the freeze authority.",
+      "blocking": false
+    },
+    {
+      "id": "P1-D",
+      "severity": "P1",
+      "title": "Provider jl run setup/requirements order and transitive dependency closure remain unbound",
+      "detail": "Carried from attempt-5 P1-B/P1-C. Not an isolation-attestation forge under the closed P0s.",
+      "blocking": false
+    },
+    {
+      "id": "P2-A",
+      "severity": "P2",
+      "title": "compute.plan still says 'this v5 config'",
+      "detail": "Byte-identical leftover from v5 plan text; spent_authorization_note correctly describes v6. Cosmetic only.",
+      "blocking": false
+    }
+  ],
+  "fresh_eyes": {
+    "remaining_isolation_forgeability": "The attempt-5 compound bypass is closed. Residual hazard is operational: bypassing scripts/run_mobile_scale_sweep.py and calling package main() skips the pre-Torch gate while re-attesting with require_torch_absent=False. That is forbidden by this go's authorized launch scope, not a false-positive receipt on the real entrypoint.",
+    "stdlib_loader_defects": "Loader binds the exact baselines/mobile_scale_sweep.py path, refuses torch-already-present, refuses post-load torch/mobile_matched/training.data, and caches under a distinct module name. Dual module objects share the same source file and equal CONFIG_SHA256 at load; mutating the stdlib copy does not alter the later package copy used by run(). Hash of the active config is still enforced by CONFIG_SHA256 on both copies.",
+    "can_transformers_still_find_flash_attn_under_honest_entrypoint": "Not via the attempt-5 forge. Discoverable flash_attn fails closed at gate and again at run() re-attest. Honest isolated pyvenv.cfg=false plus absent find_spec is required. Attn eager does not relax the gate.",
+    "authorization_flag_escape": "None. load_preflight_compute / load_frozen_config reject SHA mismatch; config authorization flags remain all false; this go is the separate authorization document.",
+    "spent_goes_reusable": false
+  },
+  "authorized_launch_scope": {
+    "authorized": true,
+    "exact_scope": "EXACTLY one fresh exact-ID JarvisLabs H200 created as barun-scale-sweep-* after read-only safe inventory, with template=axolotl, live CPython 3.11.10, safe_run --isolated-project-venv (recreate .venv without --system-site-packages; reinstall frozen requirements), executing scripts/run_mobile_scale_sweep.py which performs stdlib-first isolation preflight, then the frozen v6 end-to-end sweep under configs/mobile_scale_sweep_v6.json (SHA-256 0885b32f14751e77539f0bf58cae6f89b7c72e1d80c1b8a6d3fe61cff9c55540). Exact-ID lifecycle and pause-verify after artifact download.",
+    "forbidden": [
+      "reuse of protected IDs 465183, 465186, 465155, 465072, or any other denylist ID",
+      "reuse of spent attempt-4 go 9bf60db79cc543e35eb5e664d1a79e761337720c0dbd663da64a8b62c6f4dac2",
+      "reuse/rescue/patch of rejected v5 or attempt-5 no-go as launch authority",
+      "template=pytorch",
+      "venv with include-system-site-packages=true / omitting --isolated-project-venv",
+      "launch via python -m barunlm.baselines.mobile_scale_sweep or any path that skips scripts/run_mobile_scale_sweep.py stdlib preflight",
+      "official-961 access",
+      "adoption or release decisions from this screen alone beyond the frozen decision_rule",
+      "candidate-v2 retraining",
+      "second or third GPU under this go",
+      "bulk pause/stop/delete; operating on any non-exact project-created ID"
+    ],
+    "config_authorization_flags_remain_false": true,
+    "this_go_is_the_create_exclusive_authorization": true
+  },
+  "access_this_audit": {
+    "gpu": 0,
+    "cuda": 0,
+    "jarvislabs_mutations": 0,
+    "model_weights_downloaded": 0,
+    "official_961_rows_read": 0,
+    "protected_machine_ids_touched": 0,
+    "network": "none; CPU/local audit only"
+  },
+  "checklist": [
+    {"check": "recompute v6 config SHA-256; verify runner CONFIG_SHA256, attempt-6 prereg, ledger bindings", "result": "pass"},
+    {"check": "diff v5 vs v6 scientific sections; denylist; axolotl/3.11.10; auth flags", "result": "pass (no scientific drift)"},
+    {"check": "tamper: auth flag flip rejected by CONFIG_SHA256 gate", "result": "pass"},
+    {"check": "re-attack three attempt-5 P0s and compound VIRTUAL_ENV+ImportError bypass", "result": "all rejected; ModuleNotFoundError alone accepted"},
+    {"check": "torch-already-present / baselines-before-loader / discoverable ABI flash_attn / broken finder", "result": "all rejected"},
+    {"check": "real CLI entrypoint uses stdlib loader; docs/config do not prescribe old -m path", "result": "pass"},
+    {"check": "prior artifacts untouched; spent goes not reusable; denylist intact", "result": "pass"},
+    {"check": "rerun sweep (82) + full suite (1879) + Ruff", "result": "pass"},
+    {"check": "fresh-eyes stdlib loader dual-module / hash / alternate invocation", "result": "no P0; P1 package-path skip noted and scoped out of authorization"}
+  ],
+  "what_this_go_means": "Attempt 6 closes the three attempt-5 isolation-attestation P0s without scientific drift. This receipt authorizes exactly one fresh barun-scale-sweep-* H200 under axolotl / CPython 3.11.10 / isolated project venv / stdlib-first entrypoint executing frozen v6. It does not authorize reuse of spent goes, protected evidence IDs, pytorch, system-site-packages, official-961, adoption/release, or candidate-v2 retraining."
+}
