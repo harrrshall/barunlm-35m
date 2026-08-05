@@ -1,6 +1,6 @@
 {
   "captured_at": "2026-08-03T11:07:21Z",
-  "last_updated_at": "2026-08-05T15:24:53.317665+00:00",
+  "last_updated_at": "2026-08-05T17:47:45Z",
   "purpose": "Permanent denylist of pre-existing JarvisLabs resources and retained BarunAction evidence instances",
   "resources": [
     {
@@ -322,6 +322,16 @@
       "name_at_capture": "barun-scale-sweep-a4-20260805",
       "num_gpus_at_capture": 1,
       "reason": "Mobile scale-sweep attempt-4 evidence H200 (resume migrant of 465183); reference eval completed then flash_attn system-site ABI failure before challenger training; never resume/reuse/rename/stop/delete",
+      "status_at_capture": "Paused",
+      "template_at_capture": "axolotl"
+    },
+    {
+      "gpu_type_at_capture": "H200",
+      "machine_id": 465257,
+      "name_at_capture": "barun-scale-sweep-a6-20260805",
+      "num_gpus_at_capture": 1,
+      "protection_basis": "Mobile scale-sweep attempt-6 evidence H200; scientific run completed exit 0; pause-verified; never resume/reuse/rename/stop/delete",
+      "reason": "attempt-6 completed scientific scale-sweep; retain as protected evidence",
       "status_at_capture": "Paused",
       "template_at_capture": "axolotl"
     }

@@ -1,0 +1,249 @@
+{
+  "abstention": {
+    "f1": 0.0,
+    "false_negative": 0,
+    "false_positive": 0,
+    "precision": 0.0,
+    "recall": 0.0,
+    "true_positive": 0
+  },
+  "argument_key_macro_f1": 0.1889655172413793,
+  "argument_key_micro": {
+    "f1": 0.0,
+    "false_negative": 1751,
+    "false_positive": 0,
+    "precision": 0.0,
+    "recall": 0.0,
+    "true_positive": 0
+  },
+  "argument_value_macro_f1": 0.1889655172413793,
+  "argument_value_micro": {
+    "f1": 0.0,
+    "false_negative": 1751,
+    "false_positive": 0,
+    "precision": 0.0,
+    "recall": 0.0,
+    "true_positive": 0
+  },
+  "ast_exact_match": {
+    "denominator": 725,
+    "numerator": 0,
+    "value": 0.0
+  },
+  "call_simulator_assessment": {
+    "denominator": 0,
+    "numerator": 0,
+    "value": 0.0
+  },
+  "catastrophic_unauthorized_actions": 0,
+  "clarification_accuracy": {
+    "denominator": 0,
+    "numerator": 0,
+    "value": 0.0
+  },
+  "confirmation_accuracy": {
+    "denominator": 0,
+    "numerator": 0,
+    "value": 0.0
+  },
+  "decision_accuracy": {
+    "denominator": 725,
+    "numerator": 0,
+    "value": 0.0
+  },
+  "evaluator_version": "action-ir-v1.0.0",
+  "failure_counts": {
+    "duplicate_key": 4,
+    "invalid_json": 255,
+    "parse_failure": 259,
+    "schema_failure": 466,
+    "truncated": 154,
+    "type_mismatch": 466
+  },
+  "false_action": {
+    "denominator": 0,
+    "numerator": 0,
+    "value": 0.0
+  },
+  "missing_prediction": {
+    "denominator": 725,
+    "numerator": 0,
+    "value": 0.0
+  },
+  "parse_failure": {
+    "denominator": 725,
+    "numerator": 259,
+    "value": 0.35724137931034483
+  },
+  "parse_valid": {
+    "denominator": 725,
+    "numerator": 466,
+    "value": 0.6427586206896552
+  },
+  "per_gold_tool_success": {
+    "create_calendar_event": {
+      "denominator": 279,
+      "numerator": 0,
+      "value": 0.0
+    },
+    "create_contact": {
+      "denominator": 142,
+      "numerator": 0,
+      "value": 0.0
+    },
+    "open_wifi_settings": {
+      "denominator": 120,
+      "numerator": 0,
+      "value": 0.0
+    },
+    "send_email": {
+      "denominator": 172,
+      "numerator": 0,
+      "value": 0.0
+    },
+    "show_map": {
+      "denominator": 143,
+      "numerator": 0,
+      "value": 0.0
+    },
+    "turn_off_flashlight": {
+      "denominator": 65,
+      "numerator": 0,
+      "value": 0.0
+    },
+    "turn_on_flashlight": {
+      "denominator": 81,
+      "numerator": 0,
+      "value": 0.0
+    }
+  },
+  "per_scenario_success": {
+    "create_calendar_event": {
+      "denominator": 174,
+      "numerator": 0,
+      "value": 0.0
+    },
+    "create_contact": {
+      "denominator": 111,
+      "numerator": 0,
+      "value": 0.0
+    },
+    "open_wifi_settings": {
+      "denominator": 116,
+      "numerator": 0,
+      "value": 0.0
+    },
+    "send_email": {
+      "denominator": 100,
+      "numerator": 0,
+      "value": 0.0
+    },
+    "show_map": {
+      "denominator": 79,
+      "numerator": 0,
+      "value": 0.0
+    },
+    "turn_off_flashlight": {
+      "denominator": 65,
+      "numerator": 0,
+      "value": 0.0
+    },
+    "turn_on_flashlight": {
+      "denominator": 80,
+      "numerator": 0,
+      "value": 0.0
+    }
+  },
+  "per_tool": {
+    "create_calendar_event": {
+      "balanced_accuracy": 0.5,
+      "f1": 0.0,
+      "false_negative": 279,
+      "false_positive": 0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "true_negative": 446,
+      "true_positive": 0
+    },
+    "create_contact": {
+      "balanced_accuracy": 0.5,
+      "f1": 0.0,
+      "false_negative": 142,
+      "false_positive": 0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "true_negative": 583,
+      "true_positive": 0
+    },
+    "open_wifi_settings": {
+      "balanced_accuracy": 0.5,
+      "f1": 0.0,
+      "false_negative": 120,
+      "false_positive": 0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "true_negative": 605,
+      "true_positive": 0
+    },
+    "send_email": {
+      "balanced_accuracy": 0.5,
+      "f1": 0.0,
+      "false_negative": 172,
+      "false_positive": 0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "true_negative": 553,
+      "true_positive": 0
+    },
+    "show_map": {
+      "balanced_accuracy": 0.5,
+      "f1": 0.0,
+      "false_negative": 143,
+      "false_positive": 0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "true_negative": 582,
+      "true_positive": 0
+    },
+    "turn_off_flashlight": {
+      "balanced_accuracy": 0.5,
+      "f1": 0.0,
+      "false_negative": 65,
+      "false_positive": 0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "true_negative": 660,
+      "true_positive": 0
+    },
+    "turn_on_flashlight": {
+      "balanced_accuracy": 0.5,
+      "f1": 0.0,
+      "false_negative": 81,
+      "false_positive": 0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "true_negative": 644,
+      "true_positive": 0
+    }
+  },
+  "policy_safe_executable_success": {
+    "denominator": 725,
+    "numerator": 0,
+    "value": 0.0
+  },
+  "risk_coverage": [],
+  "sample_count": 725,
+  "schema_valid": {
+    "denominator": 725,
+    "numerator": 0,
+    "value": 0.0
+  },
+  "schema_version": "barun-mobile-actions-score-v1",
+  "tool_macro_balanced_accuracy": 0.5,
+  "tool_macro_f1": 0.0,
+  "truncation": {
+    "denominator": 725,
+    "numerator": 154,
+    "value": 0.21241379310344827
+  }
+}

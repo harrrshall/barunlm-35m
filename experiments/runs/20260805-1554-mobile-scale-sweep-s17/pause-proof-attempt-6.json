@@ -1,0 +1,12 @@
+{
+  "instance": {
+    "machine_id": 465257,
+    "name": "barun-scale-sweep-a6-20260805",
+    "status": "Paused",
+    "gpu_type": "H200",
+    "num_gpus": 1,
+    "region": "IN2",
+    "is_spot": false,
+    "template": "axolotl"
+  }
+}

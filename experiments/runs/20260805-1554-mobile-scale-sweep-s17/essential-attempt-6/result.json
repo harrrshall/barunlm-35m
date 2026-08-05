@@ -1,0 +1,2286 @@
+{
+  "arms": [
+    {
+      "arm_id": "pythia-70m-deduped",
+      "fits": {
+        "lr1e-04": {
+          "aggregate": {
+            "abstention": {
+              "f1": 0.0,
+              "false_negative": 0,
+              "false_positive": 0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "true_positive": 0
+            },
+            "argument_key_macro_f1": 0.22579310344827586,
+            "argument_key_micro": {
+              "f1": 0.06363137685134394,
+              "false_negative": 1693,
+              "false_positive": 14,
+              "precision": 0.8055555555555556,
+              "recall": 0.03312392918332382,
+              "true_positive": 58
+            },
+            "argument_value_macro_f1": 0.1917241379310345,
+            "argument_value_micro": {
+              "f1": 0.004388370817334065,
+              "false_negative": 1747,
+              "false_positive": 68,
+              "precision": 0.05555555555555555,
+              "recall": 0.002284408909194746,
+              "true_positive": 4
+            },
+            "ast_exact_match": {
+              "denominator": 725,
+              "numerator": 45,
+              "value": 0.06206896551724138
+            },
+            "call_simulator_assessment": {
+              "denominator": 170,
+              "numerator": 170,
+              "value": 1.0
+            },
+            "catastrophic_unauthorized_actions": 0,
+            "clarification_accuracy": {
+              "denominator": 0,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "confirmation_accuracy": {
+              "denominator": 0,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "decision_accuracy": {
+              "denominator": 725,
+              "numerator": 170,
+              "value": 0.23448275862068965
+            },
+            "evaluator_version": "action-ir-v1.0.0",
+            "failure_counts": {
+              "ast_mismatch": 125,
+              "duplicate_key": 20,
+              "extra_argument": 22,
+              "invalid_call_count": 4,
+              "invalid_decision": 1,
+              "invalid_json": 360,
+              "missing_argument": 49,
+              "missing_field": 2,
+              "mobile_actions_ast_mismatch": 125,
+              "parse_failure": 380,
+              "schema_failure": 175,
+              "simulator_failure": 125,
+              "truncated": 59,
+              "type_mismatch": 1,
+              "unknown_tool": 96
+            },
+            "false_action": {
+              "denominator": 0,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "missing_prediction": {
+              "denominator": 725,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "parse_failure": {
+              "denominator": 725,
+              "numerator": 380,
+              "value": 0.5241379310344828
+            },
+            "parse_valid": {
+              "denominator": 725,
+              "numerator": 345,
+              "value": 0.47586206896551725
+            },
+            "per_gold_tool_success": {
+              "create_calendar_event": {
+                "denominator": 279,
+                "numerator": 0,
+                "value": 0.0
+              },
+              "create_contact": {
+                "denominator": 142,
+                "numerator": 0,
+                "value": 0.0
+              },
+              "open_wifi_settings": {
+                "denominator": 120,
+                "numerator": 39,
+                "value": 0.325
+              },
+              "send_email": {
+                "denominator": 172,
+                "numerator": 0,
+                "value": 0.0
+              },
+              "show_map": {
+                "denominator": 143,
+                "numerator": 0,
+                "value": 0.0
+              },
+              "turn_off_flashlight": {
+                "denominator": 65,
+                "numerator": 2,
+                "value": 0.03076923076923077
+              },
+              "turn_on_flashlight": {
+                "denominator": 81,
+                "numerator": 4,
+                "value": 0.04938271604938271
+              }
+            },
+            "per_scenario_success": {
+              "create_calendar_event": {
+                "denominator": 174,
+                "numerator": 0,
+                "value": 0.0
+              },
+              "create_contact": {
+                "denominator": 111,
+                "numerator": 0,
+                "value": 0.0
+              },
+              "open_wifi_settings": {
+                "denominator": 116,
+                "numerator": 39,
+                "value": 0.33620689655172414
+              },
+              "send_email": {
+                "denominator": 100,
+                "numerator": 0,
+                "value": 0.0
+              },
+              "show_map": {
+                "denominator": 79,
+                "numerator": 0,
+                "value": 0.0
+              },
+              "turn_off_flashlight": {
+                "denominator": 65,
+                "numerator": 2,
+                "value": 0.03076923076923077
+              },
+              "turn_on_flashlight": {
+                "denominator": 80,
+                "numerator": 4,
+                "value": 0.05
+              }
+            },
+            "per_tool": {
+              "create_calendar_event": {
+                "balanced_accuracy": 0.5562265940177122,
+                "f1": 0.20512820512820515,
+                "false_negative": 247,
+                "false_positive": 1,
+                "precision": 0.9696969696969697,
+                "recall": 0.11469534050179211,
+                "true_negative": 445,
+                "true_positive": 32
+              },
+              "create_contact": {
+                "balanced_accuracy": 0.5070422535211268,
+                "f1": 0.02777777777777778,
+                "false_negative": 140,
+                "false_positive": 0,
+                "precision": 1.0,
+                "recall": 0.014084507042253521,
+                "true_negative": 583,
+                "true_positive": 2
+              },
+              "open_wifi_settings": {
+                "balanced_accuracy": 0.7261363636363636,
+                "f1": 0.5550660792951543,
+                "false_negative": 57,
+                "false_positive": 44,
+                "precision": 0.5887850467289719,
+                "recall": 0.525,
+                "true_negative": 561,
+                "true_positive": 63
+              },
+              "send_email": {
+                "balanced_accuracy": 0.5,
+                "f1": 0.0,
+                "false_negative": 172,
+                "false_positive": 0,
+                "precision": 0.0,
+                "recall": 0.0,
+                "true_negative": 553,
+                "true_positive": 0
+              },
+              "show_map": {
+                "balanced_accuracy": 0.5,
+                "f1": 0.0,
+                "false_negative": 143,
+                "false_positive": 0,
+                "precision": 0.0,
+                "recall": 0.0,
+                "true_negative": 582,
+                "true_positive": 0
+              },
+              "turn_off_flashlight": {
+                "balanced_accuracy": 0.5223193473193474,
+                "f1": 0.08695652173913043,
+                "false_negative": 62,
+                "false_positive": 1,
+                "precision": 0.75,
+                "recall": 0.046153846153846156,
+                "true_negative": 659,
+                "true_positive": 3
+              },
+              "turn_on_flashlight": {
+                "balanced_accuracy": 0.5369603558009355,
+                "f1": 0.15238095238095237,
+                "false_negative": 73,
+                "false_positive": 16,
+                "precision": 0.3333333333333333,
+                "recall": 0.09876543209876543,
+                "true_negative": 628,
+                "true_positive": 8
+              }
+            },
+            "policy_safe_executable_success": {
+              "denominator": 725,
+              "numerator": 45,
+              "value": 0.06206896551724138
+            },
+            "risk_coverage": [],
+            "sample_count": 725,
+            "schema_valid": {
+              "denominator": 725,
+              "numerator": 170,
+              "value": 0.23448275862068965
+            },
+            "schema_version": "barun-mobile-actions-score-v1",
+            "tool_macro_balanced_accuracy": 0.5498121306136408,
+            "tool_macro_f1": 0.1467585051887457,
+            "truncation": {
+              "denominator": 725,
+              "numerator": 59,
+              "value": 0.08137931034482758
+            }
+          },
+          "completed": true,
+          "counts": {
+            "exact_match_count": 45,
+            "generation_failure_count": 0,
+            "missing_prediction_count": 0,
+            "rows": 725,
+            "schema_valid_count": 170,
+            "truncated_count": 59
+          },
+          "generation": {
+            "batch_size": 64,
+            "decoding": "unconstrained_deterministic_greedy",
+            "decoding_overrides_passed_explicitly": {
+              "do_sample": false,
+              "length_penalty": 1.0,
+              "no_repeat_ngram_size": 0,
+              "num_beams": 1,
+              "repetition_penalty": 1.0
+            },
+            "elapsed_seconds": 12.178759076166898,
+            "examples": 725,
+            "failed": 0,
+            "generated": 725,
+            "grammar_constrained": false,
+            "max_new_tokens": 256,
+            "predictions_sha256": "1fc5ee6734c76d7cd7e57d41a8c829ce34eb7a93c60aef653f0a700d51b23e56",
+            "schema_version": "barun-mobile-scale-sweep-generation-v1",
+            "truncated": 59
+          },
+          "learning_rate": 0.0001,
+          "training": {
+            "elapsed_seconds": 11.01659999601543,
+            "epochs": 1,
+            "examples_presented": 7212,
+            "learning_rate": 0.0001,
+            "method": "full_parameter_response_only_sft",
+            "optimizer_steps": 115,
+            "presentation_order_sha256": "74edf671ec93ed843d25dca7708a54df1686b47c85f901e74762d07494cb27f0",
+            "schema_version": "barun-mobile-scale-sweep-training-v1"
+          }
+        },
+        "lr3e-05": {
+          "aggregate": {
+            "abstention": {
+              "f1": 0.0,
+              "false_negative": 0,
+              "false_positive": 0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "true_positive": 0
+            },
+            "argument_key_macro_f1": 0.1889655172413793,
+            "argument_key_micro": {
+              "f1": 0.0,
+              "false_negative": 1751,
+              "false_positive": 0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "true_positive": 0
+            },
+            "argument_value_macro_f1": 0.1889655172413793,
+            "argument_value_micro": {
+              "f1": 0.0,
+              "false_negative": 1751,
+              "false_positive": 0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "true_positive": 0
+            },
+            "ast_exact_match": {
+              "denominator": 725,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "call_simulator_assessment": {
+              "denominator": 0,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "catastrophic_unauthorized_actions": 0,
+            "clarification_accuracy": {
+              "denominator": 0,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "confirmation_accuracy": {
+              "denominator": 0,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "decision_accuracy": {
+              "denominator": 725,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "evaluator_version": "action-ir-v1.0.0",
+            "failure_counts": {
+              "invalid_json": 725,
+              "parse_failure": 725,
+              "truncated": 725
+            },
+            "false_action": {
+              "denominator": 0,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "missing_prediction": {
+              "denominator": 725,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "parse_failure": {
+              "denominator": 725,
+              "numerator": 725,
+              "value": 1.0
+            },
+            "parse_valid": {
+              "denominator": 725,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "per_gold_tool_success": {
+              "create_calendar_event": {
+                "denominator": 279,
+                "numerator": 0,
+                "value": 0.0
+              },
+              "create_contact": {
+                "denominator": 142,
+                "numerator": 0,
+                "value": 0.0
+              },
+              "open_wifi_settings": {
+                "denominator": 120,
+                "numerator": 0,
+                "value": 0.0
+              },
+              "send_email": {
+                "denominator": 172,
+                "numerator": 0,
+                "value": 0.0
+              },
+              "show_map": {
+                "denominator": 143,
+                "numerator": 0,
+                "value": 0.0
+              },
+              "turn_off_flashlight": {
+                "denominator": 65,
+                "numerator": 0,
+                "value": 0.0
+              },
+              "turn_on_flashlight": {
+                "denominator": 81,
+                "numerator": 0,
+                "value": 0.0
+              }
+            },
+            "per_scenario_success": {
+              "create_calendar_event": {
+                "denominator": 174,
+                "numerator": 0,
+                "value": 0.0
+              },
+              "create_contact": {
+                "denominator": 111,
+                "numerator": 0,
+                "value": 0.0
+              },
+              "open_wifi_settings": {
+                "denominator": 116,
+                "numerator": 0,
+                "value": 0.0
+              },
+              "send_email": {
+                "denominator": 100,
+                "numerator": 0,
+                "value": 0.0
+              },
+              "show_map": {
+                "denominator": 79,
+                "numerator": 0,
+                "value": 0.0
+              },
+              "turn_off_flashlight": {
+                "denominator": 65,
+                "numerator": 0,
+                "value": 0.0
+              },
+              "turn_on_flashlight": {
+                "denominator": 80,
+                "numerator": 0,
+                "value": 0.0
+              }
+            },
+            "per_tool": {
+              "create_calendar_event": {
+                "balanced_accuracy": 0.5,
+                "f1": 0.0,
+                "false_negative": 279,
+                "false_positive": 0,
+                "precision": 0.0,
+                "recall": 0.0,
+                "true_negative": 446,
+                "true_positive": 0
+              },
+              "create_contact": {
+                "balanced_accuracy": 0.5,
+                "f1": 0.0,
+                "false_negative": 142,
+                "false_positive": 0,
+                "precision": 0.0,
+                "recall": 0.0,
+                "true_negative": 583,
+                "true_positive": 0
+              },
+              "open_wifi_settings": {
+                "balanced_accuracy": 0.5,
+                "f1": 0.0,
+                "false_negative": 120,
+                "false_positive": 0,
+                "precision": 0.0,
+                "recall": 0.0,
+                "true_negative": 605,
+                "true_positive": 0
+              },
+              "send_email": {
+                "balanced_accuracy": 0.5,
+                "f1": 0.0,
+                "false_negative": 172,
+                "false_positive": 0,
+                "precision": 0.0,
+                "recall": 0.0,
+                "true_negative": 553,
+                "true_positive": 0
+              },
+              "show_map": {
+                "balanced_accuracy": 0.5,
+                "f1": 0.0,
+                "false_negative": 143,
+                "false_positive": 0,
+                "precision": 0.0,
+                "recall": 0.0,
+                "true_negative": 582,
+                "true_positive": 0
+              },
+              "turn_off_flashlight": {
+                "balanced_accuracy": 0.5,
+                "f1": 0.0,
+                "false_negative": 65,
+                "false_positive": 0,
+                "precision": 0.0,
+                "recall": 0.0,
+                "true_negative": 660,
+                "true_positive": 0
+              },
+              "turn_on_flashlight": {
+                "balanced_accuracy": 0.5,
+                "f1": 0.0,
+                "false_negative": 81,
+                "false_positive": 0,
+                "precision": 0.0,
+                "recall": 0.0,
+                "true_negative": 644,
+                "true_positive": 0
+              }
+            },
+            "policy_safe_executable_success": {
+              "denominator": 725,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "risk_coverage": [],
+            "sample_count": 725,
+            "schema_valid": {
+              "denominator": 725,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "schema_version": "barun-mobile-actions-score-v1",
+            "tool_macro_balanced_accuracy": 0.5,
+            "tool_macro_f1": 0.0,
+            "truncation": {
+              "denominator": 725,
+              "numerator": 725,
+              "value": 1.0
+            }
+          },
+          "completed": true,
+          "counts": {
+            "exact_match_count": 0,
+            "generation_failure_count": 0,
+            "missing_prediction_count": 0,
+            "rows": 725,
+            "schema_valid_count": 0,
+            "truncated_count": 725
+          },
+          "generation": {
+            "batch_size": 64,
+            "decoding": "unconstrained_deterministic_greedy",
+            "decoding_overrides_passed_explicitly": {
+              "do_sample": false,
+              "length_penalty": 1.0,
+              "no_repeat_ngram_size": 0,
+              "num_beams": 1,
+              "repetition_penalty": 1.0
+            },
+            "elapsed_seconds": 12.68827697308734,
+            "examples": 725,
+            "failed": 0,
+            "generated": 725,
+            "grammar_constrained": false,
+            "max_new_tokens": 256,
+            "predictions_sha256": "105e5b912357555b4ce901463f8b00dbbfde0fe2890178c16396bbca7ef1bade",
+            "schema_version": "barun-mobile-scale-sweep-generation-v1",
+            "truncated": 725
+          },
+          "learning_rate": 3e-05,
+          "training": {
+            "elapsed_seconds": 13.29073824826628,
+            "epochs": 1,
+            "examples_presented": 7212,
+            "learning_rate": 3e-05,
+            "method": "full_parameter_response_only_sft",
+            "optimizer_steps": 115,
+            "presentation_order_sha256": "74edf671ec93ed843d25dca7708a54df1686b47c85f901e74762d07494cb27f0",
+            "schema_version": "barun-mobile-scale-sweep-training-v1"
+          }
+        }
+      },
+      "measured_failure": false,
+      "repo_id": "EleutherAI/pythia-70m-deduped",
+      "revision": "e93a9faa9c77e5d09219f6c868bfc7a1bd65593c",
+      "selected_learning_rate": 0.0001,
+      "snapshot_sha256": {
+        "config.json": "002050231a9b1ec3ac77aa6b9b3bbdc4d923f4068a7dd33b8da72a9bd6ad9a43",
+        "model.safetensors": "3da388330e4549156d76b58d6d268c63cd005e9336b4f4d2d378421e7b7a33fd",
+        "special_tokens_map.json": "6f50ab5a5a509a1c309d6171f339b196a900dc9c99ad0408ff23bb615fdae7ad",
+        "tokenizer.json": "c24618a1b3e6a38167beff1c72cffd126c3a66254347304b50547d12c5f25624",
+        "tokenizer_config.json": "70e38394e494931c6f773ba41e19460dd4436526b852207367f04341b4066d3f"
+      }
+    },
+    {
+      "arm_id": "smollm2-135m",
+      "fits": {
+        "lr1e-04": {
+          "aggregate": {
+            "abstention": {
+              "f1": 0.0,
+              "false_negative": 0,
+              "false_positive": 0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "true_positive": 0
+            },
+            "argument_key_macro_f1": 0.8962456776939538,
+            "argument_key_micro": {
+              "f1": 0.9042782394582948,
+              "false_negative": 282,
+              "false_positive": 29,
+              "precision": 0.9806408544726302,
+              "recall": 0.8389491719017704,
+              "true_positive": 1469
+            },
+            "argument_value_macro_f1": 0.7593008600594815,
+            "argument_value_micro": {
+              "f1": 0.7750076946752846,
+              "false_negative": 492,
+              "false_positive": 239,
+              "precision": 0.8404539385847797,
+              "recall": 0.7190177041690463,
+              "true_positive": 1259
+            },
+            "ast_exact_match": {
+              "denominator": 725,
+              "numerator": 422,
+              "value": 0.5820689655172414
+            },
+            "call_simulator_assessment": {
+              "denominator": 655,
+              "numerator": 655,
+              "value": 1.0
+            },
+            "catastrophic_unauthorized_actions": 0,
+            "clarification_accuracy": {
+              "denominator": 0,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "confirmation_accuracy": {
+              "denominator": 0,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "decision_accuracy": {
+              "denominator": 725,
+              "numerator": 655,
+              "value": 0.903448275862069
+            },
+            "evaluator_version": "action-ir-v1.0.0",
+            "failure_counts": {
+              "ast_mismatch": 233,
+              "duplicate_key": 1,
+              "extra_argument": 19,
+              "invalid_call_count": 4,
+              "invalid_json": 5,
+              "missing_argument": 26,
+              "missing_field": 3,
+              "mobile_actions_ast_mismatch": 233,
+              "parse_failure": 6,
+              "schema_failure": 64,
+              "simulator_failure": 233,
+              "truncated": 1,
+              "unknown_tool": 12
+            },
+            "false_action": {
+              "denominator": 0,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "missing_prediction": {
+              "denominator": 725,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "parse_failure": {
+              "denominator": 725,
+              "numerator": 6,
+              "value": 0.008275862068965517
+            },
+            "parse_valid": {
+              "denominator": 725,
+              "numerator": 719,
+              "value": 0.9917241379310345
+            },
+            "per_gold_tool_success": {
+              "create_calendar_event": {
+                "denominator": 279,
+                "numerator": 114,
+                "value": 0.40860215053763443
+              },
+              "create_contact": {
+                "denominator": 142,
+                "numerator": 65,
+                "value": 0.45774647887323944
+              },
+              "open_wifi_settings": {
+                "denominator": 120,
+                "numerator": 88,
+                "value": 0.7333333333333333
+              },
+              "send_email": {
+                "denominator": 172,
+                "numerator": 97,
+                "value": 0.563953488372093
+              },
+              "show_map": {
+                "denominator": 143,
+                "numerator": 56,
+                "value": 0.3916083916083916
+              },
+              "turn_off_flashlight": {
+                "denominator": 65,
+                "numerator": 51,
+                "value": 0.7846153846153846
+              },
+              "turn_on_flashlight": {
+                "denominator": 81,
+                "numerator": 51,
+                "value": 0.6296296296296297
+              }
+            },
+            "per_scenario_success": {
+              "create_calendar_event": {
+                "denominator": 174,
+                "numerator": 84,
+                "value": 0.4827586206896552
+              },
+              "create_contact": {
+                "denominator": 111,
+                "numerator": 52,
+                "value": 0.46846846846846846
+              },
+              "open_wifi_settings": {
+                "denominator": 116,
+                "numerator": 87,
+                "value": 0.75
+              },
+              "send_email": {
+                "denominator": 100,
+                "numerator": 60,
+                "value": 0.6
+              },
+              "show_map": {
+                "denominator": 79,
+                "numerator": 37,
+                "value": 0.46835443037974683
+              },
+              "turn_off_flashlight": {
+                "denominator": 65,
+                "numerator": 51,
+                "value": 0.7846153846153846
+              },
+              "turn_on_flashlight": {
+                "denominator": 80,
+                "numerator": 51,
+                "value": 0.6375
+              }
+            },
+            "per_tool": {
+              "create_calendar_event": {
+                "balanced_accuracy": 0.9283154121863799,
+                "f1": 0.9227799227799228,
+                "false_negative": 40,
+                "false_positive": 0,
+                "precision": 1.0,
+                "recall": 0.8566308243727598,
+                "true_negative": 446,
+                "true_positive": 239
+              },
+              "create_contact": {
+                "balanced_accuracy": 0.926056338028169,
+                "f1": 0.9201520912547528,
+                "false_negative": 21,
+                "false_positive": 0,
+                "precision": 1.0,
+                "recall": 0.852112676056338,
+                "true_negative": 583,
+                "true_positive": 121
+              },
+              "open_wifi_settings": {
+                "balanced_accuracy": 0.9125,
+                "f1": 0.9041095890410958,
+                "false_negative": 21,
+                "false_positive": 0,
+                "precision": 1.0,
+                "recall": 0.825,
+                "true_negative": 605,
+                "true_positive": 99
+              },
+              "send_email": {
+                "balanced_accuracy": 0.9186046511627908,
+                "f1": 0.9113924050632911,
+                "false_negative": 28,
+                "false_positive": 0,
+                "precision": 1.0,
+                "recall": 0.8372093023255814,
+                "true_negative": 553,
+                "true_positive": 144
+              },
+              "show_map": {
+                "balanced_accuracy": 0.8942457885756855,
+                "f1": 0.8793774319066148,
+                "false_negative": 30,
+                "false_positive": 1,
+                "precision": 0.9912280701754386,
+                "recall": 0.7902097902097902,
+                "true_negative": 581,
+                "true_positive": 113
+              },
+              "turn_off_flashlight": {
+                "balanced_accuracy": 0.9538461538461538,
+                "f1": 0.9516129032258065,
+                "false_negative": 6,
+                "false_positive": 0,
+                "precision": 1.0,
+                "recall": 0.9076923076923077,
+                "true_negative": 660,
+                "true_positive": 59
+              },
+              "turn_on_flashlight": {
+                "balanced_accuracy": 0.9382716049382716,
+                "f1": 0.9342105263157895,
+                "false_negative": 10,
+                "false_positive": 0,
+                "precision": 1.0,
+                "recall": 0.8765432098765432,
+                "true_negative": 644,
+                "true_positive": 71
+              }
+            },
+            "policy_safe_executable_success": {
+              "denominator": 725,
+              "numerator": 422,
+              "value": 0.5820689655172414
+            },
+            "risk_coverage": [],
+            "sample_count": 725,
+            "schema_valid": {
+              "denominator": 725,
+              "numerator": 655,
+              "value": 0.903448275862069
+            },
+            "schema_version": "barun-mobile-actions-score-v1",
+            "tool_macro_balanced_accuracy": 0.92454856410535,
+            "tool_macro_f1": 0.9176621242267533,
+            "truncation": {
+              "denominator": 725,
+              "numerator": 1,
+              "value": 0.001379310344827586
+            }
+          },
+          "completed": true,
+          "counts": {
+            "exact_match_count": 422,
+            "generation_failure_count": 0,
+            "missing_prediction_count": 0,
+            "rows": 725,
+            "schema_valid_count": 655,
+            "truncated_count": 1
+          },
+          "generation": {
+            "batch_size": 64,
+            "decoding": "unconstrained_deterministic_greedy",
+            "decoding_overrides_passed_explicitly": {
+              "do_sample": false,
+              "length_penalty": 1.0,
+              "no_repeat_ngram_size": 0,
+              "num_beams": 1,
+              "repetition_penalty": 1.0
+            },
+            "elapsed_seconds": 29.224936682730913,
+            "examples": 725,
+            "failed": 0,
+            "generated": 725,
+            "grammar_constrained": false,
+            "max_new_tokens": 256,
+            "predictions_sha256": "c41d2170b8606fef8e6fcb4e09b6159d7192e7fb55c058e67a80b9a4c6e55069",
+            "schema_version": "barun-mobile-scale-sweep-generation-v1",
+            "truncated": 1
+          },
+          "learning_rate": 0.0001,
+          "training": {
+            "elapsed_seconds": 55.74340709298849,
+            "epochs": 1,
+            "examples_presented": 7212,
+            "learning_rate": 0.0001,
+            "method": "full_parameter_response_only_sft",
+            "optimizer_steps": 115,
+            "presentation_order_sha256": "74edf671ec93ed843d25dca7708a54df1686b47c85f901e74762d07494cb27f0",
+            "schema_version": "barun-mobile-scale-sweep-training-v1"
+          }
+        },
+        "lr3e-05": {
+          "aggregate": {
+            "abstention": {
+              "f1": 0.0,
+              "false_negative": 0,
+              "false_positive": 0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "true_positive": 0
+            },
+            "argument_key_macro_f1": 0.1889655172413793,
+            "argument_key_micro": {
+              "f1": 0.0,
+              "false_negative": 1751,
+              "false_positive": 0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "true_positive": 0
+            },
+            "argument_value_macro_f1": 0.1889655172413793,
+            "argument_value_micro": {
+              "f1": 0.0,
+              "false_negative": 1751,
+              "false_positive": 0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "true_positive": 0
+            },
+            "ast_exact_match": {
+              "denominator": 725,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "call_simulator_assessment": {
+              "denominator": 0,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "catastrophic_unauthorized_actions": 0,
+            "clarification_accuracy": {
+              "denominator": 0,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "confirmation_accuracy": {
+              "denominator": 0,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "decision_accuracy": {
+              "denominator": 725,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "evaluator_version": "action-ir-v1.0.0",
+            "failure_counts": {
+              "invalid_json": 725,
+              "parse_failure": 725,
+              "truncated": 725
+            },
+            "false_action": {
+              "denominator": 0,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "missing_prediction": {
+              "denominator": 725,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "parse_failure": {
+              "denominator": 725,
+              "numerator": 725,
+              "value": 1.0
+            },
+            "parse_valid": {
+              "denominator": 725,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "per_gold_tool_success": {
+              "create_calendar_event": {
+                "denominator": 279,
+                "numerator": 0,
+                "value": 0.0
+              },
+              "create_contact": {
+                "denominator": 142,
+                "numerator": 0,
+                "value": 0.0
+              },
+              "open_wifi_settings": {
+                "denominator": 120,
+                "numerator": 0,
+                "value": 0.0
+              },
+              "send_email": {
+                "denominator": 172,
+                "numerator": 0,
+                "value": 0.0
+              },
+              "show_map": {
+                "denominator": 143,
+                "numerator": 0,
+                "value": 0.0
+              },
+              "turn_off_flashlight": {
+                "denominator": 65,
+                "numerator": 0,
+                "value": 0.0
+              },
+              "turn_on_flashlight": {
+                "denominator": 81,
+                "numerator": 0,
+                "value": 0.0
+              }
+            },
+            "per_scenario_success": {
+              "create_calendar_event": {
+                "denominator": 174,
+                "numerator": 0,
+                "value": 0.0
+              },
+              "create_contact": {
+                "denominator": 111,
+                "numerator": 0,
+                "value": 0.0
+              },
+              "open_wifi_settings": {
+                "denominator": 116,
+                "numerator": 0,
+                "value": 0.0
+              },
+              "send_email": {
+                "denominator": 100,
+                "numerator": 0,
+                "value": 0.0
+              },
+              "show_map": {
+                "denominator": 79,
+                "numerator": 0,
+                "value": 0.0
+              },
+              "turn_off_flashlight": {
+                "denominator": 65,
+                "numerator": 0,
+                "value": 0.0
+              },
+              "turn_on_flashlight": {
+                "denominator": 80,
+                "numerator": 0,
+                "value": 0.0
+              }
+            },
+            "per_tool": {
+              "create_calendar_event": {
+                "balanced_accuracy": 0.5,
+                "f1": 0.0,
+                "false_negative": 279,
+                "false_positive": 0,
+                "precision": 0.0,
+                "recall": 0.0,
+                "true_negative": 446,
+                "true_positive": 0
+              },
+              "create_contact": {
+                "balanced_accuracy": 0.5,
+                "f1": 0.0,
+                "false_negative": 142,
+                "false_positive": 0,
+                "precision": 0.0,
+                "recall": 0.0,
+                "true_negative": 583,
+                "true_positive": 0
+              },
+              "open_wifi_settings": {
+                "balanced_accuracy": 0.5,
+                "f1": 0.0,
+                "false_negative": 120,
+                "false_positive": 0,
+                "precision": 0.0,
+                "recall": 0.0,
+                "true_negative": 605,
+                "true_positive": 0
+              },
+              "send_email": {
+                "balanced_accuracy": 0.5,
+                "f1": 0.0,
+                "false_negative": 172,
+                "false_positive": 0,
+                "precision": 0.0,
+                "recall": 0.0,
+                "true_negative": 553,
+                "true_positive": 0
+              },
+              "show_map": {
+                "balanced_accuracy": 0.5,
+                "f1": 0.0,
+                "false_negative": 143,
+                "false_positive": 0,
+                "precision": 0.0,
+                "recall": 0.0,
+                "true_negative": 582,
+                "true_positive": 0
+              },
+              "turn_off_flashlight": {
+                "balanced_accuracy": 0.5,
+                "f1": 0.0,
+                "false_negative": 65,
+                "false_positive": 0,
+                "precision": 0.0,
+                "recall": 0.0,
+                "true_negative": 660,
+                "true_positive": 0
+              },
+              "turn_on_flashlight": {
+                "balanced_accuracy": 0.5,
+                "f1": 0.0,
+                "false_negative": 81,
+                "false_positive": 0,
+                "precision": 0.0,
+                "recall": 0.0,
+                "true_negative": 644,
+                "true_positive": 0
+              }
+            },
+            "policy_safe_executable_success": {
+              "denominator": 725,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "risk_coverage": [],
+            "sample_count": 725,
+            "schema_valid": {
+              "denominator": 725,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "schema_version": "barun-mobile-actions-score-v1",
+            "tool_macro_balanced_accuracy": 0.5,
+            "tool_macro_f1": 0.0,
+            "truncation": {
+              "denominator": 725,
+              "numerator": 725,
+              "value": 1.0
+            }
+          },
+          "completed": true,
+          "counts": {
+            "exact_match_count": 0,
+            "generation_failure_count": 0,
+            "missing_prediction_count": 0,
+            "rows": 725,
+            "schema_valid_count": 0,
+            "truncated_count": 725
+          },
+          "generation": {
+            "batch_size": 64,
+            "decoding": "unconstrained_deterministic_greedy",
+            "decoding_overrides_passed_explicitly": {
+              "do_sample": false,
+              "length_penalty": 1.0,
+              "no_repeat_ngram_size": 0,
+              "num_beams": 1,
+              "repetition_penalty": 1.0
+            },
+            "elapsed_seconds": 63.96713437512517,
+            "examples": 725,
+            "failed": 0,
+            "generated": 725,
+            "grammar_constrained": false,
+            "max_new_tokens": 256,
+            "predictions_sha256": "4b8ff4b846dd3aacb169c8ebff226c0ae72ec869c0c0bd040082f8ba43a14109",
+            "schema_version": "barun-mobile-scale-sweep-generation-v1",
+            "truncated": 725
+          },
+          "learning_rate": 3e-05,
+          "training": {
+            "elapsed_seconds": 55.51382389571518,
+            "epochs": 1,
+            "examples_presented": 7212,
+            "learning_rate": 3e-05,
+            "method": "full_parameter_response_only_sft",
+            "optimizer_steps": 115,
+            "presentation_order_sha256": "74edf671ec93ed843d25dca7708a54df1686b47c85f901e74762d07494cb27f0",
+            "schema_version": "barun-mobile-scale-sweep-training-v1"
+          }
+        }
+      },
+      "measured_failure": false,
+      "repo_id": "HuggingFaceTB/SmolLM2-135M",
+      "revision": "93efa2f097d58c2a74874c7e644dbc9b0cee75a2",
+      "selected_learning_rate": 0.0001,
+      "snapshot_sha256": {
+        "config.json": "1d556eab73b69c7f11f64c557a2f9c6f440bd4c6b89bb2584a6b498c92603843",
+        "generation_config.json": "2056c988e990b0d13670f63f2f3b87b3b6d07edaf7a3416998ba27dab2d8a059",
+        "model.safetensors": "80521b40281d6ce74e35c9282c22539e75aa0ac8578892b2a59955ef78d55da1",
+        "special_tokens_map.json": "e786b595b9a23148bf1630df78d9037a048ea671e48bfd3549a1e3c233742bb3",
+        "tokenizer.json": "9ca9acddb6525a194ec8ac7a87f24fbba7232a9a15ffa1af0c1224fcd888e47c",
+        "tokenizer_config.json": "4bb9af56a342753d39374f4016a16574cab299fe088e896f425ce3c433f61424"
+      }
+    },
+    {
+      "arm_id": "smollm2-360m",
+      "fits": {
+        "lr1e-04": {
+          "aggregate": {
+            "abstention": {
+              "f1": 0.0,
+              "false_negative": 0,
+              "false_positive": 0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "true_positive": 0
+            },
+            "argument_key_macro_f1": 0.9790591018177227,
+            "argument_key_micro": {
+              "f1": 0.9774956722446624,
+              "false_negative": 57,
+              "false_positive": 21,
+              "precision": 0.9877551020408163,
+              "recall": 0.9674471730439749,
+              "true_positive": 1694
+            },
+            "argument_value_macro_f1": 0.8987581307581313,
+            "argument_value_micro": {
+              "f1": 0.9088286208886324,
+              "false_negative": 176,
+              "false_positive": 140,
+              "precision": 0.9183673469387755,
+              "recall": 0.8994860079954312,
+              "true_positive": 1575
+            },
+            "ast_exact_match": {
+              "denominator": 725,
+              "numerator": 585,
+              "value": 0.8068965517241379
+            },
+            "call_simulator_assessment": {
+              "denominator": 717,
+              "numerator": 717,
+              "value": 1.0
+            },
+            "catastrophic_unauthorized_actions": 0,
+            "clarification_accuracy": {
+              "denominator": 0,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "confirmation_accuracy": {
+              "denominator": 0,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "decision_accuracy": {
+              "denominator": 725,
+              "numerator": 717,
+              "value": 0.9889655172413793
+            },
+            "evaluator_version": "action-ir-v1.0.0",
+            "failure_counts": {
+              "ast_mismatch": 132,
+              "extra_argument": 1,
+              "invalid_json": 1,
+              "missing_argument": 2,
+              "missing_field": 1,
+              "mobile_actions_ast_mismatch": 132,
+              "parse_failure": 1,
+              "schema_failure": 7,
+              "simulator_failure": 132,
+              "type_mismatch": 2,
+              "unknown_tool": 1
+            },
+            "false_action": {
+              "denominator": 0,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "missing_prediction": {
+              "denominator": 725,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "parse_failure": {
+              "denominator": 725,
+              "numerator": 1,
+              "value": 0.001379310344827586
+            },
+            "parse_valid": {
+              "denominator": 725,
+              "numerator": 724,
+              "value": 0.9986206896551724
+            },
+            "per_gold_tool_success": {
+              "create_calendar_event": {
+                "denominator": 279,
+                "numerator": 204,
+                "value": 0.7311827956989247
+              },
+              "create_contact": {
+                "denominator": 142,
+                "numerator": 105,
+                "value": 0.7394366197183099
+              },
+              "open_wifi_settings": {
+                "denominator": 120,
+                "numerator": 108,
+                "value": 0.9
+              },
+              "send_email": {
+                "denominator": 172,
+                "numerator": 137,
+                "value": 0.7965116279069767
+              },
+              "show_map": {
+                "denominator": 143,
+                "numerator": 95,
+                "value": 0.6643356643356644
+              },
+              "turn_off_flashlight": {
+                "denominator": 65,
+                "numerator": 56,
+                "value": 0.8615384615384616
+              },
+              "turn_on_flashlight": {
+                "denominator": 81,
+                "numerator": 71,
+                "value": 0.8765432098765432
+              }
+            },
+            "per_scenario_success": {
+              "create_calendar_event": {
+                "denominator": 174,
+                "numerator": 137,
+                "value": 0.7873563218390804
+              },
+              "create_contact": {
+                "denominator": 111,
+                "numerator": 84,
+                "value": 0.7567567567567568
+              },
+              "open_wifi_settings": {
+                "denominator": 116,
+                "numerator": 107,
+                "value": 0.9224137931034483
+              },
+              "send_email": {
+                "denominator": 100,
+                "numerator": 81,
+                "value": 0.81
+              },
+              "show_map": {
+                "denominator": 79,
+                "numerator": 50,
+                "value": 0.6329113924050633
+              },
+              "turn_off_flashlight": {
+                "denominator": 65,
+                "numerator": 56,
+                "value": 0.8615384615384616
+              },
+              "turn_on_flashlight": {
+                "denominator": 80,
+                "numerator": 70,
+                "value": 0.875
+              }
+            },
+            "per_tool": {
+              "create_calendar_event": {
+                "balanced_accuracy": 0.9845420062040922,
+                "f1": 0.983666061705989,
+                "false_negative": 8,
+                "false_positive": 1,
+                "precision": 0.9963235294117647,
+                "recall": 0.9713261648745519,
+                "true_negative": 445,
+                "true_positive": 271
+              },
+              "create_contact": {
+                "balanced_accuracy": 0.9894366197183099,
+                "f1": 0.9893238434163701,
+                "false_negative": 3,
+                "false_positive": 0,
+                "precision": 1.0,
+                "recall": 0.9788732394366197,
+                "true_negative": 583,
+                "true_positive": 139
+              },
+              "open_wifi_settings": {
+                "balanced_accuracy": 0.9916666666666667,
+                "f1": 0.9915966386554621,
+                "false_negative": 2,
+                "false_positive": 0,
+                "precision": 1.0,
+                "recall": 0.9833333333333333,
+                "true_negative": 605,
+                "true_positive": 118
+              },
+              "send_email": {
+                "balanced_accuracy": 0.9825581395348837,
+                "f1": 0.9822485207100593,
+                "false_negative": 6,
+                "false_positive": 0,
+                "precision": 1.0,
+                "recall": 0.9651162790697675,
+                "true_negative": 553,
+                "true_positive": 166
+              },
+              "show_map": {
+                "balanced_accuracy": 0.9921478864777834,
+                "f1": 0.9894736842105264,
+                "false_negative": 2,
+                "false_positive": 1,
+                "precision": 0.9929577464788732,
+                "recall": 0.986013986013986,
+                "true_negative": 581,
+                "true_positive": 141
+              },
+              "turn_off_flashlight": {
+                "balanced_accuracy": 0.9923076923076923,
+                "f1": 0.9922480620155039,
+                "false_negative": 1,
+                "false_positive": 0,
+                "precision": 1.0,
+                "recall": 0.9846153846153847,
+                "true_negative": 660,
+                "true_positive": 64
+              },
+              "turn_on_flashlight": {
+                "balanced_accuracy": 1.0,
+                "f1": 1.0,
+                "false_negative": 0,
+                "false_positive": 0,
+                "precision": 1.0,
+                "recall": 1.0,
+                "true_negative": 644,
+                "true_positive": 81
+              }
+            },
+            "policy_safe_executable_success": {
+              "denominator": 725,
+              "numerator": 585,
+              "value": 0.8068965517241379
+            },
+            "risk_coverage": [],
+            "sample_count": 725,
+            "schema_valid": {
+              "denominator": 725,
+              "numerator": 717,
+              "value": 0.9889655172413793
+            },
+            "schema_version": "barun-mobile-actions-score-v1",
+            "tool_macro_balanced_accuracy": 0.9903798587013469,
+            "tool_macro_f1": 0.9897938301019872,
+            "truncation": {
+              "denominator": 725,
+              "numerator": 0,
+              "value": 0.0
+            }
+          },
+          "completed": true,
+          "counts": {
+            "exact_match_count": 585,
+            "generation_failure_count": 0,
+            "missing_prediction_count": 0,
+            "rows": 725,
+            "schema_valid_count": 717,
+            "truncated_count": 0
+          },
+          "generation": {
+            "batch_size": 64,
+            "decoding": "unconstrained_deterministic_greedy",
+            "decoding_overrides_passed_explicitly": {
+              "do_sample": false,
+              "length_penalty": 1.0,
+              "no_repeat_ngram_size": 0,
+              "num_beams": 1,
+              "repetition_penalty": 1.0
+            },
+            "elapsed_seconds": 26.26504222722724,
+            "examples": 725,
+            "failed": 0,
+            "generated": 725,
+            "grammar_constrained": false,
+            "max_new_tokens": 256,
+            "predictions_sha256": "461226102e62c27ffd140f4e2622479ee320cfc1b3e7f181580e16faad0a22b1",
+            "schema_version": "barun-mobile-scale-sweep-generation-v1",
+            "truncated": 0
+          },
+          "learning_rate": 0.0001,
+          "training": {
+            "elapsed_seconds": 72.80189673183486,
+            "epochs": 1,
+            "examples_presented": 7212,
+            "learning_rate": 0.0001,
+            "method": "full_parameter_response_only_sft",
+            "optimizer_steps": 115,
+            "presentation_order_sha256": "74edf671ec93ed843d25dca7708a54df1686b47c85f901e74762d07494cb27f0",
+            "schema_version": "barun-mobile-scale-sweep-training-v1"
+          }
+        },
+        "lr3e-05": {
+          "aggregate": {
+            "abstention": {
+              "f1": 0.0,
+              "false_negative": 0,
+              "false_positive": 0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "true_positive": 0
+            },
+            "argument_key_macro_f1": 0.1889655172413793,
+            "argument_key_micro": {
+              "f1": 0.0,
+              "false_negative": 1751,
+              "false_positive": 0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "true_positive": 0
+            },
+            "argument_value_macro_f1": 0.1889655172413793,
+            "argument_value_micro": {
+              "f1": 0.0,
+              "false_negative": 1751,
+              "false_positive": 0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "true_positive": 0
+            },
+            "ast_exact_match": {
+              "denominator": 725,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "call_simulator_assessment": {
+              "denominator": 0,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "catastrophic_unauthorized_actions": 0,
+            "clarification_accuracy": {
+              "denominator": 0,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "confirmation_accuracy": {
+              "denominator": 0,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "decision_accuracy": {
+              "denominator": 725,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "evaluator_version": "action-ir-v1.0.0",
+            "failure_counts": {
+              "duplicate_key": 4,
+              "invalid_json": 255,
+              "parse_failure": 259,
+              "schema_failure": 466,
+              "truncated": 154,
+              "type_mismatch": 466
+            },
+            "false_action": {
+              "denominator": 0,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "missing_prediction": {
+              "denominator": 725,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "parse_failure": {
+              "denominator": 725,
+              "numerator": 259,
+              "value": 0.35724137931034483
+            },
+            "parse_valid": {
+              "denominator": 725,
+              "numerator": 466,
+              "value": 0.6427586206896552
+            },
+            "per_gold_tool_success": {
+              "create_calendar_event": {
+                "denominator": 279,
+                "numerator": 0,
+                "value": 0.0
+              },
+              "create_contact": {
+                "denominator": 142,
+                "numerator": 0,
+                "value": 0.0
+              },
+              "open_wifi_settings": {
+                "denominator": 120,
+                "numerator": 0,
+                "value": 0.0
+              },
+              "send_email": {
+                "denominator": 172,
+                "numerator": 0,
+                "value": 0.0
+              },
+              "show_map": {
+                "denominator": 143,
+                "numerator": 0,
+                "value": 0.0
+              },
+              "turn_off_flashlight": {
+                "denominator": 65,
+                "numerator": 0,
+                "value": 0.0
+              },
+              "turn_on_flashlight": {
+                "denominator": 81,
+                "numerator": 0,
+                "value": 0.0
+              }
+            },
+            "per_scenario_success": {
+              "create_calendar_event": {
+                "denominator": 174,
+                "numerator": 0,
+                "value": 0.0
+              },
+              "create_contact": {
+                "denominator": 111,
+                "numerator": 0,
+                "value": 0.0
+              },
+              "open_wifi_settings": {
+                "denominator": 116,
+                "numerator": 0,
+                "value": 0.0
+              },
+              "send_email": {
+                "denominator": 100,
+                "numerator": 0,
+                "value": 0.0
+              },
+              "show_map": {
+                "denominator": 79,
+                "numerator": 0,
+                "value": 0.0
+              },
+              "turn_off_flashlight": {
+                "denominator": 65,
+                "numerator": 0,
+                "value": 0.0
+              },
+              "turn_on_flashlight": {
+                "denominator": 80,
+                "numerator": 0,
+                "value": 0.0
+              }
+            },
+            "per_tool": {
+              "create_calendar_event": {
+                "balanced_accuracy": 0.5,
+                "f1": 0.0,
+                "false_negative": 279,
+                "false_positive": 0,
+                "precision": 0.0,
+                "recall": 0.0,
+                "true_negative": 446,
+                "true_positive": 0
+              },
+              "create_contact": {
+                "balanced_accuracy": 0.5,
+                "f1": 0.0,
+                "false_negative": 142,
+                "false_positive": 0,
+                "precision": 0.0,
+                "recall": 0.0,
+                "true_negative": 583,
+                "true_positive": 0
+              },
+              "open_wifi_settings": {
+                "balanced_accuracy": 0.5,
+                "f1": 0.0,
+                "false_negative": 120,
+                "false_positive": 0,
+                "precision": 0.0,
+                "recall": 0.0,
+                "true_negative": 605,
+                "true_positive": 0
+              },
+              "send_email": {
+                "balanced_accuracy": 0.5,
+                "f1": 0.0,
+                "false_negative": 172,
+                "false_positive": 0,
+                "precision": 0.0,
+                "recall": 0.0,
+                "true_negative": 553,
+                "true_positive": 0
+              },
+              "show_map": {
+                "balanced_accuracy": 0.5,
+                "f1": 0.0,
+                "false_negative": 143,
+                "false_positive": 0,
+                "precision": 0.0,
+                "recall": 0.0,
+                "true_negative": 582,
+                "true_positive": 0
+              },
+              "turn_off_flashlight": {
+                "balanced_accuracy": 0.5,
+                "f1": 0.0,
+                "false_negative": 65,
+                "false_positive": 0,
+                "precision": 0.0,
+                "recall": 0.0,
+                "true_negative": 660,
+                "true_positive": 0
+              },
+              "turn_on_flashlight": {
+                "balanced_accuracy": 0.5,
+                "f1": 0.0,
+                "false_negative": 81,
+                "false_positive": 0,
+                "precision": 0.0,
+                "recall": 0.0,
+                "true_negative": 644,
+                "true_positive": 0
+              }
+            },
+            "policy_safe_executable_success": {
+              "denominator": 725,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "risk_coverage": [],
+            "sample_count": 725,
+            "schema_valid": {
+              "denominator": 725,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "schema_version": "barun-mobile-actions-score-v1",
+            "tool_macro_balanced_accuracy": 0.5,
+            "tool_macro_f1": 0.0,
+            "truncation": {
+              "denominator": 725,
+              "numerator": 154,
+              "value": 0.21241379310344827
+            }
+          },
+          "completed": true,
+          "counts": {
+            "exact_match_count": 0,
+            "generation_failure_count": 0,
+            "missing_prediction_count": 0,
+            "rows": 725,
+            "schema_valid_count": 0,
+            "truncated_count": 154
+          },
+          "generation": {
+            "batch_size": 64,
+            "decoding": "unconstrained_deterministic_greedy",
+            "decoding_overrides_passed_explicitly": {
+              "do_sample": false,
+              "length_penalty": 1.0,
+              "no_repeat_ngram_size": 0,
+              "num_beams": 1,
+              "repetition_penalty": 1.0
+            },
+            "elapsed_seconds": 68.43004249501973,
+            "examples": 725,
+            "failed": 0,
+            "generated": 725,
+            "grammar_constrained": false,
+            "max_new_tokens": 256,
+            "predictions_sha256": "0cf4cb423d0e93130e26bf4df25bc28bbf0ff33db58b7718c6faf97101b84f36",
+            "schema_version": "barun-mobile-scale-sweep-generation-v1",
+            "truncated": 154
+          },
+          "learning_rate": 3e-05,
+          "training": {
+            "elapsed_seconds": 72.84247559122741,
+            "epochs": 1,
+            "examples_presented": 7212,
+            "learning_rate": 3e-05,
+            "method": "full_parameter_response_only_sft",
+            "optimizer_steps": 115,
+            "presentation_order_sha256": "74edf671ec93ed843d25dca7708a54df1686b47c85f901e74762d07494cb27f0",
+            "schema_version": "barun-mobile-scale-sweep-training-v1"
+          }
+        }
+      },
+      "measured_failure": false,
+      "repo_id": "HuggingFaceTB/SmolLM2-360M",
+      "revision": "f8027fd0eaeea54caa13c31d31b9fdc459c38b49",
+      "selected_learning_rate": 0.0001,
+      "snapshot_sha256": {
+        "config.json": "34f7801487078de7e434e19162c497e5cc6ff397080e40e8586627cb68a5168a",
+        "generation_config.json": "2056c988e990b0d13670f63f2f3b87b3b6d07edaf7a3416998ba27dab2d8a059",
+        "model.safetensors": "7aaff6661428bed033abba9522bec81938678642cca3181fe752b6ca9e1e540f",
+        "special_tokens_map.json": "e786b595b9a23148bf1630df78d9037a048ea671e48bfd3549a1e3c233742bb3",
+        "tokenizer.json": "9ca9acddb6525a194ec8ac7a87f24fbba7232a9a15ffa1af0c1224fcd888e47c",
+        "tokenizer_config.json": "4bb9af56a342753d39374f4016a16574cab299fe088e896f425ce3c433f61424"
+      }
+    }
+  ],
+  "config_sha256": "0885b32f14751e77539f0bf58cae6f89b7c72e1d80c1b8a6d3fe61cff9c55540",
+  "decision": {
+    "adopted_arm_id": null,
+    "all_arms_falsified": true,
+    "arms": [
+      {
+        "arm_id": "pythia-70m-deduped",
+        "checks": {
+          "margin": false,
+          "schema_validity": false,
+          "zero_generation_failures": true,
+          "zero_missing_predictions": true,
+          "zero_truncations": false
+        },
+        "exact_match_percent": 6.206896551724138,
+        "passes": false,
+        "schema_validity": 0.23448275862068965,
+        "unique_parameters": 70426624
+      },
+      {
+        "arm_id": "smollm2-135m",
+        "checks": {
+          "margin": false,
+          "schema_validity": false,
+          "zero_generation_failures": true,
+          "zero_missing_predictions": true,
+          "zero_truncations": false
+        },
+        "exact_match_percent": 58.206896551724135,
+        "passes": false,
+        "schema_validity": 0.903448275862069,
+        "unique_parameters": 134515008
+      },
+      {
+        "arm_id": "smollm2-360m",
+        "checks": {
+          "margin": false,
+          "schema_validity": true,
+          "zero_generation_failures": true,
+          "zero_missing_predictions": true,
+          "zero_truncations": true
+        },
+        "exact_match_percent": 80.6896551724138,
+        "passes": false,
+        "schema_validity": 0.9889655172413793,
+        "unique_parameters": 361821120
+      }
+    ],
+    "margin_points": 3.0,
+    "measured_failed_arm_ids": [],
+    "measured_failure_rule": "an arm whose every learning-rate fit ended in a measured failure (non-finite training loss or CUDA out-of-memory) can never be adopted; the run continues past it and records the failure",
+    "ordering": "ascending unique parameter count; smallest passing arm is adopted",
+    "reference_exact_percent": 81.51724137931035,
+    "schema_validity_floor": 0.95,
+    "schema_version": "barun-mobile-scale-sweep-decision-v1"
+  },
+  "environment": {
+    "huggingface_hub": "0.36.2",
+    "provider_template": "axolotl",
+    "python": "3.11.10",
+    "python_implementation": "CPython",
+    "safetensors": "0.8.0",
+    "tokenizers": "0.21.4",
+    "torch": "2.13.0",
+    "transformers": "4.48.3",
+    "venv_isolation": {
+      "approach": "isolated_project_venv_without_system_site_packages",
+      "base_stdlib_roots": [
+        "/root/miniconda3/envs/py3.11/lib/python3.11",
+        "/root/miniconda3/envs/py3.11/lib/python311.zip"
+      ],
+      "cwd": "/home/barun-scale-sweep-a6-Ns0Q27",
+      "external_site_packages": [],
+      "flash_attn_discoverable": false,
+      "flash_attn_spec": null,
+      "include_system_site_packages": false,
+      "python_path": null,
+      "pyvenv_cfg": "/home/barun-scale-sweep-a6-Ns0Q27/.venv/pyvenv.cfg",
+      "repo_root": "/home/barun-scale-sweep-a6-Ns0Q27",
+      "runner_module": "/home/barun-scale-sweep-a6-Ns0Q27/src/barunlm/baselines/mobile_scale_sweep.py",
+      "runner_module_sha256": "a0cf33873c0606093007b539ff2308e64ca0da760ddec36ca2ebaf22e4bb6398",
+      "source_root": "/home/barun-scale-sweep-a6-Ns0Q27/src",
+      "sys_base_prefix": "/root/miniconda3/envs/py3.11",
+      "sys_executable": "/home/barun-scale-sweep-a6-Ns0Q27/.venv/bin/python3",
+      "sys_executable_realpath": "/root/miniconda3/envs/py3.11/bin/python3.11",
+      "sys_path": [
+        "/home/barun-scale-sweep-a6-Ns0Q27",
+        "/root/miniconda3/envs/py3.11/lib/python311.zip",
+        "/root/miniconda3/envs/py3.11/lib/python3.11",
+        "/root/miniconda3/envs/py3.11/lib/python3.11/lib-dynload",
+        "/home/barun-scale-sweep-a6-Ns0Q27/.venv/lib/python3.11/site-packages",
+        "/home/barun-scale-sweep-a6-Ns0Q27/src"
+      ],
+      "sys_prefix": "/home/barun-scale-sweep-a6-Ns0Q27/.venv",
+      "torch_already_imported": false,
+      "user_site": "/home/.local/lib/python3.11/site-packages",
+      "user_site_enabled": false,
+      "virtual_env": "/home/barun-scale-sweep-a6-Ns0Q27/.venv"
+    }
+  },
+  "fresh_split": {
+    "folds": 10,
+    "policy_version": "barun-mobile-scale-sweep-selection-v1",
+    "schema_version": "barun-mobile-scale-sweep-split-v1",
+    "selection_clusters": 589,
+    "selection_fold": 0,
+    "selection_manifest_sha256": "3bd2281fce6d6910de8e42b843562a060e1d4e654bfd3ce95c850189b9f00cfb",
+    "selection_membership_sha256": "5838748633d408ab93a57b89fef17c6e4446dbbe14889215b60606d257f8ebf9",
+    "selection_rows": 725,
+    "source_train_manifest_sha256": "131473ccb5bfb51cac0439b42159e72ec4c598025e50364a52b122b056c2e84e",
+    "source_train_rows": 7937,
+    "sweep_train_clusters": 4716,
+    "sweep_train_manifest_sha256": "3328654532d7e767e2cb87becc6c5869a65044bba7aadb62a69582be34c04183",
+    "sweep_train_membership_sha256": "3e0a64bb31ce3c4571d66b6983906e01c457edf6e53b99170b5943f7afea214e",
+    "sweep_train_rows": 7212
+  },
+  "jarvis_machine_id": 465257,
+  "reference": {
+    "aggregate": {
+      "abstention": {
+        "f1": 0.0,
+        "false_negative": 0,
+        "false_positive": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "true_positive": 0
+      },
+      "argument_key_macro_f1": 0.9960734131768615,
+      "argument_key_micro": {
+        "f1": 0.9948453608247423,
+        "false_negative": 14,
+        "false_positive": 4,
+        "precision": 0.9977024698449167,
+        "recall": 0.9920045688178184,
+        "true_positive": 1737
+      },
+      "argument_value_macro_f1": 0.9148878630947599,
+      "argument_value_micro": {
+        "f1": 0.9215349369988545,
+        "false_negative": 142,
+        "false_positive": 132,
+        "precision": 0.9241815048822516,
+        "recall": 0.9189034837235865,
+        "true_positive": 1609
+      },
+      "ast_exact_match": {
+        "denominator": 725,
+        "numerator": 591,
+        "value": 0.8151724137931035
+      },
+      "call_simulator_assessment": {
+        "denominator": 723,
+        "numerator": 723,
+        "value": 1.0
+      },
+      "catastrophic_unauthorized_actions": 0,
+      "clarification_accuracy": {
+        "denominator": 0,
+        "numerator": 0,
+        "value": 0.0
+      },
+      "confirmation_accuracy": {
+        "denominator": 0,
+        "numerator": 0,
+        "value": 0.0
+      },
+      "decision_accuracy": {
+        "denominator": 725,
+        "numerator": 723,
+        "value": 0.9972413793103448
+      },
+      "evaluator_version": "action-ir-v1.0.0",
+      "failure_counts": {
+        "ast_mismatch": 132,
+        "invalid_call_count": 1,
+        "missing_argument": 1,
+        "mobile_actions_ast_mismatch": 132,
+        "schema_failure": 2,
+        "simulator_failure": 132
+      },
+      "false_action": {
+        "denominator": 0,
+        "numerator": 0,
+        "value": 0.0
+      },
+      "missing_prediction": {
+        "denominator": 725,
+        "numerator": 0,
+        "value": 0.0
+      },
+      "parse_failure": {
+        "denominator": 725,
+        "numerator": 0,
+        "value": 0.0
+      },
+      "parse_valid": {
+        "denominator": 725,
+        "numerator": 725,
+        "value": 1.0
+      },
+      "per_gold_tool_success": {
+        "create_calendar_event": {
+          "denominator": 279,
+          "numerator": 180,
+          "value": 0.6451612903225806
+        },
+        "create_contact": {
+          "denominator": 142,
+          "numerator": 113,
+          "value": 0.795774647887324
+        },
+        "open_wifi_settings": {
+          "denominator": 120,
+          "numerator": 109,
+          "value": 0.9083333333333333
+        },
+        "send_email": {
+          "denominator": 172,
+          "numerator": 150,
+          "value": 0.872093023255814
+        },
+        "show_map": {
+          "denominator": 143,
+          "numerator": 106,
+          "value": 0.7412587412587412
+        },
+        "turn_off_flashlight": {
+          "denominator": 65,
+          "numerator": 59,
+          "value": 0.9076923076923077
+        },
+        "turn_on_flashlight": {
+          "denominator": 81,
+          "numerator": 69,
+          "value": 0.8518518518518519
+        }
+      },
+      "per_scenario_success": {
+        "create_calendar_event": {
+          "denominator": 174,
+          "numerator": 122,
+          "value": 0.7011494252873564
+        },
+        "create_contact": {
+          "denominator": 111,
+          "numerator": 89,
+          "value": 0.8018018018018018
+        },
+        "open_wifi_settings": {
+          "denominator": 116,
+          "numerator": 107,
+          "value": 0.9224137931034483
+        },
+        "send_email": {
+          "denominator": 100,
+          "numerator": 90,
+          "value": 0.9
+        },
+        "show_map": {
+          "denominator": 79,
+          "numerator": 56,
+          "value": 0.7088607594936709
+        },
+        "turn_off_flashlight": {
+          "denominator": 65,
+          "numerator": 59,
+          "value": 0.9076923076923077
+        },
+        "turn_on_flashlight": {
+          "denominator": 80,
+          "numerator": 68,
+          "value": 0.85
+        }
+      },
+      "per_tool": {
+        "create_calendar_event": {
+          "balanced_accuracy": 1.0,
+          "f1": 1.0,
+          "false_negative": 0,
+          "false_positive": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "true_negative": 446,
+          "true_positive": 279
+        },
+        "create_contact": {
+          "balanced_accuracy": 0.9929577464788732,
+          "f1": 0.9929078014184397,
+          "false_negative": 2,
+          "false_positive": 0,
+          "precision": 1.0,
+          "recall": 0.9859154929577465,
+          "true_negative": 583,
+          "true_positive": 140
+        },
+        "open_wifi_settings": {
+          "balanced_accuracy": 0.9958333333333333,
+          "f1": 0.99581589958159,
+          "false_negative": 1,
+          "false_positive": 0,
+          "precision": 1.0,
+          "recall": 0.9916666666666667,
+          "true_negative": 605,
+          "true_positive": 119
+        },
+        "send_email": {
+          "balanced_accuracy": 0.997093023255814,
+          "f1": 0.9970845481049563,
+          "false_negative": 1,
+          "false_positive": 0,
+          "precision": 1.0,
+          "recall": 0.9941860465116279,
+          "true_negative": 553,
+          "true_positive": 171
+        },
+        "show_map": {
+          "balanced_accuracy": 0.9895104895104896,
+          "f1": 0.989399293286219,
+          "false_negative": 3,
+          "false_positive": 0,
+          "precision": 1.0,
+          "recall": 0.9790209790209791,
+          "true_negative": 582,
+          "true_positive": 140
+        },
+        "turn_off_flashlight": {
+          "balanced_accuracy": 1.0,
+          "f1": 1.0,
+          "false_negative": 0,
+          "false_positive": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "true_negative": 660,
+          "true_positive": 65
+        },
+        "turn_on_flashlight": {
+          "balanced_accuracy": 1.0,
+          "f1": 1.0,
+          "false_negative": 0,
+          "false_positive": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "true_negative": 644,
+          "true_positive": 81
+        }
+      },
+      "policy_safe_executable_success": {
+        "denominator": 725,
+        "numerator": 591,
+        "value": 0.8151724137931035
+      },
+      "risk_coverage": [],
+      "sample_count": 725,
+      "schema_valid": {
+        "denominator": 725,
+        "numerator": 723,
+        "value": 0.9972413793103448
+      },
+      "schema_version": "barun-mobile-actions-score-v1",
+      "tool_macro_balanced_accuracy": 0.99648494179693,
+      "tool_macro_f1": 0.9964582203416007,
+      "truncation": {
+        "denominator": 725,
+        "numerator": 0,
+        "value": 0.0
+      }
+    },
+    "bias_note": "candidate-v2 trained on every selection row (it used the full 7,937-row train set), so its reference score is upward-biased and the +3.0-point margin is conservative for challenger arms, which never train on selection rows.",
+    "candidate_id": "candidate-v2",
+    "checkpoint_sha256": {
+      "barun_config.json": "9b3a1d71baa95a198744d250f9629231738d942570b8685c44307fd83dd33565",
+      "model.safetensors": "fdb95ccf58a095e0d321be998924318b35ee59a334f6dd97d8726d2cf80021d3",
+      "tokenizer.json": "70ded9605fccd09c2340ca7e225361eab0ae8b4dbbb0d6e26343ab5183979db6"
+    },
+    "counts": {
+      "exact_match_count": 591,
+      "generation_failure_count": 0,
+      "missing_prediction_count": 0,
+      "rows": 725,
+      "schema_valid_count": 723,
+      "truncated_count": 0
+    },
+    "exact_match_percent": 81.51724137931035,
+    "generation": {
+      "batch_size": 64,
+      "checkpoint_dir": "/home/barun-scale-sweep-a6-Ns0Q27/reference-checkpoint",
+      "checkpoint_sha256": {
+        "barun_config.json": "9b3a1d71baa95a198744d250f9629231738d942570b8685c44307fd83dd33565",
+        "model.safetensors": "fdb95ccf58a095e0d321be998924318b35ee59a334f6dd97d8726d2cf80021d3",
+        "tokenizer.json": "70ded9605fccd09c2340ca7e225361eab0ae8b4dbbb0d6e26343ab5183979db6"
+      },
+      "device": "cuda",
+      "dtype": "torch.bfloat16",
+      "elapsed_seconds": 44.688138579018414,
+      "examples": 725,
+      "failed": 0,
+      "generated": 725,
+      "manifest": "/home/barun-artifacts/20260805-1554-mobile-scale-sweep-s17/export/fresh-split/selection.jsonl",
+      "manifest_sha256": "3bd2281fce6d6910de8e42b843562a060e1d4e654bfd3ce95c850189b9f00cfb",
+      "max_new_tokens": 256,
+      "predictions": "/home/barun-artifacts/20260805-1554-mobile-scale-sweep-s17/export/reference/predictions.jsonl",
+      "predictions_sha256": "8d448fffc5171a3ac782d2ff4ac4f0eb0e2517d30db86c892a2c80dc5b9acb41",
+      "schema_version": "barun-greedy-generation-v1",
+      "truncated": 0
+    },
+    "gold_token_audit": {
+      "selection": {
+        "eos_reserved": 1,
+        "max_target_tokens_with_eos": 192,
+        "prompt_tokens": {
+          "count": 725,
+          "max": 487,
+          "min": 214,
+          "p50": 246,
+          "p95": 295,
+          "p99": 311
+        },
+        "rows": 725,
+        "target_tokens": {
+          "count": 725,
+          "max": 191,
+          "min": 45,
+          "p50": 93,
+          "p95": 149,
+          "p99": 166
+        },
+        "total_with_eos": {
+          "count": 725,
+          "max": 660,
+          "min": 260,
+          "p50": 338,
+          "p95": 444,
+          "p99": 476
+        }
+      },
+      "sweep_train": {
+        "eos_reserved": 1,
+        "max_target_tokens_with_eos": 197,
+        "prompt_tokens": {
+          "count": 7212,
+          "max": 471,
+          "min": 213,
+          "p50": 248,
+          "p95": 292,
+          "p99": 310
+        },
+        "rows": 7212,
+        "target_tokens": {
+          "count": 7212,
+          "max": 196,
+          "min": 45,
+          "p50": 94,
+          "p95": 148,
+          "p99": 164
+        },
+        "total_with_eos": {
+          "count": 7212,
+          "max": 637,
+          "min": 259,
+          "p50": 342,
+          "p95": 439,
+          "p99": 471
+        }
+      }
+    },
+    "schema_version": "barun-mobile-scale-sweep-reference-v1",
+    "scored_before_challenger_arms": true
+  },
+  "run_id": "20260805-1554-mobile-scale-sweep-s17",
+  "schema_version": "barun-mobile-scale-sweep-result-v6",
+  "status": "completed"
+}

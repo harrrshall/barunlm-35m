@@ -1,0 +1,604 @@
+{
+  "arm_id": "smollm2-360m",
+  "fits": {
+    "lr1e-04": {
+      "aggregate": {
+        "abstention": {
+          "f1": 0.0,
+          "false_negative": 0,
+          "false_positive": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "true_positive": 0
+        },
+        "argument_key_macro_f1": 0.9790591018177227,
+        "argument_key_micro": {
+          "f1": 0.9774956722446624,
+          "false_negative": 57,
+          "false_positive": 21,
+          "precision": 0.9877551020408163,
+          "recall": 0.9674471730439749,
+          "true_positive": 1694
+        },
+        "argument_value_macro_f1": 0.8987581307581313,
+        "argument_value_micro": {
+          "f1": 0.9088286208886324,
+          "false_negative": 176,
+          "false_positive": 140,
+          "precision": 0.9183673469387755,
+          "recall": 0.8994860079954312,
+          "true_positive": 1575
+        },
+        "ast_exact_match": {
+          "denominator": 725,
+          "numerator": 585,
+          "value": 0.8068965517241379
+        },
+        "call_simulator_assessment": {
+          "denominator": 717,
+          "numerator": 717,
+          "value": 1.0
+        },
+        "catastrophic_unauthorized_actions": 0,
+        "clarification_accuracy": {
+          "denominator": 0,
+          "numerator": 0,
+          "value": 0.0
+        },
+        "confirmation_accuracy": {
+          "denominator": 0,
+          "numerator": 0,
+          "value": 0.0
+        },
+        "decision_accuracy": {
+          "denominator": 725,
+          "numerator": 717,
+          "value": 0.9889655172413793
+        },
+        "evaluator_version": "action-ir-v1.0.0",
+        "failure_counts": {
+          "ast_mismatch": 132,
+          "extra_argument": 1,
+          "invalid_json": 1,
+          "missing_argument": 2,
+          "missing_field": 1,
+          "mobile_actions_ast_mismatch": 132,
+          "parse_failure": 1,
+          "schema_failure": 7,
+          "simulator_failure": 132,
+          "type_mismatch": 2,
+          "unknown_tool": 1
+        },
+        "false_action": {
+          "denominator": 0,
+          "numerator": 0,
+          "value": 0.0
+        },
+        "missing_prediction": {
+          "denominator": 725,
+          "numerator": 0,
+          "value": 0.0
+        },
+        "parse_failure": {
+          "denominator": 725,
+          "numerator": 1,
+          "value": 0.001379310344827586
+        },
+        "parse_valid": {
+          "denominator": 725,
+          "numerator": 724,
+          "value": 0.9986206896551724
+        },
+        "per_gold_tool_success": {
+          "create_calendar_event": {
+            "denominator": 279,
+            "numerator": 204,
+            "value": 0.7311827956989247
+          },
+          "create_contact": {
+            "denominator": 142,
+            "numerator": 105,
+            "value": 0.7394366197183099
+          },
+          "open_wifi_settings": {
+            "denominator": 120,
+            "numerator": 108,
+            "value": 0.9
+          },
+          "send_email": {
+            "denominator": 172,
+            "numerator": 137,
+            "value": 0.7965116279069767
+          },
+          "show_map": {
+            "denominator": 143,
+            "numerator": 95,
+            "value": 0.6643356643356644
+          },
+          "turn_off_flashlight": {
+            "denominator": 65,
+            "numerator": 56,
+            "value": 0.8615384615384616
+          },
+          "turn_on_flashlight": {
+            "denominator": 81,
+            "numerator": 71,
+            "value": 0.8765432098765432
+          }
+        },
+        "per_scenario_success": {
+          "create_calendar_event": {
+            "denominator": 174,
+            "numerator": 137,
+            "value": 0.7873563218390804
+          },
+          "create_contact": {
+            "denominator": 111,
+            "numerator": 84,
+            "value": 0.7567567567567568
+          },
+          "open_wifi_settings": {
+            "denominator": 116,
+            "numerator": 107,
+            "value": 0.9224137931034483
+          },
+          "send_email": {
+            "denominator": 100,
+            "numerator": 81,
+            "value": 0.81
+          },
+          "show_map": {
+            "denominator": 79,
+            "numerator": 50,
+            "value": 0.6329113924050633
+          },
+          "turn_off_flashlight": {
+            "denominator": 65,
+            "numerator": 56,
+            "value": 0.8615384615384616
+          },
+          "turn_on_flashlight": {
+            "denominator": 80,
+            "numerator": 70,
+            "value": 0.875
+          }
+        },
+        "per_tool": {
+          "create_calendar_event": {
+            "balanced_accuracy": 0.9845420062040922,
+            "f1": 0.983666061705989,
+            "false_negative": 8,
+            "false_positive": 1,
+            "precision": 0.9963235294117647,
+            "recall": 0.9713261648745519,
+            "true_negative": 445,
+            "true_positive": 271
+          },
+          "create_contact": {
+            "balanced_accuracy": 0.9894366197183099,
+            "f1": 0.9893238434163701,
+            "false_negative": 3,
+            "false_positive": 0,
+            "precision": 1.0,
+            "recall": 0.9788732394366197,
+            "true_negative": 583,
+            "true_positive": 139
+          },
+          "open_wifi_settings": {
+            "balanced_accuracy": 0.9916666666666667,
+            "f1": 0.9915966386554621,
+            "false_negative": 2,
+            "false_positive": 0,
+            "precision": 1.0,
+            "recall": 0.9833333333333333,
+            "true_negative": 605,
+            "true_positive": 118
+          },
+          "send_email": {
+            "balanced_accuracy": 0.9825581395348837,
+            "f1": 0.9822485207100593,
+            "false_negative": 6,
+            "false_positive": 0,
+            "precision": 1.0,
+            "recall": 0.9651162790697675,
+            "true_negative": 553,
+            "true_positive": 166
+          },
+          "show_map": {
+            "balanced_accuracy": 0.9921478864777834,
+            "f1": 0.9894736842105264,
+            "false_negative": 2,
+            "false_positive": 1,
+            "precision": 0.9929577464788732,
+            "recall": 0.986013986013986,
+            "true_negative": 581,
+            "true_positive": 141
+          },
+          "turn_off_flashlight": {
+            "balanced_accuracy": 0.9923076923076923,
+            "f1": 0.9922480620155039,
+            "false_negative": 1,
+            "false_positive": 0,
+            "precision": 1.0,
+            "recall": 0.9846153846153847,
+            "true_negative": 660,
+            "true_positive": 64
+          },
+          "turn_on_flashlight": {
+            "balanced_accuracy": 1.0,
+            "f1": 1.0,
+            "false_negative": 0,
+            "false_positive": 0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "true_negative": 644,
+            "true_positive": 81
+          }
+        },
+        "policy_safe_executable_success": {
+          "denominator": 725,
+          "numerator": 585,
+          "value": 0.8068965517241379
+        },
+        "risk_coverage": [],
+        "sample_count": 725,
+        "schema_valid": {
+          "denominator": 725,
+          "numerator": 717,
+          "value": 0.9889655172413793
+        },
+        "schema_version": "barun-mobile-actions-score-v1",
+        "tool_macro_balanced_accuracy": 0.9903798587013469,
+        "tool_macro_f1": 0.9897938301019872,
+        "truncation": {
+          "denominator": 725,
+          "numerator": 0,
+          "value": 0.0
+        }
+      },
+      "completed": true,
+      "counts": {
+        "exact_match_count": 585,
+        "generation_failure_count": 0,
+        "missing_prediction_count": 0,
+        "rows": 725,
+        "schema_valid_count": 717,
+        "truncated_count": 0
+      },
+      "generation": {
+        "batch_size": 64,
+        "decoding": "unconstrained_deterministic_greedy",
+        "decoding_overrides_passed_explicitly": {
+          "do_sample": false,
+          "length_penalty": 1.0,
+          "no_repeat_ngram_size": 0,
+          "num_beams": 1,
+          "repetition_penalty": 1.0
+        },
+        "elapsed_seconds": 26.26504222722724,
+        "examples": 725,
+        "failed": 0,
+        "generated": 725,
+        "grammar_constrained": false,
+        "max_new_tokens": 256,
+        "predictions_sha256": "461226102e62c27ffd140f4e2622479ee320cfc1b3e7f181580e16faad0a22b1",
+        "schema_version": "barun-mobile-scale-sweep-generation-v1",
+        "truncated": 0
+      },
+      "learning_rate": 0.0001,
+      "training": {
+        "elapsed_seconds": 72.80189673183486,
+        "epochs": 1,
+        "examples_presented": 7212,
+        "learning_rate": 0.0001,
+        "method": "full_parameter_response_only_sft",
+        "optimizer_steps": 115,
+        "presentation_order_sha256": "74edf671ec93ed843d25dca7708a54df1686b47c85f901e74762d07494cb27f0",
+        "schema_version": "barun-mobile-scale-sweep-training-v1"
+      }
+    },
+    "lr3e-05": {
+      "aggregate": {
+        "abstention": {
+          "f1": 0.0,
+          "false_negative": 0,
+          "false_positive": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "true_positive": 0
+        },
+        "argument_key_macro_f1": 0.1889655172413793,
+        "argument_key_micro": {
+          "f1": 0.0,
+          "false_negative": 1751,
+          "false_positive": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "true_positive": 0
+        },
+        "argument_value_macro_f1": 0.1889655172413793,
+        "argument_value_micro": {
+          "f1": 0.0,
+          "false_negative": 1751,
+          "false_positive": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "true_positive": 0
+        },
+        "ast_exact_match": {
+          "denominator": 725,
+          "numerator": 0,
+          "value": 0.0
+        },
+        "call_simulator_assessment": {
+          "denominator": 0,
+          "numerator": 0,
+          "value": 0.0
+        },
+        "catastrophic_unauthorized_actions": 0,
+        "clarification_accuracy": {
+          "denominator": 0,
+          "numerator": 0,
+          "value": 0.0
+        },
+        "confirmation_accuracy": {
+          "denominator": 0,
+          "numerator": 0,
+          "value": 0.0
+        },
+        "decision_accuracy": {
+          "denominator": 725,
+          "numerator": 0,
+          "value": 0.0
+        },
+        "evaluator_version": "action-ir-v1.0.0",
+        "failure_counts": {
+          "duplicate_key": 4,
+          "invalid_json": 255,
+          "parse_failure": 259,
+          "schema_failure": 466,
+          "truncated": 154,
+          "type_mismatch": 466
+        },
+        "false_action": {
+          "denominator": 0,
+          "numerator": 0,
+          "value": 0.0
+        },
+        "missing_prediction": {
+          "denominator": 725,
+          "numerator": 0,
+          "value": 0.0
+        },
+        "parse_failure": {
+          "denominator": 725,
+          "numerator": 259,
+          "value": 0.35724137931034483
+        },
+        "parse_valid": {
+          "denominator": 725,
+          "numerator": 466,
+          "value": 0.6427586206896552
+        },
+        "per_gold_tool_success": {
+          "create_calendar_event": {
+            "denominator": 279,
+            "numerator": 0,
+            "value": 0.0
+          },
+          "create_contact": {
+            "denominator": 142,
+            "numerator": 0,
+            "value": 0.0
+          },
+          "open_wifi_settings": {
+            "denominator": 120,
+            "numerator": 0,
+            "value": 0.0
+          },
+          "send_email": {
+            "denominator": 172,
+            "numerator": 0,
+            "value": 0.0
+          },
+          "show_map": {
+            "denominator": 143,
+            "numerator": 0,
+            "value": 0.0
+          },
+          "turn_off_flashlight": {
+            "denominator": 65,
+            "numerator": 0,
+            "value": 0.0
+          },
+          "turn_on_flashlight": {
+            "denominator": 81,
+            "numerator": 0,
+            "value": 0.0
+          }
+        },
+        "per_scenario_success": {
+          "create_calendar_event": {
+            "denominator": 174,
+            "numerator": 0,
+            "value": 0.0
+          },
+          "create_contact": {
+            "denominator": 111,
+            "numerator": 0,
+            "value": 0.0
+          },
+          "open_wifi_settings": {
+            "denominator": 116,
+            "numerator": 0,
+            "value": 0.0
+          },
+          "send_email": {
+            "denominator": 100,
+            "numerator": 0,
+            "value": 0.0
+          },
+          "show_map": {
+            "denominator": 79,
+            "numerator": 0,
+            "value": 0.0
+          },
+          "turn_off_flashlight": {
+            "denominator": 65,
+            "numerator": 0,
+            "value": 0.0
+          },
+          "turn_on_flashlight": {
+            "denominator": 80,
+            "numerator": 0,
+            "value": 0.0
+          }
+        },
+        "per_tool": {
+          "create_calendar_event": {
+            "balanced_accuracy": 0.5,
+            "f1": 0.0,
+            "false_negative": 279,
+            "false_positive": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "true_negative": 446,
+            "true_positive": 0
+          },
+          "create_contact": {
+            "balanced_accuracy": 0.5,
+            "f1": 0.0,
+            "false_negative": 142,
+            "false_positive": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "true_negative": 583,
+            "true_positive": 0
+          },
+          "open_wifi_settings": {
+            "balanced_accuracy": 0.5,
+            "f1": 0.0,
+            "false_negative": 120,
+            "false_positive": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "true_negative": 605,
+            "true_positive": 0
+          },
+          "send_email": {
+            "balanced_accuracy": 0.5,
+            "f1": 0.0,
+            "false_negative": 172,
+            "false_positive": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "true_negative": 553,
+            "true_positive": 0
+          },
+          "show_map": {
+            "balanced_accuracy": 0.5,
+            "f1": 0.0,
+            "false_negative": 143,
+            "false_positive": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "true_negative": 582,
+            "true_positive": 0
+          },
+          "turn_off_flashlight": {
+            "balanced_accuracy": 0.5,
+            "f1": 0.0,
+            "false_negative": 65,
+            "false_positive": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "true_negative": 660,
+            "true_positive": 0
+          },
+          "turn_on_flashlight": {
+            "balanced_accuracy": 0.5,
+            "f1": 0.0,
+            "false_negative": 81,
+            "false_positive": 0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "true_negative": 644,
+            "true_positive": 0
+          }
+        },
+        "policy_safe_executable_success": {
+          "denominator": 725,
+          "numerator": 0,
+          "value": 0.0
+        },
+        "risk_coverage": [],
+        "sample_count": 725,
+        "schema_valid": {
+          "denominator": 725,
+          "numerator": 0,
+          "value": 0.0
+        },
+        "schema_version": "barun-mobile-actions-score-v1",
+        "tool_macro_balanced_accuracy": 0.5,
+        "tool_macro_f1": 0.0,
+        "truncation": {
+          "denominator": 725,
+          "numerator": 154,
+          "value": 0.21241379310344827
+        }
+      },
+      "completed": true,
+      "counts": {
+        "exact_match_count": 0,
+        "generation_failure_count": 0,
+        "missing_prediction_count": 0,
+        "rows": 725,
+        "schema_valid_count": 0,
+        "truncated_count": 154
+      },
+      "generation": {
+        "batch_size": 64,
+        "decoding": "unconstrained_deterministic_greedy",
+        "decoding_overrides_passed_explicitly": {
+          "do_sample": false,
+          "length_penalty": 1.0,
+          "no_repeat_ngram_size": 0,
+          "num_beams": 1,
+          "repetition_penalty": 1.0
+        },
+        "elapsed_seconds": 68.43004249501973,
+        "examples": 725,
+        "failed": 0,
+        "generated": 725,
+        "grammar_constrained": false,
+        "max_new_tokens": 256,
+        "predictions_sha256": "0cf4cb423d0e93130e26bf4df25bc28bbf0ff33db58b7718c6faf97101b84f36",
+        "schema_version": "barun-mobile-scale-sweep-generation-v1",
+        "truncated": 154
+      },
+      "learning_rate": 3e-05,
+      "training": {
+        "elapsed_seconds": 72.84247559122741,
+        "epochs": 1,
+        "examples_presented": 7212,
+        "learning_rate": 3e-05,
+        "method": "full_parameter_response_only_sft",
+        "optimizer_steps": 115,
+        "presentation_order_sha256": "74edf671ec93ed843d25dca7708a54df1686b47c85f901e74762d07494cb27f0",
+        "schema_version": "barun-mobile-scale-sweep-training-v1"
+      }
+    }
+  },
+  "measured_failure": false,
+  "repo_id": "HuggingFaceTB/SmolLM2-360M",
+  "revision": "f8027fd0eaeea54caa13c31d31b9fdc459c38b49",
+  "selected_learning_rate": 0.0001,
+  "snapshot_sha256": {
+    "config.json": "34f7801487078de7e434e19162c497e5cc6ff397080e40e8586627cb68a5168a",
+    "generation_config.json": "2056c988e990b0d13670f63f2f3b87b3b6d07edaf7a3416998ba27dab2d8a059",
+    "model.safetensors": "7aaff6661428bed033abba9522bec81938678642cca3181fe752b6ca9e1e540f",
+    "special_tokens_map.json": "e786b595b9a23148bf1630df78d9037a048ea671e48bfd3549a1e3c233742bb3",
+    "tokenizer.json": "9ca9acddb6525a194ec8ac7a87f24fbba7232a9a15ffa1af0c1224fcd888e47c",
+    "tokenizer_config.json": "4bb9af56a342753d39374f4016a16574cab299fe088e896f425ce3c433f61424"
+  }
+}

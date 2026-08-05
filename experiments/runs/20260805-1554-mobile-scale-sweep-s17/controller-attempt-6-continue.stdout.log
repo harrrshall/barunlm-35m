@@ -1,0 +1,8 @@
+{"event": "run_started", "machine_id": 465257, "run_id": "r_7809186b"}
+{"event": "status", "run_id": "r_7809186b", "machine_id": 465257, "state": "running", "exit_code": null, "instance_status": "Running", "started_at": "2026-08-05T17:33:26.601197+00:00"}
+{"event": "status", "run_id": "r_7809186b", "machine_id": 465257, "state": "running", "exit_code": null, "instance_status": "Running", "started_at": "2026-08-05T17:33:26.601197+00:00"}
+{"event": "status", "run_id": "r_7809186b", "machine_id": 465257, "state": "running", "exit_code": null, "instance_status": "Running", "started_at": "2026-08-05T17:33:26.601197+00:00"}
+{"event": "status", "run_id": "r_7809186b", "machine_id": 465257, "state": "running", "exit_code": null, "instance_status": "Running", "started_at": "2026-08-05T17:33:26.601197+00:00"}
+{"event": "status", "run_id": "r_7809186b", "machine_id": 465257, "state": "running", "exit_code": null, "instance_status": "Running", "started_at": "2026-08-05T17:33:26.601197+00:00"}
+{"event": "status", "run_id": "r_7809186b", "machine_id": 465257, "state": "running", "exit_code": null, "instance_status": "Running", "started_at": "2026-08-05T17:33:26.601197+00:00"}
+{"event": "status", "run_id": "r_7809186b", "machine_id": 465257, "state": "succeeded", "exit_code": 0, "instance_status": "Running", "started_at": "2026-08-05T17:33:26.601197+00:00"}

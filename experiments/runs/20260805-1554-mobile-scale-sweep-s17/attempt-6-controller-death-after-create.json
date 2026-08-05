@@ -1,0 +1,36 @@
+{
+  "schema_version": "barun-mobile-scale-sweep-controller-incident-v1",
+  "run_id": "20260805-1554-mobile-scale-sweep-s17",
+  "attempt": 6,
+  "incident": "local_controller_terminated_after_machine_created_before_ssh_ready_event",
+  "recorded_at": "2026-08-05T17:32:29.140328+00:00",
+  "machine_id": 465257,
+  "create_summary": {
+    "gpu_type": "H200",
+    "is_spot": false,
+    "machine_id": 465257,
+    "name": "barun-scale-sweep-a6-20260805",
+    "num_gpus": 1,
+    "region": "IN2",
+    "status": "Running",
+    "template": "axolotl"
+  },
+  "last_event": {
+    "at": "2026-08-05T17:30:26.619149+00:00",
+    "event": "machine_created",
+    "machine_id": 465257
+  },
+  "observed": {
+    "controller_error_event_absent": true,
+    "stdout_stderr_bytes": 0,
+    "attempt_still_unbound": true,
+    "live_status_at_incident": "Running",
+    "template": "axolotl"
+  },
+  "recovery_plan": "continue on exact owned Running ID 465257: attest axolotl/CPython 3.11.10, bind unbound attempt inventory, jl run with --isolated-project-venv setup, monitor, download essential-attempt-6, pause-verify. Do not create a second GPU.",
+  "authorization_boundary": {
+    "second_h200_authorized": false,
+    "reuse_of_protected_ids_authorized": false,
+    "continue_same_owned_create_authorized": true
+  }
+}

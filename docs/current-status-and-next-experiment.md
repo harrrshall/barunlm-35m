@@ -20,12 +20,22 @@ population collection or model access because its requested effective-component 
 incompatible with its honest lineage rule. Generate-Correct SFT v1 was then closed before
 population or model access: its frozen hash-bit rule produced 8,076 fault and 8,308 clean rows
 instead of 8,192/8,192, and its parsed draft object could not carry arbitrary raw model output.
-No BarunAction training experiment is active. Candidate-v2 therefore remains the usable checkpoint
-while the versioned v2 correction contract is built and audited behind a fresh population boundary.
+No action-correction model experiment is active. Candidate-v2 remains the usable checkpoint while
+the versioned v2 correction contract is built behind a fresh population boundary. The matched-adaptation baseline scale sweep attempt-6 is closed under the exact state below.
 
 The matched-adaptation mobile scale sweep
-(`20260805-1554-mobile-scale-sweep-s17`) is at attempt-6 CPU prefreeze and is
-**blocked pending a fresh independent prelaunch audit of v6**. Attempt 4 attested axolotl /
+(`20260805-1554-mobile-scale-sweep-s17`) **attempt-6 completed and is closed**. The spent GO receipt is
+`experiments/runs/20260805-1554-mobile-scale-sweep-s17/prelaunch-audit-attempt-6-go.json`, SHA-256
+`3d30a295fc358cccd5bab22d1e1f37a8d220dc22533ec527096ec652e400d9f1`. Exact ID **465257**
+(`barun-scale-sweep-a6-20260805`, axolotl / CPython 3.11.10 / `--isolated-project-venv`) ran
+managed job `r_7809186b` to exit 0, downloaded `essential-attempt-6/`, and is **pause-verified**.
+In-run candidate-v2 reference scored **591/725** (81.52%; schema 723/725; 0 truncations). All three
+challenger arms failed the frozen +3.0-point adoption rule (`all_arms_falsified`): best selected-LR
+exact rates were pythia-70m **45/725** (6.21%), SmolLM2-135M **422/725** (58.21%), SmolLM2-360M
+**585/725** (80.69%). Decision: **reject**; candidate-v2 remains the release checkpoint. Official-961
+was not read. Completion receipt
+`experiments/runs/20260805-1554-mobile-scale-sweep-s17/attempt-6-completion.json`. Never reuse 465257
+or relaunch under the spent attempt-6 go. Attempt 4 attested axolotl /
 CPython 3.11.10 on H200 lineage **465183→465186**, completed the in-run candidate-v2 reference
 evaluation at **590/725**, then aborted on the first challenger because `jl run` created
 `uv venv --system-site-packages` and Transformers imported the image `flash_attn_2_cuda`
@@ -38,9 +48,8 @@ before the gate; `VIRTUAL_ENV`/`pyvenv.cfg` unbound to `sys.prefix`; attempt-4-s
 `05d40c7d6ab73594fb8e60fb15de94f676e76d62f97ecae43dfcaba7225c0500`. Never patch, retry, rescue,
 or launch v5. v6 keeps scientific bindings and `--isolated-project-venv` / axolotl / 3.11.10 /
 denylist (including 465183/465186/465155/465072) and corrects only the isolation contract;
-config SHA-256 `0885b32f14751e77539f0bf58cae6f89b7c72e1d80c1b8a6d3fe61cff9c55540`. No GPU may be
-created until a new independent v6 audit returns go. Never reuse 465183, 465186, 465155, or
-465072.
+config SHA-256 `0885b32f14751e77539f0bf58cae6f89b7c72e1d80c1b8a6d3fe61cff9c55540`. The attempt-6 GO
+is spent. Pause proof for 465257 is recorded. Never reuse 465257, 465183, 465186, 465155, or 465072.
 
 ## Public showcase release
 

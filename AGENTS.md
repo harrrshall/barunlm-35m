@@ -1,5 +1,41 @@
 # BarunLM post-training operating contract
 
+## Start here: workspace and immediate checkpoint
+
+Read `../AGENTS.md` completely before acting. It maps the separate Barun product folders and is the
+local cross-repository handoff. This repository is the internal research/evidence repository even
+though its filesystem directory retains the former working name. The concise public product lives
+in sibling `../barunaction-35m/`; private raw evidence lives in sibling
+`../barun-private-evidence/`. Never copy this file, internal research notes, private evidence, or
+credentials into the public product, Hugging Face, a demo stage, or a release bundle.
+
+Reconciled 2026-08-05: branch `agent/barunaction-release-mbcf-v1`. Matched-adaptation scale-sweep
+attempt 6 **completed and closed**. Spent GO
+`experiments/runs/20260805-1554-mobile-scale-sweep-s17/prelaunch-audit-attempt-6-go.json`, SHA-256
+`3d30a295fc358cccd5bab22d1e1f37a8d220dc22533ec527096ec652e400d9f1`, authorized exactly one
+Axolotl/CPython-3.11.10 H200 with `safe_run --isolated-project-venv` and frozen v6 config SHA-256
+`0885b32f14751e77539f0bf58cae6f89b7c72e1d80c1b8a6d3fe61cff9c55540`. Exact ID **465257**
+(`barun-scale-sweep-a6-20260805`) ran `r_7809186b` to exit 0, downloaded `essential-attempt-6/`, and
+is pause-verified/protected. Reference **591/725** (81.52%); all challenger arms falsified under the
++3.0-point rule (best: pythia 45/725, SmolLM2-135M 422/725, SmolLM2-360M 585/725). Decision:
+`reject`; candidate-v2 remains the release checkpoint. Completion receipt
+`experiments/runs/20260805-1554-mobile-scale-sweep-s17/attempt-6-completion.json`. Never reuse the
+spent go, 465257, or protected evidence IDs; no official-961 access; no candidate-v2 retraining.
+
+The working tree contains untracked research configs, source, tests, manifests, and experiment
+evidence from action-correction and sub-100M work. Untracked does not mean unused. Preserve those
+items unless an exact evidence/ownership audit explicitly retires them. Safe hygiene is limited to
+verified reconstructible caches/build products and stale PID/path pointers whose targets are
+proven absent. Never use broad `git clean`, bulk stage, or recursive deletion at this repository
+root.
+
+Public product checkpoint: sibling `../barunaction-35m/` is the public GitHub repository;
+`harrrshall/BarunAction-35M` is the canonical Hugging Face model and `v1.0.0` is the live public
+revision; `https://barunaction-d9123728.nip.io` is the browser demo. The demo runs on separately
+owned protected infrastructure and must never be inspected or used for research. The public repo
+has active uncommitted sub-100M benchmark work and a local-only ignored `AGENTS.md`; never package
+or push that dirty tree without its public-boundary audit passing.
+
 ## Mission
 
 Turn `harrrshall/BarunLM-35M` into **BarunAction-35M**: a compact, local personal-action
@@ -416,6 +452,12 @@ Never resume, reuse, rename, stop, or delete any of them. The L4
 provider preamble proved Axolotl selected CPython 3.11.10, but the probe script itself did not run
 because the intentionally minimal directory had no project metadata; do not describe it as a
 successful model or scientific run.
+
+The long-lived public browser demo CPU instance **465072** is separately owned and protected; do
+not inspect, connect to, restart, pause, rename, reuse, or delete it from research work. Scale-sweep
+evidence IDs **465155**, **465183**, and **465186** are durably protected and must never be reused.
+Exact H200 **465257** is the completed attempt-6 evidence instance (pause-verified). Retain it as
+protected evidence and never resume/reuse/rename/stop/delete it.
 
 On 2026-08-04 at 22:37 Asia/Kolkata, explicit user-authorized unused-resource cleanup permanently
 destroyed the following twelve paused historical Barun project instances after their corresponding

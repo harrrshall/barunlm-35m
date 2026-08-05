@@ -1,0 +1,337 @@
+{
+  "arms": [
+    {
+      "arm_id": "pythia-70m-deduped",
+      "arm_result_sha256": "5f6201afd3ef6225d7c9dbbef30f0b7e6993da452e7a7daa07dde106749f9d89",
+      "fits": {
+        "lr1e-04": {
+          "exact_match": {
+            "denominator": 725,
+            "numerator": 45,
+            "value": 0.06206896551724138
+          },
+          "learning_rate": 0.0001,
+          "missing_prediction": 0,
+          "parse_valid": {
+            "denominator": 725,
+            "numerator": 345,
+            "value": 0.47586206896551725
+          },
+          "schema_valid": {
+            "denominator": 725,
+            "numerator": 170,
+            "value": 0.23448275862068965
+          },
+          "truncated": 59
+        },
+        "lr3e-05": {
+          "exact_match": {
+            "denominator": 725,
+            "numerator": 0,
+            "value": 0.0
+          },
+          "learning_rate": 3e-05,
+          "missing_prediction": 0,
+          "parse_valid": {
+            "denominator": 725,
+            "numerator": 0,
+            "value": 0.0
+          },
+          "schema_valid": {
+            "denominator": 725,
+            "numerator": 0,
+            "value": 0.0
+          },
+          "truncated": 725
+        }
+      },
+      "measured_failure": false,
+      "repo_id": "EleutherAI/pythia-70m-deduped",
+      "selected_learning_rate": 0.0001
+    },
+    {
+      "arm_id": "smollm2-135m",
+      "arm_result_sha256": "73e9a3f73eecafd68ad6c3ee0271d1147773c3152254e6fd765401e7392efa2a",
+      "fits": {
+        "lr1e-04": {
+          "exact_match": {
+            "denominator": 725,
+            "numerator": 422,
+            "value": 0.5820689655172414
+          },
+          "learning_rate": 0.0001,
+          "missing_prediction": 0,
+          "parse_valid": {
+            "denominator": 725,
+            "numerator": 719,
+            "value": 0.9917241379310345
+          },
+          "schema_valid": {
+            "denominator": 725,
+            "numerator": 655,
+            "value": 0.903448275862069
+          },
+          "truncated": 1
+        },
+        "lr3e-05": {
+          "exact_match": {
+            "denominator": 725,
+            "numerator": 0,
+            "value": 0.0
+          },
+          "learning_rate": 3e-05,
+          "missing_prediction": 0,
+          "parse_valid": {
+            "denominator": 725,
+            "numerator": 0,
+            "value": 0.0
+          },
+          "schema_valid": {
+            "denominator": 725,
+            "numerator": 0,
+            "value": 0.0
+          },
+          "truncated": 725
+        }
+      },
+      "measured_failure": false,
+      "repo_id": "HuggingFaceTB/SmolLM2-135M",
+      "selected_learning_rate": 0.0001
+    },
+    {
+      "arm_id": "smollm2-360m",
+      "arm_result_sha256": "b77a49199c57b422580940877e45a146185ed751e614cd211218266f9ccb0a9f",
+      "fits": {
+        "lr1e-04": {
+          "exact_match": {
+            "denominator": 725,
+            "numerator": 585,
+            "value": 0.8068965517241379
+          },
+          "learning_rate": 0.0001,
+          "missing_prediction": 0,
+          "parse_valid": {
+            "denominator": 725,
+            "numerator": 724,
+            "value": 0.9986206896551724
+          },
+          "schema_valid": {
+            "denominator": 725,
+            "numerator": 717,
+            "value": 0.9889655172413793
+          },
+          "truncated": 0
+        },
+        "lr3e-05": {
+          "exact_match": {
+            "denominator": 725,
+            "numerator": 0,
+            "value": 0.0
+          },
+          "learning_rate": 3e-05,
+          "missing_prediction": 0,
+          "parse_valid": {
+            "denominator": 725,
+            "numerator": 466,
+            "value": 0.6427586206896552
+          },
+          "schema_valid": {
+            "denominator": 725,
+            "numerator": 0,
+            "value": 0.0
+          },
+          "truncated": 154
+        }
+      },
+      "measured_failure": false,
+      "repo_id": "HuggingFaceTB/SmolLM2-360M",
+      "selected_learning_rate": 0.0001
+    }
+  ],
+  "attempt": 6,
+  "authorization_boundary": {
+    "adoption_or_release_authorized": false,
+    "attempt_6_go_spent": true,
+    "candidate_v2_retraining_authorized": false,
+    "official_961_access_authorized": false,
+    "second_h200_authorized": false
+  },
+  "conclusion": "reject",
+  "config_sha256": "0885b32f14751e77539f0bf58cae6f89b7c72e1d80c1b8a6d3fe61cff9c55540",
+  "controller_incidents": [
+    {
+      "incident": "local_controller_terminated_after_machine_created_before_ssh_ready_event",
+      "path": "attempt-6-controller-death-after-create.json",
+      "recovery": "owned_continue_attempt_6.py on exact Running ID 465257; no second GPU"
+    },
+    {
+      "incident": "premature_permanent_denylist_entry_blocked_pause_owned",
+      "path": "pause-proof-attempt-6.json",
+      "recovery": "brief remove 465257 from protected-resources.json, pause_owned, re-add as paused evidence"
+    }
+  ],
+  "create_summary": {
+    "gpu_type": "H200",
+    "is_spot": false,
+    "machine_id": 465257,
+    "name": "barun-scale-sweep-a6-20260805",
+    "num_gpus": 1,
+    "region": "IN2",
+    "status": "Running",
+    "template": "axolotl"
+  },
+  "cuda_access": true,
+  "decision": {
+    "adopted_arm_id": null,
+    "all_arms_falsified": true,
+    "arms": [
+      {
+        "arm_id": "pythia-70m-deduped",
+        "checks": {
+          "margin": false,
+          "schema_validity": false,
+          "zero_generation_failures": true,
+          "zero_missing_predictions": true,
+          "zero_truncations": false
+        },
+        "exact_match_percent": 6.206896551724138,
+        "passes": false,
+        "schema_validity": 0.23448275862068965,
+        "unique_parameters": 70426624
+      },
+      {
+        "arm_id": "smollm2-135m",
+        "checks": {
+          "margin": false,
+          "schema_validity": false,
+          "zero_generation_failures": true,
+          "zero_missing_predictions": true,
+          "zero_truncations": false
+        },
+        "exact_match_percent": 58.206896551724135,
+        "passes": false,
+        "schema_validity": 0.903448275862069,
+        "unique_parameters": 134515008
+      },
+      {
+        "arm_id": "smollm2-360m",
+        "checks": {
+          "margin": false,
+          "schema_validity": true,
+          "zero_generation_failures": true,
+          "zero_missing_predictions": true,
+          "zero_truncations": true
+        },
+        "exact_match_percent": 80.6896551724138,
+        "passes": false,
+        "schema_validity": 0.9889655172413793,
+        "unique_parameters": 361821120
+      }
+    ],
+    "margin_points": 3.0,
+    "measured_failed_arm_ids": [],
+    "measured_failure_rule": "an arm whose every learning-rate fit ended in a measured failure (non-finite training loss or CUDA out-of-memory) can never be adopted; the run continues past it and records the failure",
+    "ordering": "ascending unique parameter count; smallest passing arm is adopted",
+    "reference_exact_percent": 81.51724137931035,
+    "schema_validity_floor": 0.95,
+    "schema_version": "barun-mobile-scale-sweep-decision-v1"
+  },
+  "decision_rule_outcome": "all_arms_falsified",
+  "evidence_paths": {
+    "controller_death_incident": "experiments/runs/20260805-1554-mobile-scale-sweep-s17/attempt-6-controller-death-after-create.json",
+    "essential": "experiments/runs/20260805-1554-mobile-scale-sweep-s17/essential-attempt-6/",
+    "jarvis_lifecycle": "experiments/runs/20260805-1554-mobile-scale-sweep-s17/jarvis-attempt-6.json",
+    "jarvis_lifecycle_sha256": "530b1f64586c3e146bf939312f12b7c76f95506fc0adb111d8feeb9ef3af0bb3",
+    "launch_command": "experiments/runs/20260805-1554-mobile-scale-sweep-s17/launch-command-attempt-6.json",
+    "pause_proof": "experiments/runs/20260805-1554-mobile-scale-sweep-s17/pause-proof-attempt-6.json",
+    "pause_proof_sha256": "4768a692bfc13a2878cdb2496e70368d1ffd8ec246f32d1f73d4dd0832bcd59f",
+    "remote_log": "experiments/runs/20260805-1554-mobile-scale-sweep-s17/jarvis-attempt-6-r_7809186b.remote.log",
+    "remote_log_sha256": "5d7230020bc3850eaddf061fbeb129bdac8ff4c500f6e67bf74f6f4a08ddda49",
+    "result": "experiments/runs/20260805-1554-mobile-scale-sweep-s17/essential-attempt-6/result.json",
+    "result_sha256": "0dd404c37859089ccfcb7aef6660818e4bfe9c55a11f6fcf62159d60f158390f"
+  },
+  "final_instance": {
+    "gpu_type": "H200",
+    "is_spot": false,
+    "machine_id": 465257,
+    "name": "barun-scale-sweep-a6-20260805",
+    "num_gpus": 1,
+    "region": "IN2",
+    "status": "Paused",
+    "template": "axolotl"
+  },
+  "go_receipt_sha256": "3d30a295fc358cccd5bab22d1e1f37a8d220dc22533ec527096ec652e400d9f1",
+  "hardware_attestation": {
+    "observed": {
+      "gpu_type": "H200",
+      "is_spot": false,
+      "num_gpus": 1,
+      "region": "IN2",
+      "template": "axolotl"
+    },
+    "requested": {
+      "gpu_type": "H200",
+      "is_spot": false,
+      "num_gpus": 1,
+      "region": "IN2",
+      "template": "axolotl"
+    },
+    "verified_at": "2026-08-05T17:32:34.770146+00:00",
+    "verified_before_upload": true
+  },
+  "include_system_site_packages": false,
+  "instance_name": "barun-scale-sweep-a6-20260805",
+  "isolated_project_venv": true,
+  "jarvis_machine_id": 465257,
+  "machine_id_history": [],
+  "managed_run_id": "r_7809186b",
+  "model_access": true,
+  "official_961_access": false,
+  "pause_verified": true,
+  "phase_reached": "completed_end_to_end",
+  "protected_going_forward": [
+    {
+      "machine_id": 465257,
+      "reason": "attempt-6 completed scientific evidence H200; pause-verified; never resume/reuse/rename/stop/delete"
+    }
+  ],
+  "python_runtime_attestation": {
+    "machine_id": 465257,
+    "observed": {
+      "implementation": "CPython",
+      "version": "3.11.10"
+    },
+    "requested": {
+      "implementation": "CPython",
+      "version": "3.11.10"
+    },
+    "verified_at": "2026-08-05T17:32:36.883564+00:00",
+    "verified_before_inventory_binding": true,
+    "verified_before_upload": true
+  },
+  "recorded_at": "2026-08-05T17:48:53.293041+00:00",
+  "reference_scores": {
+    "aggregate_sha256": "47d8fbfbe8106fc1441f115b05b861035a6a60e49ef53e605bd944b92a1dadb6",
+    "exact_match": {
+      "denominator": 725,
+      "numerator": 591,
+      "value": 0.8151724137931035
+    },
+    "exact_match_percent": 81.51724137931035,
+    "missing_prediction_count": 0,
+    "reference_result_sha256": "abc1600eb70e22b00cac02df3f961686287f486d49622140b85607cbdb35cfd3",
+    "rows": 725,
+    "schema_valid": {
+      "denominator": 725,
+      "numerator": 723,
+      "value": 0.9972413793103448
+    },
+    "truncated_count": 0
+  },
+  "remote_exit_code": 0,
+  "run_id": "20260805-1554-mobile-scale-sweep-s17",
+  "schema_version": "barun-mobile-scale-sweep-attempt-completion-v1",
+  "scientific_result": true,
+  "template": "axolotl",
+  "training_started": true
+}
